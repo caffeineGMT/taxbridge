@@ -107,127 +107,160 @@ sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%livete
 
 ### Step 4: Document Results
 
-After test completion:
+After test completion, fill out the comprehensive report:
 
 ```bash
-# Fill out the report
+# Open the report template
 open docs/LIVE_PAYMENT_TEST_REPORT.md
+```
 
-# Save screenshots to screenshots/ directory
+The report captures:
+- Test account details (email, user ID)
+- Payment IDs (customer ID, subscription ID)
+- Webhook event IDs and timestamps
+- Database state at each checkpoint
+- Screenshots (9 required)
+- Issues encountered
+- Final pass/fail status
+
+---
+
+## 🚨 Current Blockers
+
+### Blocker #1: Stripe in TEST Mode
+
+**Issue**: Environment variables use test keys (sk_test_*, pk_test_*), not production keys (sk_live_*, pk_live_*).
+
+**Impact**: Cannot charge real credit cards. Webhooks will only process test events.
+
+**Fix Required**: Complete **Task 3: Stripe Production Activation**
+
+Steps:
+1. Log into Stripe Dashboard → Switch to "Production" mode
+2. Copy production API keys from https://dashboard.stripe.com/apikeys
+3. Run `npm run setup:stripe` to create production products
+4. Update Vercel environment variables:
+   - `STRIPE_SECRET_KEY` → sk_live_...
+   - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` → pk_live_...
+   - `STRIPE_PRO_PRICE_ID` → price_... (from setup script output)
+   - `STRIPE_WEBHOOK_SECRET` → whsec_... (from webhook endpoint creation)
+5. Create webhook endpoint in Stripe Dashboard:
+   - URL: https://cross-border-tax.vercel.app/api/stripe/webhook
+   - Events: checkout.session.completed, customer.subscription.deleted, customer.subscription.updated, invoice.payment_failed
+6. Redeploy to production
+
+### Blocker #2: Production URL Not Configured
+
+**Issue**: `NEXT_PUBLIC_APP_URL` points to localhost instead of production domain.
+
+**Impact**: Stripe checkout redirects will fail. Webhooks cannot be delivered to localhost.
+
+**Fix Required**: Update Vercel environment variable
+
+```bash
+vercel env add NEXT_PUBLIC_APP_URL production
+# Enter: https://cross-border-tax.vercel.app
+```
+
+Then redeploy:
+```bash
+git push origin main  # Triggers automatic deployment
 ```
 
 ---
 
-## 🛠️ Helper Scripts Usage
+## ✅ What's Already Ready
 
-### Quick Status Check (Recommended)
+### 1. Database Infrastructure ✅
+- Schema exists and validated
+- 11 existing users in production
+- Ready for subscription tier updates
 
-Shows current test progress and next steps:
+### 2. Webhook Endpoint Code ✅
+- Implemented: `/app/api/stripe/webhook/route.ts`
+- Handles all required events:
+  - ✅ `checkout.session.completed` (upgrade to Pro)
+  - ✅ `customer.subscription.deleted` (downgrade to free)
+  - ✅ `customer.subscription.updated` (status changes)
+  - ✅ `invoice.payment_failed` (payment failures)
+- Includes error handling, logging, and Sentry integration
 
-```bash
-./scripts/live-test-quick-check.sh [email]
-```
+### 3. Test Infrastructure ✅
+- ✅ Pre-flight verification script (`npm run verify:payment-test`)
+- ✅ Comprehensive execution guide (step-by-step)
+- ✅ Database verification queries (copy-paste ready)
+- ✅ Test report template (fill-in-the-blank)
 
-**Example**:
-```bash
-./scripts/live-test-quick-check.sh livetest
-```
+### 4. Production Deployment ✅
+- Site live at: https://cross-border-tax.vercel.app
+- Last successful deployment: 3 hours ago
+- Health endpoint: https://cross-border-tax.vercel.app/api/health (404 - needs fixing but not blocking)
 
-**Output**:
-```
-🧪 Live Payment Test - Quick Status Check
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔍 Checking test user: livetest
+---
 
-✓ User found
-  User ID: 123
-  Email: youremail+livetest@gmail.com
+## 🛠️ Verification Tools
 
-💳 Subscription Status
-  Tier: PRO
-  Status: active
+### Pre-Flight Verification Script
 
-📍 Stage: PAYMENT SUCCESS - TESTING FEATURES
-  ✓ Part 1: Account created
-  ✓ Part 2: Checkout completed
-  ✓ Part 3: Payment verified
-  ✓ Part 4: Webhook processed
-  → Part 5: Test Pro features (IN PROGRESS)
-```
-
-### Detailed Verification
-
-Full validation with all checks:
+**MUST RUN BEFORE STARTING TEST:**
 
 ```bash
-tsx scripts/verify-live-payment-test.ts [email]
+npm run verify:payment-test
 ```
 
-**Example**:
-```bash
-tsx scripts/verify-live-payment-test.ts youremail+livetest@gmail.com
-```
+This automated script checks:
+- Database connection and schema
+- Stripe production mode (sk_live_* keys)
+- Production deployment URL
+- Clerk authentication mode
 
-**Output**:
-```
-🔍 Live Payment Test - User Verification
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**Exit codes:**
+- `0` = All checks passed, ready to proceed
+- `1` = One or more checks failed, cannot proceed
 
-✅ User Found
-📧 Email: youremail+livetest@gmail.com
-🆔 User ID: 123
+### Database Verification Queries
 
-💳 Subscription Status
-Tier: PRO
-Status: active
-
-🔗 Stripe Integration
-✓ Customer ID: cus_ABC123XYZ
-✓ Subscription ID: sub_XYZ789ABC
-
-📊 User Data
-RSU Entries: 5
-Created: 2026-03-18 10:30:00
-Updated: 2026-03-18 10:45:00
-
-✅ Validation Checks
-✓ User exists
-✓ Email matches
-✓ Tier is valid
-✓ Has Stripe Customer ID
-✓ Has Stripe Subscription ID
-✓ Status is active
-
-✅ ALL CHECKS PASSED
-```
-
-### Database Queries
-
-Manual database inspection:
+Pre-written SQL queries for each test checkpoint:
 
 ```bash
-# Check user status
+# Run all verification queries
+sqlite3 data/taxbridge.db < scripts/payment-test-db-queries.sql
+```
+
+Queries included:
+- Part 1: Initial state (tier=free, no Stripe IDs)
+- Part 3: Post-payment upgrade (tier=pro, Stripe IDs populated)
+- Part 4: Pro feature usage (RSU entry count)
+- Part 6: Post-refund downgrade (tier=free, status=canceled)
+- Part 6: Data preservation (RSU entries intact)
+- Audit trail (full history)
+
+### Manual Database Inspection
+
+```bash
+# Check test account status
+sqlite3 data/taxbridge.db "SELECT id, email, subscription_tier, subscription_status, stripe_customer_id FROM user_profiles WHERE email LIKE '%livetest%';"
+
+# Check RSU entry count
+sqlite3 data/taxbridge.db "SELECT COUNT(*) as rsu_count FROM rsu_entries WHERE user_id = [USER_ID];"
+
+# Full user profile
 sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%livetest%';"
-
-# Check RSU count
-sqlite3 data/taxbridge.db "SELECT COUNT(*) FROM rsu_entries WHERE user_id = [USER_ID];"
-
-# Check subscription details
-sqlite3 data/taxbridge.db "SELECT subscription_tier, subscription_status, stripe_customer_id FROM user_profiles WHERE id = [USER_ID];"
 ```
 
 ---
 
 ## 📋 Test Execution Checklist
 
-### Before Starting
+### ❌ Before Starting (BLOCKERS PRESENT)
 
-- [ ] Production deployed at https://taxbridge.app
-- [ ] Stripe in LIVE mode (keys: `sk_live_`, `pk_live_`)
-- [ ] Real credit card available (NOT 4242... test card)
-- [ ] Stripe Dashboard access
-- [ ] Database access
-- [ ] Unique test email prepared
+- [x] Production deployed at https://cross-border-tax.vercel.app
+- [ ] **Stripe in LIVE mode** (keys: `sk_live_`, `pk_live_`) 🔴 **BLOCKER**
+- [ ] **NEXT_PUBLIC_APP_URL set to production domain** 🔴 **BLOCKER**
+- [x] Real credit card available (will charge $299, then refund)
+- [x] Stripe Dashboard access
+- [x] Database access
+- [x] Unique test email prepared (youremail+livetest-MMDD@gmail.com)
 
 ### During Test
 

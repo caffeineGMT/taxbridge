@@ -84,19 +84,23 @@ Enhanced with:
 ## Technical Decisions Made
 
 ### Decision 1: Manual Screenshots vs. Automated
-**Choice:** Manual Chrome DevTools method
-**Reason:** Puppeteer encountered persistent macOS Chromium crashpad permission errors:
+**Choice:** Manual Chrome DevTools method (REQUIRED)
+**Reason:** Both Puppeteer and Playwright encounter persistent macOS Chromium crashpad permission errors:
 ```
 ERROR:third_party/crashpad/crashpad/util/mach/bootstrap.cc:65
 bootstrap_check_in org.chromium.crashpad.child_port_handshake: Permission denied (1100)
+Received signal 11 SEGV_ACCERR 000000000010
 ```
 
 **Attempts Made:**
-- Added browser flags: `--no-sandbox`, `--disable-gpu`, `--disable-dev-shm-usage`
-- Tried system Chrome: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
-- Updated to `headless: 'new'` mode
+- ✗ Puppeteer with headless mode + browser flags
+- ✗ Puppeteer with system Chrome executable
+- ✗ Playwright with headless mode
+- ✗ Playwright with headed mode (visible window)
 
-**Outcome:** Manual method is more reliable, provides better quality control, and is actually faster for 5 screenshots.
+All attempts resulted in Chromium crash on launch. This is a macOS system-level security/entitlements issue, not a script configuration problem.
+
+**Outcome:** Manual Chrome DevTools method is the ONLY viable solution. It's also more reliable, provides better quality control, and is actually faster for 5 screenshots.
 
 ### Decision 2: Loom for Demo Video
 **Choice:** Recommend Loom over QuickTime/YouTube workflow

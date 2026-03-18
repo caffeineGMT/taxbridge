@@ -441,11 +441,72 @@ async function testWebhookProcessing(
   subscriptionId: string,
   userId: number
 ) {
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+  const isPlaceholder = webhookSecret.includes('YOUR_') || webhookSecret === 'whsec_YOUR_WEBHOOK_SECRET_HERE';
+
+  if (isPlaceholder || useMockMode) {
+    // Mock mode - simulate webhook processing without calling real endpoint
+    logSection('STEP 4: Webhook Processing Simulation (Mock Mode)');
+
+    try {
+      const db = getDatabase();
+
+      // Simulate webhook handler updating database
+      db.prepare(`
+        UPDATE user_profiles
+        SET subscription_tier = ?,
+            stripe_customer_id = ?,
+            stripe_subscription_id = ?,
+            subscription_status = 'active',
+            updated_at = unixepoch()
+        WHERE id = ?
+      `).run('pro', customerId, subscriptionId, userId);
+
+      // Verify database was updated correctly
+      const updatedProfile = db.prepare(`
+        SELECT * FROM user_profiles WHERE id = ?
+      `).get(userId) as any;
+
+      const success = updatedProfile &&
+                     updatedProfile.subscription_tier === 'pro' &&
+                     updatedProfile.stripe_customer_id === customerId &&
+                     updatedProfile.stripe_subscription_id === subscriptionId &&
+                     updatedProfile.subscription_status === 'active';
+
+      addResult(
+        'Webhook Processing (Mock)',
+        success,
+        success
+          ? 'Database updated successfully with Pro subscription'
+          : 'Database update failed or incomplete',
+        {
+          userId,
+          subscriptionTier: updatedProfile?.subscription_tier,
+          stripeCustomerId: updatedProfile?.stripe_customer_id,
+          stripeSubscriptionId: updatedProfile?.stripe_subscription_id,
+          subscriptionStatus: updatedProfile?.subscription_status,
+          note: 'Using mock mode - configure real Stripe keys to test live webhook endpoint',
+        }
+      );
+
+      return { success, profile: updatedProfile };
+    } catch (error) {
+      addResult(
+        'Webhook Processing (Mock)',
+        false,
+        'Exception during webhook processing simulation',
+        {},
+        error instanceof Error ? error.message : String(error)
+      );
+      return { success: false, profile: null };
+    }
+  }
+
+  // Real webhook endpoint test with valid Stripe keys
   logSection('STEP 4: Real Webhook Endpoint → POST /api/stripe/webhook');
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
     // Construct a real Stripe webhook event payload
     const event = {

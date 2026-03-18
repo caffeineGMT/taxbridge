@@ -145,7 +145,9 @@ async function main() {
   // Launch browser
   console.log('Launching browser...');
   const browser = await chromium.launch({
-    headless: false, // Use headed mode to avoid macOS headless crashes
+    headless: true,
+    // Note: On some macOS systems, Chromium crashes with crashpad permission errors.
+    // If this fails, use the manual screenshot guide: /docs/manual-screenshot-guide.md
   });
 
   const page = await browser.newPage();
