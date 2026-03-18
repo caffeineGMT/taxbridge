@@ -24,9 +24,9 @@ import { toast } from '@/hooks/use-toast';
 interface UserProfile {
   id: number;
   subscription_tier: string;
-  subscription_status?: string;
-  subscription_current_period_end?: string;
-  stripe_customer_id?: string;
+  subscription_status?: string | null;
+  subscription_current_period_end?: string | null;
+  stripe_customer_id?: string | null;
 }
 
 interface SubscriptionContentProps {
