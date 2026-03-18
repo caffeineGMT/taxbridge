@@ -8,6 +8,7 @@ import { StatsCard } from '@/components/dashboard/stats-card';
 import { RSUList } from '@/components/dashboard/rsu-list';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { DashboardTour } from '@/components/dashboard/dashboard-tour';
+import { CheckoutFlow } from '@/components/checkout/CheckoutFlow';
 import { RSUEntryRow } from '@/lib/db';
 import { trackEvent, trackRevenue } from '@/lib/analytics/posthog';
 import { toast } from '@/hooks/use-toast';
@@ -82,6 +83,15 @@ export function DashboardContent({
   return (
     <>
       <DashboardTour />
+
+      {/* Checkout Flow - shows success/error modal after payment */}
+      <CheckoutFlow
+        onSuccess={() => {
+          // Refresh the page to update subscription tier
+          window.location.reload();
+        }}
+        onRetry={() => router.push('/pricing')}
+      />
 
       <main className="relative container mx-auto px-6 py-8">
         {/* Page Header */}

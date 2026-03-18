@@ -10,7 +10,7 @@ import { getDatabase } from '@/lib/db';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { userId } = body;
+    const { userId, returnUrl } = body;
 
     if (!userId) {
       return NextResponse.json(
@@ -33,10 +33,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Use provided returnUrl or default to subscription page
+    const defaultReturnUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/subscription`;
+    const portalReturnUrl = returnUrl || defaultReturnUrl;
+
     // Create billing portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: userProfile.stripe_customer_id,
-      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/subscription`,
+      return_url: portalReturnUrl,
     });
 
     return NextResponse.json({ url: session.url });

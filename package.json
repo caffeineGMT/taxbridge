@@ -23,9 +23,11 @@
     "outreach:update-stats": "tsx scripts/outreach-update-stats.ts",
     "cron:notifications": "tsx lib/cron/notifications.ts",
     "test:email-drip": "tsx scripts/test-email-drip.ts",
+    "test:payment-flow": "tsx scripts/test-payment-flow.ts",
     "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
     "setup:stripe": "tsx scripts/setup-stripe-products.ts",
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
+    "stripe:quickstart": "tsx scripts/stripe-production-quickstart.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",
     "seo:verify": "tsx scripts/verify-seo-pages.ts",
     "capture:screenshots": "tsx scripts/capture-screenshots.ts"

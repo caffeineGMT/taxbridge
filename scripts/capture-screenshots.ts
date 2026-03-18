@@ -2,7 +2,8 @@
  * Automated Screenshot Capture for Product Hunt Launch
  *
  * Captures high-quality screenshots of key TaxBridge pages
- * Output: /public/screenshots/product-hunt/
+ * Product Hunt recommended dimensions: 1280x800px (16:10 aspect ratio)
+ * Output: /public/product-hunt/screenshots/
  */
 
 import puppeteer from 'puppeteer';
@@ -10,7 +11,10 @@ import { mkdir } from 'fs/promises';
 import { join } from 'path';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-const OUTPUT_DIR = join(process.cwd(), 'public', 'screenshots', 'product-hunt');
+const OUTPUT_DIR = join(process.cwd(), 'public', 'product-hunt', 'screenshots');
+
+// Product Hunt recommended dimensions
+const PH_VIEWPORT = { width: 1280, height: 800 };
 
 interface Screenshot {
   name: string;
@@ -19,70 +23,51 @@ interface Screenshot {
   viewport?: { width: number; height: number };
   waitFor?: string;
   fullPage?: boolean;
+  scrollTo?: { selector: string; offset?: number };
 }
 
 const screenshots: Screenshot[] = [
   {
-    name: '01-hero-landing-page',
-    url: '/',
-    description: 'Hero section with main value proposition',
-    viewport: { width: 1920, height: 1080 },
+    name: 'hero-dashboard',
+    url: '/dashboard',
+    description: 'Main dashboard with RSU entries and tax overview',
+    viewport: PH_VIEWPORT,
+    waitFor: 'h1',
     fullPage: false,
   },
   {
-    name: '02-tax-calculator-entry',
-    url: '/tax-calculator/h1b-worker-canada',
-    description: 'Tax calculator with RSU entry form',
-    viewport: { width: 1920, height: 1080 },
-    waitFor: 'input[name="vestingDate"]',
-    fullPage: true,
-  },
-  {
-    name: '03-dashboard-overview',
+    name: 'ftc-optimizer',
     url: '/dashboard',
-    description: 'Main dashboard with RSU portfolio',
-    viewport: { width: 1920, height: 1080 },
-    waitFor: '[data-testid="dashboard-stats"]',
-    fullPage: true,
+    description: 'Foreign Tax Credit calculation results showing dual-country taxation',
+    viewport: PH_VIEWPORT,
+    waitFor: 'h1',
+    fullPage: false,
+    scrollTo: { selector: '[data-testid="tax-summary"]' },
   },
   {
-    name: '04-forms-checklist',
+    name: 'forms-checklist',
     url: '/forms-checklist',
-    description: 'Required tax forms checklist',
-    viewport: { width: 1920, height: 1080 },
+    description: 'Required tax forms checklist (W-2, 1040, T1, T4, FBAR, 8938, 8833)',
+    viewport: PH_VIEWPORT,
     waitFor: 'h1',
-    fullPage: true,
-  },
-  {
-    name: '05-multi-year-dashboard',
-    url: '/dashboard/multi-year',
-    description: 'Multi-year tax trends and comparison',
-    viewport: { width: 1920, height: 1080 },
-    waitFor: '.recharts-wrapper',
-    fullPage: true,
-  },
-  {
-    name: '06-pricing-page',
-    url: '/pricing',
-    description: 'Pricing tiers with feature comparison',
-    viewport: { width: 1920, height: 1080 },
-    waitFor: 'h1',
-    fullPage: true,
-  },
-  {
-    name: '07-ftc-optimizer',
-    url: '/dashboard',
-    description: 'Foreign Tax Credit calculation detail',
-    viewport: { width: 1920, height: 1080 },
     fullPage: false,
   },
   {
-    name: '08-mobile-calculator',
-    url: '/tax-calculator/h1b-worker-canada',
-    description: 'Mobile-responsive calculator view',
-    viewport: { width: 375, height: 812 },
-    waitFor: 'input[name="vestingDate"]',
-    fullPage: true,
+    name: 'pricing-page',
+    url: '/pricing',
+    description: 'Pricing tiers with Pro plan highlighted',
+    viewport: PH_VIEWPORT,
+    waitFor: 'h1',
+    fullPage: false,
+  },
+  {
+    name: 'pdf-export',
+    url: '/dashboard',
+    description: 'Professional PDF export sample with dual-country tax breakdown',
+    viewport: PH_VIEWPORT,
+    waitFor: 'h1',
+    fullPage: false,
+    scrollTo: { selector: 'footer', offset: -200 },
   },
 ];
 
@@ -91,7 +76,7 @@ async function captureScreenshot(
   screenshot: Screenshot,
   index: number
 ) {
-  const { name, url, description, viewport, waitFor, fullPage } = screenshot;
+  const { name, url, description, viewport, waitFor, fullPage, scrollTo } = screenshot;
 
   console.log(`\n[${index + 1}/${screenshots.length}] Capturing: ${description}`);
   console.log(`URL: ${BASE_URL}${url}`);
@@ -116,8 +101,23 @@ async function captureScreenshot(
     }
   }
 
+  // Scroll to specific element if needed
+  if (scrollTo) {
+    try {
+      await page.evaluate((selector) => {
+        const element = document.querySelector(selector);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, scrollTo.selector);
+      await page.waitForTimeout(500);
+    } catch (error) {
+      console.warn(`Warning: Could not scroll to "${scrollTo.selector}", continuing...`);
+    }
+  }
+
   // Additional wait for animations/renders
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(1500);
 
   // Capture screenshot
   const outputPath = join(OUTPUT_DIR, `${name}.png`);
@@ -130,11 +130,12 @@ async function captureScreenshot(
 }
 
 async function main() {
-  console.log('='.repeat(60));
+  console.log('='.repeat(70));
   console.log('TaxBridge Product Hunt Screenshot Capture');
-  console.log('='.repeat(60));
+  console.log('='.repeat(70));
   console.log(`\nBase URL: ${BASE_URL}`);
   console.log(`Output Directory: ${OUTPUT_DIR}`);
+  console.log(`Dimensions: ${PH_VIEWPORT.width}x${PH_VIEWPORT.height} (Product Hunt recommended)`);
   console.log(`Screenshots to capture: ${screenshots.length}\n`);
 
   // Create output directory
@@ -162,20 +163,21 @@ async function main() {
 
   await browser.close();
 
-  console.log('\n' + '='.repeat(60));
+  console.log('\n' + '='.repeat(70));
   console.log('Screenshot Capture Complete!');
-  console.log('='.repeat(60));
+  console.log('='.repeat(70));
   console.log(`\nScreenshots saved to: ${OUTPUT_DIR}`);
   console.log('\nNext steps:');
-  console.log('1. Review screenshots in /public/screenshots/product-hunt/');
-  console.log('2. Edit/annotate as needed (use Figma, Photoshop, or Snagit)');
-  console.log('3. Upload to Product Hunt when ready');
-  console.log('\nTips for Product Hunt:');
-  console.log('- First screenshot should be the most compelling (hero/landing)');
-  console.log('- Show the product in action (calculator with real data)');
-  console.log('- Include mobile screenshots to show responsive design');
-  console.log('- Add brief captions/annotations if needed');
-  console.log('- Max 10 screenshots, aim for 6-8 high-quality ones');
+  console.log('1. Review screenshots in /public/product-hunt/screenshots/');
+  console.log('2. Upload to Product Hunt (max 10 screenshots)');
+  console.log('3. First screenshot should be hero-dashboard.png (most compelling)');
+  console.log('\nProduct Hunt Screenshot Tips:');
+  console.log('✓ 1280x800px dimensions (16:10 aspect ratio)');
+  console.log('✓ Show the product in action with real data');
+  console.log('✓ Include pricing page for transparency');
+  console.log('✓ Highlight key features (FTC optimizer, forms checklist)');
+  console.log('✓ Add brief annotations if needed (use Figma/Canva)');
+  console.log('✓ First image is critical - make it count!\n');
 }
 
 main().catch((error) => {

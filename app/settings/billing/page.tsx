@@ -11,6 +11,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useToast } from '@/hooks/use-toast';
 import { CreditCard, Calendar, Download, AlertCircle, Crown, TrendingUp, Pause, ArrowUpCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { ManageSubscriptionButton } from '@/components/billing/ManageSubscriptionButton';
+import { CheckoutFlow } from '@/components/checkout/CheckoutFlow';
 
 interface BillingInfo {
   subscription_tier: 'free' | 'pro' | 'enterprise';
@@ -66,32 +68,6 @@ export default function BillingPage() {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleManageSubscription = async () => {
-    setProcessingAction(true);
-    try {
-      const response = await fetch('/api/stripe/create-portal-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        window.location.href = data.url;
-      } else {
-        throw new Error('Failed to create portal session');
-      }
-    } catch (error) {
-      console.error('Failed to open billing portal:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to open billing portal. Please try again.',
-        variant: 'destructive',
-      });
-      setProcessingAction(false);
     }
   };
 
@@ -212,6 +188,12 @@ export default function BillingPage() {
           </p>
         </div>
 
+        {/* Checkout Flow Component - shows success/error states from URL params */}
+        <CheckoutFlow
+          onSuccess={() => fetchBillingInfo()}
+          onRetry={() => setShowUpgradeModal(true)}
+        />
+
         {/* Current Plan Card */}
         <Card className="bg-slate-900 border-slate-800 mb-6">
           <CardHeader>
@@ -278,14 +260,10 @@ export default function BillingPage() {
                 </Button>
               ) : (
                 <>
-                  <Button
-                    onClick={handleManageSubscription}
-                    disabled={processingAction}
+                  <ManageSubscriptionButton
                     className="bg-emerald-500 hover:bg-emerald-600 text-white"
-                  >
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    {processingAction ? 'Loading...' : 'Manage Subscription'}
-                  </Button>
+                    returnUrl={`${process.env.NEXT_PUBLIC_APP_URL}/settings/billing`}
+                  />
                   {billingInfo.subscription_status === 'active' && (
                     <Button
                       onClick={() => setShowPauseModal(true)}
