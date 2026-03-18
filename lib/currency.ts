@@ -1,9 +1,11 @@
 /**
  * Currency Conversion Utilities
- * Uses Bank of Canada annual average exchange rates for USD/CAD
+ * Uses Bank of Canada daily and annual average exchange rates for USD/CAD
  */
 
-// Bank of Canada annual average USD/CAD exchange rates
+import { cacheExchangeRate, getCachedExchangeRate } from './db/index';
+
+// Bank of Canada annual average USD/CAD exchange rates (fallback)
 // Source: https://www.bankofcanada.ca/rates/exchange/annual-average-exchange-rates/
 const USD_CAD_RATES: Record<number, number> = {
   2020: 1.3415,
@@ -89,4 +91,65 @@ export const formatCurrency = (amount: number, currency: 'USD' | 'CAD'): string 
  */
 export const getAllRates = (): Record<number, number> => {
   return { ...USD_CAD_RATES };
+};
+
+/**
+ * Get USD/CAD exchange rate for a specific date from cache or Bank of Canada API
+ * @param date - Date string in ISO format (YYYY-MM-DD)
+ * @returns Promise resolving to USD/CAD exchange rate
+ */
+export const getExchangeRate = async (date: string): Promise<number> => {
+  try {
+    // Check cache first
+    const cachedRate = getCachedExchangeRate(date);
+    if (cachedRate !== undefined) {
+      return cachedRate;
+    }
+
+    // Fetch from Bank of Canada Valet API
+    const url = `https://www.bankofcanada.ca/valet/observations/FXUSDCAD/json?start_date=${date}&end_date=${date}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Bank of Canada API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Parse the rate from the response
+    if (!data.observations || data.observations.length === 0) {
+      throw new Error('No exchange rate data available for this date');
+    }
+
+    const rateValue = data.observations[0].FXUSDCAD?.v;
+    if (!rateValue) {
+      throw new Error('Invalid exchange rate data format');
+    }
+
+    const rate = parseFloat(rateValue);
+
+    // Cache the rate in database
+    cacheExchangeRate(date, rate);
+
+    return rate;
+  } catch (error) {
+    console.error('Error fetching exchange rate:', error);
+
+    // Fallback: Use annual average for the year
+    const year = getYearFromDate(date);
+    const yearRate = USD_CAD_RATES[year] || DEFAULT_RATE;
+    console.warn(`Using annual average rate for ${year} as fallback: ${yearRate}`);
+    return yearRate;
+  }
+};
+
+/**
+ * Convert USD amount to CAD using exchange rate for a specific date
+ * @param amount - Amount in USD
+ * @param date - Date string in ISO format (YYYY-MM-DD)
+ * @returns Promise resolving to amount in CAD
+ */
+export const convertUsdToCadByDate = async (amount: number, date: string): Promise<number> => {
+  const rate = await getExchangeRate(date);
+  return amount * rate;
 };

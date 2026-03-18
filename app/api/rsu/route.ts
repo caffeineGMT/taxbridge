@@ -18,16 +18,16 @@ export async function POST(request: NextRequest) {
 
     const data = validationResult.data;
 
-    // Generate UUID for the new record
-    const id = crypto.randomUUID();
-    const createdAt = new Date().toISOString();
+    // Hardcode user_id = 1 for MVP
+    const userId = 1;
+    const createdAt = Math.floor(Date.now() / 1000);
 
     // Insert into database
     const stmt = db.prepare(`
       INSERT INTO rsu_events (
-        id,
+        user_id,
         employer,
-        ticker_symbol,
+        ticker,
         vesting_date,
         shares,
         fmv_usd,
@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    stmt.run(
-      id,
+    const result = stmt.run(
+      userId,
       data.employer,
       data.tickerSymbol,
       data.vestingDate,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      id,
+      id: result.lastInsertRowid,
       message: 'RSU event created successfully',
     });
   } catch (error) {

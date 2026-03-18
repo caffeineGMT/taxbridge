@@ -104,6 +104,16 @@ CREATE TABLE IF NOT EXISTS exchange_rates (
   UNIQUE(rate_date)
 );
 
+-- Form completion tracking
+CREATE TABLE IF NOT EXISTS form_completion (
+  user_id INTEGER NOT NULL,
+  form_code TEXT NOT NULL,
+  completed BOOLEAN NOT NULL DEFAULT 0,
+  completed_at INTEGER,
+  PRIMARY KEY (user_id, form_code),
+  FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
+);
+
 -- Indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_user_id ON rsu_entries(user_id);
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_vest_date ON rsu_entries(vest_date);
@@ -114,3 +124,4 @@ CREATE INDEX IF NOT EXISTS idx_tax_calculations_tax_year ON tax_calculations(tax
 CREATE INDEX IF NOT EXISTS idx_filing_requirements_user_id ON filing_requirements(user_id);
 CREATE INDEX IF NOT EXISTS idx_filing_requirements_tax_year ON filing_requirements(tax_year);
 CREATE INDEX IF NOT EXISTS idx_exchange_rates_date ON exchange_rates(rate_date);
+CREATE INDEX IF NOT EXISTS idx_form_completion_user_id ON form_completion(user_id);

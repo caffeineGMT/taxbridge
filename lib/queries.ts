@@ -309,3 +309,123 @@ export const taxCalculationQueries = {
     return result.changes > 0;
   },
 };
+
+// ============================================================================
+// Form Completion Queries
+// ============================================================================
+
+export interface FormCompletionStatus {
+  form_code: string;
+  completed: boolean;
+  completed_at: number | null;
+}
+
+export const formCompletionQueries = {
+  /**
+   * Toggle form completion status
+   */
+  toggle(userId: number, formCode: string): FormCompletionStatus {
+    const db = getDbFunc();
+
+    // Check current status
+    const currentStatus = db.prepare(
+      `SELECT completed, completed_at FROM form_completion WHERE user_id = ? AND form_code = ?`
+    ).get(userId, formCode) as FormCompletionStatus | undefined;
+
+    const newCompleted = currentStatus ? !currentStatus.completed : true;
+    const completedAt = newCompleted ? Math.floor(Date.now() / 1000) : null;
+
+    // Upsert the status
+    db.prepare(
+      `INSERT INTO form_completion (user_id, form_code, completed, completed_at)
+       VALUES (?, ?, ?, ?)
+       ON CONFLICT(user_id, form_code) DO UPDATE SET
+         completed = excluded.completed,
+         completed_at = excluded.completed_at`
+    ).run(userId, formCode, newCompleted ? 1 : 0, completedAt);
+
+    return {
+      form_code: formCode,
+      completed: newCompleted,
+      completed_at: completedAt,
+    };
+  },
+
+  /**
+   * Get completion status for all forms for a user
+   */
+  getStatus(userId: number): Record<string, FormCompletionStatus> {
+    const db = getDbFunc();
+    const stmt = db.prepare(
+      `SELECT form_code, completed, completed_at FROM form_completion WHERE user_id = ?`
+    );
+    const results = stmt.all(userId) as FormCompletionStatus[];
+
+    // Convert array to record keyed by form_code
+    return results.reduce((acc, status) => {
+      acc[status.form_code] = {
+        form_code: status.form_code,
+        completed: Boolean(status.completed),
+        completed_at: status.completed_at,
+      };
+      return acc;
+    }, {} as Record<string, FormCompletionStatus>);
+  },
+
+  /**
+   * Mark form as completed
+   */
+  markCompleted(userId: number, formCode: string): FormCompletionStatus {
+    const db = getDbFunc();
+    const completedAt = Math.floor(Date.now() / 1000);
+
+    db.prepare(
+      `INSERT INTO form_completion (user_id, form_code, completed, completed_at)
+       VALUES (?, ?, 1, ?)
+       ON CONFLICT(user_id, form_code) DO UPDATE SET
+         completed = 1,
+         completed_at = excluded.completed_at`
+    ).run(userId, formCode, completedAt);
+
+    return {
+      form_code: formCode,
+      completed: true,
+      completed_at: completedAt,
+    };
+  },
+
+  /**
+   * Mark form as incomplete
+   */
+  markIncomplete(userId: number, formCode: string): FormCompletionStatus {
+    const db = getDbFunc();
+
+    db.prepare(
+      `INSERT INTO form_completion (user_id, form_code, completed, completed_at)
+       VALUES (?, ?, 0, NULL)
+       ON CONFLICT(user_id, form_code) DO UPDATE SET
+         completed = 0,
+         completed_at = NULL`
+    ).run(userId, formCode);
+
+    return {
+      form_code: formCode,
+      completed: false,
+      completed_at: null,
+    };
+  },
+
+  /**
+   * Get completion progress (percentage)
+   */
+  getProgress(userId: number, totalForms: number): number {
+    const db = getDbFunc();
+    const stmt = db.prepare(
+      `SELECT COUNT(*) as count FROM form_completion WHERE user_id = ? AND completed = 1`
+    );
+    const result = stmt.get(userId) as { count: number };
+
+    if (totalForms === 0) return 0;
+    return Math.round((result.count / totalForms) * 100);
+  },
+};

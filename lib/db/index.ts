@@ -325,16 +325,14 @@ export function getOrCreateDefaultUser(): UserProfileRow {
   let user = db.prepare('SELECT * FROM user_profiles LIMIT 1').get() as UserProfileRow | undefined;
 
   if (!user) {
-    const id = upsertUserProfile({
-      email: 'user@example.com',
-      first_name: 'Demo',
-      last_name: 'User',
-      us_state: 'CA',
-      canada_province: 'BC',
-      filing_status: 'single',
-    });
+    // Insert new profile directly to avoid upsert logic
+    const stmt = db.prepare(`
+      INSERT INTO user_profiles (email, first_name, last_name, us_state, canada_province, filing_status)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
 
-    user = getUserProfile(id);
+    const result = stmt.run('user@example.com', 'Demo', 'User', 'WA', 'BC', 'single');
+    user = getUserProfile(result.lastInsertRowid as number);
   }
 
   return user!;
