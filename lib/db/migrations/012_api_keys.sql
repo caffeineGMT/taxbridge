@@ -1,8 +1,8 @@
--- Migration 009: Add API Keys for Enterprise Organizations
+-- Migration 012: Add API Keys for Enterprise Organizations
 -- Enable programmatic access to TaxBridge calculation API
 
--- Add api_key column to organizations table
-ALTER TABLE organizations ADD COLUMN api_key TEXT UNIQUE;
+-- Add api_key column to organizations table (SQLite doesn't support UNIQUE in ALTER TABLE)
+ALTER TABLE organizations ADD COLUMN api_key TEXT;
 
 -- Add API usage tracking table
 CREATE TABLE IF NOT EXISTS api_usage (
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS api_usage (
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create index for API key lookups
-CREATE INDEX IF NOT EXISTS idx_organizations_api_key ON organizations(api_key);
+-- Create index for API key lookups (enforces uniqueness)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_organizations_api_key ON organizations(api_key);
 CREATE INDEX IF NOT EXISTS idx_api_usage_org_endpoint ON api_usage(org_id, endpoint);
 CREATE INDEX IF NOT EXISTS idx_api_usage_last_used ON api_usage(last_used_at);
