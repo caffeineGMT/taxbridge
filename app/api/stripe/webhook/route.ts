@@ -9,6 +9,7 @@ import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
 import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
 import { trackUserReferral } from '@/lib/stripe/referral-tracking';
+import { trackEmailConversion } from '@/lib/email/conversion-tracking';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
@@ -115,6 +116,22 @@ export async function POST(req: NextRequest) {
 
         // Track user-to-user referral if present
         await trackUserReferral(session, parseInt(userId));
+
+        // Track email drip campaign conversion
+        const discountCode = session.metadata?.discount_code || session.discount?.coupon?.id;
+        const revenueAmount = session.amount_total ? session.amount_total / 100 : 20; // Convert cents to dollars
+
+        trackEmailConversion({
+          userId: parseInt(userId),
+          conversionType: 'free_to_pro',
+          revenueAmount,
+          discountCode: discountCode || undefined,
+          metadata: {
+            stripe_customer_id: session.customer,
+            stripe_subscription_id: session.subscription,
+            tier,
+          },
+        });
 
         logger.info('User upgraded', {
           userId,

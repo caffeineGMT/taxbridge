@@ -18,6 +18,12 @@
     "db:migrate:notifications": "tsx scripts/migrate-notifications.ts",
     "db:migrate:referrals": "tsx scripts/migrate-referral-schema.ts",
     "db:migrate:enterprise": "tsx scripts/migrate-enterprise-schema.ts",
+    "db:migrate:hr": "tsx scripts/migrate-hr-prospects.ts",
+    "hr:build-list": "tsx scripts/build-hr-prospect-list.ts",
+    "hr:outreach": "tsx scripts/linkedin-outreach-automation.ts",
+    "hr:outreach:dry-run": "tsx scripts/linkedin-outreach-automation.ts --dry-run",
+    "hr:messages": "tsx scripts/linkedin-message-followup.ts",
+    "hr:messages:dry-run": "tsx scripts/linkedin-message-followup.ts --dry-run",
     "scrape:aila-firms": "tsx scripts/scrape-aila-firms-apollo.ts",
     "prepare:instantly-upload": "tsx scripts/prepare-instantly-upload.ts",
     "outreach:check-followups": "tsx scripts/outreach-check-followups.ts",
@@ -53,7 +59,9 @@
     "reddit:update-metrics": "tsx scripts/reddit-update-metrics.ts",
     "reddit:generate-guide": "tsx scripts/reddit-generate-guide.ts",
     "reddit:dashboard": "tsx scripts/reddit-dashboard.ts",
-    "reddit:automation": "tsx lib/cron/reddit-automation.ts"
+    "reddit:automation": "tsx lib/cron/reddit-automation.ts",
+    "collect:testimonials": "tsx scripts/collect-testimonials.ts",
+    "collect:testimonials:dry-run": "tsx scripts/collect-testimonials.ts --dry-run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
@@ -74,6 +82,7 @@
     "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.116",
     "autoprefixer": "^10.4.27",
+    "axios": "^1.13.6",
     "better-sqlite3": "^12.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

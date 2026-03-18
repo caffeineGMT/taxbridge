@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/sendgrid';
-import {
-  EMAIL_TEMPLATES,
-  getWelcomeEmailData,
-  getDay3EmailData,
-  getDay7EmailData,
-  getDay14EmailData,
-} from '@/lib/email/templates';
+import { EMAIL_TEMPLATES } from '@/lib/email/templates';
 import {
   getUsersForDripEmail,
   recordEmailSent,
 } from '@/lib/db/queries/drip-campaign';
+import { selectABVariant } from '@/lib/email/ab-testing';
+import { getEnhancedEmailDataGenerator } from '@/lib/email/enhanced-templates';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
@@ -26,7 +22,6 @@ interface DripEmailConfig {
   eventType: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14';
   dayOffset: number;
   templateId: string;
-  getEmailData: (params: { firstName: string; email: string; discountCode?: string }) => any;
   description: string;
 }
 
@@ -35,28 +30,24 @@ const DRIP_CONFIGS: DripEmailConfig[] = [
     eventType: 'drip_welcome',
     dayOffset: 0,
     templateId: EMAIL_TEMPLATES.DRIP_WELCOME,
-    getEmailData: getWelcomeEmailData,
     description: 'Welcome Email',
   },
   {
     eventType: 'drip_day3',
     dayOffset: 3,
     templateId: EMAIL_TEMPLATES.DRIP_DAY3,
-    getEmailData: getDay3EmailData,
     description: 'Day 3 - FTC Education',
   },
   {
     eventType: 'drip_day7',
     dayOffset: 7,
     templateId: EMAIL_TEMPLATES.DRIP_DAY7,
-    getEmailData: getDay7EmailData,
     description: 'Day 7 - Feature Highlight',
   },
   {
     eventType: 'drip_day14',
     dayOffset: 14,
     templateId: EMAIL_TEMPLATES.DRIP_DAY14,
-    getEmailData: (params) => getDay14EmailData({ ...params, discountCode: 'SAVE20' }),
     description: 'Day 14 - Upgrade Offer',
   },
 ];
@@ -117,10 +108,27 @@ export async function GET(request: NextRequest) {
       }
 
       try {
-        // Generate dynamic email data
-        const emailData = config.getEmailData({
+        // Select A/B test variant for this user
+        const variant = selectABVariant(config.eventType);
+
+        if (!variant) {
+          console.warn(`   ⚠️  No A/B variant configured for ${config.eventType}`);
+          failed++;
+          continue;
+        }
+
+        // Get enhanced email data generator
+        const getEnhancedData = getEnhancedEmailDataGenerator(config.eventType);
+
+        // Generate dynamic email data with A/B testing and personalization
+        const emailData = getEnhancedData({
+          userId: user.id,
           firstName: user.first_name || 'there',
           email: user.email,
+          variant: variant.variant,
+          subjectLine: variant.subject_line,
+          ctaText: variant.cta_text,
+          discountCode: config.eventType === 'drip_day14' ? 'SAVE20' : undefined,
         });
 
         // Send email via SendGrid
@@ -131,13 +139,21 @@ export async function GET(request: NextRequest) {
         });
 
         if (success) {
-          // Record in database
-          recordEmailSent(user.id, config.eventType, {
-            template_id: config.templateId,
-            sent_via: 'cron',
-          });
+          // Record in database with A/B variant tracking
+          recordEmailSent(
+            user.id,
+            config.eventType,
+            {
+              template_id: config.templateId,
+              sent_via: 'cron',
+              subject_line: variant.subject_line,
+              cta_text: variant.cta_text,
+            },
+            variant.variant,
+            emailData.utm_campaign || config.eventType
+          );
           sent++;
-          console.log(`   ✓ Sent to ${user.email}`);
+          console.log(`   ✓ Sent to ${user.email} (variant ${variant.variant})`);
         } else {
           failed++;
           console.error(`   ✗ Failed to send to ${user.email}`);

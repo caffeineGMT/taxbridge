@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { generateAllPageParams } from '@/lib/seo/geo-data';
+import { getAllArticleSlugs } from '@/lib/blog/articles';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://taxbridge.app';
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/canada-tax-filing-checklist',
     '/pricing',
     '/dashboard',
+    '/blog',
   ].map(route => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -33,5 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...staticPages, ...geoPages];
+  // Blog articles
+  const blogPages = getAllArticleSlugs().map(slug => ({
+    url: `${baseUrl}/blog/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...geoPages, ...blogPages];
 }

@@ -77,24 +77,39 @@ export function getUsersForDripEmail(
 }
 
 /**
- * Record that an email was sent to a user
+ * Record that an email was sent to a user (with A/B test tracking)
  */
 export function recordEmailSent(
   userId: number,
   eventType: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14',
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
+  abVariant?: 'A' | 'B',
+  utmCampaign?: string
 ): number {
   const db = getDatabase();
 
   const stmt = db.prepare(`
-    INSERT INTO email_events (user_id, event_type, sent_at, metadata)
-    VALUES (?, ?, CURRENT_TIMESTAMP, ?)
+    INSERT INTO email_events (
+      user_id,
+      event_type,
+      sent_at,
+      metadata,
+      ab_variant,
+      utm_source,
+      utm_medium,
+      utm_campaign
+    )
+    VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)
   `);
 
   const result = stmt.run(
     userId,
     eventType,
-    metadata ? JSON.stringify(metadata) : null
+    metadata ? JSON.stringify(metadata) : null,
+    abVariant || 'A',
+    'email',
+    'drip-campaign',
+    utmCampaign || eventType
   );
 
   return result.lastInsertRowid as number;

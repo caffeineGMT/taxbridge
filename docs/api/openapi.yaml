@@ -1,0 +1,486 @@
+openapi: 3.0.0
+info:
+  title: TaxBridge API
+  version: 1.0.0
+  description: |
+    Cross-border RSU tax calculation API for payroll platforms and HR systems.
+
+    Calculate US and Canadian taxes on RSU vesting income, determine optimal filing strategy,
+    and identify required tax forms for H-1B/TN visa workers who moved from US to Canada.
+
+    ## Authentication
+    All endpoints require an API key passed in the Authorization header:
+    ```
+    Authorization: Bearer sk_live_your_api_key_here
+    ```
+
+    ## Rate Limits
+    - `/calculate`: 1000 requests/hour
+    - `/forms`: 5000 requests/hour
+    - `/bulk-import`: 10 requests/hour, max 1000 rows per request
+
+  contact:
+    name: TaxBridge Support
+    email: api@taxbridge.app
+    url: https://taxbridge.app/api-docs
+  license:
+    name: Proprietary
+    url: https://taxbridge.app/terms
+
+servers:
+  - url: https://taxbridge.app/api/v1
+    description: Production server
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /calculate:
+    post:
+      summary: Calculate cross-border RSU taxes
+      description: |
+        Calculate US federal + state taxes, Canada federal + provincial taxes,
+        Foreign Tax Credit, and net tax payable for a single RSU vest event.
+
+        Returns optimal filing strategy (file-us-first vs file-canada-first) to minimize total tax burden.
+      operationId: calculateTaxes
+      tags:
+        - Tax Calculation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculationRequest'
+            examples:
+              meta_employee:
+                summary: Meta employee vesting 100 shares
+                value:
+                  employer: Meta
+                  vest_date: '2025-03-15'
+                  shares_vested: 100
+                  fmv_per_share_usd: 580.50
+                  us_state: CA
+                  canada_province: BC
+                  filing_status: single
+              amazon_employee:
+                summary: Amazon employee, married, larger vest
+                value:
+                  employer: Amazon
+                  vest_date: '2025-06-15'
+                  shares_vested: 250
+                  fmv_per_share_usd: 195.75
+                  us_state: WA
+                  canada_province: ON
+                  filing_status: married
+      responses:
+        '200':
+          description: Successful calculation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalculationResponse'
+              example:
+                total_value_usd: 58050.00
+                us_tax:
+                  federal: 12045.00
+                  state: 5398.65
+                  total: 17443.65
+                canada_tax:
+                  federal: 10566.75
+                  provincial: 4356.38
+                  total: 14923.13
+                foreign_tax_credit: 14923.13
+                net_tax_payable: 17443.65
+                effective_rate: 0.3004
+                optimal_filing_strategy: file-us-first
+                breakdown:
+                  us_federal_rate: 0.2075
+                  us_state_rate: 0.093
+                  canada_federal_rate: 0.1348
+                  canada_provincial_rate: 0.0556
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /forms:
+    get:
+      summary: Get required tax forms
+      description: |
+        Returns list of required tax forms based on user's situation (country, province/state, RSU income, foreign accounts).
+
+        Includes US forms (W-2, 1040/1040-NR, Form 8833, FBAR, Form 8938) and Canadian forms (T1, T4, T2209, provincial credits).
+      operationId: getRequiredForms
+      tags:
+        - Tax Forms
+      parameters:
+        - name: country
+          in: query
+          description: Which country's forms to return
+          schema:
+            type: string
+            enum: [US, CA, both]
+            default: both
+        - name: province
+          in: query
+          description: Canadian province (for provincial forms)
+          schema:
+            type: string
+            enum: [BC, ON, AB]
+        - name: state
+          in: query
+          description: US state (for state-specific forms)
+          schema:
+            type: string
+            enum: [WA, CA, NY, TX]
+        - name: has_rsu
+          in: query
+          required: true
+          description: Whether person has RSU income (determines Form 8833, T2209 requirements)
+          schema:
+            type: boolean
+        - name: has_foreign_accounts
+          in: query
+          description: Whether person has $10K+ in foreign bank accounts (FBAR requirement)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: List of required forms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormsResponse'
+              example:
+                forms:
+                  - form: W-2
+                    description: Wage and Tax Statement
+                    country: US
+                    required: true
+                    deadline: January 31 (issued by employer)
+                    pdf_url: https://www.irs.gov/pub/irs-pdf/fw2.pdf
+                  - form: 1040/1040-NR
+                    description: US Individual Income Tax Return
+                    country: US
+                    required: true
+                    deadline: April 15
+                    pdf_url: https://www.irs.gov/pub/irs-pdf/f1040.pdf
+                  - form: T1
+                    description: Canadian Income Tax and Benefit Return
+                    country: CA
+                    required: true
+                    deadline: April 30
+                    pdf_url: https://www.canada.ca/en/revenue-agency
+                total_count: 7
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /bulk-import:
+    post:
+      summary: Bulk CSV import for 100+ employees
+      description: |
+        Upload a CSV file with employee RSU vest data for bulk tax calculations.
+
+        CSV columns: employee_email, vest_date, shares_vested, fmv_per_share_usd, us_state, canada_province, filing_status, employer (optional)
+
+        Max 1000 rows per request. Returns success/error breakdown with detailed results for each employee.
+      operationId: bulkImport
+      tags:
+        - Bulk Operations
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: CSV file with employee RSU data
+                default_employer:
+                  type: string
+                  enum: [Meta, Amazon, Google, Microsoft]
+                  default: Meta
+                  description: Default employer if not specified in CSV
+              required:
+                - file
+      responses:
+        '200':
+          description: Bulk processing completed (check failed count for errors)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkImportResponse'
+              example:
+                total_rows: 150
+                successful: 148
+                failed: 2
+                results:
+                  - employee_email: john.doe@company.com
+                    calculation:
+                      total_value_usd: 58050.00
+                      us_tax:
+                        federal: 12045.00
+                        state: 5398.65
+                        total: 17443.65
+                      canada_tax:
+                        federal: 10566.75
+                        provincial: 4356.38
+                        total: 14923.13
+                      foreign_tax_credit: 14923.13
+                      net_tax_payable: 17443.65
+                      effective_rate: 0.3004
+                      optimal_filing_strategy: file-us-first
+                      breakdown:
+                        us_federal_rate: 0.2075
+                        us_state_rate: 0.093
+                        canada_federal_rate: 0.1348
+                        canada_provincial_rate: 0.0556
+                errors:
+                  - row: 47
+                    employee_email: invalid@company.com
+                    errors:
+                      - shares_vested must be a positive number
+                processing_time_ms: 2350
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: |
+        API key for authentication. Format: `Bearer sk_live_your_api_key_here`
+
+        To get an API key, contact sales@taxbridge.app or generate one in the Enterprise Dashboard.
+
+  schemas:
+    CalculationRequest:
+      type: object
+      required:
+        - employer
+        - vest_date
+        - shares_vested
+        - fmv_per_share_usd
+        - us_state
+        - canada_province
+        - filing_status
+      properties:
+        employer:
+          type: string
+          enum: [Meta, Amazon, Google, Microsoft]
+          description: Employer name (determines stock ticker for FMV lookup)
+        vest_date:
+          type: string
+          format: date
+          description: RSU vest date (ISO 8601 format YYYY-MM-DD)
+          example: '2025-03-15'
+        shares_vested:
+          type: number
+          minimum: 1
+          description: Number of shares vested
+          example: 100
+        fmv_per_share_usd:
+          type: number
+          minimum: 0.01
+          description: Fair market value per share in USD on vest date
+          example: 580.50
+        us_state:
+          type: string
+          enum: [WA, CA, NY, TX]
+          description: US state of employment (determines state tax rate)
+        canada_province:
+          type: string
+          enum: [BC, ON, AB]
+          description: Canadian province of residence (determines provincial tax rate)
+        filing_status:
+          type: string
+          enum: [single, married]
+          description: Tax filing status
+
+    CalculationResponse:
+      type: object
+      properties:
+        total_value_usd:
+          type: number
+          description: Total RSU value in USD (shares × FMV)
+        us_tax:
+          type: object
+          properties:
+            federal:
+              type: number
+            state:
+              type: number
+            total:
+              type: number
+        canada_tax:
+          type: object
+          properties:
+            federal:
+              type: number
+            provincial:
+              type: number
+            total:
+              type: number
+        foreign_tax_credit:
+          type: number
+          description: Foreign tax credit amount (reduces double taxation)
+        net_tax_payable:
+          type: number
+          description: Net tax after FTC (what you actually owe)
+        effective_rate:
+          type: number
+          description: Effective tax rate (net_tax / total_value)
+        optimal_filing_strategy:
+          type: string
+          enum: [file-us-first, file-canada-first]
+          description: Recommended filing order to minimize total tax
+        breakdown:
+          type: object
+          properties:
+            us_federal_rate:
+              type: number
+            us_state_rate:
+              type: number
+            canada_federal_rate:
+              type: number
+            canada_provincial_rate:
+              type: number
+
+    FormsResponse:
+      type: object
+      properties:
+        forms:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormRequirement'
+        total_count:
+          type: integer
+
+    FormRequirement:
+      type: object
+      properties:
+        form:
+          type: string
+          example: W-2
+        description:
+          type: string
+          example: Wage and Tax Statement
+        country:
+          type: string
+          enum: [US, CA]
+        required:
+          type: boolean
+        deadline:
+          type: string
+          example: April 15
+        pdf_url:
+          type: string
+          format: uri
+
+    BulkImportResponse:
+      type: object
+      properties:
+        total_rows:
+          type: integer
+          description: Total rows in CSV file
+        successful:
+          type: integer
+          description: Successfully processed rows
+        failed:
+          type: integer
+          description: Failed rows (see errors array)
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              employee_email:
+                type: string
+              calculation:
+                $ref: '#/components/schemas/CalculationResponse'
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              row:
+                type: integer
+                description: Row number in CSV (1-indexed, includes header)
+              employee_email:
+                type: string
+              errors:
+                type: array
+                items:
+                  type: string
+        processing_time_ms:
+          type: integer
+          description: Total processing time in milliseconds
+
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Validation failed
+              details:
+                type: array
+                items:
+                  type: string
+                example:
+                  - shares_vested must be greater than 0
+                  - us_state must be one of: WA, CA, NY, TX
+
+    UnauthorizedError:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Invalid API key
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Internal server error
+              message:
+                type: string
+
+tags:
+  - name: Tax Calculation
+    description: Calculate cross-border RSU taxes
+  - name: Tax Forms
+    description: Get required tax forms
+  - name: Bulk Operations
+    description: Bulk CSV processing for payroll platforms

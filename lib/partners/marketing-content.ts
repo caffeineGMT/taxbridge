@@ -35,8 +35,8 @@ export function generateEmailTemplates(
 ): EmailTemplate[] {
   return [
     {
-      subject: 'Simplify Your Cross-Border Tax Calculations',
-      targetAudience: 'H-1B/TN visa holders with RSU income',
+      subject: "Simplify Your Cross-Border Tax Calculations",
+      targetAudience: "H-1B/TN visa holders with RSU income",
       body: `Hi [Client Name],
 
 I wanted to share a tool that many of our cross-border clients have found incredibly helpful.
@@ -63,8 +63,8 @@ ${partnerName}
 ${firmName}`
     },
     {
-      subject: 'Year-End Tax Planning: Cross-Border Considerations',
-      targetAudience: 'Clients with cross-border income',
+      subject: "Year-End Tax Planning: Cross-Border Considerations",
+      targetAudience: "Clients with cross-border income",
       body: `Dear [Client Name],
 
 As we approach year-end, it's a good time to review your cross-border tax situation.
@@ -87,8 +87,8 @@ ${partnerName}
 ${firmName}`
     },
     {
-      subject: 'New RSU Grant? Here's What You Need to Know',
-      targetAudience: 'Tech workers with new RSU grants',
+      subject: "New RSU Grant? Here's What You Need to Know",
+      targetAudience: "Tech workers with new RSU grants",
       body: `Hi [Client Name],
 
 Congratulations on your RSU grant! This is exciting, but it also creates important tax planning considerations, especially if you're working across the US-Canada border.
@@ -112,8 +112,8 @@ ${partnerName}
 ${firmName}`
     },
     {
-      subject: 'Recommended Resource for Cross-Border Clients',
-      targetAudience: 'General clients with US-Canada tax obligations',
+      subject: "Recommended Resource for Cross-Border Clients",
+      targetAudience: "General clients with US-Canada tax obligations",
       body: `Hello [Client Name],
 
 I'm always looking for ways to provide better service to clients with cross-border tax situations.
@@ -137,8 +137,8 @@ ${partnerName}
 ${firmName}`
     },
     {
-      subject: 'Immigration Status Change? Update Your Tax Strategy',
-      targetAudience: 'Clients who recently moved to Canada',
+      subject: "Immigration Status Change? Update Your Tax Strategy",
+      targetAudience: "Clients who recently moved to Canada",
       body: `Hi [Client Name],
 
 I wanted to follow up on your recent move to Canada. This is an important time to reassess your tax situation, particularly if you have US-sourced income like RSUs.
@@ -170,7 +170,7 @@ export function generateSocialPosts(
 ): SocialPost[] {
   return [
     {
-      platform: 'linkedin',
+      platform: 'linkedin",
       content: `Cross-border tax calculations don't have to be complicated.
 
 If you're an H-1B or TN visa holder with RSU income now living in Canada, calculating your tax obligations across both countries can take hours of manual work.
@@ -189,7 +189,7 @@ Try it free for 14 days: ${referralUrl}
       hashtags: ['CrossBorderTax', 'H1B', 'TNVisa', 'RSUTax', 'TaxPlanning']
     },
     {
-      platform: 'linkedin',
+      platform: 'linkedin",
       content: `Year-end tax tip for cross-border professionals:
 
 If you have RSU income from US tech companies (Meta, Amazon, Google, Microsoft) and you're now a Canadian resident, proper tax planning is essential.
@@ -204,7 +204,7 @@ What cross-border tax questions are you dealing with? Drop them in the comments.
       hashtags: ['TaxPlanning', 'CrossBorderTax', 'Immigration', 'TechWorkers']
     },
     {
-      platform: 'twitter',
+      platform: 'twitter",
       content: `H-1B → Canadian PR? Your RSU tax situation just got complex.
 
 Don't spend hours on manual calculations. Use @TaxBridgeApp for instant dual-country tax calculations.
@@ -215,7 +215,7 @@ Free trial: ${referralUrl}
       hashtags: ['CrossBorderTax', 'H1B', 'TechTax']
     },
     {
-      platform: 'twitter',
+      platform: 'twitter",
       content: `Hot take: Most cross-border tax software doesn't handle RSU income properly.
 
 That's why we recommend TaxBridge to our clients - it's built specifically for H-1B/TN workers with equity comp.
@@ -226,7 +226,7 @@ Try it: ${referralUrl}
       hashtags: ['TaxTech', 'EquityComp']
     },
     {
-      platform: 'linkedin',
+      platform: 'linkedin",
       content: `Common mistake I see with cross-border clients:
 
 Not properly calculating Foreign Tax Credits, leading to double taxation on the same income.
@@ -245,7 +245,7 @@ Questions about cross-border tax? Connect with me or visit ${firmName}.
 
 export function generateMarketingCopy(): MarketingCopy {
   return {
-    shortDescription: 'TaxBridge simplifies cross-border tax calculations for H-1B and TN visa holders with RSU income who are Canadian residents.',
+    shortDescription: 'TaxBridge simplifies cross-border tax calculations for H-1B and TN visa holders with RSU income who are Canadian residents.",
     longDescription: `TaxBridge is the leading tax calculator built specifically for cross-border professionals navigating US-Canada tax obligations.
 
 Designed for H-1B and TN visa holders working at tech companies (Meta, Amazon, Google, Microsoft) who receive RSU compensation and are now Canadian tax residents, TaxBridge handles the complex dual-country calculations that would otherwise take hours of manual work.
@@ -254,48 +254,48 @@ The platform calculates US federal and state taxes, Canadian federal and provinc
 
 Trusted by CPAs, immigration lawyers, and tax professionals across North America, TaxBridge streamlines the tax planning process for cross-border clients.`,
     valueProps: [
-      'Instant dual-country tax calculations (US + Canada)',
-      'Foreign Tax Credit optimization to avoid double taxation',
-      'Treaty Article XV compliance built-in',
-      'Supports all major employers (Meta, Amazon, Google, Microsoft)',
-      'Automatic USD/CAD conversion at Bank of Canada rates',
-      'Multi-year dashboard for long-term planning',
-      'PDF export for tax filing documentation',
-      'Form recommendations (1040, T1, FBAR, 8938, 8833)',
+      'Instant dual-country tax calculations (US + Canada)",
+      'Foreign Tax Credit optimization to avoid double taxation",
+      'Treaty Article XV compliance built-in",
+      'Supports all major employers (Meta, Amazon, Google, Microsoft)",
+      'Automatic USD/CAD conversion at Bank of Canada rates",
+      'Multi-year dashboard for long-term planning",
+      'PDF export for tax filing documentation",
+      'Form recommendations (1040, T1, FBAR, 8938, 8833)",
       '14-day free trial, no credit card required'
     ],
     faqs: [
       {
-        question: 'Who is TaxBridge for?',
-        answer: 'TaxBridge is designed for H-1B and TN visa holders who worked in the US at tech companies (Meta, Amazon, Google, Microsoft), received RSU compensation, and are now Canadian tax residents. It handles the complex dual-country tax calculations.'
+        question: "Who is TaxBridge for?",
+        answer: "TaxBridge is designed for H-1B and TN visa holders who worked in the US at tech companies (Meta, Amazon, Google, Microsoft), received RSU compensation, and are now Canadian tax residents. It handles the complex dual-country tax calculations.'
       },
       {
-        question: 'How does Foreign Tax Credit optimization work?',
-        answer: 'TaxBridge calculates the optimal FTC claim to prevent double taxation. It determines which country has primary taxing rights based on Treaty Article XV, then calculates the exact credit to claim on your other country's return.'
+        question: "How does Foreign Tax Credit optimization work?",
+        answer: "TaxBridge calculates the optimal FTC claim to prevent double taxation. It determines which country has primary taxing rights based on Treaty Article XV, then calculates the exact credit to claim on your other country's return.'
       },
       {
-        question: 'What forms do I still need to file?',
-        answer: 'You still need to file your regular tax returns (1040 or 1040-NR for US, T1 for Canada) plus potentially FBAR, Form 8938, and Form 8833. TaxBridge provides form recommendations and calculation support, but you or your accountant will file the actual returns.'
+        question: "What forms do I still need to file?",
+        answer: "You still need to file your regular tax returns (1040 or 1040-NR for US, T1 for Canada) plus potentially FBAR, Form 8938, and Form 8833. TaxBridge provides form recommendations and calculation support, but you or your accountant will file the actual returns.'
       },
       {
-        question: 'How accurate are the calculations?',
-        answer: 'TaxBridge uses current IRS and CRA tax brackets, treaty provisions, and Bank of Canada exchange rates. While it provides highly accurate estimates, we always recommend working with a qualified CPA for final tax filing, especially for complex situations.'
+        question: "How accurate are the calculations?",
+        answer: "TaxBridge uses current IRS and CRA tax brackets, treaty provisions, and Bank of Canada exchange rates. While it provides highly accurate estimates, we always recommend working with a qualified CPA for final tax filing, especially for complex situations.'
       },
       {
-        question: 'Can I use this if I'm still on H-1B in the US?',
-        answer: 'TaxBridge is optimized for those who are now Canadian tax residents with US-sourced RSU income. If you're still a US resident, you may not need dual-country calculations yet.'
+        question: "Can I use this if I'm still on H-1B in the US?",
+        answer: "TaxBridge is optimized for those who are now Canadian tax residents with US-sourced RSU income. If you're still a US resident, you may not need dual-country calculations yet.'
       },
       {
-        question: 'What if my RSUs are from a company not listed?',
-        answer: 'Currently TaxBridge supports Meta, Amazon, Google, and Microsoft (the most common employers for H-1B holders). Support for additional employers is coming soon. You can still manually enter RSU data from any employer.'
+        question: "What if my RSUs are from a company not listed?",
+        answer: "Currently TaxBridge supports Meta, Amazon, Google, and Microsoft (the most common employers for H-1B holders). Support for additional employers is coming soon. You can still manually enter RSU data from any employer.'
       },
       {
-        question: 'Is there a free trial?',
-        answer: 'Yes, TaxBridge offers a 14-day free trial with full access to all features. No credit card required for the trial.'
+        question: "Is there a free trial?",
+        answer: "Yes, TaxBridge offers a 14-day free trial with full access to all features. No credit card required for the trial.'
       },
       {
-        question: 'How does the partner program work?',
-        answer: 'CPAs, accountants, and immigration lawyers can join our partner program to earn 20% recurring commission on client referrals. Partners get co-branded landing pages, marketing materials, and dedicated support.'
+        question: "How does the partner program work?",
+        answer: "CPAs, accountants, and immigration lawyers can join our partner program to earn 20% recurring commission on client referrals. Partners get co-branded landing pages, marketing materials, and dedicated support.'
       }
     ]
   };

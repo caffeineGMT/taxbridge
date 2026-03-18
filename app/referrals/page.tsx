@@ -59,7 +59,7 @@ export default async function ReferralsPage() {
             Earn Free Months
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Share TaxBridge with colleagues and get <span className="text-emerald-400 font-semibold">1 month free</span> for every friend who subscribes to Pro. They get <span className="text-emerald-400 font-semibold">20% off</span> their first year!
+            Share TaxBridge with colleagues and get <span className="text-emerald-400 font-semibold">2 months free</span> for every friend who subscribes to Pro. They get <span className="text-emerald-400 font-semibold">20% off</span> their first year!
           </p>
         </div>
 
@@ -107,7 +107,7 @@ export default async function ReferralsPage() {
                 ${stats.rewards_earned.toFixed(2)}
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                {Math.floor(stats.rewards_earned / 24.92)} free months
+                {Math.floor(stats.rewards_earned / 50)} free months
               </p>
             </CardContent>
           </Card>
@@ -147,7 +147,7 @@ export default async function ReferralsPage() {
                     <li>• Share with H-1B/TN visa colleagues dealing with cross-border taxes</li>
                     <li>• Post in company Slack channels or LinkedIn</li>
                     <li>• Referrals get 20% off ($60 savings on Pro)</li>
-                    <li>• You get 1 month free ($24.92 value) when they subscribe</li>
+                    <li>• You get 2 months free ($50 value) when they subscribe</li>
                   </ul>
                 </div>
 
@@ -363,7 +363,7 @@ export default async function ReferralsPage() {
                 </div>
                 <h4 className="font-semibold text-white">You Get Rewarded</h4>
                 <p className="text-sm text-slate-400">
-                  Receive 1 month free Pro ($24.92 value) automatically added to your subscription
+                  Receive 2 months free Pro ($50 value) automatically added to your subscription
                 </p>
               </div>
             </div>

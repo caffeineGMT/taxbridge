@@ -11,7 +11,15 @@ const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, sourcePage } = body;
+    const {
+      email,
+      sourcePage,
+      utmSource,
+      utmMedium,
+      utmCampaign,
+      utmTerm,
+      calculationData
+    } = body;
 
     // Validate input
     if (!email || typeof email !== 'string') {
@@ -27,24 +35,48 @@ export async function POST(request: NextRequest) {
     // Initialize database
     const db = new Database(DB_PATH);
 
-    // Create leads table if it doesn't exist
+    // Create leads table with Google Ads attribution fields
     db.exec(`
       CREATE TABLE IF NOT EXISTS leads (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT NOT NULL UNIQUE,
         source_page TEXT,
+        utm_source TEXT,
+        utm_medium TEXT,
+        utm_campaign TEXT,
+        utm_term TEXT,
+        rsu_amount REAL,
+        ftc_savings REAL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         status TEXT DEFAULT 'new'
       )
     `);
 
-    // Insert lead (ignore if duplicate)
+    // Insert lead with attribution data
     const stmt = db.prepare(`
-      INSERT OR IGNORE INTO leads (email, source_page)
-      VALUES (?, ?)
+      INSERT OR IGNORE INTO leads (
+        email,
+        source_page,
+        utm_source,
+        utm_medium,
+        utm_campaign,
+        utm_term,
+        rsu_amount,
+        ftc_savings
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
-    const result = stmt.run(email, sourcePage || 'unknown');
+    const result = stmt.run(
+      email,
+      sourcePage || 'unknown',
+      utmSource || null,
+      utmMedium || null,
+      utmCampaign || null,
+      utmTerm || null,
+      calculationData?.rsuIncome || null,
+      calculationData?.ftcSavings || null
+    );
     db.close();
 
     // Check if the lead was actually inserted (or was duplicate)
@@ -83,6 +115,12 @@ export async function GET() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT NOT NULL UNIQUE,
         source_page TEXT,
+        utm_source TEXT,
+        utm_medium TEXT,
+        utm_campaign TEXT,
+        utm_term TEXT,
+        rsu_amount REAL,
+        ftc_savings REAL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         status TEXT DEFAULT 'new'
       )
