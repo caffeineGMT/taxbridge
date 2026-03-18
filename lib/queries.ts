@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { getDb } from './db';
+import { db as getDb } from './db/init';
+
+// Helper to return db for compatibility
+const getDbFunc = () => getDb;
 
 // ============================================================================
 // Zod Schemas for Type Safety
@@ -86,7 +89,7 @@ export const userQueries = {
    */
   create(data: CreateUser): User {
     const validated = CreateUserSchema.parse(data);
-    const db = getDb();
+    const db = getDbFunc();
 
     const stmt = db.prepare(
       `INSERT INTO users (email, created_at) VALUES (?, ?) RETURNING *`
@@ -100,7 +103,7 @@ export const userQueries = {
    * Find user by ID
    */
   findById(id: number): User | null {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(`SELECT * FROM users WHERE id = ?`);
     const result = stmt.get(id);
 
@@ -112,7 +115,7 @@ export const userQueries = {
    * Find user by email
    */
   findByEmail(email: string): User | null {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(`SELECT * FROM users WHERE email = ?`);
     const result = stmt.get(email);
 
@@ -124,7 +127,7 @@ export const userQueries = {
    * Get all users
    */
   findAll(): User[] {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(`SELECT * FROM users ORDER BY created_at DESC`);
     const results = stmt.all();
 
@@ -142,7 +145,7 @@ export const rsuEventQueries = {
    */
   create(data: CreateRsuEvent): RsuEvent {
     const validated = CreateRsuEventSchema.parse(data);
-    const db = getDb();
+    const db = getDbFunc();
 
     const stmt = db.prepare(
       `INSERT INTO rsu_events (
@@ -171,7 +174,7 @@ export const rsuEventQueries = {
    * Find RSU events by user ID
    */
   findByUserId(userId: number): RsuEvent[] {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `SELECT * FROM rsu_events WHERE user_id = ? ORDER BY vesting_date DESC`
     );
@@ -184,7 +187,7 @@ export const rsuEventQueries = {
    * Find RSU events by user and year
    */
   findByUserAndYear(userId: number, year: number): RsuEvent[] {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `SELECT * FROM rsu_events
        WHERE user_id = ?
@@ -200,7 +203,7 @@ export const rsuEventQueries = {
    * Get total RSU value for a user in a given year
    */
   getTotalValueByYear(userId: number, year: number): number {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `SELECT COALESCE(SUM(total_value_usd), 0) as total
        FROM rsu_events
@@ -215,7 +218,7 @@ export const rsuEventQueries = {
    * Delete RSU event by ID
    */
   deleteById(id: number): boolean {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(`DELETE FROM rsu_events WHERE id = ?`);
     const result = stmt.run(id);
 
@@ -233,7 +236,7 @@ export const taxCalculationQueries = {
    */
   upsert(data: CreateTaxCalculation): TaxCalculation {
     const validated = CreateTaxCalculationSchema.parse(data);
-    const db = getDb();
+    const db = getDbFunc();
 
     const stmt = db.prepare(
       `INSERT INTO tax_calculations (
@@ -270,7 +273,7 @@ export const taxCalculationQueries = {
    * Find tax calculation by user and year
    */
   findByUserAndYear(userId: number, year: number): TaxCalculation | null {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `SELECT * FROM tax_calculations WHERE user_id = ? AND tax_year = ?`
     );
@@ -284,7 +287,7 @@ export const taxCalculationQueries = {
    * Find all tax calculations for a user
    */
   findByUserId(userId: number): TaxCalculation[] {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `SELECT * FROM tax_calculations WHERE user_id = ? ORDER BY tax_year DESC`
     );
@@ -297,7 +300,7 @@ export const taxCalculationQueries = {
    * Delete tax calculation
    */
   deleteByUserAndYear(userId: number, year: number): boolean {
-    const db = getDb();
+    const db = getDbFunc();
     const stmt = db.prepare(
       `DELETE FROM tax_calculations WHERE user_id = ? AND tax_year = ?`
     );
