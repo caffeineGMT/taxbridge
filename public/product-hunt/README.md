@@ -17,9 +17,9 @@ product-hunt/
 
 ## Generating Screenshots
 
-Screenshots are automatically generated using Puppeteer.
+### Method 1: Automated (Recommended if Puppeteer works)
 
-### Prerequisites
+Screenshots are automatically generated using Puppeteer.
 
 1. Make sure the Next.js dev server is running:
    ```bash
@@ -32,6 +32,27 @@ Screenshots are automatically generated using Puppeteer.
    ```
 
 3. Screenshots will be saved to `public/product-hunt/screenshots/`
+
+### Method 2: Manual Capture (Recommended for macOS)
+
+If automated capture fails (Puppeteer issues on macOS), use the manual method:
+
+**See full guide:** `/docs/manual-screenshot-guide.md`
+
+**Quick Steps:**
+1. Start dev server: `npm run dev`
+2. Open Chrome DevTools (Cmd+Option+I)
+3. Toggle Device Toolbar (Cmd+Shift+M)
+4. Set to 1280x800 responsive mode
+5. Navigate to each page and capture (Cmd+Shift+P → "Capture screenshot")
+6. Move screenshots to `public/product-hunt/screenshots/`
+
+**Pages to capture:**
+- `/dashboard` (hero-dashboard.png)
+- `/dashboard` scrolled to FTC section (ftc-optimizer.png)
+- `/forms-checklist` (forms-checklist.png)
+- `/pricing` (pricing-page.png)
+- `/dashboard` export section (pdf-export.png)
 
 ## Product Hunt Specifications
 
@@ -50,6 +71,27 @@ When uploading to Product Hunt, use this sequence:
 4. **pricing-page.png** - Transparent pricing builds trust
 5. **pdf-export.png** - Professional output for CPAs
 
+## Demo Video
+
+A 60-second Loom demo video is required for Product Hunt launch.
+
+**See full guide:** `/docs/product-hunt-video-checklist.md`
+
+**Quick Steps:**
+1. Start dev server: `npm run dev`
+2. Prepare demo data (2-3 RSU entries)
+3. Sign up at https://loom.com
+4. Record screen following the 5-section script
+5. Get shareable Loom URL
+6. Add to Product Hunt listing
+
+**Recording Coverage (60 seconds):**
+- 0-10s: Problem intro (landing page)
+- 10-25s: Dashboard & RSU entry demo
+- 25-40s: FTC optimizer feature
+- 40-50s: Forms checklist & PDF export
+- 50-60s: Pricing & CTA
+
 ## Tips
 
 - First screenshot should be self-explanatory without reading text
@@ -57,6 +99,7 @@ When uploading to Product Hunt, use this sequence:
 - Highlight key features with subtle annotations if needed
 - Keep UI clean and professional
 - Mobile screenshots can be added later if needed
+- Demo video should be conversational and authentic
 
 ---
 
