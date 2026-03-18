@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
-import { Home, DollarSign, Calculator, FileText } from 'lucide-react';
+import { Home, DollarSign, Calculator, FileText, TrendingUp } from 'lucide-react';
 
 export default function Header() {
   return (
@@ -19,6 +19,13 @@ export default function Header() {
           >
             <Home className="w-4 h-4" />
             Dashboard
+          </Link>
+          <Link
+            href="/dashboard/multi-year"
+            className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
+          >
+            <TrendingUp className="w-4 h-4" />
+            Multi-Year
           </Link>
           <Link
             href="/rsu-entry"

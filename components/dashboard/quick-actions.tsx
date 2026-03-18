@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PlusCircle, Calculator, FileText, TrendingUp } from 'lucide-react';
+import { PlusCircle, Calculator, FileText, TrendingUp, Upload } from 'lucide-react';
 
 export function QuickActions() {
   return (
@@ -20,6 +20,15 @@ export function QuickActions() {
             >
               <PlusCircle className="mr-2 h-4 w-4" />
               Add RSU Entry
+            </Button>
+          </Link>
+
+          <Link href="/dashboard/import">
+            <Button
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
+            >
+              <Upload className="mr-2 h-4 w-4" />
+              Bulk Import CSV
             </Button>
           </Link>
 

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { updateUserProfile } from '@/lib/db';
 
 export async function POST(req: Request) {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

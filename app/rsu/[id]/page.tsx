@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TaxComparison } from '@/components/tax/tax-comparison';
 import { FTCOptimizer } from '@/components/tax/ftc-optimizer';
+import { AITaxAdvisor } from '@/components/tax/ai-tax-advisor';
 import { ArrowLeft, Building2, Calendar, DollarSign, TrendingUp } from 'lucide-react';
 import { ExportButton } from '@/components/export-button';
 
@@ -181,6 +182,30 @@ export default async function RSUDetailPage({ params }: PageProps) {
           canadaTax={canadaTax.netTotal}
           ftcAmount={canadaTax.ftc.amount}
           canadaTaxBeforeFTC={canadaTax.totalBeforeFTC}
+        />
+      </div>
+
+      {/* AI Tax Advisor */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4 text-slate-100">AI Tax Optimization Recommendations</h2>
+        <AITaxAdvisor
+          rsuEntries={[
+            {
+              year: new Date(rsu.vestingDate).getFullYear(),
+              vestingDate: rsu.vestingDate,
+              fmvUSD: rsu.fmvUsd,
+              shares: rsu.shares,
+              employer: rsu.employer,
+            },
+          ]}
+          province={rsu.canadaProvince}
+          state={rsu.usState}
+          ftcResults={{
+            usTaxUSD: usTax.total,
+            canadaTaxCAD: canadaTax.netTotal,
+            ftcCAD: canadaTax.ftc.amount,
+          }}
+          filingStatus="single"
         />
       </div>
 

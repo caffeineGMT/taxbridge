@@ -17,7 +17,7 @@ const MAX_ROWS = 1000;
 export async function POST(request: NextRequest) {
   try {
     // Authenticate user
-    const { userId: clerkUserId } = auth();
+    const { userId: clerkUserId } = await auth();
     if (!clerkUserId) {
       return NextResponse.json(
         { error: 'Unauthorized' },
