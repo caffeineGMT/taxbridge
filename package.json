@@ -27,7 +27,8 @@
     "setup:stripe": "tsx scripts/setup-stripe-products.ts",
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",
-    "seo:verify": "tsx scripts/verify-seo-pages.ts"
+    "seo:verify": "tsx scripts/verify-seo-pages.ts",
+    "capture:screenshots": "tsx scripts/capture-screenshots.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",

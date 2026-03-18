@@ -5,6 +5,7 @@ import { dark } from '@clerk/themes';
 import { Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import ReferralTracker from '@/components/ReferralTracker';
+import PostHogProvider from '@/components/PostHogProvider';
 import { Toaster } from '@/components/ui/toaster';
 import WebVitalsTracker from '@/components/WebVitalsTracker';
 import Script from 'next/script';
@@ -82,6 +83,7 @@ export default function RootLayout({
         </head>
         <body className={inter.className}>
           <Suspense fallback={null}>
+            <PostHogProvider />
             <ReferralTracker />
             <WebVitalsTracker />
           </Suspense>

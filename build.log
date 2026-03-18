@@ -1,0 +1,31 @@
+
+> cross-border-tax@0.1.0 build
+> next build
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+   ▲ Next.js 15.5.13
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · clientTraceMetadata
+
+   Creating an optimized production build ...
+[@sentry/nextjs] Could not find `onRequestError` hook in instrumentation file. This indicates outdated configuration of the Sentry SDK. Use `Sentry.captureRequestError` to instrument the `onRequestError` hook: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#errors-from-nested-react-server-components
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+Failed to compile.
+
+./node_modules/react-joyride/dist/index.mjs
+Attempted import error: 'unmountComponentAtNode' is not exported from 'react-dom' (imported as 'ReactDOM').
+
+Import trace for requested module:
+./node_modules/react-joyride/dist/index.mjs
+./app/demo/page.tsx
+
+./node_modules/react-joyride/dist/index.mjs
+Attempted import error: 'unstable_renderSubtreeIntoContainer' is not exported from 'react-dom' (imported as 'ReactDOM').
+
+Import trace for requested module:
+./node_modules/react-joyride/dist/index.mjs
+./app/demo/page.tsx
+
+
+> Build failed because of webpack errors

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { Building2, Users, DollarSign, TrendingUp, Upload, FileText, Download, Settings } from 'lucide-react';
-import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
 
 // Mock client data representing diverse enterprise use case
 const MOCK_CLIENTS = [
@@ -73,41 +74,9 @@ const MOCK_CLIENTS = [
   }
 ];
 
-const TOUR_STEPS: Step[] = [
-  {
-    target: '.multi-client-dashboard',
-    content: 'Manage all your H-1B/TN visa clients in one centralized dashboard. View RSU income, tax calculations, and filing status at a glance.',
-    disableBeacon: true,
-  },
-  {
-    target: '.bulk-actions',
-    content: 'Perform bulk operations like exporting reports, sending reminders, or updating filing status for multiple clients simultaneously.',
-  },
-  {
-    target: '.csv-import',
-    content: 'Import 50+ employee RSU records via CSV upload. Automatically calculate dual-country taxes and generate Foreign Tax Credit recommendations.',
-  },
-  {
-    target: '.white-label-reports',
-    content: 'Generate white-label PDF reports with your firm\'s logo. Professional tax summaries ready to deliver to clients.',
-  },
-  {
-    target: '.api-access',
-    content: 'Integrate TaxBridge with QuickBooks, Xero, or TaxAct via our REST API. Seamlessly sync client data and automate workflows.',
-  },
-];
-
 export default function DemoPage() {
-  const [runTour, setRunTour] = useState(false);
   const [selectedClients, setSelectedClients] = useState<number[]>([]);
   const [showUploadModal, setShowUploadModal] = useState(false);
-
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      setRunTour(false);
-    }
-  };
 
   const totalRSU = MOCK_CLIENTS.reduce((sum, c) => sum + c.rsu_ytd, 0);
   const totalTax = MOCK_CLIENTS.reduce((sum, c) => sum + c.tax_owed, 0);
@@ -128,26 +97,63 @@ export default function DemoPage() {
     setSelectedClients([]);
   };
 
+  const startTour = () => {
+    const driverObj = driver({
+      showProgress: true,
+      steps: [
+        {
+          element: '.multi-client-dashboard',
+          popover: {
+            title: 'Multi-Client Dashboard',
+            description: 'Manage all your H-1B/TN visa clients in one centralized dashboard. View RSU income, tax calculations, and filing status at a glance.',
+            side: 'bottom',
+            align: 'start'
+          }
+        },
+        {
+          element: '.bulk-actions',
+          popover: {
+            title: 'Bulk Actions',
+            description: 'Perform bulk operations like exporting reports, sending reminders, or updating filing status for multiple clients simultaneously.',
+            side: 'bottom',
+            align: 'start'
+          }
+        },
+        {
+          element: '.csv-import',
+          popover: {
+            title: 'CSV Import',
+            description: 'Import 50+ employee RSU records via CSV upload. Automatically calculate dual-country taxes and generate Foreign Tax Credit recommendations.',
+            side: 'left',
+            align: 'start'
+          }
+        },
+        {
+          element: '.white-label-reports',
+          popover: {
+            title: 'White-Label Reports',
+            description: 'Generate white-label PDF reports with your firm\'s logo. Professional tax summaries ready to deliver to clients.',
+            side: 'left',
+            align: 'start'
+          }
+        },
+        {
+          element: '.api-access',
+          popover: {
+            title: 'API Integration',
+            description: 'Integrate TaxBridge with QuickBooks, Xero, or TaxAct via our REST API. Seamlessly sync client data and automate workflows.',
+            side: 'bottom',
+            align: 'end'
+          }
+        }
+      ]
+    });
+
+    driverObj.drive();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      <Joyride
-        steps={TOUR_STEPS}
-        run={runTour}
-        continuous
-        showProgress
-        showSkipButton
-        callback={handleJoyrideCallback}
-        styles={{
-          options: {
-            primaryColor: '#10b981',
-            backgroundColor: '#1e293b',
-            textColor: '#f1f5f9',
-            arrowColor: '#1e293b',
-            overlayColor: 'rgba(0, 0, 0, 0.7)',
-          },
-        }}
-      />
-
       {/* Background Grid */}
       <div
         className="absolute inset-0 opacity-10 pointer-events-none"
@@ -169,7 +175,7 @@ export default function DemoPage() {
             </span>
           </div>
           <button
-            onClick={() => setRunTour(true)}
+            onClick={startTour}
             className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
           >
             Start Interactive Tour

@@ -1,10 +1,22 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { OnboardingWizard } from '@/components/onboarding/onboarding-wizard';
+import { trackEvent } from '@/lib/analytics/posthog';
 
 export default function OnboardingPage() {
   const { user } = useUser();
+
+  // Track onboarding page view
+  useEffect(() => {
+    trackEvent('onboarding_started', {
+      page: '/onboarding',
+      funnelStep: 'Onboarding',
+      funnelStepNumber: 4,
+      userId: user?.id,
+    });
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4">

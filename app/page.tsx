@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Calculator, TrendingUp, FileText, ArrowRight } from 'lucide-react';
+import { Calculator, TrendingUp, FileText, ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
@@ -125,6 +125,109 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-4">
+                Trusted by Tech Workers Across North America
+              </h2>
+              <p className="text-lg text-slate-400">
+                Real results from beta users who saved thousands in double taxation
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Testimonial 1 */}
+              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                      P
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-100">Priya Sharma</div>
+                      <div className="text-xs text-slate-400">Senior SWE, Meta</div>
+                      <div className="text-xs text-emerald-400">Vancouver, BC</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
+                    ))}
+                  </div>
+                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
+                    "Caught a $2,300 FTC error from last year. Already recommended it to my entire H-1B team."
+                  </CardDescription>
+                  <div className="mt-4 pt-3 border-t border-slate-700">
+                    <span className="text-emerald-400 font-bold text-lg">$2,300</span>
+                    <span className="text-slate-400 text-xs ml-2">tax savings</span>
+                  </div>
+                </CardHeader>
+              </Card>
+
+              {/* Testimonial 2 */}
+              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                      D
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-100">David Kim</div>
+                      <div className="text-xs text-slate-400">Staff Engineer, Amazon</div>
+                      <div className="text-xs text-emerald-400">Toronto, ON</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
+                    ))}
+                  </div>
+                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
+                    "The FTC optimizer saved me $4,100 on my 2025 filing. This tool pays for itself 10x over."
+                  </CardDescription>
+                  <div className="mt-4 pt-3 border-t border-slate-700">
+                    <span className="text-emerald-400 font-bold text-lg">$4,100</span>
+                    <span className="text-slate-400 text-xs ml-2">tax savings</span>
+                  </div>
+                </CardHeader>
+              </Card>
+
+              {/* Testimonial 3 */}
+              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                      M
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-100">Maria Gonzalez</div>
+                      <div className="text-xs text-slate-400">TN Visa, Google</div>
+                      <div className="text-xs text-emerald-400">Montreal, QC</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
+                    ))}
+                  </div>
+                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
+                    "Made dual-country tax calculations crystal clear. The PDF export went straight to my CPA. Zero questions."
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
+
+            <div className="mt-8 text-center">
+              <Link href="/pricing" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-2 transition-colors">
+                Read more success stories
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </section>

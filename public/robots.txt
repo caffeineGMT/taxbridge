@@ -12,3 +12,11 @@ Disallow: /api/
 Allow: /us-canada-tax-calculator
 Allow: /h1b-rsu-tax-guide
 Allow: /canada-tax-filing-checklist
+
+# Allow geo-targeted SEO landing pages (50+ pages)
+Allow: /tax-calculator/
+
+# Block admin and private routes
+Disallow: /admin/
+Disallow: /settings/
+Disallow: /_next/

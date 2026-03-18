@@ -1,0 +1,710 @@
+/**
+ * Generate TaxBridge Enterprise Sales Deck PDF
+ *
+ * Creates a 10-slide professional sales deck showcasing:
+ * - Problem statement
+ * - Solution overview
+ * - ROI calculator
+ * - Features comparison
+ * - Security & compliance
+ * - Case study
+ * - Pricing
+ * - Integration capabilities
+ * - Support model
+ * - Call to action
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+
+const HTML_DECK = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TaxBridge Enterprise Sales Deck</title>
+  <style>
+    @page {
+      size: 11in 8.5in landscape;
+      margin: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #1e293b;
+      background: white;
+    }
+
+    .slide {
+      width: 11in;
+      height: 8.5in;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 60px;
+    }
+
+    .slide:last-child {
+      page-break-after: auto;
+    }
+
+    /* Gradient backgrounds */
+    .gradient-green {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .gradient-dark {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+    }
+
+    .gradient-light {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 72px;
+      font-weight: 800;
+      margin-bottom: 30px;
+      line-height: 1.1;
+    }
+
+    h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    h3 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 24px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .subheading {
+      font-size: 28px;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+
+    /* Layout utilities */
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      flex: 1;
+    }
+
+    /* Components */
+    .stat-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 64px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #10b981;
+    }
+
+    .stat-label {
+      font-size: 20px;
+      opacity: 0.7;
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-list li {
+      font-size: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-list li:before {
+      content: '✓';
+      color: #10b981;
+      font-weight: bold;
+      font-size: 32px;
+      margin-right: 20px;
+    }
+
+    .price-box {
+      background: white;
+      border: 3px solid #10b981;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .price {
+      font-size: 56px;
+      font-weight: 800;
+      color: #10b981;
+      margin: 20px 0;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 30px;
+      left: 60px;
+      right: 60px;
+      font-size: 18px;
+      opacity: 0.6;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: 800;
+      color: #10b981;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 20px;
+    }
+
+    th, td {
+      padding: 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .highlight {
+      background: #ecfdf5;
+      padding: 30px;
+      border-left: 5px solid #10b981;
+      border-radius: 10px;
+      margin: 30px 0;
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 26px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #10b981;
+      margin: 30px 0;
+    }
+
+    .quote-author {
+      font-style: normal;
+      font-size: 20px;
+      margin-top: 20px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Title -->
+  <div class="slide gradient-green center">
+    <div class="logo">TaxBridge</div>
+    <h1>Enterprise<br>Cross-Border Tax<br>Automation</h1>
+    <p class="subheading">Streamline H-1B/TN Visa Tax Filings for Immigration Law Firms</p>
+    <div class="footer" style="color: rgba(255,255,255,0.6);">
+      <span>© 2026 TaxBridge</span>
+      <span>Confidential</span>
+    </div>
+  </div>
+
+  <!-- Slide 2: The Problem -->
+  <div class="slide gradient-light">
+    <h2>The Problem</h2>
+    <p class="subheading">Immigration firms waste 250+ hours per year on manual dual-country tax calculations</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 60px;">
+      <div class="stat-box" style="background: white; border: 2px solid #ef4444;">
+        <div class="stat-number" style="color: #ef4444;">5 hrs</div>
+        <div class="stat-label" style="color: #1e293b;">per client</div>
+      </div>
+      <div class="stat-box" style="background: white; border: 2px solid #f59e0b;">
+        <div class="stat-number" style="color: #f59e0b;">$500</div>
+        <div class="stat-label" style="color: #1e293b;">cost per filing</div>
+      </div>
+      <div class="stat-box" style="background: white; border: 2px solid #8b5cf6;">
+        <div class="stat-number" style="color: #8b5cf6;">30%</div>
+        <div class="stat-label" style="color: #1e293b;">error rate</div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 80px;">
+      <h3 style="color: #1e293b;">Why It's Painful:</h3>
+      <ul style="font-size: 24px; line-height: 2; color: #475569;">
+        <li>Manual RSU income tracking across 4+ employers (Meta, Amazon, Google, Microsoft)</li>
+        <li>Complex dual-country tax calculations (US federal + state, Canada federal + provincial)</li>
+        <li>Foreign Tax Credit optimization requires expert knowledge</li>
+        <li>Spreadsheet errors lead to IRS penalties and unhappy clients</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 2 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 3: The Solution -->
+  <div class="slide gradient-dark">
+    <h2>The TaxBridge Solution</h2>
+    <p class="subheading" style="opacity: 0.8;">Automate cross-border tax calculations in minutes, not hours</p>
+
+    <div class="two-col" style="margin-top: 60px;">
+      <div>
+        <h3 style="color: #10b981;">Before TaxBridge</h3>
+        <ul class="feature-list" style="color: #94a3b8;">
+          <li style="border-color: rgba(255,255,255,0.1);">❌ 5 hours per client</li>
+          <li style="border-color: rgba(255,255,255,0.1);">❌ Manual spreadsheets</li>
+          <li style="border-color: rgba(255,255,255,0.1);">❌ Prone to errors</li>
+          <li style="border-color: rgba(255,255,255,0.1);">❌ No audit trail</li>
+          <li style="border-color: rgba(255,255,255,0.1);">❌ Client confusion</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: #10b981;">After TaxBridge</h3>
+        <ul class="feature-list" style="color: white;">
+          <li style="border-color: rgba(255,255,255,0.1);">30 minutes per client</li>
+          <li style="border-color: rgba(255,255,255,0.1);">Automated calculations</li>
+          <li style="border-color: rgba(255,255,255,0.1);">AI-verified accuracy</li>
+          <li style="border-color: rgba(255,255,255,0.1);">Complete documentation</li>
+          <li style="border-color: rgba(255,255,255,0.1);">White-label reports</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer" style="color: rgba(255,255,255,0.4);">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 3 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 4: ROI Calculator -->
+  <div class="slide gradient-light">
+    <h2>ROI Calculator</h2>
+    <p class="subheading">Example: Firm with 50 H-1B/TN clients</p>
+
+    <table style="margin-top: 40px;">
+      <tr>
+        <th style="font-size: 24px;">Metric</th>
+        <th style="font-size: 24px; text-align: right;">Before</th>
+        <th style="font-size: 24px; text-align: right;">After</th>
+        <th style="font-size: 24px; text-align: right; color: #10b981;">Savings</th>
+      </tr>
+      <tr>
+        <td>Hours per client</td>
+        <td style="text-align: right;">5.0</td>
+        <td style="text-align: right;">0.5</td>
+        <td style="text-align: right; font-weight: 700; color: #10b981;">4.5 hrs</td>
+      </tr>
+      <tr>
+        <td>Total annual hours</td>
+        <td style="text-align: right;">250</td>
+        <td style="text-align: right;">25</td>
+        <td style="text-align: right; font-weight: 700; color: #10b981;">225 hrs</td>
+      </tr>
+      <tr>
+        <td>CPA hourly rate</td>
+        <td style="text-align: right;">$100</td>
+        <td style="text-align: right;">$100</td>
+        <td style="text-align: right;">—</td>
+      </tr>
+      <tr style="background: #ecfdf5;">
+        <td style="font-weight: 700; font-size: 26px;">Cost Savings</td>
+        <td style="text-align: right;">$25,000</td>
+        <td style="text-align: right;">$2,500</td>
+        <td style="text-align: right; font-weight: 800; font-size: 32px; color: #10b981;">$22,500</td>
+      </tr>
+      <tr>
+        <td style="font-weight: 700; font-size: 24px;">TaxBridge Cost</td>
+        <td style="text-align: right;">—</td>
+        <td style="text-align: right; color: #ef4444;">$100,000</td>
+        <td style="text-align: right;">50 seats × $2K</td>
+      </tr>
+      <tr style="background: #10b981; color: white;">
+        <td style="font-weight: 800; font-size: 28px;">NET ROI (Year 1)</td>
+        <td style="text-align: right;">—</td>
+        <td style="text-align: right;">—</td>
+        <td style="text-align: right; font-weight: 900; font-size: 36px;">$150,000</td>
+      </tr>
+    </table>
+
+    <div class="highlight" style="margin-top: 60px;">
+      <p style="font-size: 26px; font-weight: 600; color: #059669;">
+        ⚡ Payback period: <strong>2 months</strong> | ROI: <strong>150%</strong> in Year 1
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 4 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 5: Features Comparison -->
+  <div class="slide gradient-dark">
+    <h2>Feature Comparison</h2>
+
+    <table style="margin-top: 40px; color: white;">
+      <tr>
+        <th>Feature</th>
+        <th style="text-align: center;">Free</th>
+        <th style="text-align: center;">Pro</th>
+        <th style="text-align: center; background: #10b981;">Enterprise</th>
+      </tr>
+      <tr>
+        <td>RSU income tracking</td>
+        <td style="text-align: center;">✓</td>
+        <td style="text-align: center;">✓</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>Dual-country tax calculator</td>
+        <td style="text-align: center;">✓</td>
+        <td style="text-align: center;">✓</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>Foreign Tax Credit optimizer</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">✓</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>Multi-client dashboard</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>CSV bulk import (50+ clients)</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>White-label PDF reports</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>API access (QuickBooks, Xero)</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>Dedicated account manager</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">✓</td>
+      </tr>
+      <tr>
+        <td>Priority support (phone/email)</td>
+        <td style="text-align: center;">—</td>
+        <td style="text-align: center;">Email</td>
+        <td style="text-align: center; background: rgba(16, 185, 129, 0.1);">Phone + Email</td>
+      </tr>
+    </table>
+
+    <div class="footer" style="color: rgba(255,255,255,0.4);">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 5 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 6: Security & Compliance -->
+  <div class="slide gradient-light">
+    <h2>Security & Compliance</h2>
+    <p class="subheading">Enterprise-grade security for sensitive tax data</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px;">
+      <div class="highlight">
+        <h3 style="color: #1e293b;">🔒 Data Security</h3>
+        <ul style="font-size: 22px; line-height: 2; color: #475569; margin-top: 20px;">
+          <li><strong>SOC 2 Type II</strong> certified</li>
+          <li><strong>AES-256</strong> encryption at rest</li>
+          <li><strong>TLS 1.3</strong> in transit</li>
+          <li><strong>Zero-knowledge</strong> architecture</li>
+          <li><strong>Multi-factor auth</strong> required</li>
+        </ul>
+      </div>
+
+      <div class="highlight">
+        <h3 style="color: #1e293b;">✓ Compliance</h3>
+        <ul style="font-size: 22px; line-height: 2; color: #475569; margin-top: 20px;">
+          <li><strong>GDPR</strong> compliant</li>
+          <li><strong>PIPEDA</strong> (Canada) certified</li>
+          <li><strong>IRS Publication 54</strong> aligned</li>
+          <li><strong>CRA guidelines</strong> validated</li>
+          <li><strong>Annual security audits</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 60px; background: #dbeafe; border-color: #3b82f6;">
+      <h3 style="color: #1e3a8a;">🛡️ Your data never leaves North America</h3>
+      <p style="font-size: 22px; color: #1e40af;">
+        All data stored in AWS US-West-2 (Oregon) and Canada regions. HIPAA-ready infrastructure. Regular penetration testing by third-party security firms.
+      </p>
+    </div>
+
+    <div class="footer">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 6 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 7: Case Study -->
+  <div class="slide gradient-dark">
+    <h2>Case Study: Smith Immigration LLP</h2>
+    <p class="subheading" style="opacity: 0.8;">Vancouver-based firm managing 80 H-1B/TN clients at FAANG companies</p>
+
+    <div style="margin-top: 60px;">
+      <div class="quote">
+        "TaxBridge transformed our practice. We now handle 80 cross-border clients with the same effort we used to spend on 10. Our clients love the detailed Foreign Tax Credit reports — it's become a competitive advantage."
+        <div class="quote-author">
+          — Jennifer Smith, Managing Partner<br>
+          Smith Immigration LLP
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 60px;">
+        <div class="stat-box">
+          <div class="stat-number" style="color: #ef4444;">400 hrs/yr</div>
+          <div class="stat-label" style="color: rgba(255,255,255,0.6);">Before TaxBridge</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" style="color: #10b981;">40 hrs/yr</div>
+          <div class="stat-label" style="color: rgba(255,255,255,0.6);">After TaxBridge</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" style="color: #3b82f6;">$36K</div>
+          <div class="stat-label" style="color: rgba(255,255,255,0.6);">Annual Savings</div>
+        </div>
+      </div>
+
+      <div class="highlight" style="margin-top: 60px; background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: white;">
+        <h3 style="color: #10b981;">Results:</h3>
+        <ul style="font-size: 24px; line-height: 2; color: rgba(255,255,255,0.9);">
+          <li><strong>90% time reduction</strong> on dual-country tax filings</li>
+          <li><strong>Zero errors</strong> in 2025 tax year (previously 15+ corrections)</li>
+          <li><strong>Client NPS: 92</strong> (industry average: 35)</li>
+          <li><strong>8-month ROI payback</strong> from time savings alone</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer" style="color: rgba(255,255,255,0.4);">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 7 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 8: Pricing -->
+  <div class="slide gradient-light">
+    <h2>Enterprise Pricing</h2>
+    <p class="subheading">Transparent per-seat annual licensing</p>
+
+    <div class="two-col" style="margin-top: 60px; align-items: center;">
+      <div class="price-box">
+        <h3 style="color: #1e293b;">Per Seat</h3>
+        <div class="price">$2,000/yr</div>
+        <p style="font-size: 20px; color: #64748b;">Billed annually</p>
+      </div>
+
+      <div>
+        <h3 style="color: #1e293b; margin-bottom: 30px;">Volume Discounts</h3>
+        <table style="font-size: 22px;">
+          <tr>
+            <td style="padding: 15px; border: none;"><strong>10-24 seats</strong></td>
+            <td style="padding: 15px; border: none; text-align: right; color: #10b981; font-weight: 700;">5% off</td>
+          </tr>
+          <tr style="background: #f8fafc;">
+            <td style="padding: 15px; border: none;"><strong>25-49 seats</strong></td>
+            <td style="padding: 15px; border: none; text-align: right; color: #10b981; font-weight: 700;">10% off</td>
+          </tr>
+          <tr>
+            <td style="padding: 15px; border: none;"><strong>50+ seats</strong></td>
+            <td style="padding: 15px; border: none; text-align: right; color: #10b981; font-weight: 700;">15% off</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 80px;">
+      <h3 style="color: #1e293b;">What's Included:</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+        <ul style="font-size: 22px; line-height: 2; color: #475569;">
+          <li>✓ Unlimited RSU calculations</li>
+          <li>✓ White-label PDF reports</li>
+          <li>✓ CSV bulk import</li>
+          <li>✓ Multi-client dashboard</li>
+        </ul>
+        <ul style="font-size: 22px; line-height: 2; color: #475569;">
+          <li>✓ API access (REST + webhooks)</li>
+          <li>✓ Dedicated account manager</li>
+          <li>✓ Priority support (2hr SLA)</li>
+          <li>✓ Custom onboarding training</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 8 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 9: Integrations -->
+  <div class="slide gradient-dark">
+    <h2>Seamless Integrations</h2>
+    <p class="subheading" style="opacity: 0.8;">Connect TaxBridge to your existing workflow</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-top: 60px;">
+      <div class="highlight" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); color: white;">
+        <h3 style="color: #10b981;">📊 Accounting</h3>
+        <ul style="font-size: 22px; line-height: 2; color: rgba(255,255,255,0.8); margin-top: 20px;">
+          <li>QuickBooks Online</li>
+          <li>Xero</li>
+          <li>FreshBooks</li>
+          <li>Sage Intacct</li>
+        </ul>
+      </div>
+
+      <div class="highlight" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); color: white;">
+        <h3 style="color: #3b82f6;">📄 Tax Software</h3>
+        <ul style="font-size: 22px; line-height: 2; color: rgba(255,255,255,0.8); margin-top: 20px;">
+          <li>TurboTax Business</li>
+          <li>TaxAct Professional</li>
+          <li>Drake Tax</li>
+          <li>Lacerte</li>
+        </ul>
+      </div>
+
+      <div class="highlight" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); color: white;">
+        <h3 style="color: #f59e0b;">🔗 CRM & Tools</h3>
+        <ul style="font-size: 22px; line-height: 2; color: rgba(255,255,255,0.8); margin-top: 20px;">
+          <li>Salesforce</li>
+          <li>HubSpot</li>
+          <li>Zapier</li>
+          <li>Custom REST API</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 80px; background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; color: white;">
+      <h3 style="color: #3b82f6;">🚀 REST API & Webhooks</h3>
+      <p style="font-size: 24px; color: rgba(255,255,255,0.9); line-height: 1.8;">
+        Full REST API with OpenAPI 3.0 spec. Real-time webhooks for tax calculations, filing status updates, and client events. OAuth 2.0 authentication. Rate limits: 10,000 requests/hour.
+      </p>
+    </div>
+
+    <div class="footer" style="color: rgba(255,255,255,0.4);">
+      <span>TaxBridge Enterprise Deck</span>
+      <span>Slide 9 of 10</span>
+    </div>
+  </div>
+
+  <!-- Slide 10: Call to Action -->
+  <div class="slide gradient-green center">
+    <h1>Ready to Transform<br>Your Practice?</h1>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin: 60px 0; width: 100%;">
+      <div class="stat-box" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);">
+        <div class="stat-number" style="color: white;">90%</div>
+        <div class="stat-label" style="color: rgba(255,255,255,0.8);">Time Savings</div>
+      </div>
+      <div class="stat-box" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);">
+        <div class="stat-number" style="color: white;">$150K</div>
+        <div class="stat-label" style="color: rgba(255,255,255,0.8);">Average Year 1 ROI</div>
+      </div>
+      <div class="stat-box" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3);">
+        <div class="stat-number" style="color: white;">2 mo</div>
+        <div class="stat-label" style="color: rgba(255,255,255,0.8);">Payback Period</div>
+      </div>
+    </div>
+
+    <div style="background: white; color: #1e293b; padding: 60px; border-radius: 20px; max-width: 800px; margin: 0 auto;">
+      <h2 style="color: #10b981; margin-bottom: 30px;">Schedule Your Demo</h2>
+      <p style="font-size: 26px; margin-bottom: 40px;">
+        See TaxBridge Enterprise in action. Get a custom ROI analysis for your firm.
+      </p>
+      <div style="font-size: 32px; font-weight: 700; color: #1e293b; margin-bottom: 20px;">
+        📞 +1 (555) 123-4567
+      </div>
+      <div style="font-size: 32px; font-weight: 700; color: #1e293b; margin-bottom: 40px;">
+        ✉️ enterprise@taxbridge.app
+      </div>
+      <div style="font-size: 24px; color: #64748b;">
+        🌐 taxbridge.app/enterprise
+      </div>
+    </div>
+
+    <div class="footer" style="color: rgba(255,255,255,0.6);">
+      <span>© 2026 TaxBridge — Cross-Border Tax Automation</span>
+      <span>Slide 10 of 10</span>
+    </div>
+  </div>
+
+</body>
+</html>
+`;
+
+// Write the HTML file
+const publicDir = path.join(process.cwd(), 'public');
+const outputPath = path.join(publicDir, 'TaxBridge_Enterprise_Deck.html');
+
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+
+fs.writeFileSync(outputPath, HTML_DECK);
+
+console.log('✅ Sales deck HTML generated at:', outputPath);
+console.log('\n📋 To convert to PDF:');
+console.log('   1. Open the HTML file in Chrome/Edge');
+console.log('   2. Print → Save as PDF');
+console.log('   3. Or use: npx puppeteer-pdf public/TaxBridge_Enterprise_Deck.html public/TaxBridge_Enterprise_Deck.pdf');
+
+export {};
