@@ -1,11 +1,16 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import { DollarSign, TrendingUp, FileCheck, AlertCircle } from 'lucide-react';
 import { StatsCard } from '@/components/dashboard/stats-card';
 import { RSUList } from '@/components/dashboard/rsu-list';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { DashboardTour } from '@/components/dashboard/dashboard-tour';
 import { RSUEntryRow } from '@/lib/db';
+import { trackEvent, trackRevenue } from '@/lib/analytics/posthog';
+import { toast } from '@/hooks/use-toast';
 
 interface DashboardContentProps {
   rsuEvents: RSUEntryRow[];
@@ -26,6 +31,54 @@ export function DashboardContent({
   allTimeTotal,
   currentYear,
 }: DashboardContentProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { user } = useUser();
+
+  // Track subscription completion from Stripe checkout
+  useEffect(() => {
+    const upgrade = searchParams.get('upgrade');
+
+    if (upgrade === 'success') {
+      // Track subscription activation in PostHog
+      const tier = (user?.publicMetadata?.subscriptionTier as string) || 'pro';
+      const revenue = tier === 'enterprise' ? 2000 : 299;
+
+      trackEvent('subscription_activated', {
+        plan: tier,
+        revenue,
+        currency: 'USD',
+        billingInterval: 'annual',
+        funnelStep: 'Subscription Activated',
+        funnelStepNumber: 7,
+        userId: user?.id,
+      });
+
+      // Track revenue event
+      trackRevenue(revenue, tier as 'pro' | 'enterprise', 'subscription_activated');
+
+      // Show success toast
+      toast({
+        title: '🎉 Subscription activated!',
+        description: `Welcome to TaxBridge ${tier === 'enterprise' ? 'Enterprise' : 'Pro'}! Your account has been upgraded.`,
+        duration: 8000,
+      });
+
+      // Clean up URL
+      router.replace('/dashboard');
+    }
+  }, [searchParams, router, user]);
+
+  // Track dashboard view
+  useEffect(() => {
+    trackEvent('dashboard_viewed', {
+      page: '/dashboard',
+      userId: user?.id,
+      userTier: (user?.publicMetadata?.subscriptionTier as string) || 'free',
+      rsuCount: rsuEvents.length,
+    });
+  }, [user, rsuEvents.length]);
+
   return (
     <>
       <DashboardTour />
