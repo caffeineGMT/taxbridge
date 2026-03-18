@@ -65,7 +65,11 @@
     "collect:testimonials:dry-run": "tsx scripts/collect-testimonials.ts --dry-run",
     "db:migrate:api-keys": "tsx scripts/migrate-api-keys.ts",
     "demo:rippling": "tsx scripts/rippling-demo-integration.ts",
-    "demo:gusto": "tsx scripts/gusto-demo-integration.ts"
+    "demo:gusto": "tsx scripts/gusto-demo-integration.ts",
+    "db:migrate:conference-leads": "tsx scripts/migrate-conference-leads.ts",
+    "conference:assets": "tsx scripts/generate-booth-assets.ts",
+    "conference:followup": "tsx scripts/conference-followup-cron.ts",
+    "conference:followup:dry-run": "tsx scripts/conference-followup-cron.ts --dry-run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
