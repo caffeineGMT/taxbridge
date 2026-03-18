@@ -1,13 +1,32 @@
 'use client';
 
-import { useState } from 'react';
-import { Calculator, TrendingUp, DollarSign, Clock, Users, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Calculator, TrendingUp, DollarSign, Clock, Users, CheckCircle2, Share2, Copy, Building2 } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export default function ROICalculatorPage() {
+  const searchParams = useSearchParams();
+
   const [clientCount, setClientCount] = useState<number>(50);
   const [hoursPerClient, setHoursPerClient] = useState<number>(5);
   const [hourlyRate, setHourlyRate] = useState<number>(100);
+  const [firmName, setFirmName] = useState<string>('');
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Load values from URL params on mount
+  useEffect(() => {
+    const urlClients = searchParams.get('clients');
+    const urlHours = searchParams.get('hours');
+    const urlRate = searchParams.get('rate');
+    const urlFirm = searchParams.get('firm');
+
+    if (urlClients) setClientCount(Math.max(1, parseInt(urlClients) || 50));
+    if (urlHours) setHoursPerClient(Math.max(0.5, parseFloat(urlHours) || 5));
+    if (urlRate) setHourlyRate(Math.max(50, parseInt(urlRate) || 100));
+    if (urlFirm) setFirmName(decodeURIComponent(urlFirm));
+  }, [searchParams]);
 
   // Calculations
   const totalHoursSaved = clientCount * hoursPerClient;
@@ -16,6 +35,25 @@ export default function ROICalculatorPage() {
   const netROI = costSavings - taxBridgeCost;
   const roiPercentage = taxBridgeCost > 0 ? Math.round((netROI / taxBridgeCost) * 100) : 0;
   const paybackMonths = taxBridgeCost > 0 ? Math.max(1, Math.round((taxBridgeCost / costSavings) * 12)) : 0;
+
+  // Generate shareable URL
+  const generateShareURL = () => {
+    const baseURL = typeof window !== 'undefined' ? window.location.origin : '';
+    const params = new URLSearchParams({
+      clients: clientCount.toString(),
+      hours: hoursPerClient.toString(),
+      rate: hourlyRate.toString(),
+    });
+    if (firmName) params.set('firm', encodeURIComponent(firmName));
+    return `${baseURL}/enterprise/calculator?${params.toString()}`;
+  };
+
+  const copyToClipboard = () => {
+    const url = generateShareURL();
+    navigator.clipboard.writeText(url);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -66,6 +104,21 @@ export default function ROICalculatorPage() {
             <h2 className="text-2xl font-bold text-slate-100 mb-6">Your Firm's Details</h2>
 
             <div className="space-y-6">
+              {/* Firm Name */}
+              <div>
+                <label className="flex items-center gap-2 text-slate-300 text-sm font-medium mb-2">
+                  <Building2 className="h-4 w-4 text-purple-500" />
+                  Firm Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., Berry Appleman & Leiden LLP"
+                  value={firmName}
+                  onChange={(e) => setFirmName(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
               {/* Client Count */}
               <div>
                 <label className="flex items-center gap-2 text-slate-300 text-sm font-medium mb-2">
@@ -249,8 +302,62 @@ export default function ROICalculatorPage() {
             >
               Request Demo — Save ${netROI.toLocaleString()} This Year
             </Link>
+
+            {/* Share Button */}
+            <button
+              onClick={() => setShowShareModal(true)}
+              className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <Share2 className="h-4 w-4" />
+              Share This Calculation
+            </button>
           </div>
         </div>
+
+        {/* Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-slate-900 border border-slate-700 rounded-lg max-w-lg w-full p-6">
+              <h3 className="text-xl font-bold text-slate-100 mb-4">Share ROI Calculation</h3>
+              <p className="text-slate-400 text-sm mb-6">
+                Share this custom ROI calculation with your team or prospects. The URL will pre-fill all values.
+              </p>
+
+              <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 mb-4">
+                <div className="flex items-center justify-between gap-3">
+                  <input
+                    type="text"
+                    readOnly
+                    value={generateShareURL()}
+                    className="flex-1 bg-transparent text-slate-300 text-sm focus:outline-none"
+                  />
+                  <button
+                    onClick={copyToClipboard}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                  >
+                    <Copy className="h-4 w-4" />
+                    {copySuccess ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowShareModal(false)}
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium py-2 px-4 rounded-lg transition-colors"
+                >
+                  Close
+                </button>
+                <a
+                  href={`mailto:?subject=${encodeURIComponent(`TaxBridge ROI Calculator${firmName ? ` - ${firmName}` : ''}`)}&body=${encodeURIComponent(`Check out this ROI calculation for TaxBridge Enterprise:\n\n${generateShareURL()}`)}`}
+                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-center"
+                >
+                  Email Link
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Case Study */}
         <div className="max-w-5xl mx-auto mt-16 bg-gradient-to-br from-slate-900/50 to-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-8">

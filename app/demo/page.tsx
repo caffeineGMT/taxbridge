@@ -169,17 +169,25 @@ export default function DemoPage() {
       <div className="relative bg-amber-600/20 border-b border-amber-600/30 py-3 px-6">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">DEMO</div>
+            <div className="bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">DEMO MODE</div>
             <span className="text-amber-100 text-sm">
-              This is a demo account. Sign up to manage real client data.
+              Explore TaxBridge Enterprise with pre-loaded sample data. All client information is fictional.
             </span>
           </div>
-          <button
-            onClick={startTour}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
-          >
-            Start Interactive Tour
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={startTour}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
+            >
+              Start Interactive Tour
+            </button>
+            <a
+              href="/enterprise/request-demo"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
+            >
+              Request Live Demo
+            </a>
+          </div>
         </div>
       </div>
 
