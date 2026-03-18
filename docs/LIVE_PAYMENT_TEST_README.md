@@ -460,128 +460,143 @@ Customers:   https://dashboard.stripe.com/customers
 
 ---
 
-## 🐛 Troubleshooting
-
-### Problem: Verification script not found
-
-```bash
-# Make sure you're in project root
-pwd  # Should show: .../cross-border-tax
-
-# Install dependencies if needed
-npm install
-```
-
-### Problem: Database not found
-
-```bash
-# Check database exists
-ls -la data/taxbridge.db
-
-# If missing, verify production database path
-echo $DATABASE_PATH
-```
-
-### Problem: User not found
-
-```bash
-# Check all users
-sqlite3 data/taxbridge.db "SELECT id, email FROM user_profiles;"
-
-# Search by partial email
-sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%test%';"
-```
-
-### Problem: Webhook not delivering
-
-```bash
-# Check webhook configuration
-vercel env ls production | grep WEBHOOK
-
-# Check Stripe webhook endpoint
-# https://dashboard.stripe.com/webhooks
-
-# Manual webhook test
-# In Stripe Dashboard → Webhooks → Select endpoint → "Send test webhook"
-```
-
----
-
 ## 💰 Cost Breakdown
 
-| Item | Amount | Refundable |
-|------|--------|------------|
-| Pro Plan Charge | $299.00 | ✅ Yes |
-| Stripe Processing Fee | ~$0.30 | ❌ No |
-| **Net Cost** | **~$0.30** | - |
+| Item | Amount | Refundable | Notes |
+|------|--------|------------|-------|
+| Pro Plan Charge | $299.00 | ✅ Yes | Charged in Part 2, refunded in Part 5 |
+| Stripe Processing Fee | ~$0.30 | ❌ No | Non-refundable transaction fee |
+| **Net Cost** | **~$0.30** | - | **Total cost to validate production payments** |
 
-**Note**: The $299 charge is fully refunded, but Stripe keeps the processing fee (~$0.30).
+**Note**: The $299 charge is fully refunded, but Stripe keeps the processing fee (~$0.30). This is expected and acceptable for validating the entire payment flow in production.
 
 ---
 
 ## ✅ Success Criteria
 
-Test is successful when ALL of these are true:
+Test is successful when **ALL** of these are true:
 
-- [x] Real card charged $299.00
-- [x] Payment shows "Succeeded" in Stripe
-- [x] Webhook delivered with 200 response
-- [x] Database tier upgraded to 'pro'
-- [x] Pro features accessible (RSU, PDF, badge)
-- [x] Refund processed successfully
-- [x] Database tier downgraded to 'free'
-- [x] User data preserved (RSU entries intact)
-- [x] No errors in Vercel logs
-- [x] No webhook delivery failures
+- [ ] Real credit card charged $299.00 (not test card 4242...)
+- [ ] Payment shows "Succeeded" in Stripe Dashboard
+- [ ] Webhook `checkout.session.completed` delivered with HTTP 200
+- [ ] Database tier upgraded to 'pro' within 30 seconds
+- [ ] Pro features accessible (unlimited RSU entries, PDF export, Pro badge)
+- [ ] 5+ RSU entries created (proves unlimited feature works)
+- [ ] Refund processed successfully ($299 returned to card)
+- [ ] Webhook `customer.subscription.deleted` delivered with HTTP 200
+- [ ] Database tier downgraded to 'free'
+- [ ] User data preserved (RSU entries intact, count unchanged)
+- [ ] No errors in Vercel production logs
+- [ ] No webhook delivery failures (both events 200 OK)
+
+**Pass Rate**: 12/12 required for sign-off
 
 ---
 
-## 🚀 After Test Completion
+## 🚀 After Test Passes
 
-### Immediate Actions
+### Immediate Actions (5 minutes)
 
-1. **Archive test account**
+1. **Document results**
+   - Fill out: `docs/LIVE_PAYMENT_TEST_REPORT.md`
+   - Include all payment IDs, webhook event IDs, timestamps
+   - Note any issues encountered (even if resolved)
+
+2. **Archive test account** (don't delete - keep for audit)
    ```bash
-   sqlite3 data/taxbridge.db "UPDATE user_profiles SET email='archived_livetest@taxbridge.test' WHERE email LIKE '%livetest%';"
+   sqlite3 data/taxbridge.db "UPDATE user_profiles SET email='archived_livetest_2026-03-18@taxbridge.test' WHERE email LIKE '%livetest%';"
    ```
 
-2. **Commit test results**
+3. **Commit test results**
    ```bash
-   git add docs/LIVE_PAYMENT_TEST_REPORT.md screenshots/
-   git commit -m "Complete live payment test - production validation passed"
+   git add docs/LIVE_PAYMENT_TEST_REPORT.md
+   git add scripts/verify-payment-test-prerequisites.ts
+   git add scripts/payment-test-db-queries.sql
+   git add docs/LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md
+   git add docs/LIVE_PAYMENT_TEST_README.md
+   git commit -m "Complete live payment test - production payment flow validated"
    git push origin main
    ```
 
-3. **Enable production payments**
-   - Remove any test mode warnings
-   - Enable payment CTAs for all users
-   - Monitor first 10 real payments closely
+### Enable Revenue (10 minutes)
 
-### Next Steps
+4. **Remove test mode restrictions**
+   - Verify no "test mode" banners in production
+   - Ensure all payment CTAs are visible to users
+   - Remove any beta access restrictions
 
-- [ ] Set up payment monitoring alerts
-- [ ] Configure Stripe fraud detection
-- [ ] Enable Google Ads conversion tracking
-- [ ] Launch customer onboarding flow
-- [ ] Announce payment acceptance
-- [ ] Update Product Hunt listing
+5. **Set up monitoring alerts**
+   - Stripe webhook failures (email notifications)
+   - Payment success rate < 95% (Sentry alert)
+   - Subscription churn rate > 5% (weekly email)
+
+6. **Launch revenue-generating activities**
+   - Product Hunt launch (see docs/PRODUCT_HUNT_LAUNCH.md)
+   - Google Ads campaign ($500/month budget)
+   - Social media announcement (LinkedIn, Twitter)
+
+### Target Metrics (48 hours)
+
+- **First paying customer**: Within 24 hours
+- **10 paying customers**: Within 48 hours
+- **$3,000 MRR**: Within 7 days
+- **$10,000 MRR**: Within 30 days
 
 ---
 
-## 📞 Support
+## 📂 Package Files
 
-**Stripe Dashboard**: https://dashboard.stripe.com
-**Vercel Dashboard**: https://vercel.com/dashboard
-**Production App**: https://taxbridge.app
+```
+docs/
+├── LIVE_PAYMENT_TEST_README.md              ← Overview & status (this file)
+├── LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md     ← Step-by-step instructions (20-30 min)
+└── LIVE_PAYMENT_TEST_REPORT.md              ← Test results template (fill during test)
 
-**Files**:
-- Main Guide: `docs/LIVE_PAYMENT_TEST_GUIDE.md`
-- Test Report: `docs/LIVE_PAYMENT_TEST_REPORT.md`
-- Verification Script: `scripts/verify-live-payment-test.ts`
-- Quick Check: `scripts/live-test-quick-check.sh`
+scripts/
+├── verify-payment-test-prerequisites.ts     ← Pre-flight checker (npm run verify:payment-test)
+└── payment-test-db-queries.sql              ← Database verification queries (all checkpoints)
+
+package.json
+└── "verify:payment-test": "tsx scripts/verify-payment-test-prerequisites.ts"
+```
+
+---
+
+## 📞 Questions & Support
+
+**Verification failed?** Run `npm run verify:payment-test` for detailed error messages
+
+**Execution questions?** See `docs/LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md` (comprehensive 7-part guide)
+
+**Database queries?** See `scripts/payment-test-db-queries.sql` (ready to copy-paste)
+
+**Stripe issues?** Check webhook delivery in dashboard: https://dashboard.stripe.com/webhooks
+
+**Vercel issues?** Check logs: `vercel logs https://cross-border-tax.vercel.app --since=1h`
+
+---
+
+## 🎯 Summary
+
+**Current Status**: ⏸️ **Task 4 preparation complete, blocked by Task 3**
+
+**Blockers**:
+- ❌ Stripe in TEST mode (need production keys)
+- ❌ NEXT_PUBLIC_APP_URL = localhost (need production domain)
+
+**Ready**:
+- ✅ Database schema and infrastructure
+- ✅ Webhook endpoint code
+- ✅ Verification scripts
+- ✅ Execution guide
+- ✅ Test report template
+
+**Next Step**: Complete Task 3 (Stripe Production Activation), then re-run `npm run verify:payment-test`
+
+**Time to Revenue**: ~1-2 hours (Task 3: 30-45 min, Task 4: 20-30 min, Launch: 10 min)
 
 ---
 
 **Last Updated**: 2026-03-18
-**Test Version**: 1.0
-**Ready for Production**: ✅ YES
+**Package Version**: 1.0
+**Status**: ⏸️ Awaiting Task 3 completion
