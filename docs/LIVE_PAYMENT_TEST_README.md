@@ -262,67 +262,103 @@ sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%livete
 - [x] Database access
 - [x] Unique test email prepared (youremail+livetest-MMDD@gmail.com)
 
-### During Test
+### ✅ During Test (Once Unblocked)
 
-- [ ] Part 1: Create account (free tier)
-- [ ] Part 2: Complete checkout ($299 charge)
-- [ ] Part 3: Verify payment in Stripe
-- [ ] Part 4: Verify webhook delivery
-- [ ] Part 5: Test Pro features (RSU, PDF, badge)
-- [ ] Part 6: Process full refund
-- [ ] Part 7: Verify downgrade (free tier)
+- [ ] Part 1: Create test account (5 min)
+- [ ] Part 2: Execute live payment - $299 charge (3 min)
+- [ ] Part 3: Verify webhook & database update (5 min)
+- [ ] Part 4: Test Pro features - RSU, PDF, badge (5 min)
+- [ ] Part 5: Process full refund (3 min)
+- [ ] Part 6: Verify downgrade to free tier (5 min)
+- [ ] Part 7: Final verification & cleanup (3 min)
 
-### After Test
+**Total Duration**: 20-30 minutes
 
-- [ ] All 9 screenshots captured
-- [ ] Test report filled out
-- [ ] No errors in logs
+### ✅ After Test Completion
+
+- [ ] Test report filled out (docs/LIVE_PAYMENT_TEST_REPORT.md)
+- [ ] Screenshots captured (if needed for documentation)
+- [ ] No errors in Vercel production logs
 - [ ] Test account archived (not deleted)
-- [ ] Results documented in git
+- [ ] Results committed to git
+- [ ] Team notified that payments are validated
 
 ---
 
-## 💡 Usage Examples
+## ⏱️ Timeline to Revenue
 
-### Scenario 1: First-time test execution
-
-```bash
-# 1. Read the guide
-open docs/LIVE_PAYMENT_TEST_GUIDE.md
-
-# 2. Create test account at https://taxbridge.app/sign-up
-# Email: youremail+livetest@gmail.com
-
-# 3. Verify account created
-tsx scripts/verify-live-payment-test.ts livetest
-
-# 4. Complete checkout (follow guide)
-
-# 5. Check status after payment
-./scripts/live-test-quick-check.sh livetest
-
-# 6. Continue following guide...
+### Current Status (2026-03-18)
+```
+You are here: ⏸️ Task 4 preparation complete, but blocked by Task 3
 ```
 
-### Scenario 2: Resume interrupted test
+### Estimated Timeline
 
-```bash
-# Check where you left off
-./scripts/live-test-quick-check.sh livetest
+**Task 3: Stripe Production Activation** (30-45 minutes)
+- Switch Stripe to production mode
+- Copy production API keys
+- Run setup script to create products
+- Create webhook endpoint
+- Update Vercel environment variables
+- Redeploy
+- Verify with `npm run verify:payment-test`
 
-# Output will show current stage and next action
-```
+**Task 4: Live Payment Test** (20-30 minutes)
+- Execute comprehensive payment flow test
+- Verify charge, upgrade, features, refund, downgrade
+- Document results
+- Sign off on production readiness
 
-### Scenario 3: Verify refund processed
+**Revenue Activation** (5 minutes)
+- Enable payment CTAs for all users
+- Remove any "test mode" warnings
+- Monitor first customer payment
 
-```bash
-# Wait 5 minutes after refund, then check
-tsx scripts/verify-live-payment-test.ts livetest
+**Total Time to Revenue**: ~1-2 hours from now
 
-# Should show:
-#   Tier: FREE
-#   Status: canceled
-```
+---
+
+## 🎯 Next Steps
+
+### Immediate (Required Before Test)
+
+1. **Complete Task 3** - Stripe Production Activation
+   - Follow guide from commit 612f406
+   - Estimated time: 30-45 minutes
+
+2. **Update Vercel environment variables**
+   - STRIPE_SECRET_KEY → sk_live_...
+   - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY → pk_live_...
+   - STRIPE_PRO_PRICE_ID → price_...
+   - STRIPE_WEBHOOK_SECRET → whsec_...
+   - NEXT_PUBLIC_APP_URL → https://cross-border-tax.vercel.app
+
+3. **Redeploy to production**
+   ```bash
+   git push origin main
+   ```
+
+4. **Re-run verification**
+   ```bash
+   npm run verify:payment-test
+   # Should show: ✅ ALL PREREQUISITES MET
+   ```
+
+### After Unblocking
+
+5. **Execute live payment test**
+   - Follow: docs/LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md
+   - Duration: 20-30 minutes
+   - Cost: $0 net (charge + refund, ~$0.30 Stripe fee)
+
+6. **Document results**
+   - Fill out: docs/LIVE_PAYMENT_TEST_REPORT.md
+   - Commit results to git
+
+7. **Enable revenue**
+   - Remove test mode restrictions
+   - Launch marketing campaigns (Product Hunt, Google Ads)
+   - Monitor first customer payments
 
 ---
 
