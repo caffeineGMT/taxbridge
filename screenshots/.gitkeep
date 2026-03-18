@@ -1,0 +1,15 @@
+# Screenshots Directory
+
+Save all test screenshots here during live payment test:
+
+1. `01-account-creation.png` - Signup confirmation
+2. `02-payment-success.png` - Payment success page
+3. `03-stripe-payment.png` - Stripe Dashboard payment details
+4. `04-webhook-success.png` - Stripe webhook delivery success
+5. `05-database-upgrade.png` - Terminal showing tier upgrade
+6. `06-pro-features.png` - Dashboard with Pro features active
+7. `07-refund-success.png` - Stripe Dashboard refund confirmation
+8. `08-downgrade.png` - Terminal showing tier downgrade
+9. `09-free-tier-ui.png` - Dashboard after downgrade to free
+
+**Tip**: Use ⌘+Shift+4 (Mac) or Windows+Shift+S (Windows) for screenshots.

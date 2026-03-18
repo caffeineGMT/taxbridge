@@ -1,0 +1,25 @@
+{
+  "productId": "mock-product-id",
+  "productSlug": "taxbridge",
+  "launchDate": "2026-03-18T22:38:44.425Z",
+  "targetUpvotes": 500,
+  "targetRanking": 3,
+  "metrics": [
+    {
+      "timestamp": "2026-03-18T22:38:44.427Z",
+      "hour": 0,
+      "ranking": 12,
+      "upvotes": 51,
+      "comments": 10,
+      "websiteClicks": 178,
+      "velocity": 51,
+      "projectedFinalUpvotes": 1275,
+      "estimatedFinalRanking": 1,
+      "actions": [
+        "🚀 Launch! Post first comment within 2 minutes",
+        "Pin maker comment"
+      ],
+      "alerts": []
+    }
+  ]
+}

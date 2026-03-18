@@ -16,6 +16,7 @@
 import Stripe from 'stripe';
 import { getDatabase } from '../lib/db';
 import * as dotenv from 'dotenv';
+import * as crypto from 'crypto';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -431,7 +432,8 @@ async function testPaymentWithCard(
 }
 
 // ============================================================================
-// STEP 4: WEBHOOK PROCESSING SIMULATION
+// STEP 4: REAL WEBHOOK ENDPOINT TEST
+// Now calls the ACTUAL webhook endpoint instead of simulating DB updates
 // ============================================================================
 
 async function testWebhookProcessing(
@@ -439,26 +441,125 @@ async function testWebhookProcessing(
   subscriptionId: string,
   userId: number
 ) {
-  logSection('STEP 4: Webhook Processing → checkout.session.completed');
+  logSection('STEP 4: Real Webhook Endpoint → POST /api/stripe/webhook');
 
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+
+    // Construct a real Stripe webhook event payload
+    const event = {
+      id: `evt_test_${Date.now()}`,
+      object: 'event',
+      api_version: '2026-02-25',
+      created: Math.floor(Date.now() / 1000),
+      type: 'checkout.session.completed',
+      data: {
+        object: {
+          id: `cs_test_${Date.now()}`,
+          object: 'checkout.session',
+          customer: customerId,
+          subscription: subscriptionId,
+          payment_status: 'paid',
+          status: 'complete',
+          metadata: {
+            user_id: userId.toString(),
+            tier: 'pro',
+          },
+        },
+      },
+    };
+
+    const payload = JSON.stringify(event);
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    // Generate Stripe signature (same algorithm Stripe uses)
+    const signedPayload = `${timestamp}.${payload}`;
+    const signature = crypto
+      .createHmac('sha256', webhookSecret)
+      .update(signedPayload)
+      .digest('hex');
+
+    const stripeSignature = `t=${timestamp},v1=${signature}`;
+
+    log('  📡 Sending POST request to webhook endpoint...', 'cyan');
+    log(`  🔗 URL: ${baseUrl}/api/stripe/webhook`, 'cyan');
+
+    // Make actual HTTP POST to webhook endpoint with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+    let response;
+    try {
+      response = await fetch(`${baseUrl}/api/stripe/webhook`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'stripe-signature': stripeSignature,
+        },
+        body: payload,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if ((fetchError as Error).name === 'AbortError') {
+        addResult(
+          'Webhook HTTP Call',
+          false,
+          'Webhook request timed out after 10 seconds',
+          { endpoint: `${baseUrl}/api/stripe/webhook` }
+        );
+      } else {
+        addResult(
+          'Webhook HTTP Call',
+          false,
+          `Failed to connect to webhook endpoint: ${(fetchError as Error).message}`,
+          { endpoint: `${baseUrl}/api/stripe/webhook` }
+        );
+      }
+      return { success: false, profile: null };
+    }
+
+    let responseData;
+    try {
+      responseData = await response.json();
+    } catch (jsonError) {
+      const text = await response.text();
+      responseData = { raw: text };
+    }
+
+    if (!response.ok) {
+      addResult(
+        'Webhook HTTP Call',
+        false,
+        `Webhook endpoint returned ${response.status}: ${JSON.stringify(responseData)}`,
+        {
+          status: response.status,
+          response: responseData,
+          eventType: event.type,
+          endpoint: `${baseUrl}/api/stripe/webhook`,
+        }
+      );
+      return { success: false, profile: null };
+    }
+
+    addResult(
+      'Webhook HTTP Call',
+      true,
+      `Webhook endpoint accepted event (${response.status} ${response.statusText})`,
+      {
+        status: response.status,
+        response: responseData,
+        eventType: event.type,
+      }
+    );
+
+    // Wait for async DB update to complete
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    // Verify database was updated correctly by the webhook handler
     const db = getDatabase();
-
-    // Simulate webhook handler updating database
-    // (app/api/stripe/webhook/route.ts lines 99-107)
-    const updateStmt = db.prepare(`
-      UPDATE user_profiles
-      SET subscription_tier = ?,
-          stripe_customer_id = ?,
-          stripe_subscription_id = ?,
-          subscription_status = 'active',
-          updated_at = unixepoch()
-      WHERE id = ?
-    `);
-
-    updateStmt.run('pro', customerId, subscriptionId, userId);
-
-    // Verify database was updated correctly
     const updatedProfile = db.prepare(`
       SELECT * FROM user_profiles WHERE id = ?
     `).get(userId) as any;
@@ -470,11 +571,11 @@ async function testWebhookProcessing(
                    updatedProfile.subscription_status === 'active';
 
     addResult(
-      'Webhook Processing',
+      'Webhook DB Update',
       success,
       success
-        ? 'Database updated successfully with Pro subscription'
-        : 'Database update failed or incomplete',
+        ? 'Webhook successfully updated database with Pro subscription'
+        : 'Webhook accepted but database not updated correctly',
       {
         userId,
         subscriptionTier: updatedProfile?.subscription_tier,
@@ -489,7 +590,7 @@ async function testWebhookProcessing(
     addResult(
       'Webhook Processing',
       false,
-      'Exception during webhook processing simulation',
+      'Exception during webhook endpoint test',
       {},
       error instanceof Error ? error.message : String(error)
     );

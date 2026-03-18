@@ -4,7 +4,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
@@ -17,10 +16,8 @@ import * as Sentry from '@sentry/nextjs';
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
 
-
   const body = await req.text();
-  const headersList = await headers();
-  const signature = headersList.get('stripe-signature');
+  const signature = req.headers.get('stripe-signature');
 
   if (!signature) {
     logger.warn('Stripe webhook: missing signature', {

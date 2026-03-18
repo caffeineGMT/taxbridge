@@ -30,7 +30,17 @@
     "stripe:quickstart": "tsx scripts/stripe-production-quickstart.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",
     "seo:verify": "tsx scripts/verify-seo-pages.ts",
-    "capture:screenshots": "tsx scripts/capture-screenshots.ts"
+    "capture:screenshots": "tsx scripts/capture-screenshots-playwright.ts",
+    "launch:monitor": "tsx scripts/monitor-product-hunt.ts",
+    "launch:watch": "tsx scripts/monitor-product-hunt.ts --watch",
+    "launch:start-cron": "tsx lib/cron/product-hunt-monitor.ts",
+    "launch:init": "tsx scripts/community-posting/execute-launch.ts",
+    "launch:mark-posted": "tsx scripts/community-posting/mark-posted.ts",
+    "launch:update-metrics": "tsx scripts/community-posting/update-metrics.ts",
+    "launch:dashboard": "tsx scripts/community-posting/dashboard.ts",
+    "launch:check-responses": "tsx scripts/community-posting/check-responses.ts",
+    "create:hunt20": "tsx scripts/create-hunt20-promo.ts",
+    "test:hunt20": "tsx scripts/test-hunt20-code.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
@@ -88,6 +98,7 @@
     "dotenv": "^17.3.1",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.1.7",
+    "playwright": "^1.58.2",
     "puppeteer": "^24.39.1",
     "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
