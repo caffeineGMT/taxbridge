@@ -127,8 +127,8 @@ const FEATURE_COMPARISON = [
 export default function PricingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [loadingTier, setLoadingTier] = useState&lt;string | null&gt;(null);
-  const [billingCycle, setBillingCycle] = useState&lt;'monthly' | 'annual'&gt;('annual');
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual');
 
   // Handle upgrade success/cancel from URL params
   useEffect(() => {

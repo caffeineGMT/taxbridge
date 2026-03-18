@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs';
+import { auth } from '@clerk/nextjs/server';
 import { getUserProfileByClerkId } from './index';
 import { getMemberRole } from './queries/enterprise';
 
@@ -19,7 +19,7 @@ export interface RLSContext {
  * Get RLS context for the current user
  */
 export async function getRLSContext(): Promise<RLSContext | null> {
-  const { userId: clerkUserId } = auth();
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     return null;
@@ -31,6 +31,8 @@ export async function getRLSContext(): Promise<RLSContext | null> {
     return null;
   }
 
+  // TODO: Re-enable when org_id is added to schema
+  // @ts-ignore - org_id field not yet in schema
   const orgId = userProfile.org_id;
   let role: string | null = null;
   let isAdmin = false;

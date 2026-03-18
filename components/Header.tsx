@@ -92,7 +92,6 @@ export default function Header() {
           </Link>
 
           <UserButton
-            afterSignOutUrl="/"
             appearance={{
               elements: {
                 avatarBox: 'w-9 h-9',

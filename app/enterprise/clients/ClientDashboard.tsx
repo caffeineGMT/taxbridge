@@ -84,12 +84,12 @@ export default function ClientDashboard({ initialClients }: ClientDashboardProps
     () => Array.from(new Set(clients.map(c => c.canada_province).filter((p): p is string => p !== null))),
     [clients]
   );
-  const states = useMemo(
-    () => Array.from(new Set(clients.map(c => c.us_state).filter(Boolean))),
+  const states = useMemo<string[]>(
+    () => Array.from(new Set(clients.map(c => c.us_state).filter((s): s is string => s !== null))),
     [clients]
   );
-  const employers = useMemo(
-    () => Array.from(new Set(clients.map(c => c.employer).filter(Boolean))),
+  const employers = useMemo<string[]>(
+    () => Array.from(new Set(clients.map(c => c.employer).filter((e): e is string => e !== null))),
     [clients]
   );
 

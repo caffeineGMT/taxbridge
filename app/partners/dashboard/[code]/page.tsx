@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { currentUser } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs/server';
 import {
   Copy, Check, TrendingUp, Users, DollarSign, Clock,
   ExternalLink, Loader2,
