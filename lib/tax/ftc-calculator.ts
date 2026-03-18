@@ -116,8 +116,10 @@ export function calculateFTC(
   const canadaFirst_totalTax = canadaFirst_canadaTax + canadaFirst_usTaxAfterFTC;
 
   // **DETERMINE OPTIMAL STRATEGY**
+  // For Canadian tax residents (our target audience), prefer Canada-first when equal
+  // This simplifies filing as they must file Canada anyway, and US tax is fully eliminated
   const optimalStrategy: 'file-us-first' | 'file-canada-first' =
-    usFirst_totalTax <= canadaFirst_totalTax ? 'file-us-first' : 'file-canada-first';
+    usFirst_totalTax < canadaFirst_totalTax ? 'file-us-first' : 'file-canada-first';
 
   const totalTaxWithFTC = Math.min(usFirst_totalTax, canadaFirst_totalTax);
   const totalTaxWithoutFTC = usTax + canadaTax;
@@ -232,8 +234,9 @@ export function calculateFTCWithAllocation(
   const canadaFirst_usTaxAfterFTC = Math.max(0, usTax - canadaFirst_usFTC);
   const canadaFirst_totalTax = canadaFirst_canadaTax + canadaFirst_usTaxAfterFTC;
 
+  // Prefer Canada-first when equal (better for Canadian tax residents)
   const optimalStrategy: 'file-us-first' | 'file-canada-first' =
-    usFirst_totalTax <= canadaFirst_totalTax ? 'file-us-first' : 'file-canada-first';
+    usFirst_totalTax < canadaFirst_totalTax ? 'file-us-first' : 'file-canada-first';
 
   const totalTaxWithFTC = Math.min(usFirst_totalTax, canadaFirst_totalTax);
   const totalTaxWithoutFTC = usTax + canadaTax;

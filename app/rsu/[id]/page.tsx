@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { TaxComparison } from '@/components/tax/tax-comparison';
 import { FTCOptimizer } from '@/components/tax/ftc-optimizer';
 import { ArrowLeft, Building2, Calendar, DollarSign, TrendingUp } from 'lucide-react';
+import { ExportButton } from '@/components/export-button';
 
 interface PageProps {
   params: Promise<{
@@ -61,14 +62,20 @@ export default async function RSUDetailPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Back Button */}
-      <div className="mb-6">
+      {/* Back Button and Export */}
+      <div className="mb-6 flex items-center justify-between">
         <Link href="/dashboard">
           <Button variant="ghost" className="gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Button>
         </Link>
+        <ExportButton
+          rsuId={id}
+          variant="default"
+          size="default"
+          className="bg-blue-600 hover:bg-blue-700"
+        />
       </div>
 
       {/* RSU Details Header */}
