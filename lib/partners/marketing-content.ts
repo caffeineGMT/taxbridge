@@ -170,7 +170,7 @@ export function generateSocialPosts(
 ): SocialPost[] {
   return [
     {
-      platform: 'linkedin",
+      platform: 'linkedin',
       content: `Cross-border tax calculations don't have to be complicated.
 
 If you're an H-1B or TN visa holder with RSU income now living in Canada, calculating your tax obligations across both countries can take hours of manual work.
@@ -189,7 +189,7 @@ Try it free for 14 days: ${referralUrl}
       hashtags: ['CrossBorderTax', 'H1B', 'TNVisa', 'RSUTax', 'TaxPlanning']
     },
     {
-      platform: 'linkedin",
+      platform: 'linkedin',
       content: `Year-end tax tip for cross-border professionals:
 
 If you have RSU income from US tech companies (Meta, Amazon, Google, Microsoft) and you're now a Canadian resident, proper tax planning is essential.
@@ -226,7 +226,7 @@ Try it: ${referralUrl}
       hashtags: ['TaxTech', 'EquityComp']
     },
     {
-      platform: 'linkedin",
+      platform: 'linkedin',
       content: `Common mistake I see with cross-border clients:
 
 Not properly calculating Foreign Tax Credits, leading to double taxation on the same income.
