@@ -464,3 +464,6 @@ export function getCachedExchangeRate(date: string): number | undefined {
 
 // Export the database instance getter as default
 export default getDatabase;
+
+// Alias for compatibility
+export const getDb = getDatabase;

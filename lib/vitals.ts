@@ -1,8 +1,9 @@
-import { onCLS, onFID, onLCP, onFCP, onTTFB, Metric } from 'web-vitals';
+import { onCLS, onINP, onLCP, onFCP, onTTFB, Metric } from 'web-vitals';
 
 /**
  * Web Vitals tracking configuration
- * Captures Core Web Vitals (CLS, FID, LCP) and additional metrics (FCP, TTFB)
+ * Captures Core Web Vitals (CLS, INP, LCP) and additional metrics (FCP, TTFB)
+ * Note: INP (Interaction to Next Paint) replaced FID in March 2024
  */
 
 export interface VitalsPayload {
@@ -50,7 +51,7 @@ async function sendToAnalytics(metric: Metric) {
 export function reportWebVitals() {
   // Core Web Vitals
   onCLS(sendToAnalytics); // Cumulative Layout Shift
-  onFID(sendToAnalytics); // First Input Delay
+  onINP(sendToAnalytics); // Interaction to Next Paint (replaced FID)
   onLCP(sendToAnalytics); // Largest Contentful Paint
 
   // Additional metrics
@@ -63,7 +64,7 @@ export function reportWebVitals() {
  */
 export const VITALS_THRESHOLDS = {
   LCP: { good: 2500, poor: 4000 }, // Largest Contentful Paint (ms)
-  FID: { good: 100, poor: 300 }, // First Input Delay (ms)
+  INP: { good: 200, poor: 500 }, // Interaction to Next Paint (ms)
   CLS: { good: 0.1, poor: 0.25 }, // Cumulative Layout Shift (score)
   FCP: { good: 1800, poor: 3000 }, // First Contentful Paint (ms)
   TTFB: { good: 800, poor: 1800 }, // Time to First Byte (ms)

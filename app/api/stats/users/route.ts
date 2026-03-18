@@ -4,11 +4,11 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/db';
+import { getDatabase } from '@/lib/db';
 
 export async function GET() {
   try {
-    const db = getDb();
+    const db = getDatabase();
 
     // Get total user count
     const result = db.prepare('SELECT COUNT(*) as count FROM user_profiles').get() as { count: number };

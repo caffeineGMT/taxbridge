@@ -200,10 +200,28 @@ export default async function StatusPage() {
   );
 }
 
+interface Incident {
+  title: string;
+  description: string;
+  date: string;
+  severity: 'critical' | 'major' | 'minor';
+  resolved: boolean;
+  duration?: string;
+}
+
 /**
  * Fetch status data from monitoring service
  * In production, integrate with UptimeRobot API
  */
+type Incident = {
+  title: string;
+  description: string;
+  date: string;
+  severity: 'critical' | 'major' | 'minor';
+  resolved: boolean;
+  duration?: string;
+};
+
 async function getStatusData() {
   // Mock data - replace with actual UptimeRobot API calls in production
   return {
@@ -250,16 +268,16 @@ async function getStatusData() {
       { day: 'Sat', avgResponseTime: 138 },
       { day: 'Sun', avgResponseTime: 151 },
     ],
-    incidents: [
-      // No recent incidents - uncomment to show example
-      // {
-      //   title: 'Elevated API Response Times',
-      //   description: 'We experienced elevated response times on our API endpoints due to increased traffic.',
-      //   date: '2026-03-15',
-      //   severity: 'minor' as const,
-      //   resolved: true,
-      //   duration: '23 minutes',
-      // },
-    ],
+    incidents: [] as Incident[],
+    // incidents: [] as Incident[],
+    //   {
+    //     title: 'Elevated API Response Times',
+    //     description: 'We experienced elevated response times on our API endpoints due to increased traffic.',
+    //     date: '2026-03-15',
+    //     severity: 'minor' as const,
+    //     resolved: true,
+    //     duration: '23 minutes',
+    //   },
+    // ] as Incident[],
   };
 }
