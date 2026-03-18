@@ -1,8 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
-import { Home, DollarSign, Calculator, FileText, TrendingUp } from 'lucide-react';
+import { Home, DollarSign, Calculator, FileText, TrendingUp, Crown, CreditCard } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
+  const [subscriptionTier, setSubscriptionTier] = useState<string>('free');
+
+  useEffect(() => {
+    // Fetch user subscription tier
+    fetch('/api/user')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.user?.subscription_tier) {
+          setSubscriptionTier(data.user.subscription_tier);
+        }
+      })
+      .catch(() => {
+        // Ignore errors - just use default tier
+      });
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-6">
@@ -51,6 +70,27 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          {/* Subscription Badge */}
+          <Link
+            href="/dashboard/subscription"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105"
+            style={{
+              background: subscriptionTier === 'pro'
+                ? 'linear-gradient(to right, rgb(59 130 246), rgb(16 185 129))'
+                : subscriptionTier === 'enterprise'
+                ? 'linear-gradient(to right, rgb(168 85 247), rgb(236 72 153))'
+                : 'rgb(51 65 85)',
+              color: 'white',
+            }}
+          >
+            {subscriptionTier === 'pro' || subscriptionTier === 'enterprise' ? (
+              <Crown className="w-3.5 h-3.5" />
+            ) : (
+              <CreditCard className="w-3.5 h-3.5" />
+            )}
+            {subscriptionTier === 'pro' ? 'Pro' : subscriptionTier === 'enterprise' ? 'Enterprise' : 'Free'}
+          </Link>
+
           <UserButton
             afterSignOutUrl="/"
             appearance={{

@@ -81,8 +81,7 @@ export default async function MultiYearDashboard({
     const usFederalResult = calculateUSFederalTax(income, userProfile.filing_status as any);
     const usStateResult = calculateUSStateTax(
       income,
-      userProfile.us_state as any,
-      userProfile.filing_status as any
+      userProfile.us_state as any
     );
     const usTotalTax = usFederalResult.tax + usStateResult.tax;
 

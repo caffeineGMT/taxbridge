@@ -5,13 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select } from '@/components/ui/select';
 import { CheckCircle2, Circle, Sparkles, Database, ArrowRight, ArrowLeft } from 'lucide-react';
 
 const provinces = [
@@ -247,20 +241,18 @@ export function OnboardingWizard({ userName }: OnboardingWizardProps) {
                   <Label htmlFor="province" className="text-slate-300">
                     Canadian Province
                   </Label>
-                  <Select value={province} onValueChange={setProvince}>
-                    <SelectTrigger
-                      id="province"
-                      className="bg-slate-800 border-slate-700 text-slate-100"
-                    >
-                      <SelectValue placeholder="Select your province" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-slate-800 border-slate-700">
-                      {provinces.map((p) => (
-                        <SelectItem key={p.value} value={p.value} className="text-slate-100">
-                          {p.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select
+                    id="province"
+                    value={province}
+                    onChange={(e) => setProvince(e.target.value)}
+                    className="bg-slate-800 border-slate-700 text-slate-100"
+                  >
+                    <option value="">Select your province</option>
+                    {provinces.map((p) => (
+                      <option key={p.value} value={p.value}>
+                        {p.label}
+                      </option>
+                    ))}
                   </Select>
                   <p className="text-sm text-slate-500">Your current province of residence in Canada</p>
                 </div>
@@ -270,17 +262,18 @@ export function OnboardingWizard({ userName }: OnboardingWizardProps) {
                   <Label htmlFor="state" className="text-slate-300">
                     US State (for RSU income)
                   </Label>
-                  <Select value={state} onValueChange={setState}>
-                    <SelectTrigger id="state" className="bg-slate-800 border-slate-700 text-slate-100">
-                      <SelectValue placeholder="Select your US state" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-slate-800 border-slate-700">
-                      {states.map((s) => (
-                        <SelectItem key={s.value} value={s.value} className="text-slate-100">
-                          {s.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select
+                    id="state"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    className="bg-slate-800 border-slate-700 text-slate-100"
+                  >
+                    <option value="">Select your US state</option>
+                    {states.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))}
                   </Select>
                   <p className="text-sm text-slate-500">The state where you worked when RSUs vested</p>
                 </div>
@@ -290,20 +283,18 @@ export function OnboardingWizard({ userName }: OnboardingWizardProps) {
                   <Label htmlFor="filing-status" className="text-slate-300">
                     Filing Status
                   </Label>
-                  <Select value={filingStatus} onValueChange={setFilingStatus}>
-                    <SelectTrigger
-                      id="filing-status"
-                      className="bg-slate-800 border-slate-700 text-slate-100"
-                    >
-                      <SelectValue placeholder="Select your filing status" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-slate-800 border-slate-700">
-                      {filingStatuses.map((fs) => (
-                        <SelectItem key={fs.value} value={fs.value} className="text-slate-100">
-                          {fs.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select
+                    id="filing-status"
+                    value={filingStatus}
+                    onChange={(e) => setFilingStatus(e.target.value)}
+                    className="bg-slate-800 border-slate-700 text-slate-100"
+                  >
+                    <option value="">Select your filing status</option>
+                    {filingStatuses.map((fs) => (
+                      <option key={fs.value} value={fs.value}>
+                        {fs.label}
+                      </option>
+                    ))}
                   </Select>
                   <p className="text-sm text-slate-500">Your US tax filing status</p>
                 </div>

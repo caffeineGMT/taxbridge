@@ -4,8 +4,8 @@ import { getUserProfileByClerkId } from '@/lib/db';
 import { RSUEntryForm } from '@/components/rsu/rsu-entry-form';
 import Header from '@/components/Header';
 
-export default function RSUEntryPage() {
-  const { userId: clerkUserId } = auth();
+export default async function RSUEntryPage() {
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     redirect('/sign-in');

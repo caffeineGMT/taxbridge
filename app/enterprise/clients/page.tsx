@@ -7,7 +7,7 @@ import ClientDashboard from './ClientDashboard';
 import { Building2, Users } from 'lucide-react';
 
 export default async function EnterpriseClientsPage() {
-  const { userId: clerkUserId } = auth();
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     redirect('/sign-in');

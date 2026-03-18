@@ -15,7 +15,10 @@
     "db:migrate": "tsx scripts/run-migrations.ts",
     "db:migrate:subscription": "tsx scripts/migrate-subscription-schema.ts",
     "db:migrate:affiliate": "tsx scripts/migrate-affiliate-schema.ts",
-    "test:email-drip": "tsx scripts/test-email-drip.ts"
+    "test:email-drip": "tsx scripts/test-email-drip.ts",
+    "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
+    "setup:stripe": "tsx scripts/setup-stripe-products.ts",
+    "verify:stripe": "tsx scripts/verify-stripe-production.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
@@ -38,6 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "driver.js": "^1.4.0",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.577.0",
@@ -48,7 +52,6 @@
     "react-dom": "^18.3.0",
     "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.71.2",
-    "react-joyride": "^2.9.3",
     "recharts": "^3.8.0",
     "stripe": "^20.4.1",
     "svix": "^1.88.0",
@@ -63,6 +66,7 @@
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "@vitest/ui": "^2.0.0",
+    "dotenv": "^17.3.1",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.1.7",
     "tailwindcss": "^3.4.19",

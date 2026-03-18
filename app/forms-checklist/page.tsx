@@ -6,8 +6,8 @@ import { TAX_FORMS } from '@/lib/forms/forms-data';
 import { FormsChecklistClient } from './forms-checklist-client';
 import Header from '@/components/Header';
 
-export default function FormsChecklistPage() {
-  const { userId: clerkUserId } = auth();
+export default async function FormsChecklistPage() {
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     redirect('/sign-in');

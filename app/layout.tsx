@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { Suspense } from 'react';
 import ReferralTracker from '@/components/ReferralTracker';
+import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -37,6 +38,7 @@ export default function RootLayout({
             <ReferralTracker />
           </Suspense>
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

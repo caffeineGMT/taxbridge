@@ -6,9 +6,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Check, X, Loader2, Shield, Zap, Users, ArrowRight, Lock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Check, X, Loader2, Shield, Zap, Users, ArrowRight, Lock, CheckCircle, XCircle } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 // Pricing tiers
 const TIERS = [
@@ -125,8 +126,33 @@ const FEATURE_COMPARISON = [
 
 export default function PricingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loadingTier, setLoadingTier] = useState&lt;string | null&gt;(null);
   const [billingCycle, setBillingCycle] = useState&lt;'monthly' | 'annual'&gt;('annual');
+
+  // Handle upgrade success/cancel from URL params
+  useEffect(() => {
+    const upgrade = searchParams.get('upgrade');
+
+    if (upgrade === 'success') {
+      toast({
+        title: 'Subscription activated!',
+        description: 'Welcome to TaxBridge Pro! Your account has been upgraded.',
+        duration: 5000,
+      });
+      // Clean up URL
+      router.replace('/pricing');
+    } else if (upgrade === 'cancelled') {
+      toast({
+        title: 'Upgrade cancelled',
+        description: 'No charges were made. You can upgrade anytime.',
+        variant: 'destructive',
+        duration: 5000,
+      });
+      // Clean up URL
+      router.replace('/pricing');
+    }
+  }, [searchParams, router]);
 
   const handleUpgrade = async (tier: string, priceId: string | null) => {
     if (!priceId) {
@@ -147,7 +173,12 @@ export default function PricingPage() {
       const userResponse = await fetch('/api/user');
       if (!userResponse.ok) {
         // User not logged in, redirect to sign up
-        router.push('/sign-up');
+        toast({
+          title: 'Sign in required',
+          description: 'Please sign in to upgrade your account.',
+          variant: 'destructive',
+        });
+        setTimeout(() => router.push('/sign-up'), 1500);
         return;
       }
 
@@ -170,18 +201,33 @@ export default function PricingPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to create checkout session');
       }
 
       const { url } = await response.json();
 
       // Redirect to Stripe Checkout
       if (url) {
-        window.location.href = url;
+        // Show loading toast
+        toast({
+          title: 'Redirecting to checkout...',
+          description: 'Please wait while we prepare your secure payment page.',
+        });
+
+        setTimeout(() => {
+          window.location.href = url;
+        }, 500);
+      } else {
+        throw new Error('No checkout URL returned');
       }
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('Failed to start checkout. Please try again.');
+      toast({
+        title: 'Checkout failed',
+        description: error instanceof Error ? error.message : 'Failed to start checkout. Please try again.',
+        variant: 'destructive',
+      });
       setLoadingTier(null);
     }
   };

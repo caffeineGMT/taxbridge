@@ -6,7 +6,7 @@ import Header from '@/components/Header';
 
 // Server Component - fetches data at request time
 export default async function DashboardPage() {
-  const { userId: clerkUserId } = auth();
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     redirect('/sign-in');

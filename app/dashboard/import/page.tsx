@@ -4,7 +4,7 @@ import { getUserProfileByClerkId } from '@/lib/db';
 import ImportFlow from './ImportFlow';
 
 export default async function ImportPage() {
-  const { userId: clerkUserId } = auth();
+  const { userId: clerkUserId } = await auth();
 
   if (!clerkUserId) {
     redirect('/sign-in');

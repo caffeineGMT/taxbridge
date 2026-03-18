@@ -80,8 +80,8 @@ export default function ClientDashboard({ initialClients }: ClientDashboardProps
   const [loading, setLoading] = useState(false);
 
   // Get unique filter values
-  const provinces = useMemo(
-    () => Array.from(new Set(clients.map(c => c.canada_province).filter(Boolean))),
+  const provinces = useMemo<string[]>(
+    () => Array.from(new Set(clients.map(c => c.canada_province).filter((p): p is string => p !== null))),
     [clients]
   );
   const states = useMemo(
