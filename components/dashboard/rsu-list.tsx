@@ -87,7 +87,7 @@ export function RSUList({ events }: RSUListProps) {
   }
 
   return (
-    <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+    <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm" data-tour="rsu-list">
       <CardHeader>
         <CardTitle className="text-xl text-slate-100">RSU Vesting History</CardTitle>
         <CardDescription className="text-slate-400">
