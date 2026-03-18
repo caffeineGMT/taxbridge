@@ -10,7 +10,7 @@ import { getDatabase } from '@/lib/db';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { priceId, tier, userId } = body;
+    const { priceId, tier, userId, referralCode } = body;
 
     if (!priceId || !tier || !userId) {
       return NextResponse.json(
@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         user_id: userId.toString(),
         tier,
+        ...(referralCode && { referred_by: referralCode }),
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',

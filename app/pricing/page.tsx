@@ -93,6 +93,9 @@ export default function PricingPage() {
       const userData = await userResponse.json();
       const userId = userData.user.id;
 
+      // Get referral code from localStorage (if any)
+      const referralCode = localStorage.getItem('referral_code');
+
       // Create checkout session
       const response = await fetch('/api/stripe/create-checkout', {
         method: 'POST',
@@ -101,6 +104,7 @@ export default function PricingPage() {
           priceId,
           tier,
           userId,
+          ...(referralCode && { referralCode }),
         }),
       });
 

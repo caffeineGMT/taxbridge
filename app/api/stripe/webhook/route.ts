@@ -8,6 +8,7 @@ import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
+import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
 import Stripe from 'stripe';
 
 export async function POST(req: NextRequest) {
@@ -69,6 +70,9 @@ export async function POST(req: NextRequest) {
           tier,
           stripe_customer_id: session.customer,
         });
+
+        // Track affiliate referral if present
+        await trackAffiliateReferral(session, parseInt(userId));
 
         console.log(`✓ User ${userId} upgraded to ${tier} tier`);
         break;
