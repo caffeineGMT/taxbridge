@@ -9,7 +9,7 @@ Due to headless browser compatibility issues on this system, here's a manual app
 2. Press `Cmd+Option+I` to open DevTools
 3. Click the device toolbar icon (phone/tablet icon) or press `Cmd+Shift+M`
 4. Select "Responsive" and set dimensions to **1280x800**
-5. Navigate to `http://localhost:3000`
+5. Navigate to `http://localhost:3002` (dev server running on port 3002)
 
 ### 2. Capture Screenshots
 
@@ -116,4 +116,4 @@ Before saving each screenshot:
 4. pricing-page.png
 5. pdf-export.png
 
-**Ready to capture?** Open `http://localhost:3000` in Chrome DevTools responsive mode (1280x800)! 📸
+**Ready to capture?** Open `http://localhost:3002` in Chrome DevTools responsive mode (1280x800)! 📸
