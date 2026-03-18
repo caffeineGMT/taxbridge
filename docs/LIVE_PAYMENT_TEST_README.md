@@ -1,65 +1,108 @@
 # 🧪 Live Payment Test Package
 
-**Complete production payment validation with real credit card**
+**Status**: ⏸️ **BLOCKED - Prerequisites Not Met (Task 3 Required)**
 
-This package contains everything you need to execute and document a live payment test in production.
+This package contains everything needed to execute a comprehensive live payment test with real credit card in production. However, **Stripe production activation (Task 3) must be completed first**.
+
+---
+
+## 🚨 CRITICAL: Prerequisites Not Met
+
+**Current Status** (as of 2026-03-18):
+```
+✅ Database Connection: PASS (11 users)
+❌ Stripe Configuration: FAIL (using sk_test_/pk_test_ keys) 🔴 BLOCKER
+❌ Production Deployment: FAIL (localhost URL instead of production) 🔴 BLOCKER
+⚠️ Clerk Authentication: WARNING (TEST mode - can proceed)
+
+Summary: 1 PASS, 2 FAIL, 1 WARNING
+❌ CANNOT PROCEED WITH LIVE PAYMENT TEST
+```
+
+**Required Action**: Complete **Task 3: Stripe Production Activation** before executing Task 4.
 
 ---
 
 ## 📦 What's Included
 
 ### Documentation
-- **`LIVE_PAYMENT_TEST_GUIDE.md`** - Step-by-step execution instructions (START HERE)
-- **`LIVE_PAYMENT_TEST_REPORT.md`** - Test results template to fill out
-- **`LIVE_PAYMENT_TEST_README.md`** - This file (overview)
+- **`LIVE_PAYMENT_TEST_README.md`** - This file (status overview)
+- **`LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md`** - Step-by-step execution instructions (use after unblocked)
+- **`LIVE_PAYMENT_TEST_REPORT.md`** - Test results template to fill during test
 
 ### Scripts
-- **`scripts/verify-live-payment-test.ts`** - Database verification helper
-- **`scripts/live-test-quick-check.sh`** - Quick status check (bash)
+- **`scripts/verify-payment-test-prerequisites.ts`** - Pre-flight verification (run first)
+- **`scripts/payment-test-db-queries.sql`** - Database verification queries
 - **`scripts/test-payment-flow.ts`** - Automated integration test (test mode only)
 
-### Directories
-- **`screenshots/`** - Save test screenshots here (9 required)
+### Package Scripts
+```bash
+npm run verify:payment-test    # Pre-flight verification (START HERE)
+npm run verify:stripe          # Stripe configuration check
+npm run setup:stripe           # Create Stripe products (production mode)
+```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (When Unblocked)
 
-### Step 1: Pre-Flight Check
+### Step 1: Pre-Flight Verification
 
+**MUST RUN FIRST:**
 ```bash
-# Verify production is live
-curl -I https://taxbridge.app
-
-# Check Stripe configuration
-npm run verify:stripe
-
-# Test database access
-sqlite3 data/taxbridge.db "SELECT COUNT(*) FROM user_profiles;"
+npm run verify:payment-test
 ```
 
-### Step 2: Execute Test
+Expected output when ready:
+```
+✅ Database Connection: PASS
+✅ Stripe Configuration: PASS (production mode)
+✅ Production Deployment: PASS
+✅ Clerk Authentication: PASS
 
-Follow the step-by-step guide:
+Summary: 4 PASS, 0 FAIL, 0 WARNING
+✅ ALL PREREQUISITES MET - Ready for live payment test!
+```
+
+**Current output** (blockers present):
+```
+❌ Stripe Configuration: FAIL (using sk_test_/pk_test_ keys)
+❌ Production Deployment: FAIL (NEXT_PUBLIC_APP_URL=localhost)
+```
+
+### Step 2: Execute Test (When Unblocked)
+
+Follow the comprehensive execution guide:
 
 ```bash
 # Open the guide
-open docs/LIVE_PAYMENT_TEST_GUIDE.md
+open docs/LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md
 
-# Or read in terminal
-cat docs/LIVE_PAYMENT_TEST_GUIDE.md | less
+# Or view in browser
+cat docs/LIVE_PAYMENT_TEST_EXECUTION_GUIDE.md
 ```
+
+The guide includes:
+- Part 1: Create test account (5 min)
+- Part 2: Execute live payment ($299 charge) (3 min)
+- Part 3: Verify webhook & database update (5 min)
+- Part 4: Test Pro features (5 min)
+- Part 5: Process full refund (3 min)
+- Part 6: Verify downgrade (5 min)
+- Part 7: Final verification & cleanup (3 min)
+
+**Total Duration**: 20-30 minutes
 
 ### Step 3: Monitor Progress
 
-During test execution, check status anytime:
+During test execution, verify database state:
 
 ```bash
-# Quick status check
-./scripts/live-test-quick-check.sh livetest
+# Run all verification queries
+sqlite3 data/taxbridge.db < scripts/payment-test-db-queries.sql
 
-# Or detailed verification
-tsx scripts/verify-live-payment-test.ts livetest
+# Or run individual queries for specific checkpoints
+sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%livetest%';"
 ```
 
 ### Step 4: Document Results

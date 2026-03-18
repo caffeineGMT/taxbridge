@@ -145,7 +145,7 @@ async function main() {
   // Launch browser
   console.log('Launching browser...');
   const browser = await chromium.launch({
-    headless: true,
+    headless: false, // Use headed mode to avoid macOS headless crashes
   });
 
   const page = await browser.newPage();
