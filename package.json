@@ -30,6 +30,7 @@
     "outreach:update-stats": "tsx scripts/outreach-update-stats.ts",
     "cron:notifications": "tsx lib/cron/notifications.ts",
     "test:email-drip": "tsx scripts/test-email-drip.ts",
+    "test:ab-email": "tsx scripts/test-ab-email-drip.ts",
     "test:payment-flow": "tsx scripts/test-payment-flow.ts",
     "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
     "setup:stripe": "tsx scripts/setup-stripe-products.ts",
