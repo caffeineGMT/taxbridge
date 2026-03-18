@@ -15,8 +15,8 @@ import {
 import { getDatabase } from '../db';
 import Stripe from 'stripe';
 
-const REFERRER_REWARD_MONTHS = 1; // Free months to give referrer
-const REFERRER_REWARD_VALUE = 24.92; // $24.92 value (1 month Pro @ $299/year)
+const REFERRER_REWARD_MONTHS = 2; // Free months to give referrer
+const REFERRER_REWARD_VALUE = 50.00; // $50 value (2 months Pro @ $24.92/mo)
 const REFERRED_DISCOUNT_PERCENT = 20; // 20% off first year for referred user
 
 /**
@@ -105,8 +105,8 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
     try {
       const subscription = await stripe.subscriptions.retrieve(referrer.stripe_subscription_id);
 
-      // Extend subscription period by 30 days
-      const newPeriodEnd = subscription.current_period_end + (30 * 24 * 60 * 60); // +30 days in seconds
+      // Extend subscription period by 60 days (2 months)
+      const newPeriodEnd = subscription.current_period_end + (60 * 24 * 60 * 60); // +60 days in seconds
 
       await stripe.subscriptions.update(referrer.stripe_subscription_id, {
         trial_end: newPeriodEnd,
@@ -121,7 +121,7 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
       console.log('✓ Extended subscription for referrer:', {
         referrerId,
         subscriptionId: referrer.stripe_subscription_id,
-        extensionDays: 30,
+        extensionDays: 60,
       });
     } catch (error) {
       console.error('Failed to extend subscription:', error);
