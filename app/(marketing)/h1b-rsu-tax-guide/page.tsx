@@ -383,12 +383,12 @@ export default function H1BRSUTaxGuide() {
                   {
                     title: 'Forgetting State Tax in FTC',
                     description:
-                      'Both US federal AND state taxes are eligible for the Foreign Tax Credit in Canada. Don't leave state tax out of your T2209 calculation.',
+                      'Both US federal AND state taxes are eligible for the Foreign Tax Credit in Canada. Do not leave state tax out of your T2209 calculation.',
                   },
                   {
                     title: 'Using Wrong Exchange Rate',
                     description:
-                      'Always use the Bank of Canada official rate (annual average or specific date). Don't use a random online converter.',
+                      'Always use the Bank of Canada official rate (annual average or specific date). Do not use a random online converter.',
                   },
                   {
                     title: 'Missing FBAR Deadline',
