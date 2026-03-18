@@ -10,13 +10,31 @@ import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
 import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
 import Stripe from 'stripe';
+import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+  const transaction = Sentry.startTransaction({
+    name: 'POST /api/stripe/webhook',
+    op: 'http.server',
+    tags: { route: '/api/stripe/webhook', level: 'critical' },
+  });
+
+  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
+
   const body = await req.text();
   const headersList = await headers();
   const signature = headersList.get('stripe-signature');
 
   if (!signature) {
+    logger.warn('Stripe webhook: missing signature', {
+      endpoint: '/api/stripe/webhook',
+    });
+
+    transaction.setStatus('invalid_argument');
+    transaction.finish();
+
     return NextResponse.json(
       { error: 'Missing stripe-signature header' },
       { status: 400 }
@@ -32,7 +50,15 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err) {
-    console.error('Webhook signature verification failed:', err);
+    logger.error('Webhook signature verification failed', {
+      endpoint: '/api/stripe/webhook',
+      error: err instanceof Error ? err : new Error(String(err)),
+    });
+
+    // Don't send signature errors to Sentry (normal security events)
+    transaction.setStatus('permission_denied');
+    transaction.finish();
+
     return NextResponse.json(
       { error: 'Webhook signature verification failed' },
       { status: 400 }
@@ -40,6 +66,15 @@ export async function POST(req: NextRequest) {
   }
 
   const db = getDatabase();
+
+  // Add event type to transaction
+  Sentry.setTag('stripe_event_type', event.type);
+
+  logger.info('Stripe webhook received', {
+    endpoint: '/api/stripe/webhook',
+    eventType: event.type,
+    eventId: event.id,
+  });
 
   try {
     switch (event.type) {
@@ -49,7 +84,22 @@ export async function POST(req: NextRequest) {
         const tier = session.metadata?.tier;
 
         if (!userId || !tier) {
-          console.error('Missing metadata in checkout session:', session.id);
+          logger.error('Missing metadata in checkout session', {
+            sessionId: session.id,
+            userId,
+            tier,
+          });
+
+          Sentry.captureMessage('Stripe checkout session missing metadata', {
+            level: 'warning',
+            tags: { stripe_event: 'checkout.session.completed' },
+            contexts: {
+              session: {
+                id: session.id,
+                customer: session.customer,
+              },
+            },
+          });
           break;
         }
 
@@ -74,7 +124,18 @@ export async function POST(req: NextRequest) {
         // Track affiliate referral if present
         await trackAffiliateReferral(session, parseInt(userId));
 
-        console.log(`✓ User ${userId} upgraded to ${tier} tier`);
+        logger.info('User upgraded', {
+          userId,
+          tier,
+          customerId: session.customer,
+          subscriptionId: session.subscription,
+        });
+
+        Sentry.addBreadcrumb({
+          message: `User ${userId} upgraded to ${tier}`,
+          level: 'info',
+        });
+
         break;
       }
 
@@ -144,12 +205,50 @@ export async function POST(req: NextRequest) {
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        logger.debug('Unhandled Stripe event type', { eventType: event.type });
     }
+
+    const duration = Date.now() - startTime;
+
+    logger.info('Stripe webhook processed', {
+      endpoint: '/api/stripe/webhook',
+      eventType: event.type,
+      duration,
+    });
+
+    transaction.setHttpStatus(200);
+    transaction.finish();
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('Error processing webhook:', error);
+    const duration = Date.now() - startTime;
+
+    logger.error('Error processing webhook', {
+      endpoint: '/api/stripe/webhook',
+      eventType: event.type,
+      duration,
+      error: error instanceof Error ? error : new Error(String(error)),
+    });
+
+    Sentry.captureException(error, {
+      level: 'error',
+      tags: {
+        route: '/api/stripe/webhook',
+        stripe_event_type: event.type,
+        level: 'critical',
+      },
+      contexts: {
+        stripe: {
+          event_id: event.id,
+          event_type: event.type,
+        },
+        performance: { duration },
+      },
+    });
+
+    transaction.setStatus('internal_error');
+    transaction.finish();
+
     return NextResponse.json(
       { error: 'Webhook processing failed' },
       { status: 500 }

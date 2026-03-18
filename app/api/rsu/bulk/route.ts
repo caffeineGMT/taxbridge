@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getDatabase, getUserProfileByClerkId } from '@/lib/db';
 import { validateCSVRow, type CSVRow } from '@/lib/validation/csv';
+import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 
 /**
  * Maximum number of rows allowed per import
@@ -15,15 +17,28 @@ const MAX_ROWS = 1000;
  * Returns: { success: number, failed: number, errors: Array<{row: number, message: string}> }
  */
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  const transaction = Sentry.startTransaction({
+    name: 'POST /api/rsu/bulk',
+    op: 'http.server',
+    tags: { route: '/api/rsu/bulk', level: 'critical' },
+  });
+
+  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
+
   try {
     // Authenticate user
     const { userId: clerkUserId } = await auth();
     if (!clerkUserId) {
+      transaction.setStatus('unauthenticated');
+      transaction.finish();
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
+
+    Sentry.setUser({ id: clerkUserId });
 
     // Get user profile
     const userProfile = getUserProfileByClerkId(clerkUserId);
@@ -160,14 +175,51 @@ export async function POST(request: NextRequest) {
     }
 
     // Return results
-    return NextResponse.json({
+    const duration = Date.now() - startTime;
+    logger.info('Bulk import completed', {
+      endpoint: '/api/rsu/bulk',
+      userId: clerkUserId,
+      duration,
+      success: successCount,
+      failed: errors.length,
+      total: rows.length,
+    });
+
+    transaction.setHttpStatus(200);
+    transaction.finish();
+
+    const response = NextResponse.json({
       success: successCount,
       failed: errors.length,
       total: rows.length,
       errors: errors.length > 0 ? errors : undefined,
     });
+
+    response.headers.set('Server-Timing', `total;dur=${duration}`);
+    return response;
   } catch (error) {
-    console.error('Bulk import error:', error);
+    const duration = Date.now() - startTime;
+
+    logger.error('Bulk import error', {
+      endpoint: '/api/rsu/bulk',
+      duration,
+      error: error instanceof Error ? error : new Error(String(error)),
+    });
+
+    Sentry.captureException(error, {
+      level: 'error',
+      tags: {
+        route: '/api/rsu/bulk',
+        level: 'critical',
+      },
+      contexts: {
+        performance: { duration },
+      },
+    });
+
+    transaction.setStatus('internal_error');
+    transaction.finish();
+
     return NextResponse.json(
       {
         error: 'Internal server error',

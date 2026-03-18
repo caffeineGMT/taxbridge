@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
 import { Home, DollarSign, Calculator, FileText, TrendingUp, Crown, CreditCard } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import NotificationBell from './NotificationBell';
 
 export default function Header() {
   const [subscriptionTier, setSubscriptionTier] = useState<string>('free');
@@ -90,6 +91,9 @@ export default function Header() {
             )}
             {subscriptionTier === 'pro' ? 'Pro' : subscriptionTier === 'enterprise' ? 'Enterprise' : 'Free'}
           </Link>
+
+          {/* Notification Bell */}
+          <NotificationBell />
 
           <UserButton
             appearance={{

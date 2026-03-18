@@ -3,6 +3,8 @@ import Anthropic from '@anthropic-ai/sdk';
 import { createHash } from 'crypto';
 import Database from 'better-sqlite3';
 import path from 'path';
+import * as Sentry from '@sentry/nextjs';
+import { logger } from '@/lib/logger';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
 
@@ -27,9 +29,25 @@ interface TaxAdviceRequest {
 }
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  const transaction = Sentry.startTransaction({
+    name: 'POST /api/ai/tax-advice',
+    op: 'http.server',
+    tags: { route: '/api/ai/tax-advice', level: 'high' },
+  });
+
+  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
+
   try {
     const body: TaxAdviceRequest = await request.json();
     const { rsuEntries, province, state, ftcResults, filingStatus } = body;
+
+    logger.info('AI tax advice requested', {
+      endpoint: '/api/ai/tax-advice',
+      province,
+      state,
+      rsuCount: rsuEntries.length,
+    });
 
     // Validate API key
     if (!process.env.ANTHROPIC_API_KEY) {
@@ -87,6 +105,12 @@ Focus on these optimization areas:
 
 Format your response as markdown with ## headers for each strategy. Be specific with dollar amounts where possible.`;
 
+    // Start performance tracking for AI call
+    const aiSpan = transaction.startChild({
+      op: 'ai.stream',
+      description: 'Anthropic Claude streaming',
+    });
+
     // Stream response from Claude
     const stream = await anthropic.messages.stream({
       model: 'claude-sonnet-4-6',
@@ -98,6 +122,8 @@ Format your response as markdown with ## headers for each strategy. Be specific 
         },
       ],
     });
+
+    aiSpan.finish();
 
     // Create hash of user context before streaming
     const contextHash = createHash('sha256')
@@ -123,11 +149,31 @@ Format your response as markdown with ## headers for each strategy. Be specific 
         });
 
         stream.on('error', (error) => {
-          console.error('Stream error:', error);
+          logger.error('AI stream error', {
+            endpoint: '/api/ai/tax-advice',
+            error: error instanceof Error ? error : new Error(String(error)),
+          });
+
+          Sentry.captureException(error, {
+            level: 'error',
+            tags: { route: '/api/ai/tax-advice', stream: 'anthropic' },
+          });
+
+          transaction.setStatus('internal_error');
+          transaction.finish();
           controller.error(error);
         });
 
         stream.on('end', async () => {
+          const duration = Date.now() - startTime;
+          logger.info('AI tax advice generated', {
+            endpoint: '/api/ai/tax-advice',
+            duration,
+            responseLength: fullText.length,
+          });
+
+          transaction.setHttpStatus(200);
+          transaction.finish();
           // Store recommendation in database
           try {
             const db = new Database(DB_PATH);
@@ -138,9 +184,12 @@ Format your response as markdown with ## headers for each strategy. Be specific 
             stmt.run(contextHash, fullText);
             db.close();
 
-            console.log('Recommendation stored successfully');
+            logger.info('Recommendation stored successfully');
           } catch (error) {
-            console.error('Failed to store recommendation:', error);
+            logger.error('Failed to store recommendation', {
+              error: error instanceof Error ? error : new Error(String(error)),
+            });
+            Sentry.captureException(error);
           }
 
           controller.close();
@@ -156,7 +205,23 @@ Format your response as markdown with ## headers for each strategy. Be specific 
       },
     });
   } catch (error) {
-    console.error('AI tax advice error:', error);
+    const duration = Date.now() - startTime;
+
+    logger.error('AI tax advice error', {
+      endpoint: '/api/ai/tax-advice',
+      duration,
+      error: error instanceof Error ? error : new Error(String(error)),
+    });
+
+    Sentry.captureException(error, {
+      level: 'error',
+      tags: { route: '/api/ai/tax-advice', level: 'high' },
+      contexts: { performance: { duration } },
+    });
+
+    transaction.setStatus('internal_error');
+    transaction.finish();
+
     return NextResponse.json(
       { error: 'Failed to generate tax advice' },
       { status: 500 }

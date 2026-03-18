@@ -20,6 +20,9 @@ export const EMAIL_TEMPLATES = {
 
   // Day 14 - Upgrade Offer (premium features + discount)
   DRIP_DAY14: process.env.SENDGRID_TEMPLATE_DAY14 || 'd-placeholder-day14',
+
+  // Notification Digest - Daily notification summary
+  NOTIFICATION_DIGEST: process.env.SENDGRID_TEMPLATE_NOTIFICATION_DIGEST || 'd-notification-digest',
 } as const;
 
 export type EmailTemplateId = typeof EMAIL_TEMPLATES[keyof typeof EMAIL_TEMPLATES];
@@ -122,6 +125,41 @@ function getDiscountExpiryDate(): string {
 }
 
 /**
+ * Generate dynamic data for Notification Digest Email
+ */
+export function getNotificationDigestEmailData(params: {
+  firstName: string;
+  email: string;
+  notifications: Array<{
+    type: string;
+    title: string;
+    body: string;
+  }>;
+}) {
+  const ctaUrls: Record<string, string> = {
+    deadline: 'https://taxbridge.app/dashboard',
+    ftc_opportunity: 'https://taxbridge.app/calculator',
+    new_feature: 'https://taxbridge.app/dashboard',
+    renewal: 'https://taxbridge.app/dashboard/subscription',
+  };
+
+  return {
+    first_name: params.firstName || 'there',
+    email: params.email,
+    unsubscribe_url: `https://taxbridge.app/unsubscribe?email=${encodeURIComponent(params.email)}`,
+    notifications: params.notifications.map(n => ({
+      ...n,
+      cta_url: ctaUrls[n.type] || 'https://taxbridge.app/dashboard',
+      icon: n.type === 'deadline' ? '⏰' : n.type === 'ftc_opportunity' ? '💰' : n.type === 'new_feature' ? '✨' : '🔄',
+    })),
+    notification_count: params.notifications.length,
+    dashboard_url: 'https://taxbridge.app/dashboard',
+    settings_url: 'https://taxbridge.app/settings/notifications',
+    support_email: 'support@taxbridge.app',
+  };
+}
+
+/**
  * Email content guidelines for creating SendGrid templates:
  *
  * WELCOME EMAIL (drip_welcome):
@@ -148,4 +186,11 @@ function getDiscountExpiryDate(): string {
  * - Content: Premium features, limited-time discount, social proof
  * - CTA: Upgrade Now with Code {{discount_code}}
  * - Urgency: Valid until {{valid_until}}
+ *
+ * NOTIFICATION DIGEST (notification_digest):
+ * - Subject: "You have {{notification_count}} new notifications"
+ * - Greeting: Hi {{first_name}},
+ * - Content: Loop through {{notifications}} array showing icon, title, body, and CTA button
+ * - CTA: View in Dashboard (per notification)
+ * - Footer: Manage notification preferences at {{settings_url}}
  */

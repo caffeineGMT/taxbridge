@@ -3,8 +3,10 @@ import { Inter } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import ReferralTracker from '@/components/ReferralTracker';
 import { Toaster } from '@/components/ui/toaster';
+import WebVitalsTracker from '@/components/WebVitalsTracker';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -36,9 +38,11 @@ export default function RootLayout({
         <body className={inter.className}>
           <Suspense fallback={null}>
             <ReferralTracker />
+            <WebVitalsTracker />
           </Suspense>
           {children}
           <Toaster />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>

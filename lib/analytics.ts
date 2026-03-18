@@ -13,7 +13,8 @@ export type AnalyticsEvent =
   | 'forms_checklist_opened'
   | 'upgraded_to_pro'
   | 'upgraded_to_enterprise'
-  | 'downgraded_to_free';
+  | 'downgraded_to_free'
+  | 'notification_clicked';
 
 /**
  * Track an analytics event for a user
