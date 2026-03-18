@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (level === 'critical') {
-    Sentry.captureException(new Error(message || 'Critical test error'), {
+    console.error(new Error(message || 'Critical test error'), {
       level: 'fatal',
       tags: {
         test: true,

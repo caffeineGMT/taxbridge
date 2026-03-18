@@ -10,18 +10,12 @@ import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
 import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
 import Stripe from 'stripe';
-import * as Sentry from '@sentry/nextjs';
 import { logger } from '@/lib/logger';
+import * as Sentry from '@sentry/nextjs';
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
-  const transaction = Sentry.startTransaction({
-    name: 'POST /api/stripe/webhook',
-    op: 'http.server',
-    tags: { route: '/api/stripe/webhook', level: 'critical' },
-  });
 
-  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
 
   const body = await req.text();
   const headersList = await headers();
@@ -32,8 +26,6 @@ export async function POST(req: NextRequest) {
       endpoint: '/api/stripe/webhook',
     });
 
-    transaction.setStatus('invalid_argument');
-    transaction.finish();
 
     return NextResponse.json(
       { error: 'Missing stripe-signature header' },
@@ -56,8 +48,6 @@ export async function POST(req: NextRequest) {
     });
 
     // Don't send signature errors to Sentry (normal security events)
-    transaction.setStatus('permission_denied');
-    transaction.finish();
 
     return NextResponse.json(
       { error: 'Webhook signature verification failed' },
@@ -68,7 +58,8 @@ export async function POST(req: NextRequest) {
   const db = getDatabase();
 
   // Add event type to transaction
-  Sentry.setTag('stripe_event_type', event.type);
+  // TODO: Update to new Sentry SDK API
+  // Sentry.setTag('stripe_event_type', event.type);
 
   logger.info('Stripe webhook received', {
     endpoint: '/api/stripe/webhook',
@@ -162,10 +153,10 @@ export async function POST(req: NextRequest) {
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
 
-        // Get user ID before downgrading
+        // Get user info before downgrading
         const user = db.prepare(`
-          SELECT id FROM user_profiles WHERE stripe_subscription_id = ?
-        `).get(subscription.id) as { id: number } | undefined;
+          SELECT id, email, first_name FROM user_profiles WHERE stripe_subscription_id = ?
+        `).get(subscription.id) as { id: number; email?: string; first_name?: string } | undefined;
 
         // Downgrade user to free tier
         db.prepare(`
@@ -181,7 +172,38 @@ export async function POST(req: NextRequest) {
           trackEvent(user.id, 'downgraded_to_free', {
             stripe_subscription_id: subscription.id,
           });
+
+          // Send cancellation survey email
+          if (user.email) {
+            try {
+              await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/cancellation-survey`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  firstName: user.first_name || 'there',
+                  userId: user.id,
+                }),
+              });
+
+              logger.info('Cancellation survey email sent', {
+                userId: String(user.id),
+                email: user.email,
+              });
+            } catch (emailError) {
+              logger.error('Failed to send cancellation survey email', {
+                error: emailError instanceof Error ? emailError : new Error(String(emailError)),
+                userId: String(user.id),
+              });
+              // Don't fail the webhook if email fails
+            }
+          }
         }
+
+        logger.info('Subscription canceled', {
+          subscriptionId: subscription.id,
+          userId: user?.id,
+        });
 
         console.log(`✓ Subscription ${subscription.id} canceled, user downgraded to free`);
         break;
@@ -216,8 +238,6 @@ export async function POST(req: NextRequest) {
       duration,
     });
 
-    transaction.setHttpStatus(200);
-    transaction.finish();
 
     return NextResponse.json({ received: true });
   } catch (error) {
@@ -246,8 +266,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    transaction.setStatus('internal_error');
-    transaction.finish();
 
     return NextResponse.json(
       { error: 'Webhook processing failed' },

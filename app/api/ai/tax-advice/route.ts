@@ -30,13 +30,7 @@ interface TaxAdviceRequest {
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
-  const transaction = Sentry.startTransaction({
-    name: 'POST /api/ai/tax-advice',
-    op: 'http.server',
-    tags: { route: '/api/ai/tax-advice', level: 'high' },
-  });
-
-  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
+  // TODO: Update to new Sentry SDK API (startSpan)
 
   try {
     const body: TaxAdviceRequest = await request.json();
@@ -106,10 +100,10 @@ Focus on these optimization areas:
 Format your response as markdown with ## headers for each strategy. Be specific with dollar amounts where possible.`;
 
     // Start performance tracking for AI call
-    const aiSpan = transaction.startChild({
-      op: 'ai.stream',
-      description: 'Anthropic Claude streaming',
-    });
+    // TODO: Update to new Sentry SDK API
+    //   op: 'ai.stream',
+    //   description: 'Anthropic Claude streaming',
+    // });
 
     // Stream response from Claude
     const stream = await anthropic.messages.stream({
@@ -123,7 +117,7 @@ Format your response as markdown with ## headers for each strategy. Be specific 
       ],
     });
 
-    aiSpan.finish();
+    // aiSpan.finish();
 
     // Create hash of user context before streaming
     const contextHash = createHash('sha256')
@@ -159,8 +153,6 @@ Format your response as markdown with ## headers for each strategy. Be specific 
             tags: { route: '/api/ai/tax-advice', stream: 'anthropic' },
           });
 
-          transaction.setStatus('internal_error');
-          transaction.finish();
           controller.error(error);
         });
 
@@ -172,8 +164,6 @@ Format your response as markdown with ## headers for each strategy. Be specific 
             responseLength: fullText.length,
           });
 
-          transaction.setHttpStatus(200);
-          transaction.finish();
           // Store recommendation in database
           try {
             const db = new Database(DB_PATH);
@@ -219,8 +209,6 @@ Format your response as markdown with ## headers for each strategy. Be specific 
       contexts: { performance: { duration } },
     });
 
-    transaction.setStatus('internal_error');
-    transaction.finish();
 
     return NextResponse.json(
       { error: 'Failed to generate tax advice' },

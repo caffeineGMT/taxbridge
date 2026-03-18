@@ -18,20 +18,12 @@ const MAX_ROWS = 1000;
  */
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
-  const transaction = Sentry.startTransaction({
-    name: 'POST /api/rsu/bulk',
-    op: 'http.server',
-    tags: { route: '/api/rsu/bulk', level: 'critical' },
-  });
 
-  Sentry.getCurrentHub().configureScope((scope) => scope.setSpan(transaction));
 
   try {
     // Authenticate user
     const { userId: clerkUserId } = await auth();
     if (!clerkUserId) {
-      transaction.setStatus('unauthenticated');
-      transaction.finish();
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -185,8 +177,6 @@ export async function POST(request: NextRequest) {
       total: rows.length,
     });
 
-    transaction.setHttpStatus(200);
-    transaction.finish();
 
     const response = NextResponse.json({
       success: successCount,
@@ -217,8 +207,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    transaction.setStatus('internal_error');
-    transaction.finish();
 
     return NextResponse.json(
       {
