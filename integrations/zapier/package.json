@@ -1,0 +1,95 @@
+{
+  "name": "taxbridge-zapier",
+  "version": "1.0.0",
+  "description": "TaxBridge Zapier integration for cross-border RSU tax calculations",
+  "main": "index.js",
+  "scripts": {
+    "test": "zapier test",
+    "push": "zapier push",
+    "validate": "zapier validate"
+  },
+  "dependencies": {
+    "zapier-platform-core": "^16.0.0"
+  },
+  "devDependencies": {
+    "zapier-platform-cli": "^16.0.0"
+  },
+  "zapier": {
+    "authentication": {
+      "type": "custom",
+      "test": "triggers.test_auth.operation.perform"
+    },
+    "triggers": {
+      "new_rsu_entry": {
+        "noun": "RSU Entry",
+        "display": {
+          "label": "New RSU Entry",
+          "description": "Triggers when a new RSU entry is added to TaxBridge."
+        },
+        "operation": {
+          "perform": "triggers.new_rsu_entry.operation.perform"
+        }
+      }
+    },
+    "creates": {
+      "calculate_taxes": {
+        "noun": "Tax Calculation",
+        "display": {
+          "label": "Calculate RSU Taxes",
+          "description": "Calculate cross-border RSU taxes using TaxBridge API."
+        },
+        "operation": {
+          "perform": "creates.calculate_taxes.operation.perform",
+          "inputFields": [
+            {
+              "key": "employer",
+              "label": "Employer",
+              "type": "string",
+              "choices": ["Meta", "Amazon", "Google", "Microsoft"],
+              "required": true
+            },
+            {
+              "key": "vest_date",
+              "label": "Vest Date",
+              "type": "datetime",
+              "required": true
+            },
+            {
+              "key": "shares_vested",
+              "label": "Shares Vested",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "key": "fmv_per_share_usd",
+              "label": "FMV per Share (USD)",
+              "type": "number",
+              "required": true
+            },
+            {
+              "key": "us_state",
+              "label": "US State",
+              "type": "string",
+              "choices": ["WA", "CA", "NY", "TX"],
+              "required": true
+            },
+            {
+              "key": "canada_province",
+              "label": "Canada Province",
+              "type": "string",
+              "choices": ["BC", "ON", "AB"],
+              "required": true
+            },
+            {
+              "key": "filing_status",
+              "label": "Filing Status",
+              "type": "string",
+              "choices": ["single", "married"],
+              "required": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

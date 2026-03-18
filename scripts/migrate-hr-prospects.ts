@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const dbPath = path.join(__dirname, '../data/taxbridge.db');
-const migrationPath = path.join(__dirname, '../lib/db/migrations/008_hr_prospects.sql');
+const migrationPath = path.join(__dirname, '../lib/db/migrations/009_hr_prospects.sql');
 
 async function runMigration() {
   console.log('🚀 Running HR prospects migration...\n');
