@@ -362,87 +362,100 @@ You are here: ⏸️ Task 4 preparation complete, but blocked by Task 3
 
 ---
 
-## 🎯 Expected Test Flow
+## 📊 Test Flow Visualization
+
+**Expected sequence once test begins:**
 
 ```
-1. ACCOUNT CREATED
-   └─ User exists, tier=free, no Stripe IDs
-       ↓
-2. CHECKOUT INITIATED
-   └─ Redirected to checkout.stripe.com/c/pay/cs_live_...
-       ↓
-3. PAYMENT PROCESSED
-   └─ $299 charged, payment visible in Stripe Dashboard
-       ↓
-4. WEBHOOK DELIVERED
-   └─ checkout.session.completed event processed
-       ↓
-5. TIER UPGRADED
-   └─ tier=pro, status=active, Stripe IDs populated
-       ↓
-6. PRO FEATURES UNLOCKED
-   └─ Unlimited RSU, PDF export, Pro badge
-       ↓
-7. REFUND PROCESSED
-   └─ $299 refunded in Stripe Dashboard
-       ↓
-8. WEBHOOK DELIVERED
-   └─ customer.subscription.deleted event processed
-       ↓
-9. TIER DOWNGRADED
-   └─ tier=free, status=canceled, data preserved
+START
+  ↓
+Part 1: CREATE TEST ACCOUNT
+  ├─ Visit /sign-up
+  ├─ Email: youremail+livetest-0318@gmail.com
+  ├─ Complete Clerk signup
+  └─ ✅ Checkpoint: tier=free, no Stripe IDs
+  ↓
+Part 2: EXECUTE PAYMENT
+  ├─ Visit /pricing
+  ├─ Click "Upgrade to Pro" ($299)
+  ├─ Redirected to checkout.stripe.com/c/pay/cs_live_...
+  ├─ Enter real credit card details
+  ├─ Complete payment
+  └─ ✅ Checkpoint: Redirected to /dashboard?upgrade=success
+  ↓
+Part 3: VERIFY WEBHOOK & DATABASE
+  ├─ Wait 30 seconds for webhook processing
+  ├─ Check Stripe Dashboard → Payments (status: Succeeded)
+  ├─ Check Stripe Dashboard → Webhooks (event: checkout.session.completed, HTTP 200)
+  └─ ✅ Checkpoint: tier=pro, Stripe IDs populated, status=active
+  ↓
+Part 4: TEST PRO FEATURES
+  ├─ Create 5 RSU entries (free limit = 1)
+  ├─ Export PDF (free tier shows paywall)
+  ├─ Verify Pro badge visible
+  └─ ✅ Checkpoint: All Pro features accessible
+  ↓
+Part 5: PROCESS REFUND
+  ├─ Stripe Dashboard → Find payment
+  ├─ Click "Refund" → Full refund ($299)
+  ├─ Confirm refund
+  └─ ✅ Checkpoint: Payment status=Refunded
+  ↓
+Part 6: VERIFY DOWNGRADE
+  ├─ Wait 5 minutes for webhook processing
+  ├─ Check Stripe Dashboard → Webhooks (event: customer.subscription.deleted)
+  ├─ Check database: tier=free, status=canceled
+  └─ ✅ Checkpoint: Downgraded, data preserved (RSU count unchanged)
+  ↓
+Part 7: FINAL VERIFICATION
+  ├─ Run: sqlite3 data/taxbridge.db < scripts/payment-test-db-queries.sql
+  ├─ Review audit trail
+  ├─ Check Vercel logs (no errors)
+  └─ ✅ Checkpoint: Test complete, all checks passed
+  ↓
+END - DOCUMENT RESULTS
 ```
 
 ---
 
-## 📊 Verification Commands Reference
+## 📊 Verification Commands
 
-### User Status
+### Pre-Flight Verification
 ```bash
-tsx scripts/verify-live-payment-test.ts livetest
+# Check all prerequisites (run first)
+npm run verify:payment-test
 ```
 
-### Quick Check
+### Database Verification
 ```bash
-./scripts/live-test-quick-check.sh livetest
-```
+# Run all checkpoint queries
+sqlite3 data/taxbridge.db < scripts/payment-test-db-queries.sql
 
-### Database Queries
-```bash
-# User profile
-sqlite3 data/taxbridge.db "SELECT * FROM user_profiles WHERE email LIKE '%livetest%';"
+# Check test account status
+sqlite3 data/taxbridge.db "SELECT id, email, subscription_tier, subscription_status, stripe_customer_id FROM user_profiles WHERE email LIKE '%livetest%';"
 
-# Subscription only
-sqlite3 data/taxbridge.db "SELECT subscription_tier, subscription_status FROM user_profiles WHERE email LIKE '%livetest%';"
-
-# Stripe IDs only
-sqlite3 data/taxbridge.db "SELECT stripe_customer_id, stripe_subscription_id FROM user_profiles WHERE email LIKE '%livetest%';"
-
-# RSU count
-sqlite3 data/taxbridge.db "SELECT COUNT(*) FROM rsu_entries WHERE user_id = [USER_ID];"
+# Check RSU entry count
+sqlite3 data/taxbridge.db "SELECT COUNT(*) as count FROM rsu_entries WHERE user_id = X;"
 ```
 
 ### Production Logs
 ```bash
-# Real-time logs
-vercel logs --prod --follow
+# Check recent logs
+vercel logs https://cross-border-tax.vercel.app --since=1h
 
-# Recent errors
-vercel logs --prod --since 1h | grep ERROR
+# Filter for webhook events
+vercel logs https://cross-border-tax.vercel.app | grep webhook
 
-# Webhook logs
-vercel logs --prod | grep webhook
-
-# Payment logs
-vercel logs --prod | grep stripe
+# Filter for errors
+vercel logs https://cross-border-tax.vercel.app | grep -i error
 ```
 
-### Stripe Dashboard URLs
+### Stripe Dashboard
 ```
-Payments:  https://dashboard.stripe.com/payments
-Webhooks:  https://dashboard.stripe.com/webhooks
-Events:    https://dashboard.stripe.com/events
-Customers: https://dashboard.stripe.com/customers
+Payments:    https://dashboard.stripe.com/payments
+Webhooks:    https://dashboard.stripe.com/webhooks
+Events:      https://dashboard.stripe.com/events
+Customers:   https://dashboard.stripe.com/customers
 ```
 
 ---
