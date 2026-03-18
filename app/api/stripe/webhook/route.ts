@@ -9,6 +9,7 @@ import { stripe } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
 import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
+import { trackUserReferral } from '@/lib/stripe/referral-tracking';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
@@ -115,6 +116,9 @@ export async function POST(req: NextRequest) {
         // Track affiliate referral if present
         await trackAffiliateReferral(session, parseInt(userId));
 
+        // Track user-to-user referral if present
+        await trackUserReferral(session, parseInt(userId));
+
         logger.info('User upgraded', {
           userId,
           tier,
@@ -202,7 +206,7 @@ export async function POST(req: NextRequest) {
 
         logger.info('Subscription canceled', {
           subscriptionId: subscription.id,
-          userId: user?.id,
+          userId: user?.id?.toString(),
         });
 
         console.log(`✓ Subscription ${subscription.id} canceled, user downgraded to free`);

@@ -6,11 +6,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe, STRIPE_CONFIG } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
+import { getUserByReferralCode } from '@/lib/db/queries/referrals';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { priceId, tier, userId, referralCode } = body;
+    const { priceId, tier, userId, referralCode, userReferralCode } = body;
 
     if (!priceId || !tier || !userId) {
       return NextResponse.json(
@@ -42,6 +43,34 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Prepare discount coupons array
+    const discounts: any[] = [];
+
+    // If user referral code is present, apply 20% discount
+    if (userReferralCode) {
+      const referrer = getUserByReferralCode(userReferralCode);
+      if (referrer && referrer.id !== userId) {
+        // Create a one-time 20% discount coupon
+        try {
+          const coupon = await stripe.coupons.create({
+            percent_off: 20,
+            duration: 'once',
+            name: 'Referral Discount',
+            metadata: {
+              type: 'user_referral',
+              referral_code: userReferralCode,
+              referrer_id: referrer.id.toString(),
+            },
+          });
+
+          discounts.push({ coupon: coupon.id });
+        } catch (error) {
+          console.error('Failed to create referral coupon:', error);
+          // Continue without discount rather than failing
+        }
+      }
+    }
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       customer: userProfile.stripe_customer_id || undefined,
@@ -53,12 +82,14 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
+      ...(discounts.length > 0 && { discounts }),
       success_url: STRIPE_CONFIG.successUrl,
       cancel_url: STRIPE_CONFIG.cancelUrl,
       metadata: {
         user_id: userId.toString(),
         tier,
         ...(referralCode && { referred_by: referralCode }),
+        ...(userReferralCode && { user_referral_code: userReferralCode }),
       },
       allow_promotion_codes: true,
       billing_address_collection: 'auto',
