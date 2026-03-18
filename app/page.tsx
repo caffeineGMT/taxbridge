@@ -1,65 +1,206 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Calculator, TrendingUp, FileText, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+      {/* Background Grid Pattern */}
+      <div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.05) 80px, rgba(255,255,255,0.05) 81px),
+            repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.05) 80px, rgba(255,255,255,0.05) 81px)
+          `,
+        }}
+      />
+
+      {/* Header */}
+      <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-6">
+          <div className="flex items-center space-x-2">
+            <div className="text-2xl font-bold text-emerald-500">TaxBridge</div>
+          </div>
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            <Link href="#features" className="text-slate-300 hover:text-emerald-400 transition-colors">
+              Features
+            </Link>
+            <Link href="#about" className="text-slate-300 hover:text-emerald-400 transition-colors">
+              About
+            </Link>
+            <Link href="/dashboard" className="text-slate-300 hover:text-emerald-400 transition-colors">
+              Dashboard
+            </Link>
+          </nav>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+      </header>
+
+      <main className="relative">
+        {/* Hero Section */}
+        <section className="container mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <h1 className="text-4xl md:text-6xl font-bold text-slate-100 leading-tight">
+              Simplify Your
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                Cross-Border Tax Filing
+              </span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+              Built for H-1B and TN visa tech workers with US RSUs now living in Canada.
+              Navigate dual-country taxation with confidence.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <Link href="/dashboard">
+                <Button
+                  size="lg"
+                  className="group bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-lg px-8 py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20"
+                >
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Link href="#features">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-slate-700 hover:border-emerald-500 hover:bg-slate-800 text-slate-100 text-lg px-8 py-6 transition-all"
+                >
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section id="features" className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-12">
+              Everything You Need
+            </h2>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Feature Card 1: RSU Calculator */}
+              <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer">
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Calculator className="h-6 w-6 text-slate-950" />
+                  </div>
+                  <CardTitle className="text-xl text-slate-100">RSU Calculator</CardTitle>
+                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                    Track vesting events with automatic FMV calculation. Enter date, shares, and employer
+                    (Meta, Amazon, Google, Microsoft) for instant valuation.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              {/* Feature Card 2: Tax Optimizer */}
+              <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 cursor-pointer">
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="h-6 w-6 text-slate-950" />
+                  </div>
+                  <CardTitle className="text-xl text-slate-100">Tax Optimizer</CardTitle>
+                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                    Calculate US federal & state plus Canada federal & provincial tax on RSU income.
+                    Foreign Tax Credit optimizer eliminates double taxation.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              {/* Feature Card 3: Forms Checklist */}
+              <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/10 cursor-pointer">
+                <CardHeader>
+                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <FileText className="h-6 w-6 text-slate-950" />
+                  </div>
+                  <CardTitle className="text-xl text-slate-100">Forms Checklist</CardTitle>
+                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                    Complete checklist for required forms: W-2, 1040/1040-NR, T1, T4, FBAR, Form 8938,
+                    and Treaty Article XV Form 8833.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="container mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-600 p-12 text-center">
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  Ready to Simplify Your Taxes?
+                </h2>
+                <p className="text-lg text-emerald-50 mb-8 max-w-2xl mx-auto">
+                  Join tech workers across North America who trust TaxBridge for accurate
+                  cross-border tax calculations.
+                </p>
+                <Link href="/dashboard">
+                  <Button
+                    size="lg"
+                    className="bg-white hover:bg-slate-100 text-emerald-600 font-semibold text-lg px-8 py-6 transition-all hover:scale-105 hover:shadow-xl"
+                  >
+                    Start Calculating Now
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Decorative circles */}
+              <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
+            </div>
+          </div>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800 bg-slate-950/50">
+        <div className="container mx-auto px-6 py-12">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div className="col-span-2 md:col-span-1">
+              <div className="text-2xl font-bold text-emerald-500 mb-4">TaxBridge</div>
+              <p className="text-sm text-slate-400">
+                Cross-border tax calculations made simple for tech workers.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-slate-100 mb-4">Product</h3>
+              <ul className="space-y-2">
+                <li><Link href="#features" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Features</Link></li>
+                <li><Link href="/dashboard" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Dashboard</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-slate-100 mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><Link href="/privacy" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Terms of Service</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-slate-100 mb-4">Resources</h3>
+              <ul className="space-y-2">
+                <li><Link href="/about" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">About</Link></li>
+                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+            <p>&copy; {new Date().getFullYear()} TaxBridge. Built for tech workers navigating cross-border taxation.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

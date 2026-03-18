@@ -1,30 +1,35 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: ['class'],
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#2563EB',
-          hover: '#1D4ED8',
-        },
-        secondary: '#475569',
-        accent: {
-          DEFAULT: '#10B981',
-          danger: '#EF4444',
-        },
+        primary: '#10b981',
+        secondary: '#f59e0b',
+        background: '#0f172a',
+        surface: '#1e293b',
+        text: '#f1f5f9',
+        'text-secondary': '#94a3b8',
+        accent: '#3b82f6',
+        success: '#22c55e',
+        warning: '#f59e0b',
+        error: '#ef4444',
+        border: '#334155',
       },
-      fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
 };
 
 export default config;
