@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -16,8 +18,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#10b981', // Emerald-500
+          colorBackground: '#020617', // Slate-950
+          colorInputBackground: '#1e293b', // Slate-800
+          colorInputText: '#f1f5f9', // Slate-100
+        },
+      }}
+    >
+      <html lang="en" className="dark">
+        <body className={inter.className}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }

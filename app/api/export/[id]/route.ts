@@ -8,6 +8,7 @@ import {
 } from '@/lib/tax/canada-calculator';
 import { getYearFromDate, getAverageRate } from '@/lib/currency';
 import { generateTaxSummaryPDF } from '@/lib/pdf/tax-summary-generator';
+import { trackEvent } from '@/lib/analytics';
 
 export async function GET(
   request: NextRequest,
@@ -122,6 +123,12 @@ export async function GET(
 
     // Generate PDF
     const pdfBuffer = generateTaxSummaryPDF(taxSummaryData);
+
+    // Track analytics event
+    trackEvent(rsu.user_id, 'pdf_exported', {
+      rsu_id: rsu.id,
+      employer: rsu.employer,
+    });
 
     // Return PDF with appropriate headers
     return new NextResponse(pdfBuffer, {

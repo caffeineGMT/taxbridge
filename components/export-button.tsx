@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Download, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Download, Loader2, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import UpgradeModal from '@/components/UpgradeModal';
 
 interface ExportButtonProps {
   rsuId: string | number;
@@ -20,8 +21,34 @@ export function ExportButton({
   showText = true,
 }: ExportButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [canExport, setCanExport] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
+  useEffect(() => {
+    // Check if user can export PDF
+    const checkSubscription = async () => {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const data = await response.json();
+          const isPro = ['pro', 'enterprise'].includes(data.user.subscriptionTier);
+          setCanExport(isPro);
+        }
+      } catch (error) {
+        console.error('Error checking subscription:', error);
+      }
+    };
+
+    checkSubscription();
+  }, []);
 
   const handleExport = async () => {
+    // Check subscription before exporting
+    if (!canExport) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     try {
       setIsLoading(true);
 
@@ -55,19 +82,29 @@ export function ExportButton({
   };
 
   return (
-    <Button
-      onClick={handleExport}
-      disabled={isLoading}
-      variant={variant}
-      size={size}
-      className={`gap-2 transition-all ${className}`}
-    >
-      {isLoading ? (
-        <Loader2 className="h-4 w-4 animate-spin" />
-      ) : (
-        <Download className="h-4 w-4" />
-      )}
-      {showText && (isLoading ? 'Generating...' : 'Export PDF')}
-    </Button>
+    <>
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        feature="PDF export"
+      />
+
+      <Button
+        onClick={handleExport}
+        disabled={isLoading}
+        variant={variant}
+        size={size}
+        className={`gap-2 transition-all ${className}`}
+      >
+        {isLoading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : canExport ? (
+          <Download className="h-4 w-4" />
+        ) : (
+          <Lock className="h-4 w-4" />
+        )}
+        {showText && (isLoading ? 'Generating...' : canExport ? 'Export PDF' : 'Upgrade to Export')}
+      </Button>
+    </>
   );
 }

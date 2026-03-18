@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Popover } from '@/components/ui/popover';
 import { z } from 'zod';
+import UpgradeModal from '@/components/UpgradeModal';
 
 const US_STATES = [
   { value: 'WA', label: 'Washington' },
@@ -57,6 +58,8 @@ export function RSUEntryForm() {
   const [toast, setToast] = React.useState<{ type: 'success' | 'error'; message: string } | null>(
     null
   );
+  const [showUpgradeModal, setShowUpgradeModal] = React.useState(false);
+  const [upgradeInfo, setUpgradeInfo] = React.useState<{ currentCount: number; limit: number } | null>(null);
 
   const form = useForm<RSUFormData>({
     resolver: zodResolver(FormSchema),
@@ -104,6 +107,15 @@ export function RSUEntryForm() {
       const result = await response.json();
 
       if (!response.ok) {
+        // Check if it's a subscription limit error
+        if (response.status === 403 && result.upgradeRequired) {
+          setUpgradeInfo({
+            currentCount: result.currentCount,
+            limit: result.limit,
+          });
+          setShowUpgradeModal(true);
+          return;
+        }
         throw new Error(result.error || 'Failed to save RSU event');
       }
 
@@ -121,6 +133,14 @@ export function RSUEntryForm() {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        feature="unlimited RSU entries"
+        currentCount={upgradeInfo?.currentCount}
+        limit={upgradeInfo?.limit}
+      />
+
       {toast && (
         <div
           className={cn(

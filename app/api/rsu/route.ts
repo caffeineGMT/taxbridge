@@ -1,9 +1,23 @@
+import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db/init';
+import { getUserProfileByClerkId, insertRSUEntry } from '@/lib/db';
 import { RSUEventSchema } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
   try {
+    const { userId: clerkUserId } = auth();
+
+    if (!clerkUserId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Get user profile
+    const userProfile = getUserProfileByClerkId(clerkUserId);
+
+    if (!userProfile) {
+      return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
+    }
+
     const body = await request.json();
 
     // Validate the request body
@@ -18,46 +32,39 @@ export async function POST(request: NextRequest) {
 
     const data = validationResult.data;
 
-    // Hardcode user_id = 1 for MVP
-    const userId = 1;
-    const createdAt = Math.floor(Date.now() / 1000);
+    // Check subscription limits (free tier: 10 RSU entries)
+    const { getRSUEntries } = await import('@/lib/db');
+    const existingEntries = getRSUEntries(userProfile.id);
 
-    // Insert into database
-    const stmt = db.prepare(`
-      INSERT INTO rsu_events (
-        user_id,
-        employer,
-        ticker,
-        vesting_date,
-        shares,
-        fmv_usd,
-        total_value_usd,
-        us_state,
-        canada_province,
-        created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
+    if (userProfile.subscription_tier === 'free' && existingEntries.length >= 10) {
+      return NextResponse.json(
+        {
+          error: 'Free tier limit reached',
+          upgradeRequired: true,
+          currentCount: existingEntries.length,
+          limit: 10,
+        },
+        { status: 403 }
+      );
+    }
 
-    const result = stmt.run(
-      userId,
-      data.employer,
-      data.tickerSymbol,
-      data.vestingDate,
-      data.shares,
-      data.fmvUsd,
-      data.totalValueUsd,
-      data.usState,
-      data.canadaProvince,
-      createdAt
-    );
+    // Insert RSU entry
+    const rsuEntryId = insertRSUEntry({
+      user_id: userProfile.id,
+      vest_date: data.vestingDate,
+      fmv_usd: data.fmvUsd,
+      shares: data.shares,
+      employer: data.employer as 'Meta' | 'Amazon' | 'Google' | 'Microsoft',
+      ticker_symbol: data.tickerSymbol,
+    });
 
     return NextResponse.json({
       success: true,
-      id: result.lastInsertRowid,
-      message: 'RSU event created successfully',
+      id: rsuEntryId,
+      message: 'RSU entry created successfully',
     });
   } catch (error) {
-    console.error('Error creating RSU event:', error);
+    console.error('Error creating RSU entry:', error);
     return NextResponse.json(
       { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
@@ -67,12 +74,25 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const stmt = db.prepare('SELECT * FROM rsu_events ORDER BY vesting_date DESC');
-    const events = stmt.all();
+    const { userId: clerkUserId } = auth();
 
-    return NextResponse.json({ events });
+    if (!clerkUserId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Get user profile
+    const userProfile = getUserProfileByClerkId(clerkUserId);
+
+    if (!userProfile) {
+      return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
+    }
+
+    const { getRSUEntries } = await import('@/lib/db');
+    const entries = getRSUEntries(userProfile.id);
+
+    return NextResponse.json({ entries });
   } catch (error) {
-    console.error('Error fetching RSU events:', error);
+    console.error('Error fetching RSU entries:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

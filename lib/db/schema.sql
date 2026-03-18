@@ -4,14 +4,21 @@
 -- User profiles table
 CREATE TABLE IF NOT EXISTS user_profiles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  email TEXT UNIQUE,
+  clerk_user_id TEXT UNIQUE NOT NULL,
+  email TEXT,
   first_name TEXT,
   last_name TEXT,
-  us_state TEXT CHECK(LENGTH(us_state) = 2),
-  canada_province TEXT CHECK(canada_province IN ('BC', 'ON', 'AB', 'QC', 'MB', 'SK', 'NS', 'NB', 'PE', 'NL', 'YT', 'NT', 'NU')),
-  filing_status TEXT CHECK(filing_status IN ('single', 'married_joint', 'married_separate', 'head_of_household')),
-  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+  us_state TEXT CHECK(LENGTH(us_state) = 2 OR us_state IS NULL),
+  canada_province TEXT CHECK(canada_province IN ('BC', 'ON', 'AB', 'QC', 'MB', 'SK', 'NS', 'NB', 'PE', 'NL', 'YT', 'NT', 'NU') OR canada_province IS NULL),
+  filing_status TEXT CHECK(filing_status IN ('single', 'married_joint', 'married_separate', 'head_of_household') OR filing_status IS NULL),
+  subscription_tier TEXT DEFAULT 'free' CHECK(subscription_tier IN ('free', 'pro', 'enterprise')),
+  stripe_customer_id TEXT UNIQUE,
+  stripe_subscription_id TEXT,
+  subscription_status TEXT CHECK(subscription_status IN ('active', 'canceled', 'past_due', 'trialing', NULL)),
+  subscription_current_period_end TEXT,
+  trial_ends_at INTEGER,
+  created_at INTEGER DEFAULT (unixepoch()),
+  updated_at INTEGER DEFAULT (unixepoch())
 );
 
 -- RSU entries table
@@ -114,7 +121,18 @@ CREATE TABLE IF NOT EXISTS form_completion (
   FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
 );
 
+-- Analytics events tracking
+CREATE TABLE IF NOT EXISTS analytics_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  event_name TEXT NOT NULL,
+  metadata TEXT,
+  created_at INTEGER DEFAULT (unixepoch()),
+  FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
+);
+
 -- Indexes for better query performance
+CREATE INDEX IF NOT EXISTS idx_user_profiles_clerk_user_id ON user_profiles(clerk_user_id);
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_user_id ON rsu_entries(user_id);
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_vest_date ON rsu_entries(vest_date);
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_employer ON rsu_entries(employer);
@@ -125,3 +143,5 @@ CREATE INDEX IF NOT EXISTS idx_filing_requirements_user_id ON filing_requirement
 CREATE INDEX IF NOT EXISTS idx_filing_requirements_tax_year ON filing_requirements(tax_year);
 CREATE INDEX IF NOT EXISTS idx_exchange_rates_date ON exchange_rates(rate_date);
 CREATE INDEX IF NOT EXISTS idx_form_completion_user_id ON form_completion(user_id);
+CREATE INDEX IF NOT EXISTS idx_events_user_created ON analytics_events(user_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_events_name_created ON analytics_events(event_name, created_at);

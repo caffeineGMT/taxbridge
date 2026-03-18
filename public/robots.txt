@@ -1,0 +1,14 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://taxbridge.app/sitemap.xml
+
+# Disallow API routes from indexing
+Disallow: /api/
+
+# Allow marketing pages (ensure they're indexed)
+Allow: /us-canada-tax-calculator
+Allow: /h1b-rsu-tax-guide
+Allow: /canada-tax-filing-checklist

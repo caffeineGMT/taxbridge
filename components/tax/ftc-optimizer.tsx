@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TaxComparisonChart } from './tax-comparison-chart';
 import { FilingStrategyCard } from './filing-strategy-card';
 import {
@@ -41,6 +41,23 @@ export function FTCOptimizer({
   const totalTaxAfter = usTax + canadaTax;
   const savingsAmount = ftcAmount;
   const savingsPercent = totalTaxBefore > 0 ? (savingsAmount / totalTaxBefore) * 100 : 0;
+
+  // Track FTC optimizer usage on component mount
+  useEffect(() => {
+    // Call analytics tracking API
+    fetch('/api/analytics/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'ftc_optimizer_used',
+        metadata: {
+          rsu_id: rsuEntry.id,
+          savings_amount: savingsAmount,
+          savings_percent: savingsPercent,
+        },
+      }),
+    }).catch(err => console.error('Analytics tracking failed:', err));
+  }, [rsuEntry.id, savingsAmount, savingsPercent]);
 
   return (
     <div className="space-y-6">

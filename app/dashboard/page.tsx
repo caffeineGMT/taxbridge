@@ -1,14 +1,34 @@
-import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { DollarSign, TrendingUp, FileCheck, AlertCircle } from 'lucide-react';
-import { getRSUEntries } from '@/lib/db';
+import { getRSUEntries, getUserProfileByClerkId } from '@/lib/db';
 import { StatsCard } from '@/components/dashboard/stats-card';
 import { RSUList } from '@/components/dashboard/rsu-list';
 import { QuickActions } from '@/components/dashboard/quick-actions';
+import Header from '@/components/Header';
 
 // Server Component - fetches data at request time
 export default async function DashboardPage() {
-  // Hardcode user_id=1 for MVP (single-user application)
-  const userId = 1;
+  const { userId: clerkUserId } = auth();
+
+  if (!clerkUserId) {
+    redirect('/sign-in');
+  }
+
+  // Get user profile from database
+  const userProfile = getUserProfileByClerkId(clerkUserId);
+
+  if (!userProfile) {
+    // User exists in Clerk but not in our database - redirect to onboarding
+    redirect('/onboarding');
+  }
+
+  // Check if user completed onboarding
+  if (!userProfile.canada_province || !userProfile.us_state || !userProfile.filing_status) {
+    redirect('/onboarding');
+  }
+
+  const userId = userProfile.id;
   const currentYear = new Date().getFullYear();
 
   // Fetch all RSU events for the user
@@ -47,29 +67,7 @@ export default async function DashboardPage() {
       />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-6">
-          <div className="flex items-center space-x-2">
-            <Link href="/" className="text-2xl font-bold text-emerald-500 hover:text-emerald-400 transition-colors">
-              TaxBridge
-            </Link>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="/dashboard" className="text-emerald-400 font-semibold">
-              Dashboard
-            </Link>
-            <Link href="/rsu-entry" className="text-slate-300 hover:text-emerald-400 transition-colors">
-              Add RSU
-            </Link>
-            <Link href="/calculator" className="text-slate-300 hover:text-emerald-400 transition-colors">
-              Calculator
-            </Link>
-            <Link href="/forms" className="text-slate-300 hover:text-emerald-400 transition-colors">
-              Forms
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       <main className="relative container mx-auto px-6 py-8">
         {/* Page Header */}

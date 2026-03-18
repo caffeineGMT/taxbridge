@@ -148,18 +148,32 @@ export interface TaxCalculationRow extends TaxCalculationInput {
 }
 
 export interface UserProfileInput {
+  clerk_user_id?: string;
   email?: string;
   first_name?: string;
   last_name?: string;
   us_state?: string;
   canada_province?: string;
   filing_status?: 'single' | 'married_joint' | 'married_separate' | 'head_of_household';
+  subscription_tier?: 'free' | 'pro' | 'enterprise';
+  stripe_customer_id?: string;
+  trial_ends_at?: number;
 }
 
-export interface UserProfileRow extends Required<UserProfileInput> {
+export interface UserProfileRow {
   id: number;
-  created_at: string;
-  updated_at: string;
+  clerk_user_id: string;
+  email: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  us_state: string | null;
+  canada_province: string | null;
+  filing_status: string | null;
+  subscription_tier: string;
+  stripe_customer_id: string | null;
+  trial_ends_at: number | null;
+  created_at: number;
+  updated_at: number;
 }
 
 /**
@@ -314,6 +328,88 @@ export function getUserProfile(id: number): UserProfileRow | undefined {
   `);
 
   return stmt.get(id) as UserProfileRow | undefined;
+}
+
+/**
+ * Get user profile by Clerk user ID
+ */
+export function getUserProfileByClerkId(clerkUserId: string): UserProfileRow | undefined {
+  const db = getDatabase();
+
+  const stmt = db.prepare(`
+    SELECT * FROM user_profiles WHERE clerk_user_id = ?
+  `);
+
+  return stmt.get(clerkUserId) as UserProfileRow | undefined;
+}
+
+/**
+ * Create a new user profile from Clerk webhook
+ */
+export function createUserProfile(clerkUserId: string, email?: string): number {
+  const db = getDatabase();
+
+  const stmt = db.prepare(`
+    INSERT INTO user_profiles (clerk_user_id, email, subscription_tier)
+    VALUES (?, ?, 'free')
+  `);
+
+  const result = stmt.run(clerkUserId, email || null);
+  return result.lastInsertRowid as number;
+}
+
+/**
+ * Update user profile (for onboarding or profile updates)
+ */
+export function updateUserProfile(clerkUserId: string, data: Partial<UserProfileInput>): void {
+  const db = getDatabase();
+
+  const fields: string[] = [];
+  const values: any[] = [];
+
+  if (data.first_name !== undefined) {
+    fields.push('first_name = ?');
+    values.push(data.first_name);
+  }
+  if (data.last_name !== undefined) {
+    fields.push('last_name = ?');
+    values.push(data.last_name);
+  }
+  if (data.us_state !== undefined) {
+    fields.push('us_state = ?');
+    values.push(data.us_state);
+  }
+  if (data.canada_province !== undefined) {
+    fields.push('canada_province = ?');
+    values.push(data.canada_province);
+  }
+  if (data.filing_status !== undefined) {
+    fields.push('filing_status = ?');
+    values.push(data.filing_status);
+  }
+  if (data.subscription_tier !== undefined) {
+    fields.push('subscription_tier = ?');
+    values.push(data.subscription_tier);
+  }
+  if (data.stripe_customer_id !== undefined) {
+    fields.push('stripe_customer_id = ?');
+    values.push(data.stripe_customer_id);
+  }
+
+  if (fields.length === 0) {
+    return;
+  }
+
+  fields.push('updated_at = unixepoch()');
+  values.push(clerkUserId);
+
+  const stmt = db.prepare(`
+    UPDATE user_profiles
+    SET ${fields.join(', ')}
+    WHERE clerk_user_id = ?
+  `);
+
+  stmt.run(...values);
 }
 
 /**

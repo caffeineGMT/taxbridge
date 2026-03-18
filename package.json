@@ -11,12 +11,19 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "db:init": "tsx scripts/init-db.ts",
-    "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'"
+    "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
+    "db:migrate": "tsx scripts/run-migrations.ts",
+    "db:migrate:subscription": "tsx scripts/migrate-subscription-schema.ts",
+    "test:email-drip": "tsx scripts/test-email-drip.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.0.5",
+    "@clerk/themes": "^2.4.57",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-progress": "^1.1.8",
+    "@sendgrid/mail": "^8.1.6",
+    "@stripe/stripe-js": "^8.11.0",
     "@types/recharts": "^1.8.29",
     "autoprefixer": "^10.4.27",
     "better-sqlite3": "^12.8.0",
@@ -32,6 +39,8 @@
     "react-dom": "^18.3.0",
     "react-hook-form": "^7.71.2",
     "recharts": "^3.8.0",
+    "stripe": "^20.4.1",
+    "svix": "^1.88.0",
     "tailwind-merge": "^3.5.0",
     "zod": "^3.23.0"
   },

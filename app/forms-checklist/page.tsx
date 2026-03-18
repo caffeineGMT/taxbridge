@@ -1,10 +1,26 @@
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
+import { getUserProfileByClerkId } from '@/lib/db';
 import { formCompletionQueries } from '@/lib/queries';
 import { TAX_FORMS } from '@/lib/forms/forms-data';
 import { FormsChecklistClient } from './forms-checklist-client';
+import Header from '@/components/Header';
 
 export default function FormsChecklistPage() {
-  // For MVP, we'll use user_id = 1 as default user
-  const userId = 1;
+  const { userId: clerkUserId } = auth();
+
+  if (!clerkUserId) {
+    redirect('/sign-in');
+  }
+
+  // Get user profile from database
+  const userProfile = getUserProfileByClerkId(clerkUserId);
+
+  if (!userProfile) {
+    redirect('/onboarding');
+  }
+
+  const userId = userProfile.id;
 
   // Fetch completion status from database
   const completionStatus = formCompletionQueries.getStatus(userId);
@@ -17,8 +33,10 @@ export default function FormsChecklistPage() {
   const progress = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <>
+      <Header />
+      <main className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-text mb-2">Tax Forms Checklist</h1>
@@ -64,7 +82,8 @@ export default function FormsChecklistPage() {
             </p>
           </div>
         </div>
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }
