@@ -1,0 +1,65 @@
+I saved $12,000 on my Meta RSU taxes by understanding one IRS form that 90% of H-1B holders miss.
+
+Let me tell you a painful story.
+
+**Year 1 in the US (2021):**
+
+My Meta RSUs vested. $80K in stock compensation. I filed my taxes myself using TurboTax, paid what it told me to pay, and thought I was done.
+
+Total tax bill: $28,000.
+
+I felt sick. Nearly a third of my equity, gone.
+
+**Year 2 (2022):**
+
+I mentioned this to a Canadian colleague who'd moved back to Vancouver. He laughed.
+
+"You didn't claim Foreign Tax Credit?"
+
+I had no idea what he was talking about.
+
+He explained: If you're on H-1B or TN and later move to Canada, you'll pay Canadian taxes on those same RSU gains. The IRS has a treaty provision—Form 1116, Foreign Tax Credit—that lets you claim credit for taxes you'll pay to Canada.
+
+But here's the catch: **You need to file it BEFORE you move.**
+
+I'd already missed it. $12,000 in overpaid taxes that I'll never get back.
+
+**Year 3 (2023):**
+
+I became obsessed. I spent 40+ hours reading IRS publications, tax treaties, consulting cross-border CPAs ($400/hour), and building spreadsheets.
+
+I discovered:
+- 90% of H-1B holders with stock comp don't know about Form 1116
+- Cross-border tax filing takes 3-4 hours manually
+- One mistake = $10K+ in overpaid taxes OR an IRS audit
+- CPAs charge $3,000-5,000 for dual-country filing
+
+**Year 4 (2024):**
+
+I built TaxBridge.
+
+An automated cross-border RSU tax calculator that:
+✅ Calculates your optimal Foreign Tax Credit in 10 minutes
+✅ Generates your dual-country tax filing roadmap
+✅ Shows exact savings vs. filing wrong
+✅ Built specifically for H-1B/TN → Canada movers
+
+I used it for my own 2024 filing. Saved $9,400.
+
+My wife used it for hers. Saved $6,200.
+
+Three friends at Google, Amazon, and Stripe used it. Combined savings: $31,000.
+
+**Today:**
+
+TaxBridge is live. The calculator is free to use.
+
+If you're on H-1B or TN with stock compensation and planning to move to Canada (or already moved), don't make my mistake.
+
+Try it: https://taxbridge.io?utm_source=linkedin&utm_content=founder_story
+
+The 10 minutes you spend now could save you $10,000+ in overpaid taxes.
+
+---
+
+**P.S.** — If you know someone at Meta, Google, Amazon, or any tech company with RSUs who's on H-1B/TN, please share this. I wish someone had told me in 2021.
