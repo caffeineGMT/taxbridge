@@ -307,7 +307,7 @@ export default function RevenueDashboard() {
         </div>
 
         {/* Conversion Funnel */}
-        <div className="bg-slate-800 border border-slate-700 rounded-xl p-8">
+        <div className="bg-slate-800 border border-slate-700 rounded-xl p-8 mb-12">
           <h2 className="text-2xl font-bold mb-2">Conversion Funnel</h2>
           <p className="text-slate-400 mb-6">
             Overall conversion rate: {formatPercent(funnel?.overallConversionRate || 0)} •{' '}
@@ -375,7 +375,105 @@ export default function RevenueDashboard() {
             ))}
           </div>
         </div>
+
+        {/* Revenue by Channel */}
+        <div className="bg-slate-800 border border-slate-700 rounded-xl p-8">
+          <h2 className="text-2xl font-bold mb-6">Revenue by Channel</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {/* Organic */}
+            <ChannelCard
+              name="Organic / SEO"
+              revenue={revenue?.revenueByChannel?.organic || 0}
+              customers={revenue?.customersByChannel?.organic || 0}
+              icon="🌱"
+              color="emerald"
+            />
+
+            {/* Product Hunt */}
+            <ChannelCard
+              name="Product Hunt"
+              revenue={revenue?.revenueByChannel?.productHunt || 0}
+              customers={revenue?.customersByChannel?.productHunt || 0}
+              icon="🚀"
+              color="orange"
+            />
+
+            {/* Paid Ads */}
+            <ChannelCard
+              name="Google Ads"
+              revenue={revenue?.revenueByChannel?.paidAds || 0}
+              customers={revenue?.customersByChannel?.paidAds || 0}
+              icon="📢"
+              color="blue"
+            />
+
+            {/* Referral */}
+            <ChannelCard
+              name="Referral"
+              revenue={revenue?.revenueByChannel?.referral || 0}
+              customers={revenue?.customersByChannel?.referral || 0}
+              icon="👥"
+              color="purple"
+            />
+
+            {/* Direct */}
+            <ChannelCard
+              name="Direct"
+              revenue={revenue?.revenueByChannel?.direct || 0}
+              customers={revenue?.customersByChannel?.direct || 0}
+              icon="🔗"
+              color="slate"
+            />
+          </div>
+        </div>
       </div>
+    </div>
+  );
+}
+
+// Channel Card Component
+function ChannelCard({
+  name,
+  revenue,
+  customers,
+  icon,
+  color,
+}: {
+  name: string;
+  revenue: number;
+  customers: number;
+  icon: string;
+  color: 'emerald' | 'orange' | 'blue' | 'purple' | 'slate';
+}) {
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const colorClasses = {
+    emerald: 'border-emerald-600 bg-emerald-600/10',
+    orange: 'border-orange-600 bg-orange-600/10',
+    blue: 'border-blue-600 bg-blue-600/10',
+    purple: 'border-purple-600 bg-purple-600/10',
+    slate: 'border-slate-600 bg-slate-600/10',
+  };
+
+  return (
+    <div className={`border-2 rounded-lg p-4 ${colorClasses[color]}`}>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-3xl">{icon}</span>
+        <div className="text-right">
+          <p className="text-sm text-slate-400">{name}</p>
+        </div>
+      </div>
+      <div className="mb-2">
+        <p className="text-2xl font-bold text-white">{formatCurrency(revenue)}/mo</p>
+      </div>
+      <div className="text-sm text-slate-400">{customers} customers</div>
     </div>
   );
 }
