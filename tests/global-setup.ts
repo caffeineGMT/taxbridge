@@ -8,10 +8,21 @@
 import { chromium, FullConfig } from '@playwright/test';
 import { mkdir } from 'fs/promises';
 import { dirname } from 'path';
+import { waitForServer } from './utils/wait-for-server';
 
 async function globalSetup(config: FullConfig) {
   const { baseURL } = config.projects[0].use;
+  const serverUrl = baseURL || 'http://localhost:3000';
   const authFile = '.playwright/.auth/user.json';
+
+  console.log('🔧 Waiting for dev server to be ready...');
+
+  // Wait for the server to be ready before proceeding
+  await waitForServer({
+    url: serverUrl,
+    timeout: 120000, // 2 minutes
+    retryInterval: 500, // Check every 500ms
+  });
 
   // Ensure auth directory exists
   await mkdir(dirname(authFile), { recursive: true });
@@ -23,7 +34,10 @@ async function globalSetup(config: FullConfig) {
 
   try {
     // Navigate to a public page
-    await page.goto(baseURL || 'http://localhost:3000');
+    await page.goto(serverUrl, {
+      waitUntil: 'domcontentloaded',
+      timeout: 30000,
+    });
 
     // Set environment variable to bypass auth in test mode
     process.env.PLAYWRIGHT_TEST_MODE = 'true';

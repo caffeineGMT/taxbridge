@@ -5,6 +5,10 @@
 /.next/
 /out/
 
+# next.js cache (explicitly ignore to prevent bloat)
+.next/cache/
+*.next/cache/
+
 # misc
 .DS_Store
 
