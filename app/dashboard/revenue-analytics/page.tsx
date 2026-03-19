@@ -91,11 +91,24 @@ interface RevenueMetrics {
   }[];
 }
 
+interface TrafficSource {
+  utm_source: string;
+  utm_campaign: string | null;
+  total_users: number;
+  signups: number;
+  paid_conversions: number;
+  total_revenue: number;
+  conversion_rate_pct: number;
+  cost_per_acquisition: number;
+  roi_pct: number;
+}
+
 export default function RevenueAnalyticsDashboard() {
   const [stripeMetrics, setStripeMetrics] = useState<StripeMetrics | null>(null);
   const [revenueMetrics, setRevenueMetrics] = useState<RevenueMetrics | null>(null);
   const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueData[]>([]);
   const [mrrTrend, setMRRTrend] = useState<MRRTrendData[]>([]);
+  const [trafficSources, setTrafficSources] = useState<TrafficSource[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -106,11 +119,12 @@ export default function RevenueAnalyticsDashboard() {
         setError(null);
 
         // Fetch all metrics in parallel
-        const [stripeResponse, revenueResponse, dailyRevenueResponse, mrrTrendResponse] = await Promise.all([
+        const [stripeResponse, revenueResponse, dailyRevenueResponse, mrrTrendResponse, attributionResponse] = await Promise.all([
           fetch('/api/analytics/stripe-metrics'),
           fetch('/api/analytics/revenue-metrics'),
           fetch('/api/analytics/daily-revenue?days=90'),
           fetch('/api/analytics/mrr-trend?days=90'),
+          fetch('/api/analytics/attribution?days=30'),
         ]);
 
         // Process Stripe metrics
@@ -137,6 +151,12 @@ export default function RevenueAnalyticsDashboard() {
         const mrrTrendData = await mrrTrendResponse.json();
         if (mrrTrendData.success) {
           setMRRTrend(mrrTrendData.data.mrrTrend || []);
+        }
+
+        // Process traffic sources (attribution data)
+        const attributionData = await attributionResponse.json();
+        if (attributionData.success && attributionData.channels) {
+          setTrafficSources(attributionData.channels);
         }
       } catch (err: any) {
         console.error('Error fetching analytics:', err);
@@ -419,6 +439,84 @@ export default function RevenueAnalyticsDashboard() {
               </div>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Top Traffic Sources (PostHog Data) */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Top Traffic Sources (Last 30 Days)</CardTitle>
+          <CardDescription>Acquisition channels by signups, conversions, and revenue</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {trafficSources.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <p>No traffic data available yet. Start driving traffic with UTM parameters to see attribution data.</p>
+              <p className="text-sm mt-2">Example: https://taxbridgecpa.com/?utm_source=google&utm_medium=cpc&utm_campaign=h1b-rsus</p>
+            </div>
+          ) : (
+            <>
+              {/* Traffic Sources Bar Chart */}
+              <div className="mb-8">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={trafficSources.slice(0, 10)}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="utm_source" />
+                    <YAxis yAxisId="left" />
+                    <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `$${value}`} />
+                    <Tooltip
+                      formatter={(value, name) => {
+                        if (name === 'total_revenue') return [formatCurrency(Number(value)), 'Revenue'];
+                        return [value, name];
+                      }}
+                    />
+                    <Legend />
+                    <Bar yAxisId="left" dataKey="signups" fill="#3b82f6" name="Signups" />
+                    <Bar yAxisId="left" dataKey="paid_conversions" fill="#10b981" name="Paid Conversions" />
+                    <Bar yAxisId="right" dataKey="total_revenue" fill="#8b5cf6" name="Revenue" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Traffic Sources Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="text-left p-3 font-semibold">Source</th>
+                      <th className="text-left p-3 font-semibold">Campaign</th>
+                      <th className="text-right p-3 font-semibold">Users</th>
+                      <th className="text-right p-3 font-semibold">Signups</th>
+                      <th className="text-right p-3 font-semibold">Conversions</th>
+                      <th className="text-right p-3 font-semibold">Conv. Rate</th>
+                      <th className="text-right p-3 font-semibold">Revenue</th>
+                      <th className="text-right p-3 font-semibold">CAC</th>
+                      <th className="text-right p-3 font-semibold">ROI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {trafficSources.map((source, index) => (
+                      <tr key={index} className="border-b hover:bg-gray-50">
+                        <td className="p-3 font-medium">{source.utm_source || 'Direct'}</td>
+                        <td className="p-3 text-gray-600">{source.utm_campaign || '—'}</td>
+                        <td className="p-3 text-right">{source.total_users}</td>
+                        <td className="p-3 text-right">{source.signups}</td>
+                        <td className="p-3 text-right font-semibold text-green-600">{source.paid_conversions}</td>
+                        <td className="p-3 text-right">{formatPercent(source.conversion_rate_pct)}</td>
+                        <td className="p-3 text-right font-semibold">{formatCurrency(source.total_revenue)}</td>
+                        <td className="p-3 text-right">
+                          {source.cost_per_acquisition > 0 ? formatCurrency(source.cost_per_acquisition) : '—'}
+                        </td>
+                        <td className={`p-3 text-right font-semibold ${source.roi_pct > 0 ? 'text-green-600' : source.roi_pct < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                          {source.roi_pct > 0 ? `+${formatPercent(source.roi_pct)}` : source.roi_pct < 0 ? formatPercent(source.roi_pct) : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
 
