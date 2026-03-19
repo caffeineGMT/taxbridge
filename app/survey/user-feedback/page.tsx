@@ -80,7 +80,7 @@ function UserFeedbackSurveyContent() {
             why_not_upgrade_details: whyNotUpgradeDetails,
             what_would_make_upgrade: whatWouldMakeUpgrade,
             price_expectation_usd: priceExpectation ? parseInt(priceExpectation) : null,
-            compared_alternatives: freeComparedAlternatives,
+            free_compared_alternatives: freeComparedAlternatives,
           }),
 
           // Common responses
