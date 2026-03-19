@@ -1,10 +1,105 @@
-# TaxBridge Production Deployment Guide
+# TaxBridge Deployment Guide
 
 ## 🚀 Deployment Overview
 
-This guide covers the complete production deployment process for TaxBridge to Vercel with custom domain and SSL.
+TaxBridge uses **Vercel** for hosting with automatic preview deployments serving as the staging environment.
 
-## Prerequisites
+### Deployment Flow
+
+```
+Code → Push to GitHub → GitHub Actions CI/CD ✓ → Vercel Preview Deploy (Staging) → Review → Manual Vercel Production Deploy
+```
+
+## 🔄 Staging Workflow (Vercel Preview Deployments)
+
+### How It Works
+
+**Every push to GitHub automatically:**
+1. Triggers GitHub Actions CI/CD (lint, build, test)
+2. Deploys to Vercel Preview URL (e.g., `https://taxbridge-git-main-{hash}.vercel.app`)
+3. Comments on the commit/PR with the preview link
+
+**Production deployment:**
+- Manual only (you control when changes go live)
+- Promotes a verified preview deployment to `taxbridge.app`
+
+### Why Not GitHub Pages?
+
+GitHub Pages only hosts static files. TaxBridge requires:
+- ❌ API Routes (30+ endpoints in `app/api/*`)
+- ❌ Server-Side Rendering
+- ❌ Authentication (Clerk)
+- ❌ Database operations
+- ❌ Webhooks (Stripe, Clerk)
+
+Vercel runs a Node.js server that handles all these features.
+
+### Using Preview Deployments
+
+#### 1. Push Code to GitHub
+```bash
+git add -A
+git commit -m "Feature: Add tax optimization for multi-state workers"
+git push origin main
+```
+
+#### 2. Automatic Preview Build
+- GitHub Actions runs CI/CD checks
+- Vercel automatically builds and deploys preview
+- Preview URL posted as GitHub commit comment
+
+#### 3. Review on Preview URL
+Visit the Vercel preview URL to test:
+- ✅ All API routes work (same as production)
+- ✅ Authentication works
+- ✅ Database operations work
+- ✅ Payment flows work
+- ✅ Exactly like production, just different URL
+
+#### 4. Promote to Production
+**When ready, deploy to production:**
+
+```bash
+# Option A: Vercel CLI
+vercel --prod
+
+# Option B: Vercel Dashboard
+# Go to Deployments → Select preview → Promote to Production
+```
+
+### Configuring Vercel for Preview-Only Auto-Deploy
+
+To prevent accidental production deployments:
+
+**Option 1: Vercel Dashboard**
+1. Project Settings → Git
+2. Uncheck "Production Branch" for main
+
+**Option 2: vercel.json**
+```json
+{
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
+  }
+}
+```
+
+This ensures:
+- ✅ Preview deployments happen automatically
+- ❌ Production deployments require manual approval
+
+### GitHub Actions CI/CD
+
+The `.github/workflows/ci-cd.yml` workflow runs on every push:
+
+- ✅ Lint check
+- ✅ Build validation
+- ✅ Unit tests
+- ✅ PR comment with build status
+
+## 📋 Production Deployment
 
 - [x] Vercel CLI installed and authenticated (`vercel whoami` shows: caffeinegmt)
 - [x] Project linked to Vercel (Project ID: prj_9fGSkRcveBr1MYXsG9RqgAFIg672)
