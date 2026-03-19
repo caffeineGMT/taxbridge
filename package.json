@@ -57,7 +57,7 @@
     "outreach:update-stats": "tsx scripts/outreach-update-stats.ts",
     "immigration:outreach": "tsx scripts/immigration-lawyer-outreach.ts",
     "immigration:outreach:dry-run": "tsx scripts/immigration-lawyer-outreach.ts --dry-run",
-    "capture:screenshots": "tsx scripts/capture-product-hunt-screenshots.ts",
+    "capture:screenshots": "tsx scripts/capture-screenshots-playwright.ts",
     "submit:producthunt": "echo '⚠️  Product Hunt submission requires manual steps. See docs/PRODUCT_HUNT_MANUAL_SUBMISSION.md' && exit 1",
     "immigration:followups": "tsx scripts/immigration-lawyer-followups.ts",
     "monitor:cro": "tsx scripts/monitor-cro-test.ts",
@@ -78,7 +78,6 @@
     "verify:stripe:live": "tsx scripts/verify-stripe-live.ts",
     "customer-success": "tsx scripts/customer-success-outreach.ts",
     "customer-success:dry-run": "tsx scripts/customer-success-outreach.ts --dry-run",
-    "capture:screenshots": "tsx scripts/capture-screenshots-playwright.ts",
     "launch:monitor": "tsx scripts/monitor-product-hunt.ts",
     "launch:start": "tsx scripts/monitor-product-hunt.ts --cron",
     "launch:watch": "tsx scripts/monitor-product-hunt.ts --watch",
@@ -92,9 +91,6 @@
     "activate:stripe-production": "tsx scripts/activate-stripe-production-annual.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",
     "seo:verify": "tsx scripts/verify-seo-pages.ts",
-    "capture:screenshots": "tsx scripts/capture-screenshots-playwright.ts",
-    "launch:monitor": "tsx scripts/monitor-product-hunt.ts",
-    "launch:watch": "tsx scripts/monitor-product-hunt.ts --watch",
     "launch:start-cron": "tsx lib/cron/product-hunt-monitor.ts",
     "launch:init": "tsx scripts/community-posting/execute-launch.ts",
     "launch:mark-posted": "tsx scripts/community-posting/mark-posted.ts",
@@ -142,7 +138,10 @@
     "implement:ab-winners:confirm": "tsx scripts/implement-ab-winners.ts --confirm",
     "conversion:baseline": "tsx scripts/pull-conversion-baseline.ts",
     "analyze:funnel": "tsx scripts/diagnose-conversion-funnel.ts",
-    "test:mobile": "node scripts/mobile-test.mjs"
+    "test:mobile": "node scripts/mobile-test.mjs",
+    "ph:screenshots": "tsx scripts/capture-ph-screenshots-vercel.ts",
+    "ph:monitor": "tsx scripts/monitor-ph-comments.ts",
+    "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",

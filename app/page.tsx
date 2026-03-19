@@ -1,7 +1,7 @@
 /**
  * Landing Page with Enhanced A/B Testing
  *
- * Client-side component that runs 6 simultaneous experiments:
+ * Client-side component that runs 6+ simultaneous experiments:
  *
  * LEGACY TESTS (Still running):
  * 1. Headline variations
@@ -12,6 +12,12 @@
  * 4. Headline ROI emphasis - Test $ saved messaging strength
  * 5. Video demo vs static hero - Test video engagement
  * 6. Pricing visibility - Test upfront pricing vs hidden
+ *
+ * NEWEST CRO EXPERIMENT (March 19, 2026):
+ * 7. Pain-Point Headline Test - 3 variants testing:
+ *    - Direct savings messaging ($5K+)
+ *    - Simplicity messaging
+ *    - Audience-targeted action messaging
  *
  * GOAL: 15%+ conversion lift within 1 week
  * TRAFFIC TARGET: 1000+ visitors per variant
@@ -29,13 +35,14 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/ca
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import { useLandingPageTests } from '@/hooks/use-landing-page-tests';
 import { useEnhancedLandingPageTests } from '@/hooks/use-enhanced-landing-tests';
+import { usePainPointHeadlineTest } from '@/hooks/use-pain-point-headline-test';
 import { TrustSignals, CompanyLogos } from '@/components/TrustSignals';
 import { VideoHero } from '@/components/landing/VideoHero';
 import { PricingPreview } from '@/components/landing/PricingPreview';
 import { presetSchemas } from '@/lib/seo/structured-data';
 
 export default function Home() {
-  // A/B Testing: Run all landing page experiments (6 total)
+  // A/B Testing: Run all landing page experiments (7 total)
   const {
     headline,
     cta,
@@ -54,15 +61,19 @@ export default function Home() {
     trackLandingPageViewed: trackEnhanced,
   } = useEnhancedLandingPageTests();
 
-  const isLoading = legacyLoading || enhancedLoading;
+  // NEWEST: Pain-Point Headline CRO Experiment (March 19, 2026)
+  const painPointHeadline = usePainPointHeadlineTest();
 
-  // Track page view with ALL experiment variants
+  const isLoading = legacyLoading || enhancedLoading || painPointHeadline.isLoading;
+
+  // Track page view with ALL experiment variants (7 experiments)
   useEffect(() => {
     if (!isLoading) {
       trackLegacy();
       trackEnhanced();
+      painPointHeadline.trackHeadlineViewed();
     }
-  }, [isLoading, trackLegacy, trackEnhanced]);
+  }, [isLoading, trackLegacy, trackEnhanced, painPointHeadline]);
 
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -145,27 +156,28 @@ export default function Home() {
         {/* Hero Section */}
         <section className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-12 sm:pb-16 md:pt-32 md:pb-24">
           <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
-            {/* A/B Test: NEW Enhanced Headline with ROI Emphasis */}
+            {/* A/B Test: NEWEST Pain-Point Focused Headline (3 Variants) */}
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-100 leading-tight px-2">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
-                  {headlineROI.headline}
+                  {painPointHeadline.headline}
                 </span>
               </h1>
 
-              {/* Show savings amount badge if variant includes it */}
-              {headlineROI.showSavingsAmount && (
+              {/* Show savings badge if variant includes it */}
+              {painPointHeadline.showSavingsBadge && (
                 <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
                   <TrendingUp className="h-5 w-5 text-emerald-400" />
                   <span className="text-emerald-400 font-semibold text-lg">
-                    Average Savings: {headlineROI.savingsAmount}
+                    {painPointHeadline.ctaEmphasis === 'savings' ? 'Average Savings: ' : ''}
+                    {painPointHeadline.savingsAmount}
                   </span>
                 </div>
               )}
             </div>
 
             <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-              {headlineROI.subheadline}
+              {painPointHeadline.subheadline}
             </p>
 
             {/* A/B Test: NEW Video Hero vs Static */}
@@ -189,7 +201,10 @@ export default function Home() {
               <Link href="/dashboard" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  onClick={() => trackCTAClick('/dashboard')}
+                  onClick={() => {
+                    trackCTAClick('/dashboard');
+                    painPointHeadline.trackHeadlineCTAClicked();
+                  }}
                   className={`w-full sm:w-auto group touch-manipulation ${cta.primaryColor} text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20`}
                 >
                   {cta.primaryText}
