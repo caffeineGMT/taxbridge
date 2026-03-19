@@ -368,3 +368,239 @@ input:-webkit-autofill:active {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===== MOBILE KEYBOARD HANDLING (iOS Safari Fix) ===== */
+
+/**
+ * iOS Safari Keyboard Overlay Fix
+ * Problem: On iOS Safari, when the keyboard appears, it overlays content
+ * and doesn't resize the viewport, causing inputs to be hidden
+ * Solution: Use visual viewport API and scroll into view
+ */
+
+/* Container that adjusts when keyboard is visible */
+.keyboard-aware-container {
+  position: relative;
+  transition: transform 0.3s ease-out;
+}
+
+/* Adjust positioning when input is focused on mobile */
+@media (max-width: 768px) {
+  /* When keyboard is visible, reduce height to ensure button visibility */
+  .keyboard-aware-form {
+    padding-bottom: 60px; /* Extra space for keyboard */
+  }
+
+  /* Ensure focused inputs scroll into view with padding */
+  input:focus,
+  select:focus,
+  textarea:focus {
+    scroll-margin-top: 100px;
+    scroll-margin-bottom: 100px;
+  }
+}
+
+/* iOS Safari Specific: Use env() for safe area + keyboard */
+@supports (-webkit-touch-callout: none) {
+  .keyboard-safe-padding {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+
+  /* Additional bottom padding when virtual keyboard is open */
+  .keyboard-aware-form {
+    padding-bottom: max(60px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Notification positioning for mobile - avoid browser chrome */
+.mobile-notification {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top, 1rem));
+  right: 1rem;
+  z-index: 9999;
+  max-width: calc(100vw - 2rem);
+}
+
+@media (max-width: 640px) {
+  .mobile-notification {
+    top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+    right: 0.75rem;
+    left: 0.75rem;
+    max-width: none;
+  }
+}
+
+/* ===== SMALL SCREEN OPTIMIZATIONS (iPhone SE 375px, Android 360px) ===== */
+
+@media (max-width: 375px) {
+  /* Progress indicator - reduce spacing */
+  .progress-step {
+    min-width: 80px; /* Down from 100px */
+  }
+
+  .progress-step-label {
+    font-size: 0.75rem; /* 12px */
+  }
+
+  .progress-step-description {
+    font-size: 0.625rem; /* 10px */
+    display: none; /* Hide on very small screens */
+  }
+
+  /* Calculator cards - reduce padding */
+  .calculator-card-mobile {
+    padding: 0.75rem; /* 12px */
+  }
+
+  /* Button text - abbreviate on small screens */
+  .button-text-mobile {
+    font-size: 0.875rem; /* 14px */
+  }
+
+  /* Input fields - optimize spacing */
+  .input-group-mobile {
+    margin-bottom: 1rem; /* Down from 1.5rem */
+  }
+
+  /* Results grid - force single column */
+  .results-grid-mobile {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Heading sizes */
+  .heading-responsive {
+    font-size: 1.25rem; /* 20px on very small screens */
+  }
+}
+
+/* ===== TOUCH TARGET ENFORCEMENT ===== */
+
+/* Ensure all interactive elements meet 44x44px minimum */
+@media (pointer: coarse) {
+  /* Mobile/touch devices only */
+  a:not(.no-touch-target),
+  button:not(.no-touch-target),
+  input[type="submit"]:not(.no-touch-target),
+  input[type="button"]:not(.no-touch-target),
+  [role="button"]:not(.no-touch-target),
+  [tabindex]:not([tabindex="-1"]):not(.no-touch-target) {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Links with text content */
+  a:not(.no-touch-target) {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Reduce motion for better mobile performance */
+@media (max-width: 768px) {
+  .performance-optimized {
+    /* Use GPU acceleration for smoother animations */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+
+  /* Lazy load images below the fold */
+  img:not([loading]) {
+    loading: lazy;
+  }
+
+  /* Reduce animation complexity on mobile */
+  .reduced-animation-mobile {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* ===== LAYOUT BREAK PREVENTION ===== */
+
+/* Prevent content overflow on small screens */
+.mobile-safe-width {
+  max-width: 100%;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Tables - make responsive */
+@media (max-width: 640px) {
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+}
+
+/* Grid - ensure no overflow */
+.grid-mobile-safe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 1rem;
+}
+
+/* ===== SLOW LOAD TIME FIXES ===== */
+
+/* Critical CSS - fonts should be preloaded */
+.font-optimized {
+  font-display: swap; /* Show fallback immediately, swap when loaded */
+}
+
+/* Images - optimize loading */
+.image-optimized {
+  loading: lazy;
+  decoding: async;
+}
+
+/* Third-party scripts - defer loading */
+.script-optimized {
+  loading: lazy;
+}
+
+/* Content shift prevention */
+.prevent-cls {
+  content-visibility: auto; /* Only render visible content */
+  contain-intrinsic-size: 1px 500px; /* Estimate size before render */
+}
+
+/* ===== ANDROID-SPECIFIC FIXES ===== */
+
+/* Android Chrome - fix sticky header jank */
+@supports (-webkit-appearance: none) {
+  .sticky-header-mobile {
+    position: sticky;
+    top: 0;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+}
+
+/* Android - fix tap highlight */
+* {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+/* Android - fix select dropdown */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2310b981' d='M6 8L0 2 1.4 0 6 4.6 10.6 0 12 2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px 8px;
+  padding-right: 2.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
