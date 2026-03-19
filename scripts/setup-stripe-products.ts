@@ -33,8 +33,8 @@ async function setupStripeProducts() {
   console.log('🚀 Setting up TaxBridge subscription products...\n');
 
   try {
-    // Create Pro Annual Product
-    console.log('Creating Pro Annual product...');
+    // Create Pro Monthly Product
+    console.log('Creating Pro Monthly product...');
     const proProduct = await stripe.products.create({
       name: 'TaxBridge Pro',
       description: 'Unlimited RSU entries, FTC optimizer, multi-year dashboard, PDF exports, and priority support',
@@ -52,23 +52,23 @@ async function setupStripeProducts() {
     });
     console.log(`✓ Pro product created: ${proProduct.id}`);
 
-    // Create Pro Annual Price
+    // Create Pro Monthly Price
     const proPrice = await stripe.prices.create({
       product: proProduct.id,
-      unit_amount: 29900, // $299.00 in cents
+      unit_amount: 2900, // $29.00 in cents
       currency: 'usd',
       recurring: {
-        interval: 'year',
+        interval: 'month',
       },
       metadata: {
         tier: 'pro',
-        billing_cycle: 'annual',
+        billing_cycle: 'monthly',
       },
     });
-    console.log(`✓ Pro annual price created: ${proPrice.id}\n`);
+    console.log(`✓ Pro monthly price created: ${proPrice.id}\n`);
 
-    // Create Enterprise Annual Product
-    console.log('Creating Enterprise Annual product...');
+    // Create Enterprise Monthly Product
+    console.log('Creating Enterprise Monthly product...');
     const enterpriseProduct = await stripe.products.create({
       name: 'TaxBridge Enterprise',
       description: 'All Pro features plus API access, client management, white-label reports, and dedicated support',
@@ -87,20 +87,20 @@ async function setupStripeProducts() {
     });
     console.log(`✓ Enterprise product created: ${enterpriseProduct.id}`);
 
-    // Create Enterprise Annual Price
+    // Create Enterprise Monthly Price
     const enterprisePrice = await stripe.prices.create({
       product: enterpriseProduct.id,
-      unit_amount: 200000, // $2,000.00 in cents
+      unit_amount: 19900, // $199.00 in cents
       currency: 'usd',
       recurring: {
-        interval: 'year',
+        interval: 'month',
       },
       metadata: {
         tier: 'enterprise',
-        billing_cycle: 'annual',
+        billing_cycle: 'monthly',
       },
     });
-    console.log(`✓ Enterprise annual price created: ${enterprisePrice.id}\n`);
+    console.log(`✓ Enterprise monthly price created: ${enterprisePrice.id}\n`);
 
     // Print environment variables to add
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -129,8 +129,8 @@ async function setupStripeProducts() {
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('📊 Product Summary:');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-    console.log(`Pro Annual:        $299/year  (${proPrice.id})`);
-    console.log(`Enterprise Annual: $2,000/year (${enterprisePrice.id})`);
+    console.log(`Pro Monthly:        $29/month  (${proPrice.id})`);
+    console.log(`Enterprise Monthly: $199/month (${enterprisePrice.id})`);
     console.log('');
   } catch (error: any) {
     console.error('❌ Error setting up Stripe products:');

@@ -1,8 +1,16 @@
 # PostgreSQL Migration Guide
 
+## ⚠️ CRITICAL NOTICE
+
+**Production is currently using SQLite on Vercel's ephemeral filesystem. Customer data WILL BE LOST on next deployment.**
+
+**Action Required:** Complete this migration immediately to prevent data loss.
+
+For a step-by-step checklist, see: `docs/POSTGRES_MIGRATION_CHECKLIST.md`
+
 ## Overview
 
-The TaxBridge application now supports both SQLite (development) and PostgreSQL (production) databases through a unified database abstraction layer.
+The TaxBridge application supports both SQLite (development) and PostgreSQL (production) databases through a unified database abstraction layer. This migration is essential for production deployment on platforms like Vercel that use ephemeral filesystems.
 
 ## Environment Configuration
 
@@ -32,15 +40,59 @@ DATABASE_URL=postgresql://[user]:[password]@[endpoint].neon.tech/[dbname]?sslmod
 
 ### Option 1: Supabase (Recommended)
 
-1. Create account at https://supabase.com
-2. Create new project
-3. Go to Settings > Database
-4. Copy the "Connection string" (URI format)
-5. Set `DATABASE_URL` environment variable
-6. Run migrations: `npm run db:init:postgres`
+**Step-by-step setup:**
 
-**Pros**: Free tier, automatic backups, built-in admin UI, connection pooling
-**Cons**: Cold starts on free tier
+1. **Create account**
+   - Go to https://supabase.com
+   - Click "Start your project"
+   - Sign up with GitHub (recommended) or email
+
+2. **Create new project**
+   - Click "New Project"
+   - Project name: `taxbridge-production`
+   - Database password: Generate strong password (SAVE THIS)
+   - Region: Choose closest to users (e.g., `us-east-1`)
+   - Plan: Free tier (500MB database, automatic backups)
+   - Wait 2-3 minutes for provisioning
+
+3. **Get connection string**
+   - Click **Project Settings** (gear icon, bottom left)
+   - Click **Database** in settings menu
+   - Scroll to **Connection string** section
+   - Select **URI** tab (NOT "Transaction pooler")
+   - Copy connection string:
+     ```
+     postgresql://postgres:[YOUR-PASSWORD]@db.abcdefghijklm.supabase.co:5432/postgres
+     ```
+   - Replace `[YOUR-PASSWORD]` with your database password
+
+4. **Configure environment**
+   - Add to `.env.production`:
+     ```bash
+     DATABASE_URL=postgresql://postgres:YourPassword@db.yourproject.supabase.co:5432/postgres
+     ```
+   - Add to Vercel environment variables:
+     - Go to Vercel → Project Settings → Environment Variables
+     - Key: `DATABASE_URL`
+     - Value: Your connection string
+     - Environment: Production (check the box)
+     - Click Save
+
+5. **Initialize database**
+   ```bash
+   export $(cat .env.production | xargs)
+   tsx scripts/init-postgres-db.ts
+   ```
+
+6. **Verify setup**
+   ```bash
+   tsx scripts/test-postgres-connection.ts
+   tsx scripts/verify-postgres-data.ts
+   ```
+
+**Pros**: Free tier, automatic backups, built-in admin UI, connection pooling, excellent documentation
+**Cons**: Cold starts on free tier (minimal impact)
+**Best for**: Production deployments, first-time PostgreSQL users
 
 ### Option 2: Railway
 
@@ -66,28 +118,39 @@ DATABASE_URL=postgresql://[user]:[password]@[endpoint].neon.tech/[dbname]?sslmod
 
 ## Database Initialization
 
-### First-time Setup
+### Quick Start
 
 ```bash
-# Set DATABASE_URL in .env.production
-export DATABASE_URL="postgresql://..."
+# 1. Load environment variables
+export $(cat .env.production | xargs)
 
-# Initialize schema
+# 2. Test connection
+tsx scripts/test-postgres-connection.ts
+
+# 3. Initialize database schema
 tsx scripts/init-postgres-db.ts
 
-# Or use npm script
-npm run db:init:postgres
+# 4. Verify setup
+tsx scripts/verify-postgres-data.ts
+
+# 5. Test locally with PostgreSQL
+npm run dev
+# Look for: [DB] Using PostgreSQL database
 ```
+
+### Available Scripts
+
+| Script | Purpose |
+|--------|---------|
+| `tsx scripts/test-postgres-connection.ts` | Test DATABASE_URL connection |
+| `tsx scripts/init-postgres-db.ts` | Initialize schema and run migrations |
+| `tsx scripts/verify-postgres-data.ts` | Verify data and check database health |
 
 ### Running Migrations
 
 Migrations are automatically applied when the application starts if using PostgreSQL.
 
-To manually run migrations:
-
-```bash
-tsx scripts/run-postgres-migrations.ts
-```
+The `init-postgres-db.ts` script runs all pending migrations automatically.
 
 ## Schema Differences
 
@@ -110,33 +173,86 @@ The PostgreSQL schema is equivalent to SQLite but with these improvements:
    - SQLite: `VIRTUAL`
    - PostgreSQL: `STORED`
 
-## Migration Checklist
+## Quick Migration Checklist
 
+**See `docs/POSTGRES_MIGRATION_CHECKLIST.md` for detailed step-by-step guide.**
+
+**Code preparation (completed):**
 - [x] Install `pg` and `@types/pg` packages
 - [x] Create PostgreSQL schema file (`postgres-schema.sql`)
 - [x] Create unified database abstraction layer (`lib/db/unified.ts`)
 - [x] Update all database queries to use async/await
 - [x] Create PostgreSQL migration files
+- [x] Create initialization and test scripts
 - [x] Test database operations
-- [ ] Set up PostgreSQL instance (Supabase/Railway/Neon)
-- [ ] Configure `DATABASE_URL` environment variable
-- [ ] Run initial migration
-- [ ] Verify data persistence
+
+**Production setup (action required):**
+- [ ] Create Supabase account and project
+- [ ] Get DATABASE_URL connection string
+- [ ] Add DATABASE_URL to `.env.production`
+- [ ] Add DATABASE_URL to Vercel environment variables
+- [ ] Run `tsx scripts/test-postgres-connection.ts`
+- [ ] Run `tsx scripts/init-postgres-db.ts`
+- [ ] Run `tsx scripts/verify-postgres-data.ts`
+- [ ] Test locally with `npm run dev`
+- [ ] Build with `npm run build` (verify zero errors)
+- [ ] Deploy to production
+- [ ] Verify data persistence after deployment
 
 ## Testing
 
-### Test SQLite (Development)
+### Test PostgreSQL Connection
+```bash
+# Load environment
+export $(cat .env.production | xargs)
+
+# Test connection
+tsx scripts/test-postgres-connection.ts
+
+# Expected output:
+# ✅ Connection successful!
+# ✅ Found N tables
+# ✅ All required tables present!
+# ✅ Write permissions verified
+```
+
+### Test Local Development with PostgreSQL
+```bash
+# Load environment
+export $(cat .env.production | xargs)
+
+# Start dev server
+npm run dev
+
+# Expected in logs:
+# [DB] Using PostgreSQL database
+```
+
+### Test SQLite (Development - Default)
 ```bash
 # Unset DATABASE_URL
 unset DATABASE_URL
+
+# Start dev server
 npm run dev
+
+# Expected in logs:
+# [DB] Using SQLite database
 ```
 
-### Test PostgreSQL (Production)
+### Verify Data Integrity
 ```bash
-# Set DATABASE_URL
-export DATABASE_URL="postgresql://..."
-npm run dev
+# Load environment
+export $(cat .env.production | xargs)
+
+# Run verification
+tsx scripts/verify-postgres-data.ts
+
+# Shows:
+# - Table row counts
+# - Database size
+# - Recent activity
+# - Index health
 ```
 
 ## Troubleshooting
@@ -182,10 +298,80 @@ If you need to rollback to SQLite-only:
 2. The app will automatically use SQLite
 3. All data in PostgreSQL will remain but won't be accessible
 
+## Vercel Deployment
+
+### Critical Steps for Vercel
+
+1. **Add DATABASE_URL to Vercel**
+   - Go to https://vercel.com/dashboard
+   - Select your project
+   - Settings → Environment Variables
+   - Add `DATABASE_URL` with your PostgreSQL connection string
+   - Select "Production" environment
+   - Save
+
+2. **Trigger Deployment**
+   ```bash
+   git add -A
+   git commit -m "[P0-CRITICAL] Complete PostgreSQL migration"
+   git push origin main
+   ```
+
+3. **Verify in Production**
+   - Check Vercel deployment logs
+   - Look for: `[DB] Using PostgreSQL database`
+   - Test creating data in production
+   - Redeploy and verify data persists
+
+### Common Vercel Issues
+
+**Data not persisting:**
+- Check DATABASE_URL is set in Vercel (Settings → Environment Variables)
+- Verify you redeployed AFTER adding the environment variable
+- Check deployment logs for database connection errors
+
+**Build errors:**
+- Run `npm run build` locally first
+- Verify all database queries use the unified layer
+- Check for any remaining SQLite-specific code
+
+## New Scripts Reference
+
+### `scripts/test-postgres-connection.ts`
+Tests the DATABASE_URL connection and verifies PostgreSQL is accessible.
+- Validates connection string format
+- Checks database permissions
+- Lists existing tables
+- Tests write capability
+- Shows connection pool stats
+
+### `scripts/init-postgres-db.ts`
+Initializes the PostgreSQL database schema and runs migrations.
+- Creates all required tables
+- Sets up indexes
+- Runs pending migrations
+- Creates migration tracking table
+- Verifies setup with test query
+
+### `scripts/verify-postgres-data.ts`
+Verifies data exists and database is healthy.
+- Shows table row counts
+- Displays database size
+- Lists recent activity
+- Checks index health
+- Reports active connections
+- Validates data integrity
+
 ## Support
 
-For issues or questions about the migration:
-- Check the migration logs in console
-- Review TypeScript errors carefully
-- Test queries in both SQLite and PostgreSQL
-- Verify environment variables are set correctly
+**For migration help:**
+- See: `docs/POSTGRES_MIGRATION_CHECKLIST.md` (step-by-step guide)
+- Check migration logs in console
+- Review error messages carefully
+- Test connection with `tsx scripts/test-postgres-connection.ts`
+- Verify setup with `tsx scripts/verify-postgres-data.ts`
+
+**Resources:**
+- Supabase Docs: https://supabase.com/docs/guides/database
+- PostgreSQL Connection Issues: https://supabase.com/docs/guides/database/connecting-to-postgres
+- Vercel Environment Variables: https://vercel.com/docs/projects/environment-variables
