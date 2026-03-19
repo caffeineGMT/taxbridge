@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-03-19T18:27:23.356Z",
+  "checks": [
+    {
+      "name": "Clerk Publishable Key",
+      "status": "fail",
+      "message": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY not set",
+      "details": "Missing environment variable"
+    },
+    {
+      "name": "Clerk Secret Key",
+      "status": "fail",
+      "message": "CLERK_SECRET_KEY not set",
+      "details": "Missing environment variable"
+    },
+    {
+      "name": "Clerk Webhook Secret",
+      "status": "warning",
+      "message": "Clerk webhook secret not configured",
+      "details": "Optional but recommended for production"
+    },
+    {
+      "name": "Clerk Middleware",
+      "status": "pass",
+      "message": "Clerk middleware configured",
+      "details": "Found clerkMiddleware in middleware.ts"
+    },
+    {
+      "name": "Mode Consistency",
+      "status": "fail",
+      "message": "Keys are in inconsistent modes or invalid",
+      "details": "Publishable and secret keys should both be pk_live_/sk_live_ or pk_test_/sk_test_"
+    },
+    {
+      "name": "Protected Routes",
+      "status": "pass",
+      "message": "Public and protected routes configured",
+      "details": "Found isPublicRoute matcher and auth.protect()"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "passed": 2,
+    "failed": 3,
+    "warnings": 1
+  },
+  "overallStatus": "fail"
+}

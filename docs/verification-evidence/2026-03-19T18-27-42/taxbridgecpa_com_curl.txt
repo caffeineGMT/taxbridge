@@ -1,0 +1,1 @@
+Command failed: curl -I -s -w "\n\nHTTP_CODE:%{http_code}\nTOTAL_TIME:%{time_total}\n" "https://taxbridgecpa.com" 2>&1

@@ -1,0 +1,62 @@
+[
+  {
+    "domain": "taxbridgecpa.com",
+    "timestamp": "2026-03-19T18:27:41.703Z",
+    "dns": {
+      "resolved": false,
+      "ips": []
+    },
+    "http": {
+      "accessible": false,
+      "responseTime": 323,
+      "error": "Command failed: curl -I -s -w \"\\n\\nHTTP_CODE:%{http_code}\\nTOTAL_TIME:%{time_total}\\n\" \"https://taxbridgecpa.com\" 2>&1\n"
+    },
+    "curl": {
+      "fullOutput": "Command failed: curl -I -s -w \"\\n\\nHTTP_CODE:%{http_code}\\nTOTAL_TIME:%{time_total}\\n\" \"https://taxbridgecpa.com\" 2>&1\n"
+    }
+  },
+  {
+    "domain": "taxbridge.vercel.app",
+    "timestamp": "2026-03-19T18:27:42.096Z",
+    "dns": {
+      "resolved": true,
+      "ips": [
+        "216.198.79.3",
+        "64.29.17.3"
+      ]
+    },
+    "http": {
+      "accessible": true,
+      "statusCode": 200,
+      "statusMessage": "Unknown",
+      "headers": {
+        "x-x2pagentd-session-id": "",
+        "x-fb-x2pagent-request-id": "",
+        "date": "Thu, 19 Mar 2026 18:27:42 GMT",
+        "connection": "close",
+        "accept-ranges": "bytes",
+        "access-control-allow-origin": "*",
+        "age": "31559",
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-disposition": "inline",
+        "content-type": "text/html; charset=utf-8",
+        "etag": "\"4fd0ddb4c3cbb49ed407820fe9c8594c\"",
+        "server": "Vercel",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+        "x-matched-path": "/",
+        "x-nextjs-prerender": "1",
+        "x-nextjs-stale-time": "300",
+        "x-vercel-cache": "HIT",
+        "x-vercel-id": "pdx1::dt92v-1773944862352-7bafe0e622bf",
+        "content-length": "17873",
+        "http_code": "200",
+        "total_time": "0.186210"
+      },
+      "responseTime": 247
+    },
+    "curl": {
+      "fullOutput": "HTTP/1.0 200 \r\nx-x2pagentd-session-id: \r\nx-fb-x2pagent-request-id: \r\nDate: Thu, 19 Mar 2026 18:27:42 UTC\r\nConnection: close\r\n\r\nHTTP/2 200 \r\naccept-ranges: bytes\r\naccess-control-allow-origin: *\r\nage: 31559\r\ncache-control: public, max-age=0, must-revalidate\r\ncontent-disposition: inline\r\ncontent-type: text/html; charset=utf-8\r\ndate: Thu, 19 Mar 2026 18:27:42 GMT\r\netag: \"4fd0ddb4c3cbb49ed407820fe9c8594c\"\r\nserver: Vercel\r\nstrict-transport-security: max-age=63072000; includeSubDomains; preload\r\nvary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch\r\nx-matched-path: /\r\nx-nextjs-prerender: 1\r\nx-nextjs-stale-time: 300\r\nx-vercel-cache: HIT\r\nx-vercel-id: pdx1::dt92v-1773944862352-7bafe0e622bf\r\ncontent-length: 17873\r\n\r\n\n\nHTTP_CODE:200\nTOTAL_TIME:0.186210\n"
+    }
+  }
+]

@@ -1,0 +1,29 @@
+HTTP/1.0 200 
+x-x2pagentd-session-id: 
+x-fb-x2pagent-request-id: 
+Date: Thu, 19 Mar 2026 18:27:42 UTC
+Connection: close
+
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 31559
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-type: text/html; charset=utf-8
+date: Thu, 19 Mar 2026 18:27:42 GMT
+etag: "4fd0ddb4c3cbb49ed407820fe9c8594c"
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-matched-path: /
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-vercel-cache: HIT
+x-vercel-id: pdx1::dt92v-1773944862352-7bafe0e622bf
+content-length: 17873
+
+
+
+HTTP_CODE:200
+TOTAL_TIME:0.186210

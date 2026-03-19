@@ -28,8 +28,9 @@
     "test:e2e:mobile": "PLAYWRIGHT_TEST_MODE=true npx playwright test --project=mobile-chrome --project=mobile-safari",
     "test:rate-limiting": "tsx scripts/test-rate-limiting.ts",
     "setup:posthog": "tsx scripts/setup-posthog.ts",
-    "verify:posthog": "tsx scripts/verify-posthog-funnel-tracking.ts",
+    "verify:posthog": "tsx scripts/verify-posthog.ts",
     "verify:posthog-funnel": "tsx scripts/verify-posthog-funnel-tracking.ts",
+    "test:posthog": "tsx scripts/test-posthog-events.ts",
     "monitor:funnel": "tsx scripts/monitor-funnel-performance.ts",
     "verify:blog": "tsx scripts/verify-blog-publication.ts",
     "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
@@ -40,6 +41,7 @@
     "verify:monitoring": "tsx scripts/verify-monitoring.ts",
     "verify:monitoring:production": "tsx scripts/verify-monitoring.ts --production",
     "verify:health-baseline": "dotenv -e .env.production -- tsx scripts/production-health-baseline.ts",
+    "verify:clerk-auth": "tsx scripts/verify-clerk-auth.ts",
     "health-check": "tsx scripts/health-check.ts",
     "health-check:watch": "tsx scripts/health-check.ts --watch",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
@@ -89,6 +91,7 @@
     "stripe:setup-live": "node scripts/setup-stripe-live.js",
     "stripe:activate-production": "tsx scripts/activate-stripe-production.ts",
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
+    "verify:stripe-production": "tsx scripts/verify-stripe-production.ts",
     "verify:stripe:live": "tsx scripts/verify-stripe-live.ts",
     "stripe:create-competitive-prices": "tsx scripts/stripe-create-competitive-prices.ts",
     "analyze:sessions": "tsx scripts/analyze-posthog-session-recordings.ts",
@@ -162,7 +165,8 @@
     "ph:screenshots": "tsx scripts/capture-ph-screenshots-vercel.ts",
     "ph:monitor": "tsx scripts/monitor-ph-comments.ts",
     "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "verify:production:evidence": "tsx scripts/verify-production-site-evidence.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
