@@ -169,7 +169,9 @@
     "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts",
     "prepare": "husky",
     "verify:production:evidence": "tsx scripts/verify-production-site-evidence.ts",
-    "verify:stripe:mode": "tsx scripts/verify-stripe-mode.ts"
+    "verify:stripe:mode": "tsx scripts/verify-stripe-mode.ts",
+    "smoke:test": "tsx scripts/production-smoke-test.ts",
+    "smoke:test:production": "tsx scripts/production-smoke-test.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
