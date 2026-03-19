@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     Sentry.setUser({ id: clerkUserId });
 
     // Get user profile
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
     if (!userProfile) {
       return NextResponse.json(
         { error: 'User profile not found' },

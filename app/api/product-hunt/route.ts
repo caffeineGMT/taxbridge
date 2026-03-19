@@ -95,6 +95,14 @@ export async function GET(request: Request) {
     }
 
     // Calculate summary statistics
+    if (!launchData) {
+      return NextResponse.json({
+        status: 'not_launched',
+        message: 'No launch data available',
+        data: null,
+      });
+    }
+
     const latestMetrics = launchData.metrics[launchData.metrics.length - 1];
     const hoursSinceLaunch = latestMetrics?.hour || 0;
     const hoursRemaining = Math.max(0, 24 - hoursSinceLaunch);

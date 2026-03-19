@@ -22,7 +22,7 @@ export async function POST() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
     if (!userProfile) {
       return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
     }
@@ -87,10 +87,10 @@ export async function POST() {
     ];
 
     const rsuIds: number[] = [];
-    sampleRSUEntries.forEach((entry) => {
-      const id = insertRSUEntry(entry);
+    for (const entry of sampleRSUEntries) {
+      const id = await insertRSUEntry(entry);
       rsuIds.push(id);
-    });
+    }
 
     // Create tax calculations for each RSU entry
     sampleRSUEntries.forEach((entry, index) => {

@@ -11,9 +11,18 @@ import {
   grantReferralReward,
   getUserReferrals,
   updateLeaderboardEntry,
+  getUserReferralStats,
 } from '../db/queries/referrals';
 import { getDatabase } from '../db';
+import { getReferralRewardEmailData, EMAIL_TEMPLATES } from '../email/templates';
 import Stripe from 'stripe';
+import sgMail from '@sendgrid/mail';
+
+// Initialize SendGrid (only if API key exists)
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+if (SENDGRID_API_KEY) {
+  sgMail.setApiKey(SENDGRID_API_KEY);
+}
 
 const REFERRER_REWARD_MONTHS = 2; // Free months to give referrer
 const REFERRER_REWARD_VALUE = 50.00; // $50 value (2 months Pro @ $24.92/mo)
@@ -86,13 +95,15 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
 
   // Get referrer's subscription
   const referrer = db.prepare(`
-    SELECT stripe_subscription_id, subscription_tier, email
+    SELECT stripe_subscription_id, subscription_tier, email, first_name, last_name
     FROM user_profiles
     WHERE id = ?
   `).get(referrerId) as {
     stripe_subscription_id: string | null;
     subscription_tier: string;
     email: string;
+    first_name: string | null;
+    last_name: string | null;
   } | undefined;
 
   if (!referrer) {
@@ -136,8 +147,60 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
   // Mark reward as granted in database
   grantReferralReward(referralId, 'free_month', REFERRER_REWARD_VALUE);
 
-  // TODO: Send email notification to referrer
-  console.log('TODO: Send reward email to:', referrer.email);
+  // Send reward notification email
+  await sendReferralRewardEmail(referrerId, referrer.email, referrer.first_name || 'there');
+
+  console.log('✓ Referral reward granted and email sent:', { referrerId, email: referrer.email });
+}
+
+/**
+ * Send referral reward notification email
+ */
+async function sendReferralRewardEmail(
+  referrerId: number,
+  email: string,
+  firstName: string
+): Promise<void> {
+  // Check if SendGrid is configured
+  if (!SENDGRID_API_KEY) {
+    console.warn('[Referral Email] SendGrid not configured - reward email not sent');
+    return;
+  }
+
+  try {
+    // Get referrer's stats
+    const stats = getUserReferralStats(referrerId);
+
+    // Prepare email data
+    const emailData = getReferralRewardEmailData({
+      firstName,
+      email,
+      rewardMonths: REFERRER_REWARD_MONTHS,
+      rewardValue: REFERRER_REWARD_VALUE,
+      totalReferrals: stats.total_referrals,
+    });
+
+    // Send email via SendGrid
+    const msg = {
+      to: email,
+      from: {
+        email: process.env.SENDGRID_FROM_EMAIL || 'noreply@taxbridge.app',
+        name: 'TaxBridge',
+      },
+      templateId: EMAIL_TEMPLATES.REFERRAL_REWARD_GRANTED,
+      dynamicTemplateData: emailData,
+      trackingSettings: {
+        clickTracking: { enable: true },
+        openTracking: { enable: true },
+      },
+    };
+
+    await sgMail.send(msg);
+    console.log('[Referral Email] Reward email sent to:', email);
+  } catch (error: any) {
+    console.error('[Referral Email] Failed to send reward email:', error.response?.body || error.message);
+    // Don't throw - email failure shouldn't block the reward
+  }
 }
 
 /**

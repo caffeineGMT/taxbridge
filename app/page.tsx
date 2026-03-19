@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { Calculator, TrendingUp, FileText, ArrowRight, Star } from 'lucide-react';
+import { Calculator, TrendingUp, FileText, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { Metadata } from 'next';
 import { presetSchemas } from '@/lib/seo/structured-data';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 export const metadata: Metadata = {
   title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
@@ -223,87 +224,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {/* Testimonial 1 */}
-              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader className="px-4 sm:px-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
-                      P
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100">Priya Sharma</div>
-                      <div className="text-xs text-slate-400">Senior SWE, Meta</div>
-                      <div className="text-xs text-emerald-400">Vancouver, BC</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
-                    ))}
-                  </div>
-                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
-                    "Caught a $2,300 FTC error from last year. Already recommended it to my entire H-1B team."
-                  </CardDescription>
-                  <div className="mt-4 pt-3 border-t border-slate-700">
-                    <span className="text-emerald-400 font-bold text-lg">$2,300</span>
-                    <span className="text-slate-400 text-xs ml-2">tax savings</span>
-                  </div>
-                </CardHeader>
-              </Card>
-
-              {/* Testimonial 2 */}
-              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader className="px-4 sm:px-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
-                      D
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100">David Kim</div>
-                      <div className="text-xs text-slate-400">Staff Engineer, Amazon</div>
-                      <div className="text-xs text-emerald-400">Toronto, ON</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
-                    ))}
-                  </div>
-                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
-                    "The FTC optimizer saved me $4,100 on my 2025 filing. This tool pays for itself 10x over."
-                  </CardDescription>
-                  <div className="mt-4 pt-3 border-t border-slate-700">
-                    <span className="text-emerald-400 font-bold text-lg">$4,100</span>
-                    <span className="text-slate-400 text-xs ml-2">tax savings</span>
-                  </div>
-                </CardHeader>
-              </Card>
-
-              {/* Testimonial 3 */}
-              <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader className="px-4 sm:px-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
-                      M
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100">Maria Gonzalez</div>
-                      <div className="text-xs text-slate-400">TN Visa, Google</div>
-                      <div className="text-xs text-emerald-400">Montreal, QC</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-1 mb-3">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
-                    ))}
-                  </div>
-                  <CardDescription className="text-slate-300 text-sm leading-relaxed">
-                    "Made dual-country tax calculations crystal clear. The PDF export went straight to my CPA. Zero questions."
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
+            <TestimonialCarousel variant="default" limit={3} autoRotate={false} />
 
             <div className="mt-6 sm:mt-8 text-center">
               <Link href="/pricing" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-2 transition-colors text-sm sm:text-base">

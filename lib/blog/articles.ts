@@ -189,6 +189,38 @@ export const ARTICLE_TOPICS: ArticleMetadata[] = [
     keywords: ['first-time H-1B taxes', 'new immigrant taxes', 'tax filing checklist', 'H-1B tax guide'],
     category: 'Tax Filing',
     targetKeyword: 'first-time H-1B tax filing'
+  },
+  {
+    slug: 'tn-visa-tax-filing-checklist',
+    title: 'TN Visa Tax Filing Checklist: Complete 2026 Guide for Canadians Working in the US',
+    description: 'Step-by-step TN visa tax filing checklist for Canadians working in the US. Covers residency status, treaty benefits, required forms, state taxes, and common mistakes that cost thousands.',
+    keywords: ['TN visa taxes', 'TN visa tax filing', 'Canadian working in US taxes', 'tax treaty benefits', 'cross-border tax checklist', 'TN visa tax guide', 'substantial presence test', 'Form 8833'],
+    category: 'TN Visa',
+    targetKeyword: 'TN visa tax filing checklist'
+  },
+  {
+    slug: 'cross-border-tax-mistakes-avoid',
+    title: '10 Cross-Border Tax Mistakes That Cost H-1B and TN Workers Thousands',
+    description: 'Avoid these costly cross-border tax mistakes made by H-1B and TN visa holders moving between the US and Canada. Real examples show how errors cost $5,000-$20,000 in penalties and overpaid taxes.',
+    keywords: ['cross-border tax mistakes', 'H-1B tax errors', 'TN visa tax mistakes', 'FBAR penalties', 'TFSA US tax', 'foreign tax credit mistakes', 'tax filing errors', 'avoid tax penalties'],
+    category: 'Tax Planning',
+    targetKeyword: 'cross-border tax mistakes to avoid'
+  },
+  {
+    slug: 'rsu-vs-espp-tax-comparison',
+    title: 'RSU vs ESPP Tax Comparison: Which Stock Compensation Saves You More?',
+    description: 'Complete tax comparison of RSUs vs ESPP for tech workers. Covers withholding rates, capital gains treatment, cross-border implications, and strategies to minimize taxes on each.',
+    keywords: ['RSU vs ESPP', 'RSU tax comparison', 'ESPP tax treatment', 'stock compensation tax', 'qualifying disposition', 'employee stock purchase plan', 'restricted stock units', 'tech worker compensation'],
+    category: 'Stock Compensation',
+    targetKeyword: 'RSU vs ESPP tax comparison'
+  },
+  {
+    slug: 'rrsp-vs-401k-comparison',
+    title: 'Canadian RRSP vs US 401(k): Complete Tax Comparison for Cross-Border Workers',
+    description: 'Comprehensive comparison of RRSP vs 401(k) for H-1B and TN visa holders. Covers contribution limits, tax treatment, withdrawal rules, cross-border implications, and optimization strategies.',
+    keywords: ['RRSP vs 401k', 'Canadian RRSP US tax', '401k in Canada', 'cross-border retirement', 'RRSP treaty protection', 'retirement account comparison', 'H-1B 401k', 'TN visa RRSP'],
+    category: 'Retirement Planning',
+    targetKeyword: 'RRSP vs 401k comparison'
   }
 ];
 

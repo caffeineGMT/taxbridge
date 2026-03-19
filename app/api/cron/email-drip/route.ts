@@ -5,56 +5,74 @@ import {
   getUsersForDripEmail,
   recordEmailSent,
 } from '@/lib/db/queries/drip-campaign';
-import { selectABVariant } from '@/lib/email/ab-testing';
-import { getEnhancedEmailDataGenerator } from '@/lib/email/enhanced-templates';
+import {
+  getDay1EmailData,
+  getDay3EmailData,
+  getDay5EmailData,
+  getDay7EmailData,
+} from '@/lib/email/templates';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
 
-// Configure cron schedule - runs daily at 9:00 AM UTC
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 interface DripEmailConfig {
-  eventType: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14';
+  eventType: 'drip_day1' | 'drip_day3' | 'drip_day5' | 'drip_day7';
   dayOffset: number;
   templateId: string;
   description: string;
+  getEmailData: (params: { firstName: string; email: string; discountCode?: string }) => any;
 }
 
+/**
+ * 7-DAY NURTURE SEQUENCE CONFIGURATION
+ *
+ * Day 1: Welcome + Calculator Tips
+ * Day 3: Case Study (Social Proof)
+ * Day 5: Limited Offer (30% off, 48-hour window)
+ * Day 7: Last Chance (Expires tonight)
+ */
 const DRIP_CONFIGS: DripEmailConfig[] = [
   {
-    eventType: 'drip_welcome',
-    dayOffset: 0,
-    templateId: EMAIL_TEMPLATES.DRIP_WELCOME,
-    description: 'Welcome Email',
+    eventType: 'drip_day1',
+    dayOffset: 1,
+    templateId: EMAIL_TEMPLATES.DRIP_DAY1,
+    description: 'Day 1 - Welcome + Calculator Tips',
+    getEmailData: getDay1EmailData,
   },
   {
     eventType: 'drip_day3',
     dayOffset: 3,
     templateId: EMAIL_TEMPLATES.DRIP_DAY3,
-    description: 'Day 3 - FTC Education',
+    description: 'Day 3 - Case Study (Social Proof)',
+    getEmailData: getDay3EmailData,
+  },
+  {
+    eventType: 'drip_day5',
+    dayOffset: 5,
+    templateId: EMAIL_TEMPLATES.DRIP_DAY5,
+    description: 'Day 5 - Limited Offer (30% off)',
+    getEmailData: getDay5EmailData,
   },
   {
     eventType: 'drip_day7',
     dayOffset: 7,
     templateId: EMAIL_TEMPLATES.DRIP_DAY7,
-    description: 'Day 7 - Feature Highlight',
-  },
-  {
-    eventType: 'drip_day14',
-    dayOffset: 14,
-    templateId: EMAIL_TEMPLATES.DRIP_DAY14,
-    description: 'Day 14 - Upgrade Offer',
+    description: 'Day 7 - Last Chance',
+    getEmailData: getDay7EmailData,
   },
 ];
 
 /**
- * Vercel Cron endpoint for email drip campaign
- * Runs daily at 9:00 AM UTC to send scheduled emails
+ * Vercel Cron endpoint for 7-day email drip campaign
+ *
+ * Runs daily at 9:00 AM PST (5:00 PM UTC) to send scheduled emails
+ * Configured in vercel.json
+ *
+ * SEQUENCE:
+ * - Day 1: Welcome + tips (sent 1 day after signup)
+ * - Day 3: Case study (sent 3 days after signup)
+ * - Day 5: Limited offer - 30% discount (sent 5 days after signup)
+ * - Day 7: Last chance (sent 7 days after signup)
  *
  * Manual trigger for testing:
  * curl https://taxbridge.app/api/cron/email-drip \
@@ -73,7 +91,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log('🚀 Starting email drip campaign cron job...');
+  console.log('🚀 Starting 7-day email drip campaign cron job...');
 
   const results = {
     timestamp: new Date().toISOString(),
@@ -83,9 +101,11 @@ export async function GET(request: NextRequest) {
       eligible: number;
       sent: number;
       failed: number;
+      skipped: number;
     }>,
     totalSent: 0,
     totalFailed: 0,
+    totalSkipped: 0,
   };
 
   // Process each drip email type
@@ -98,37 +118,27 @@ export async function GET(request: NextRequest) {
 
     let sent = 0;
     let failed = 0;
+    let skipped = 0;
 
     // Send emails to each user
     for (const user of eligibleUsers) {
       if (!user.email) {
         console.warn(`   ⚠️  Skipping user ${user.id} (no email)`);
-        failed++;
+        skipped++;
         continue;
       }
 
       try {
-        // Select A/B test variant for this user
-        const variant = selectABVariant(config.eventType);
+        // Determine discount code based on email type
+        const discountCode = ['drip_day5', 'drip_day7'].includes(config.eventType)
+          ? 'WELCOME30'
+          : undefined;
 
-        if (!variant) {
-          console.warn(`   ⚠️  No A/B variant configured for ${config.eventType}`);
-          failed++;
-          continue;
-        }
-
-        // Get enhanced email data generator
-        const getEnhancedData = getEnhancedEmailDataGenerator(config.eventType);
-
-        // Generate dynamic email data with A/B testing and personalization
-        const emailData = getEnhancedData({
-          userId: user.id,
+        // Generate dynamic email data
+        const emailData = config.getEmailData({
           firstName: user.first_name || 'there',
           email: user.email,
-          variant: variant.variant,
-          subjectLine: variant.subject_line,
-          ctaText: variant.cta_text,
-          discountCode: config.eventType === 'drip_day14' ? 'SAVE20' : undefined,
+          discountCode,
         });
 
         // Send email via SendGrid
@@ -139,21 +149,21 @@ export async function GET(request: NextRequest) {
         });
 
         if (success) {
-          // Record in database with A/B variant tracking
+          // Record in database
           recordEmailSent(
             user.id,
             config.eventType,
             {
               template_id: config.templateId,
               sent_via: 'cron',
-              subject_line: variant.subject_line,
-              cta_text: variant.cta_text,
+              subject: emailData.subject || config.description,
+              discount_code: discountCode,
             },
-            variant.variant,
+            'A', // A/B variant (can be enhanced later)
             emailData.utm_campaign || config.eventType
           );
           sent++;
-          console.log(`   ✓ Sent to ${user.email} (variant ${variant.variant})`);
+          console.log(`   ✓ Sent to ${user.email}`);
         } else {
           failed++;
           console.error(`   ✗ Failed to send to ${user.email}`);
@@ -173,15 +183,17 @@ export async function GET(request: NextRequest) {
       eligible: eligibleUsers.length,
       sent,
       failed,
+      skipped,
     });
 
     results.totalSent += sent;
     results.totalFailed += failed;
+    results.totalSkipped += skipped;
 
-    console.log(`   📊 ${config.description}: ${sent} sent, ${failed} failed`);
+    console.log(`   📊 ${config.description}: ${sent} sent, ${failed} failed, ${skipped} skipped`);
   }
 
-  console.log(`\n✅ Drip campaign completed: ${results.totalSent} sent, ${results.totalFailed} failed`);
+  console.log(`\n✅ Drip campaign completed: ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`);
 
   return NextResponse.json(results);
 }

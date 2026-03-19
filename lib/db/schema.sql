@@ -131,6 +131,40 @@ CREATE TABLE IF NOT EXISTS analytics_events (
   FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
 );
 
+-- Customer testimonials table
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  company TEXT NOT NULL,
+  location TEXT NOT NULL,
+  quote TEXT NOT NULL,
+  rating INTEGER NOT NULL DEFAULT 5 CHECK(rating >= 1 AND rating <= 5),
+  savings_amount TEXT,
+  avatar_url TEXT,
+  video_url TEXT,
+  verified BOOLEAN DEFAULT 0,
+  featured BOOLEAN DEFAULT 0,
+  display_order INTEGER DEFAULT 0,
+  status TEXT DEFAULT 'active' CHECK(status IN ('active', 'hidden', 'pending')),
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Beta user outreach tracking
+CREATE TABLE IF NOT EXISTS testimonial_outreach (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_email TEXT NOT NULL,
+  user_name TEXT,
+  outreach_date TEXT DEFAULT CURRENT_TIMESTAMP,
+  incentive_offered TEXT DEFAULT '$20 Amazon gift card',
+  status TEXT DEFAULT 'sent' CHECK(status IN ('sent', 'responded', 'completed', 'declined')),
+  response_date TEXT,
+  testimonial_id INTEGER,
+  notes TEXT,
+  FOREIGN KEY (testimonial_id) REFERENCES testimonials(id) ON DELETE SET NULL
+);
+
 -- Indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_user_profiles_clerk_user_id ON user_profiles(clerk_user_id);
 CREATE INDEX IF NOT EXISTS idx_rsu_entries_user_id ON rsu_entries(user_id);
@@ -145,3 +179,5 @@ CREATE INDEX IF NOT EXISTS idx_exchange_rates_date ON exchange_rates(rate_date);
 CREATE INDEX IF NOT EXISTS idx_form_completion_user_id ON form_completion(user_id);
 CREATE INDEX IF NOT EXISTS idx_events_user_created ON analytics_events(user_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_events_name_created ON analytics_events(event_name, created_at);
+CREATE INDEX IF NOT EXISTS idx_testimonials_status ON testimonials(status, featured, display_order);
+CREATE INDEX IF NOT EXISTS idx_outreach_status ON testimonial_outreach(status, outreach_date);

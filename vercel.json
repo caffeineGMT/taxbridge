@@ -2,7 +2,8 @@
   "crons": [
     {
       "path": "/api/cron/email-drip",
-      "schedule": "0 9 * * *"
+      "schedule": "0 17 * * *",
+      "description": "7-day email drip campaign - runs daily at 9:00 AM PST (5:00 PM UTC)"
     }
   ],
   "redirects": [

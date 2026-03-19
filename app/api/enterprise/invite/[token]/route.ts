@@ -86,7 +86,7 @@ export async function POST(
     }
 
     // Get user profile
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
 
     if (!userProfile) {
       return NextResponse.json(

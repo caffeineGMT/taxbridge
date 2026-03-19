@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user profile
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
 
     if (!userProfile) {
       return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
@@ -81,7 +81,7 @@ export async function GET() {
     }
 
     // Get user profile
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
 
     if (!userProfile) {
       return NextResponse.json({ error: 'User profile not found' }, { status: 404 });

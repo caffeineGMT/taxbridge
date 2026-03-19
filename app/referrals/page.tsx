@@ -17,6 +17,7 @@ import { generateSocialMessages } from '@/lib/stripe/referral-tracking';
 import { TrendingUp, Users, DollarSign, Gift, Crown, Award, Medal, Twitter, Linkedin } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ReferralLinkCopy, SocialShareButton, EmailShareButton, StatusBadge } from '@/components/referral-components';
+import { InviteFriendsModal } from '@/components/referral/InviteFriendsModal';
 
 export const dynamic = 'force-dynamic';
 
@@ -172,6 +173,12 @@ export default async function ReferralsPage() {
                       body={`I recently used TaxBridge to manage my cross-border tax situation and it saved me thousands!\n\nIf you're dealing with RSU taxation across US and Canada, this tool makes it much easier.\n\nGet 20% off your first year: ${referralLink}`}
                     />
                   </div>
+                </div>
+
+                {/* Invite by Email Button */}
+                <div className="pt-3 border-t border-slate-700">
+                  <h4 className="text-sm font-semibold text-white mb-3">Send personal invitations</h4>
+                  <InviteFriendsModal referralCode={referralCode} />
                 </div>
               </CardContent>
             </Card>

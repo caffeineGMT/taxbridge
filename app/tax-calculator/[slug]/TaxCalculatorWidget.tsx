@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { calculateUSFederalTax, calculateUSStateTax } from '@/lib/tax/us-calculator';
@@ -12,6 +12,7 @@ import { sanitizeCurrencyInput, parseCurrencyInput } from '@/lib/input-validatio
 import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
 import { InfoTooltip, TooltipProvider } from '@/components/ui/tooltip';
 import { Spinner } from '@/components/ui/spinner';
+import { EnhancedCalculatorResults } from '@/components/tax/enhanced-calculator-results';
 
 interface TaxCalculatorWidgetProps {
   defaultState: 'WA' | 'CA' | 'NY' | 'TX' | 'MA';
@@ -31,10 +32,27 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rsuError, setRsuError] = useState<string>('');
 
-  // Calculation results
-  const [usTax, setUsTax] = useState(0);
-  const [canadaTax, setCanadaTax] = useState(0);
-  const [ftcResult, setFtcResult] = useState<any>(null);
+  // Calculation results - store full structured data
+  const [calculationResults, setCalculationResults] = useState<{
+    usTax: {
+      federal: any;
+      state: any;
+      total: number;
+    };
+    canadaTax: {
+      federal: any;
+      provincial: any;
+      ftc: {
+        amount: number;
+        explanation: string;
+      };
+      totalBeforeFTC: number;
+      netTotal: number;
+    };
+    rsuValueCad: number;
+    exchangeRate: number;
+  } | null>(null);
+  const [showResults, setShowResults] = useState(false);
 
   // Initialize calculator tracker
   useEffect(() => {
@@ -59,9 +77,8 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
     const income = parseFloat(rsuIncome) || 0;
     if (income <= 0) {
       // Clear stale results when income is zero or negative
-      setUsTax(0);
-      setCanadaTax(0);
-      setFtcResult(null);
+      setCalculationResults(null);
+      setShowResults(false);
       return;
     }
 
@@ -72,17 +89,38 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
       const totalUSTax = usFederal.tax + usStateResult.tax;
 
       // Canada tax calculation (assume 1.35 USD to CAD conversion)
-      const incomeCAD = income * 1.35;
+      const exchangeRate = 1.35;
+      const incomeCAD = income * exchangeRate;
       const canadaFederal = calculateCanadaFederalTax(incomeCAD);
       const canadaProvincial = calculateCanadaProvincialTax(incomeCAD, province);
-      const totalCanadaTax = canadaFederal.tax + canadaProvincial.tax;
+      const totalCanadaTaxBeforeFTC = canadaFederal.tax + canadaProvincial.tax;
 
       // FTC calculation
-      const ftc = calculateFTC(totalUSTax, totalCanadaTax, income, usState, province);
+      const ftc = calculateFTC(totalUSTax, totalCanadaTaxBeforeFTC, income, usState, province);
 
-      setUsTax(totalUSTax);
-      setCanadaTax(totalCanadaTax);
-      setFtcResult(ftc);
+      // Store full structured results
+      const results = {
+        usTax: {
+          federal: usFederal,
+          state: usStateResult,
+          total: totalUSTax,
+        },
+        canadaTax: {
+          federal: canadaFederal,
+          provincial: canadaProvincial,
+          ftc: {
+            amount: ftc.savings,
+            explanation: `You paid $${totalUSTax.toLocaleString()} in US taxes. Canada allows you to claim up to $${Math.min(totalUSTax * exchangeRate, totalCanadaTaxBeforeFTC).toLocaleString()} CAD as a Foreign Tax Credit, preventing double taxation.`,
+          },
+          totalBeforeFTC: totalCanadaTaxBeforeFTC,
+          netTotal: Math.max(0, totalCanadaTaxBeforeFTC - (ftc.savings * exchangeRate)),
+        },
+        rsuValueCad: incomeCAD,
+        exchangeRate,
+      };
+
+      setCalculationResults(results);
+      setShowResults(true);
 
       // Track calculation
       trackerRef.current?.trackCalculation(
@@ -93,10 +131,10 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
         },
         {
           us_tax: totalUSTax,
-          canada_tax_before_ftc: totalCanadaTax,
+          canada_tax_before_ftc: totalCanadaTaxBeforeFTC,
           ftc_savings: ftc.savings,
-          total_tax_with_ftc: ftc.totalTaxWithFTC,
-          effective_rate: (ftc.totalTaxWithFTC / income) * 100,
+          total_tax_with_ftc: results.canadaTax.netTotal + totalUSTax,
+          effective_rate: ((results.canadaTax.netTotal + totalUSTax) / income) * 100,
         }
       );
     } catch (error) {
@@ -127,7 +165,7 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
             rsuIncome,
             usState,
             province,
-            estimatedTax: ftcResult?.totalTaxWithFTC,
+            estimatedTax: calculationResults ? (calculationResults.usTax.total + calculationResults.canadaTax.netTotal) : 0,
           }
         }),
       });
@@ -143,7 +181,7 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
         rsu_income: parseFloat(rsuIncome),
         us_state: usState,
         canada_province: province,
-        estimated_tax: ftcResult?.totalTaxWithFTC,
+        estimated_tax: calculationResults ? (calculationResults.usTax.total + calculationResults.canadaTax.netTotal) : 0,
       });
     } catch (error) {
       console.error('Failed to submit email:', error);
@@ -166,16 +204,18 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
 
   return (
     <TooltipProvider>
+      <div className="space-y-8">
       <Card className="border-slate-800 bg-slate-900/50">
       <CardHeader>
-        <CardTitle className="text-2xl text-slate-100">Calculate Your Exact Tax</CardTitle>
+        <CardTitle className="text-2xl text-slate-100 flex items-center gap-2">
+          <Calculator className="h-6 w-6 text-emerald-400" />
+          Calculate Your Exact Tax
+        </CardTitle>
         <CardDescription>Instant estimate with Foreign Tax Credit optimization</CardDescription>
       </CardHeader>
       <CardContent>
         <TaxDisclaimer variant="compact" />
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Input Column */}
-          <div className="space-y-6">
+        <div className="space-y-6">
             {/* RSU Income */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -261,96 +301,27 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
               </select>
             </div>
           </div>
-
-          {/* Results Column */}
-          <div className="space-y-4">
-            {/* US Tax */}
-            <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-              <div className="text-sm text-slate-400 mb-1">US Federal + State Tax</div>
-              <div className="text-3xl font-bold text-slate-100">
-                ${usTax.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-              </div>
-            </div>
-
-            {/* Canada Tax (before FTC) */}
-            <div className="p-4 rounded-lg bg-slate-800/50 border border-slate-700">
-              <div className="text-sm text-slate-400 mb-1 flex items-center">
-                Canada Tax (before FTC)
-                <InfoTooltip content="Total Canadian federal and provincial tax on your worldwide income before claiming Foreign Tax Credit." />
-              </div>
-              <div className="text-3xl font-bold text-slate-100">
-                ${ftcResult?.usFirstScenario?.canadaTaxBeforeFTC.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) || '0'}
-              </div>
-            </div>
-
-            {/* FTC Savings */}
-            <div className="p-4 rounded-lg bg-emerald-500/10 border-2 border-emerald-500/30">
-              <div className="text-sm text-emerald-400 mb-1 flex items-center">
-                Foreign Tax Credit Saves You
-                <InfoTooltip content="Foreign Tax Credit (FTC) allows you to deduct US taxes paid from your Canadian tax bill, preventing double taxation on the same income." />
-              </div>
-              <div className="text-3xl font-bold text-emerald-400">
-                ${ftcResult?.savings.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) || '0'}
-              </div>
-            </div>
-
-            {/* Total Tax After FTC */}
-            <div className="p-4 rounded-lg bg-slate-800 border-2 border-emerald-500">
-              <div className="text-sm text-slate-400 mb-1">Total Tax (after FTC)</div>
-              <div className="text-3xl font-bold text-emerald-400">
-                ${ftcResult?.totalTaxWithFTC.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) || '0'}
-              </div>
-              <div className="text-xs text-slate-500 mt-2">
-                Effective rate: {ftcResult && parseFloat(rsuIncome) > 0 ? ((ftcResult.totalTaxWithFTC / parseFloat(rsuIncome)) * 100).toFixed(1) : '0'}%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Email Capture */}
-        <div className="mt-8 pt-8 border-t border-slate-700">
-          {!emailSubmitted ? (
-            <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  trackerRef.current?.trackInputChange('email', e.target.value);
-                }}
-                onFocus={() => trackerRef.current?.trackInputChange('email_focus', email)}
-                placeholder="Enter your email to save this calculation"
-                required
-                className="flex-1 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              />
-              <Button
-                type="submit"
-                size="lg"
-                disabled={isSubmitting}
-                className="bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-slate-950 font-semibold whitespace-nowrap transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Spinner size="sm" className="text-slate-950" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    Save & Continue
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </>
-                )}
-              </Button>
-            </form>
-          ) : (
-            <div className="flex items-center justify-center gap-2 text-emerald-400 py-3">
-              <CheckCircle className="h-5 w-5" />
-              <span className="font-semibold">Saved! Check your email to create your free account.</span>
-            </div>
-          )}
-        </div>
       </CardContent>
     </Card>
+
+    {/* Enhanced Results - Shows after calculation */}
+    {showResults && calculationResults && (
+      <EnhancedCalculatorResults
+        rsuIncome={parseFloat(rsuIncome)}
+        usState={usState}
+        province={province}
+        usTax={calculationResults.usTax}
+        canadaTax={calculationResults.canadaTax}
+        rsuValueCad={calculationResults.rsuValueCad}
+        exchangeRate={calculationResults.exchangeRate}
+        email={email}
+        setEmail={setEmail}
+        onEmailSubmit={handleEmailSubmit}
+        isSubmitting={isSubmitting}
+        emailSubmitted={emailSubmitted}
+      />
+    )}
+    </div>
     </TooltipProvider>
   );
 }

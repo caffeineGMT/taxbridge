@@ -69,7 +69,7 @@ export async function POST(req: Request) {
 
     // Update user profile in database
     try {
-      const existingUser = getUserProfileByClerkId(id);
+      const existingUser = await getUserProfileByClerkId(id);
       if (existingUser) {
         updateUserProfile(id, {
           email: primaryEmail?.email_address,

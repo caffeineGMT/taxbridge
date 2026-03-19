@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { insert } from '@/lib/db/unified';
 import sgMail from '@sendgrid/mail';
 import { logger } from '@/lib/logger';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert into database
-    const stmt = db.prepare(`
+    const leadId = await insert(`
       INSERT INTO enterprise_leads (
         firm_name,
         contact_name,
@@ -54,10 +54,8 @@ export async function POST(request: NextRequest) {
         current_tax_software,
         pain_points,
         status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, 'new')
-    `);
-
-    const result = stmt.run(
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, 'new')
+    `, [
       firm_name,
       contact_name,
       contact_email,
@@ -65,9 +63,7 @@ export async function POST(request: NextRequest) {
       clients_count,
       current_tax_software || null,
       pain_points || null
-    );
-
-    const leadId = result.lastInsertRowid;
+    ]);
 
     logger.info('Enterprise demo request received', {
       leadId,
@@ -137,7 +133,7 @@ export async function POST(request: NextRequest) {
 
         await sgMail.send(confirmationEmail);
         logger.info('Confirmation email sent', { to: contact_email });
-      } catch (emailError) {
+      } catch (emailError: any) {
         logger.error('Failed to send confirmation email', emailError);
         // Don't fail the request if email fails
       }
@@ -216,7 +212,7 @@ export async function POST(request: NextRequest) {
 
           await sgMail.send(salesNotification);
           logger.info('Sales notification sent', { leadId });
-        } catch (emailError) {
+        } catch (emailError: any) {
           logger.error('Failed to send sales notification', emailError);
         }
       }

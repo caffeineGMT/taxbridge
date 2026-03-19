@@ -11,8 +11,10 @@ if (!apiKey) {
 
 export interface EmailParams {
   to: string;
-  templateId: string;
-  dynamicData: Record<string, any>;
+  subject?: string;
+  html?: string;
+  templateId?: string;
+  dynamicData?: Record<string, any>;
   from?: {
     email: string;
     name: string;

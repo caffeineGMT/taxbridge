@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
-import { Home, DollarSign, Calculator, FileText, TrendingUp, Crown, CreditCard } from 'lucide-react';
+import { Home, DollarSign, Calculator, FileText, TrendingUp, Crown, CreditCard, Gift } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import NotificationBell from './NotificationBell';
 
@@ -67,6 +67,13 @@ export default function Header() {
           >
             <FileText className="w-4 h-4" aria-hidden="true" />
             Forms
+          </Link>
+          <Link
+            href="/referrals"
+            className="text-emerald-300 hover:text-emerald-400 transition-colors flex items-center gap-2 font-semibold"
+          >
+            <Gift className="w-4 h-4" aria-hidden="true" />
+            Refer & Earn
           </Link>
         </nav>
 

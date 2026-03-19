@@ -148,10 +148,27 @@ export async function insert(
 
 /**
  * Get database instance (for compatibility)
+ * Returns SQLite Database in development, Pool in production
+ *
+ * WARNING: Direct database access is deprecated. Use query() functions instead.
+ * This method exists for backward compatibility but will be removed in the future.
  */
-export function getDatabase(): Pool | SQLiteDatabase {
+export function getDatabase(): any {
   if (IS_POSTGRES) {
-    return getPool();
+    // Return a Proxy that throws helpful errors for SQLite-specific methods
+    const pool = getPool();
+    return new Proxy(pool, {
+      get(target: any, prop: string) {
+        if (prop === 'prepare') {
+          throw new Error(
+            'SQLite .prepare() is not supported with PostgreSQL. ' +
+            'Use query() or queryOne() from lib/db/unified.ts instead. ' +
+            'Example: await query("SELECT * FROM users WHERE id = $1", [userId])'
+          );
+        }
+        return target[prop];
+      }
+    });
   } else {
     return getSQLiteDatabase();
   }

@@ -82,8 +82,8 @@ async function sendWelcomeEmail(email: string, leadMagnet?: string) {
 
   const html =
     leadMagnet === 'h1b-tax-checklist'
-      ? getH1BChecklistEmail()
-      : getWelcomeEmail();
+      ? getH1BChecklistEmail(email)
+      : getWelcomeEmail(email);
 
   await sendEmail({
     to: email,
@@ -92,7 +92,7 @@ async function sendWelcomeEmail(email: string, leadMagnet?: string) {
   });
 }
 
-function getH1BChecklistEmail(): string {
+function getH1BChecklistEmail(email: string): string {
   return `
 <!DOCTYPE html>
 <html>
@@ -181,7 +181,7 @@ function getH1BChecklistEmail(): string {
   `.replace('{EMAIL}', email);
 }
 
-function getWelcomeEmail(): string {
+function getWelcomeEmail(email: string): string {
   return `
 <!DOCTYPE html>
 <html>

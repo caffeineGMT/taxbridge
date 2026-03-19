@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const user = getUserProfileByClerkId(clerkUserId);
+    const user = await getUserProfileByClerkId(clerkUserId);
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const user = getUserProfileByClerkId(clerkUserId);
+    const user = await getUserProfileByClerkId(clerkUserId);
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }

@@ -7,6 +7,7 @@ import { DollarSign, TrendingUp, FileCheck, AlertCircle } from 'lucide-react';
 import { StatsCard } from '@/components/dashboard/stats-card';
 import { RSUList } from '@/components/dashboard/rsu-list';
 import { QuickActions } from '@/components/dashboard/quick-actions';
+import { ReferralBanner } from '@/components/dashboard/ReferralBanner';
 import dynamic from 'next/dynamic';
 
 const DashboardTour = dynamic(
@@ -171,6 +172,11 @@ export function DashboardContent({
             }
           />
         </section>
+
+        {/* Referral Program Banner */}
+        <div className="mb-8">
+          <ReferralBanner />
+        </div>
 
         {/* Quick Actions and Additional Stats */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">

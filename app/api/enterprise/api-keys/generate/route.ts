@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const userProfile = getUserProfileByClerkId(clerkUserId);
+    const userProfile = await getUserProfileByClerkId(clerkUserId);
 
     if (!userProfile) {
       return NextResponse.json(
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has admin role
-    const role = getMemberRole(orgId, userProfile.id);
+    const role = await getMemberRole(orgId, userProfile.id);
 
     if (role !== 'admin') {
       return NextResponse.json(
