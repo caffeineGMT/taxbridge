@@ -32,12 +32,12 @@ export function handleStripeError(error: unknown): PaymentError {
     });
 
     // Card declined errors
-    if (stripeError.type === 'card_error') {
-      return handleCardError(stripeError);
+    if ((stripeError as any).type === 'card_error') {
+      return handleCardError(stripeError as any);
     }
 
     // Rate limit errors
-    if (stripeError.type === 'rate_limit_error') {
+    if ((stripeError as any).type === 'rate_limit_error') {
       return {
         code: 'rate_limit',
         message: 'Too many requests',
@@ -49,7 +49,7 @@ export function handleStripeError(error: unknown): PaymentError {
     }
 
     // API connection errors
-    if (stripeError.type === 'api_connection_error') {
+    if ((stripeError as any).type === 'api_connection_error') {
       Sentry.captureException(error, {
         level: 'error',
         tags: { error_type: 'stripe_connection' },
@@ -66,7 +66,7 @@ export function handleStripeError(error: unknown): PaymentError {
     }
 
     // Invalid request errors
-    if (stripeError.type === 'invalid_request_error') {
+    if ((stripeError as any).type === 'invalid_request_error') {
       Sentry.captureException(error, {
         level: 'error',
         tags: { error_type: 'stripe_invalid_request' },
@@ -83,9 +83,9 @@ export function handleStripeError(error: unknown): PaymentError {
     }
 
     // Authentication errors
-    if (stripeError.type === 'authentication_error') {
+    if ((stripeError as any).type === 'authentication_error') {
       Sentry.captureException(error, {
-        level: 'critical',
+        level: 'fatal',
         tags: { error_type: 'stripe_auth_error' },
       });
 

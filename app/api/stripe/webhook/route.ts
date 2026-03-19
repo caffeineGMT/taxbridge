@@ -271,16 +271,16 @@ export async function POST(req: NextRequest) {
         const invoice = event.data.object as Stripe.Invoice;
 
         // Mark subscription as past due
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           db.prepare(`
             UPDATE user_profiles
             SET subscription_status = 'past_due',
                 updated_at = CURRENT_TIMESTAMP
             WHERE stripe_subscription_id = ?
-          `).run(invoice.subscription);
+          `).run((invoice as any).subscription);
 
           logger.warn('Payment failed for subscription', {
-            subscriptionId: invoice.subscription,
+            subscriptionId: (invoice as any).subscription,
             invoiceId: invoice.id,
             amountDue: invoice.amount_due,
             attemptCount: invoice.attempt_count,
@@ -289,7 +289,7 @@ export async function POST(req: NextRequest) {
           // Get user info for notification
           const user = db.prepare(`
             SELECT id, email, first_name FROM user_profiles WHERE stripe_subscription_id = ?
-          `).get(invoice.subscription) as { id: number; email?: string; first_name?: string } | undefined;
+          `).get((invoice as any).subscription) as { id: number; email?: string; first_name?: string } | undefined;
 
           if (user?.email) {
             try {
@@ -323,7 +323,7 @@ export async function POST(req: NextRequest) {
           // Track analytics
           if (user) {
             trackEvent(user.id, 'payment_failed', {
-              stripe_subscription_id: invoice.subscription,
+              stripe_subscription_id: (invoice as any).subscription,
               amount_due: invoice.amount_due,
               attempt_count: invoice.attempt_count,
             });
@@ -337,19 +337,19 @@ export async function POST(req: NextRequest) {
 
         logger.info('Invoice payment succeeded', {
           invoiceId: invoice.id,
-          subscriptionId: invoice.subscription,
+          subscriptionId: (invoice as any).subscription,
           amountPaid: invoice.amount_paid,
         });
 
         // Track successful payment
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           const user = db.prepare(`
             SELECT id FROM user_profiles WHERE stripe_subscription_id = ?
-          `).get(invoice.subscription) as { id: number } | undefined;
+          `).get((invoice as any).subscription) as { id: number } | undefined;
 
           if (user) {
             trackEvent(user.id, 'payment_succeeded', {
-              stripe_subscription_id: invoice.subscription,
+              stripe_subscription_id: (invoice as any).subscription,
               amount_paid: invoice.amount_paid,
               invoice_id: invoice.id,
             });
@@ -363,15 +363,15 @@ export async function POST(req: NextRequest) {
 
         logger.info('Invoice finalized', {
           invoiceId: invoice.id,
-          subscriptionId: invoice.subscription,
+          subscriptionId: (invoice as any).subscription,
           hostedInvoiceUrl: invoice.hosted_invoice_url,
         });
 
         // Track invoice creation/finalization
-        if (invoice.subscription) {
+        if ((invoice as any).subscription) {
           const user = db.prepare(`
             SELECT id, email FROM user_profiles WHERE stripe_subscription_id = ?
-          `).get(invoice.subscription) as { id: number; email?: string } | undefined;
+          `).get((invoice as any).subscription) as { id: number; email?: string } | undefined;
 
           if (user) {
             // Store invoice details for tracking
@@ -388,14 +388,14 @@ export async function POST(req: NextRequest) {
             `).run(
               invoice.id,
               user.id,
-              invoice.subscription,
+              (invoice as any).subscription,
               invoice.amount_due,
               invoice.status,
               invoice.hosted_invoice_url
             );
 
             trackEvent(user.id, 'invoice_created', {
-              stripe_subscription_id: invoice.subscription,
+              stripe_subscription_id: (invoice as any).subscription,
               invoice_id: invoice.id,
               amount_due: invoice.amount_due,
             });

@@ -19,7 +19,12 @@ export type AnalyticsEvent =
   | 'cancellation_survey_submitted'
   | 'subscription_canceled'
   | 'subscription_paused'
-  | 'subscription_resumed';
+  | 'subscription_resumed'
+  | 'refund_issued'
+  | 'charge_refunded'
+  | 'payment_succeeded'
+  | 'payment_failed'
+  | 'invoice_created';
 
 /**
  * Track an analytics event for a user

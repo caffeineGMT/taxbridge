@@ -1,0 +1,52 @@
+# Lighthouse CI Configuration
+# https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/configuration.md
+
+ci:
+  collect:
+    # Run Lighthouse on these URLs
+    url:
+      - https://taxbridge.app/
+      - https://taxbridge.app/pricing
+      - https://taxbridge.app/tax-calculator/ca-bc
+    numberOfRuns: 3
+    settings:
+      preset: desktop
+      chromeFlags: --no-sandbox --headless
+
+  assert:
+    preset: lighthouse:recommended
+    assertions:
+      # Core Web Vitals thresholds
+      first-contentful-paint:
+        - error
+        - maxNumericValue: 1800  # 1.8s
+      largest-contentful-paint:
+        - error
+        - maxNumericValue: 2500  # 2.5s
+      cumulative-layout-shift:
+        - error
+        - maxNumericValue: 0.1
+      total-blocking-time:
+        - error
+        - maxNumericValue: 200   # 200ms
+      speed-index:
+        - error
+        - maxNumericValue: 3400  # 3.4s
+      interactive:
+        - error
+        - maxNumericValue: 3800  # 3.8s
+
+      # Performance score
+      categories:performance:
+        - error
+        - minScore: 0.9  # 90+ required
+
+      # Best practices
+      uses-http2: off  # Vercel handles this
+      uses-long-cache-ttl: warn
+      unused-javascript:
+        - warn
+        - maxLength: 1  # Allow some unused JS
+
+  upload:
+    target: temporary-public-storage
