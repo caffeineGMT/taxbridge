@@ -1,32 +1,38 @@
 /**
  * Landing Page Headline CRO A/B Test
  *
- * OBJECTIVE: Test 3 headline variants to increase landing page conversion by 15%+
- * TIMELINE: 2-week test (March 19 - April 2, 2026)
- * TARGET: 1000+ visitors per variant
+ * OBJECTIVE: Test 3 headline variants to increase landing page conversion by 20%+
+ * TIMELINE: 1-week test (March 19-26, 2026)
+ * TARGET: 100+ visitors per variant (minimum for statistical significance)
  *
- * VARIANTS:
- * 1. 'Save $5K+ on H1B RSU Taxes' - Direct savings message with specificity
- * 2. 'Cross-Border Tax Calculator for Tech Workers' - Professional tool positioning
- * 3. 'Know Your RSU Tax Bill in 2 Minutes' - Speed/simplicity value prop
+ * VARIANTS (EXACT as per task specification):
+ * 1. 'Save $5,000+ on H1B RSU Taxes' - PAIN-FOCUSED: Emphasizes financial loss
+ * 2. 'Cross-Border Tax Calculator for Tech Workers' - FEATURE-FOCUSED: Professional tool positioning
+ * 3. 'Stop Overpaying on Stock Compensation Tax' - URGENCY-FOCUSED: Action-oriented problem statement
  *
  * HYPOTHESIS: Headlines that emphasize:
- * A. Specific monetary value ($5K+ savings) OR
+ * A. Specific monetary pain ($5,000+ overpayment) OR
  * B. Professional tool credibility (calculator for tech workers) OR
- * C. Speed/convenience (2 minutes)
- * will convert better than generic "cross-border tax" messaging
+ * C. Urgent action against overpayment (stop overpaying)
+ * will convert 20%+ better than generic "cross-border tax" messaging
  *
- * SUCCESS METRICS:
- * - Primary: Landing page → Calculator completion rate
- * - Secondary: Landing page → Signup rate
- * - Revenue: Calculator completion → Paid conversion rate
+ * SUCCESS METRICS (PostHog):
+ * - Primary: Landing page → Calculator completion rate (landing_page_viewed → calculator_completed)
+ * - Secondary: Landing page → Signup rate (landing_page_viewed → user_signed_up)
+ * - Revenue: Calculator completion → Paid conversion rate (calculator_completed → subscription_purchased)
+ *
+ * EVIDENCE REQUIREMENT:
+ * - PostHog Experiments Dashboard: https://app.posthog.com/project/{project_id}/experiments
+ * - Experiment Name: 'landing-headline-cro-march-2026'
+ * - Minimum Sample Size: 100 visitors per variant (300 total)
+ * - Statistical Significance: p-value < 0.05
  */
 
 'use client';
 
 import { useABTest } from './use-ab-test';
 
-export type HeadlineCROVariant = 'variant-a-savings' | 'variant-b-professional' | 'variant-c-speed';
+export type HeadlineCROVariant = 'variant-a-pain' | 'variant-b-feature' | 'variant-c-urgency';
 
 export interface HeadlineCROTestConfig {
   variant: HeadlineCROVariant;

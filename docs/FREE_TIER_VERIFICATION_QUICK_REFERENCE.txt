@@ -1,0 +1,134 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                FREE TIER VERIFICATION - QUICK REFERENCE                   ║
+║                          [P1-HIGH] TASK                                   ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📋 TASK SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Create NEW account on production, add RSU entries one by one, document:
+  1. At what count does it block you?
+  2. What message shows?
+  3. Does it match intended 10-entry limit?
+
+EVIDENCE REQUIRED: Screen recording OR step-by-step screenshots
+
+🎯 EXPECTED BEHAVIOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Entries 1-10:  Successfully added
+🚫 Entry #11:     BLOCKED with upgrade modal
+
+Message: "You've reached your limit of 10 RSU entries. Upgrade to Pro..."
+Current: 10 entries
+Limit:   10 entries
+
+🚀 QUICK START (15 MINUTES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Open testing guide:
+   $ open docs/FREE_TIER_USER_PERSPECTIVE_TESTING_GUIDE.md
+
+2. Visit production site:
+   https://taxbridge.vercel.app
+
+3. Create test account:
+   Email: test+freetier$(date +%s)@example.com
+
+4. Start screen recording (QuickTime / OBS / Loom)
+
+5. Add 11 RSU entries one by one via UI:
+   - Entry 1-10: Should succeed
+   - Entry 11: Should be BLOCKED
+
+6. Capture upgrade modal (CRITICAL SCREENSHOT)
+
+7. Save evidence:
+   $ mkdir -p docs/verification-videos
+   $ mv ~/Downloads/recording.mp4 docs/verification-videos/
+
+8. Commit:
+   $ git add docs/
+   $ git commit -m "[P1-HIGH] Free Tier Test Evidence + VERIFICATION"
+   $ git push origin main
+
+📸 EVIDENCE OPTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OPTION A: Screen Recording (Recommended)
+  • Single video file (~5-15 min)
+  • Shows full user journey
+  • Save to: docs/verification-videos/
+
+OPTION B: Screenshots (Alternative)
+  • 18 sequential screenshots
+  • Screenshot #15: Entry #11 blocked (CRITICAL)
+  • Screenshot #16: Upgrade message close-up (CRITICAL)
+  • Save to: docs/screenshots/free-tier-user-test-[date]/
+
+🔧 COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Generate test report and checklist
+$ npm run test:free-tier:user-perspective
+
+# Verify production site is up
+$ npm run verify:production
+
+# Check free tier configuration
+$ npm run verify:free-tier
+
+# Verify Clerk authentication
+$ npm run verify:clerk
+
+# Full health check
+$ npm run health-check
+
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📖 Testing Guide:         docs/FREE_TIER_USER_PERSPECTIVE_TESTING_GUIDE.md
+📊 Executive Summary:     docs/FREE_TIER_VERIFICATION_EXECUTIVE_SUMMARY.md
+📝 Verification Report:   docs/verification-reports/free-tier-user-perspective-test-*.md
+💻 Test Script:           scripts/test-free-tier-user-perspective.ts
+🔧 Code Config:           lib/free-tier-limits.ts
+🚀 API Enforcement:       app/api/rsu/route.ts
+
+✅ PASS CRITERIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Entries 1-10 added successfully
+✓ Entry #11 blocked (403 Forbidden)
+✓ Upgrade modal shows message mentioning "10 RSU entries"
+✓ Modal shows: Current = 10, Limit = 10
+✓ Cannot add more entries after blocking
+✓ Evidence captured (video OR screenshots)
+
+❌ FAIL CRITERIA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✗ Blocking at wrong count (not entry #11)
+✗ Wrong limit shown (not 10)
+✗ No upgrade modal appears
+✗ Can bypass and add 12+ entries
+✗ Missing or incomplete evidence
+
+🐛 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Site returns 500 error:
+  → Run: npm run verify:production
+  → Check: Clerk keys configured in Vercel
+
+No blocking after 15+ entries:
+  → Run: npm run verify:free-tier:production
+  → Check: User subscription tier (should be "free")
+  → Check: A/B test variant (should be "limited_10")
+
+Can't create account:
+  → Run: npm run verify:clerk
+  → Try: Different email domain
+  → Check: Clerk dashboard for errors
+
+📞 NEED HELP?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Read full testing guide: docs/FREE_TIER_USER_PERSPECTIVE_TESTING_GUIDE.md
+2. Check executive summary: docs/FREE_TIER_VERIFICATION_EXECUTIVE_SUMMARY.md
+3. Review verification report: docs/verification-reports/
+4. Run health check: npm run health-check
+
+⏱️  ESTIMATED TIME: 15-20 minutes testing + 5 minutes documentation
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generated: 2026-03-19 | Status: READY FOR MANUAL TESTING | Version: 1.0
