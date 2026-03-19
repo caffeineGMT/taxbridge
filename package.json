@@ -47,6 +47,7 @@
     "test:ab-email": "tsx scripts/test-ab-email-drip.ts",
     "test:payment-flow": "tsx scripts/test-payment-flow.ts",
     "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
+    "verify:revenue": "tsx scripts/verify-revenue-gate.ts",
     "setup:stripe": "tsx scripts/setup-stripe-products.ts",
     "stripe:setup-live": "node scripts/setup-stripe-live.js",
     "stripe:activate-production": "tsx scripts/activate-stripe-production.ts",

@@ -1,58 +1,44 @@
+/**
+ * Landing Page with A/B Testing
+ *
+ * Client-side component that runs multiple simultaneous experiments:
+ * 1. Headline variations
+ * 2. CTA button copy/color
+ * 3. Trust signals placement
+ *
+ * SEO metadata is handled by metadata.ts
+ */
+
+'use client';
+
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { Calculator, TrendingUp, FileText, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import type { Metadata } from 'next';
-import { presetSchemas } from '@/lib/seo/structured-data';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
-
-export const metadata: Metadata = {
-  title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
-  description:
-    'Free cross-border tax calculator built for H-1B and TN visa tech workers with US RSUs living in Canada. Calculate dual-country taxes, optimize Foreign Tax Credits, and get a complete filing checklist. Save $2,000-$12,000 annually on taxes.',
-  alternates: {
-    canonical: 'https://taxbridge.app',
-  },
-  openGraph: {
-    title: 'TaxBridge - Cross-Border Tax Calculator for H-1B/TN Workers',
-    description:
-      'Calculate your US-Canada cross-border tax on RSU income. Built for H-1B and TN visa tech workers at Meta, Amazon, Google, Microsoft. Free Foreign Tax Credit optimizer saves $2K-$12K annually.',
-    url: 'https://taxbridge.app',
-    type: 'website',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'TaxBridge - US-Canada Cross-Border Tax Calculator',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
-    description:
-      'Free tax calculator for H-1B/TN visa tech workers. Calculate dual-country taxes, optimize Foreign Tax Credits. Save $2K-$12K annually.',
-    images: ['/og-image.png'],
-  },
-  keywords: [
-    'cross-border tax calculator',
-    'H-1B RSU tax calculator',
-    'TN visa tax calculator',
-    'US Canada tax calculator',
-    'foreign tax credit calculator',
-    'RSU taxation Canada',
-    'dual country tax filing',
-    'H1B tax guide',
-    'TN visa tax guide',
-    'Canada US tax treaty',
-    'Form 1040-NR',
-    'Canadian T1 filing',
-    'cross-border tax software',
-  ],
-};
+import { useLandingPageTests } from '@/hooks/use-landing-page-tests';
+import { TrustSignals, CompanyLogos } from '@/components/TrustSignals';
+import { presetSchemas } from '@/lib/seo/structured-data';
 
 export default function Home() {
+  // A/B Testing: Run all landing page experiments
+  const {
+    headline,
+    cta,
+    trustSignals,
+    isLoading,
+    trackLandingPageViewed,
+    trackCTAClick,
+  } = useLandingPageTests();
+
+  // Track page view with all experiment variants
+  useEffect(() => {
+    if (!isLoading) {
+      trackLandingPageViewed();
+    }
+  }, [isLoading, trackLandingPageViewed]);
+
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -100,6 +86,16 @@ export default function Home() {
         }}
       />
 
+      {/* Trust Signals: Above Hero (A/B Test Variant) */}
+      {trustSignals.layout === 'above-hero' && (
+        <TrustSignals
+          variant="above-hero"
+          showUserCount={trustSignals.showUserCount}
+          showCompanyLogos={trustSignals.showCompanyLogos}
+          showSecurityBadges={trustSignals.showSecurityBadges}
+        />
+      )}
+
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
@@ -124,25 +120,35 @@ export default function Home() {
         {/* Hero Section */}
         <section className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-12 sm:pb-16 md:pt-32 md:pb-24">
           <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+            {/* A/B Test: Headline Variations */}
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-100 leading-tight px-2">
-              Simplify Your
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
-                Cross-Border Tax Filing
-              </span>
+              {headline.headline.includes('Cross-Border') ? (
+                <>
+                  Simplify Your
+                  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                    Cross-Border Tax Filing
+                  </span>
+                </>
+              ) : (
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
+                  {headline.headline}
+                </span>
+              )}
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-              Built for H-1B and TN visa tech workers with US RSUs now living in Canada.
-              Navigate dual-country taxation with confidence.
+              {headline.subheadline}
             </p>
 
+            {/* A/B Test: CTA Button Variations */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center pt-4 px-4">
               <Link href="/dashboard" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="w-full sm:w-auto group bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20"
+                  onClick={() => trackCTAClick('/dashboard')}
+                  className={`w-full sm:w-auto group ${cta.primaryColor} text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20`}
                 >
-                  Get Started
+                  {cta.primaryText}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -156,6 +162,26 @@ export default function Home() {
                 </Button>
               </Link>
             </div>
+
+            {/* CTA Subtext (if present in A/B variant) */}
+            {cta.subtext && (
+              <p className="text-sm text-slate-400 -mt-2">{cta.subtext}</p>
+            )}
+
+            {/* Trust Signals: Below CTA (A/B Test Variant) */}
+            {trustSignals.layout === 'below-cta' && (
+              <TrustSignals
+                variant="below-cta"
+                showUserCount={trustSignals.showUserCount}
+                showCompanyLogos={trustSignals.showCompanyLogos}
+                showSecurityBadges={trustSignals.showSecurityBadges}
+              />
+            )}
+
+            {/* Company Logos (if enabled in A/B test) */}
+            {trustSignals.showCompanyLogos && trustSignals.layout === 'below-cta' && (
+              <CompanyLogos className="mt-8" />
+            )}
           </div>
         </section>
 
@@ -165,6 +191,17 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-100 text-center mb-8 sm:mb-12">
               Everything You Need
             </h2>
+
+            {/* Trust Signals: Inline with Features (A/B Test Variant) */}
+            {trustSignals.layout === 'inline-features' && (
+              <TrustSignals
+                variant="inline-features"
+                showUserCount={trustSignals.showUserCount}
+                showCompanyLogos={trustSignals.showCompanyLogos}
+                showSecurityBadges={trustSignals.showSecurityBadges}
+                className="mb-8"
+              />
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {/* Feature Card 1: RSU Calculator */}
@@ -250,6 +287,7 @@ export default function Home() {
                 <Link href="/dashboard">
                   <Button
                     size="lg"
+                    onClick={() => trackCTAClick('/dashboard')}
                     className="w-full sm:w-auto bg-white hover:bg-slate-100 text-emerald-600 font-semibold text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl"
                   >
                     Start Calculating Now
