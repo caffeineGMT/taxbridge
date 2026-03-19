@@ -22,6 +22,8 @@ import {
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { useCTAVariant, useTrackCTAClick } from '@/hooks/use-ab-testing';
+import { UrgencyMessage, StickyUrgencyBanner } from '@/components/UrgencyMessage';
 
 // Pricing tiers with A/B testing variants
 const TIERS = [
@@ -210,6 +212,10 @@ export default function PricingPage() {
   const [isCanadian, setIsCanadian] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(1.35);
 
+  // A/B Testing: Get CTA variant
+  const ctaVariant = useCTAVariant();
+  const trackCTAClick = useTrackCTAClick(ctaVariant);
+
   // Track pricing page view with PostHog
   useEffect(() => {
     trackEvent('pricing_page_viewed', {
@@ -286,11 +292,22 @@ export default function PricingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Exit-intent popup
+  // Exit-intent popup (fixed to prevent repeated firing)
   useEffect(() => {
+    // Check if user has already seen the exit popup in the last 24 hours
+    const exitPopupShown = localStorage.getItem('exitPopupShown');
+    const lastShown = exitPopupShown ? parseInt(exitPopupShown, 10) : 0;
+    const now = Date.now();
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+
+    if (now - lastShown < twentyFourHours) {
+      return; // Don't show popup if already shown in last 24 hours
+    }
+
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY < 10 && !showExitPopup) {
         setShowExitPopup(true);
+        localStorage.setItem('exitPopupShown', now.toString());
         trackEvent('page_viewed', {
           page: '/pricing',
           dropOff: true,
@@ -327,11 +344,14 @@ export default function PricingPage() {
   }, [searchParams, router]);
 
   const handleUpgrade = async (tier: string, priceId: string | null) => {
-    // Track tier selection
+    // Track tier selection with A/B test variant
+    trackCTAClick(tier);
     trackEvent('pricing_tier_selected', {
       plan: tier,
       funnelStep: 'Tier Selection',
       funnelStepNumber: 3,
+      ctaVariant: ctaVariant.variant,
+      ctaText: ctaVariant.text,
     });
 
     if (!priceId) {
@@ -419,6 +439,9 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-50">
+      {/* Sticky Urgency Banner */}
+      <StickyUrgencyBanner />
+
       {/* Header */}
       <header className="border-b border-slate-700 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -597,6 +620,23 @@ export default function PricingPage() {
                   )}
                 </div>
 
+                {/* Urgency Messages */}
+                <div className="mb-6 space-y-3">
+                  {tier.tier === 'pro' && (
+                    <>
+                      <UrgencyMessage type="time-limited" tier="pro" />
+                      <UrgencyMessage type="social-proof" tier="pro" />
+                      <UrgencyMessage type="fomo" tier="pro" />
+                    </>
+                  )}
+                  {tier.tier === 'enterprise' && (
+                    <>
+                      <UrgencyMessage type="stock-scarcity" tier="enterprise" />
+                      <UrgencyMessage type="fomo" tier="enterprise" />
+                    </>
+                  )}
+                </div>
+
                 <button
                   onClick={() => handleUpgrade(tier.tier, tier.priceId)}
                   disabled={loadingTier === tier.tier}
@@ -610,11 +650,17 @@ export default function PricingPage() {
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      {tier.cta}
+                      {tier.tier === 'pro' ? ctaVariant.text : tier.cta}
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}
                 </button>
+
+                {tier.tier === 'pro' && ctaVariant.subtext && (
+                  <p className="text-xs text-center text-emerald-200 mb-4 -mt-4">
+                    {ctaVariant.subtext}
+                  </p>
+                )}
 
                 <div className="space-y-4">
                   <p className={`text-xs font-bold uppercase tracking-wide ${tier.highlighted ? 'text-emerald-200' : 'text-slate-500'}`}>

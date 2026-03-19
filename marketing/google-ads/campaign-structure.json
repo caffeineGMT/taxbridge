@@ -1,0 +1,169 @@
+{
+  "campaign": {
+    "name": "TaxBridge - H1B/TN Cross-Border Tax Calculator",
+    "budget": {
+      "daily": 50,
+      "monthly": 1500,
+      "currency": "USD"
+    },
+    "targeting": {
+      "locations": ["United States", "Canada"],
+      "languages": ["English"],
+      "networks": ["Search", "Search Partners"]
+    },
+    "bidding": {
+      "strategy": "Target CPA",
+      "target_cpa": 30,
+      "max_cpc": 15
+    },
+    "conversion_goals": {
+      "primary": "calculator_completion",
+      "secondary": ["email_capture", "signup_completed", "trial_started"]
+    }
+  },
+  "ad_groups": [
+    {
+      "name": "H1B RSU Tax Calculator",
+      "keywords": [
+        {
+          "text": "h1b rsu tax calculator",
+          "match_type": "exact",
+          "max_cpc": 12
+        },
+        {
+          "text": "h1b stock tax calculator",
+          "match_type": "phrase",
+          "max_cpc": 10
+        },
+        {
+          "text": "h1b equity compensation tax",
+          "match_type": "phrase",
+          "max_cpc": 9
+        },
+        {
+          "text": "rsu tax calculator h1b",
+          "match_type": "broad",
+          "max_cpc": 8
+        }
+      ],
+      "landing_page": "/lp/h1b-rsu-calculator",
+      "utm_params": {
+        "source": "google",
+        "medium": "cpc",
+        "campaign": "h1b-rsu-tax",
+        "content": "h1b-rsu-ad-group"
+      }
+    },
+    {
+      "name": "TN Visa Stock Tax",
+      "keywords": [
+        {
+          "text": "tn visa stock tax",
+          "match_type": "exact",
+          "max_cpc": 11
+        },
+        {
+          "text": "tn visa rsu tax",
+          "match_type": "phrase",
+          "max_cpc": 10
+        },
+        {
+          "text": "tn visa equity compensation",
+          "match_type": "phrase",
+          "max_cpc": 9
+        },
+        {
+          "text": "canadian tn visa stock options",
+          "match_type": "broad",
+          "max_cpc": 7
+        }
+      ],
+      "landing_page": "/lp/tn-visa-stock-tax",
+      "utm_params": {
+        "source": "google",
+        "medium": "cpc",
+        "campaign": "tn-visa-stock-tax",
+        "content": "tn-stock-ad-group"
+      }
+    },
+    {
+      "name": "Cross-Border Tax Tool",
+      "keywords": [
+        {
+          "text": "cross border tax calculator",
+          "match_type": "exact",
+          "max_cpc": 10
+        },
+        {
+          "text": "us canada tax calculator",
+          "match_type": "phrase",
+          "max_cpc": 9
+        },
+        {
+          "text": "cross border tax planning",
+          "match_type": "phrase",
+          "max_cpc": 8
+        },
+        {
+          "text": "dual country tax calculator",
+          "match_type": "broad",
+          "max_cpc": 6
+        }
+      ],
+      "landing_page": "/lp/cross-border-tax",
+      "utm_params": {
+        "source": "google",
+        "medium": "cpc",
+        "campaign": "cross-border-tax-tool",
+        "content": "cross-border-ad-group"
+      }
+    }
+  ],
+  "negative_keywords": [
+    "free tax software",
+    "turbotax",
+    "h&r block",
+    "accountant near me",
+    "cpa services",
+    "tax preparation services",
+    "cheap tax filing"
+  ],
+  "tracking": {
+    "posthog_events": {
+      "ad_click": "google_ads_click",
+      "landing_page_view": "landing_page_viewed",
+      "calculator_started": "calculator_form_started",
+      "calculator_completed": "calculator_completed",
+      "email_captured": "email_captured",
+      "signup_clicked": "signup_clicked",
+      "trial_started": "trial_started"
+    },
+    "conversion_values": {
+      "calculator_completion": 5,
+      "email_capture": 10,
+      "signup_completed": 25,
+      "trial_started": 49
+    }
+  },
+  "optimization_schedule": {
+    "week_1": {
+      "action": "Monitor and gather data",
+      "min_conversions": 10,
+      "notes": "Let algorithm learn, don't make changes"
+    },
+    "week_2": {
+      "action": "Pause low-performing keywords",
+      "criteria": "CTR < 2% OR CPC > $20 OR no conversions",
+      "notes": "Focus budget on winners"
+    },
+    "week_3": {
+      "action": "Ad copy testing",
+      "notes": "Launch 3 new variations per ad group, pause losers"
+    },
+    "week_4": {
+      "action": "Bid optimization",
+      "target": "CAC < $30 consistently",
+      "notes": "Lower bids on high-performing keywords, increase budget if ROI positive"
+    }
+  }
+}

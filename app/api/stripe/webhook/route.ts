@@ -13,8 +13,13 @@ import { trackEmailConversion } from '@/lib/email/conversion-tracking';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
+  // Rate limiting: generous for webhooks (signature-verified), but still protect against abuse
+  const rateLimitResult = await rateLimit(req, RateLimitPresets.GENEROUS);
+  if (rateLimitResult) return rateLimitResult;
+
   const startTime = Date.now();
 
   const body = await req.text();

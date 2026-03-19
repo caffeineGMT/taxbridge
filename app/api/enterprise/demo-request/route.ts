@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import sgMail from '@sendgrid/mail';
 import { logger } from '@/lib/logger';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 // Initialize SendGrid
 if (process.env.SENDGRID_API_KEY) {
@@ -9,6 +10,10 @@ if (process.env.SENDGRID_API_KEY) {
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: public form, strict limits to prevent spam
+  const rateLimitResult = await rateLimit(request, RateLimitPresets.STRICT);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const body = await request.json();
     const {

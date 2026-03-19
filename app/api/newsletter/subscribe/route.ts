@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/sendgrid';
 import Database from 'better-sqlite3';
 import path from 'path';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
 
@@ -24,6 +25,10 @@ db.exec(`
 `);
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: public form, strict limits to prevent spam
+  const rateLimitResult = await rateLimit(request, RateLimitPresets.STRICT);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const body = await request.json();
     const { email, source, leadMagnet } = body;

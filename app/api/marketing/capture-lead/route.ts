@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Database from 'better-sqlite3';
 import path from 'path';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
 
@@ -9,6 +10,10 @@ const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
  * Captures email leads from marketing pages
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting: public form, strict limits to prevent spam
+  const rateLimitResult = await rateLimit(request, RateLimitPresets.STRICT);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const body = await request.json();
     const {

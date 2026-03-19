@@ -14,7 +14,7 @@ import {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { code: string } }
+  { params }: { params: Promise<{ code: string }> }
 ) {
   try {
     const { userId } = await auth();
@@ -26,7 +26,7 @@ export async function GET(
       );
     }
 
-    const { code } = params;
+    const { code } = await params;
 
     if (!code) {
       return NextResponse.json(

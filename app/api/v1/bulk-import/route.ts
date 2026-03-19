@@ -6,10 +6,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateApiKey, logApiUsage } from '@/lib/api/auth/api-keys';
 import { processBulkImport } from '@/lib/api/v1/bulk-import';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: bulk imports are expensive, use strict limits
+  const rateLimitResult = await rateLimit(request, RateLimitPresets.STRICT);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     // Extract API key from Authorization header
     const authHeader = request.headers.get('Authorization');

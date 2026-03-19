@@ -8,10 +8,10 @@ const analyze = withBundleAnalyzer({
 
 const nextConfig: NextConfig = {
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false, // FIXED: Enable TypeScript checking during builds
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // TEMPORARY: Disable ESLint during builds due to circular structure error in ESLint 9
   },
 
   // Image optimization

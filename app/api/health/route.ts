@@ -1,12 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
+import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 
 /**
  * GET /api/health
  * Health check endpoint for uptime monitoring
  * Returns system status, database connection, and timestamp
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Rate limiting: generous for monitoring tools
+  const rateLimitResult = await rateLimit(request, RateLimitPresets.GENEROUS);
+  if (rateLimitResult) return rateLimitResult;
+
   try {
     const startTime = Date.now();
 

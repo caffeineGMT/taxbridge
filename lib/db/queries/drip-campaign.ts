@@ -12,21 +12,23 @@ export interface UserForDripEmail {
 export interface EmailEventRow {
   id: number;
   user_id: number;
-  event_type: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14';
+  event_type: 'drip_day1' | 'drip_day3' | 'drip_day5' | 'drip_day7';
   sent_at: string;
   opened_at: string | null;
   clicked_at: string | null;
   metadata: string | null;
+  ab_variant?: 'A' | 'B';
+  utm_campaign?: string | null;
 }
 
 /**
  * Get users who should receive a drip email based on day offset
- * @param eventType - Type of drip email ('drip_welcome', 'drip_day3', etc.)
- * @param dayOffset - Number of days since signup (0 for welcome, 3, 7, 14)
+ * @param eventType - Type of drip email ('drip_day1', 'drip_day3', 'drip_day5', 'drip_day7')
+ * @param dayOffset - Number of days since signup (1, 3, 5, 7)
  * @returns Array of users who should receive the email
  */
 export function getUsersForDripEmail(
-  eventType: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14',
+  eventType: 'drip_day1' | 'drip_day3' | 'drip_day5' | 'drip_day7',
   dayOffset: number
 ): UserForDripEmail[] {
   const db = getDatabase();
@@ -81,7 +83,7 @@ export function getUsersForDripEmail(
  */
 export function recordEmailSent(
   userId: number,
-  eventType: 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14',
+  eventType: 'drip_day1' | 'drip_day3' | 'drip_day5' | 'drip_day7',
   metadata?: Record<string, any>,
   abVariant?: 'A' | 'B',
   utmCampaign?: string

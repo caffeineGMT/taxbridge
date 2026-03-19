@@ -1,105 +1,47 @@
-import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+/**
+ * Database Layer - Unified SQLite/PostgreSQL Support
+ * Automatically uses PostgreSQL if DATABASE_URL is set, otherwise SQLite
+ */
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Database configuration
-const DB_DIR = path.join(process.cwd(), 'data');
-const DB_PATH = path.join(DB_DIR, 'taxbridge.db');
-const SCHEMA_PATH = path.join(__dirname, 'schema.sql');
-
-// Singleton database instance
-let db: Database.Database | null = null;
+import {
+  getDatabase as getUnifiedDb,
+  query,
+  queryOne,
+  insert,
+  initializeDatabase as initUnifiedDb,
+  runMigrations as runUnifiedMigrations,
+  closeDatabase as closeUnifiedDb,
+  isPostgres,
+  isSQLite
+} from './unified';
 
 /**
- * Get or create the database singleton instance
+ * Get or create the database instance
+ * Returns Pool (PostgreSQL) or SQLite Database based on environment
  */
-export function getDatabase(): Database.Database {
-  if (!db) {
-    // Ensure data directory exists
-    if (!fs.existsSync(DB_DIR)) {
-      fs.mkdirSync(DB_DIR, { recursive: true });
-    }
-
-    // Create database connection
-    db = new Database(DB_PATH);
-
-    // Enable foreign keys and WAL mode for better concurrency
-    db.pragma('foreign_keys = ON');
-    db.pragma('journal_mode = WAL');
-
-    // Graceful shutdown handlers
-    const cleanup = () => {
-      if (db) {
-        db.close();
-        db = null;
-      }
-    };
-
-    process.on('exit', cleanup);
-    process.on('SIGINT', () => {
-      cleanup();
-      process.exit(0);
-    });
-    process.on('SIGTERM', () => {
-      cleanup();
-      process.exit(0);
-    });
-  }
-
-  return db;
+export function getDatabase() {
+  return getUnifiedDb();
 }
 
 /**
  * Initialize database schema from schema.sql file
  */
-export function initializeDatabase(): void {
-  const db = getDatabase();
-
-  // Read and execute schema file
-  const schema = fs.readFileSync(SCHEMA_PATH, 'utf-8');
-  db.exec(schema);
-
-  console.log('✓ Database schema initialized successfully');
+export async function initializeDatabase(): Promise<void> {
+  await initUnifiedDb();
 }
 
 /**
- * Run database migrations (placeholder for future schema versions)
+ * Run database migrations
  */
-export function runMigrations(): void {
-  const db = getDatabase();
-
-  // Create migrations table if it doesn't exist
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS schema_migrations (
-      version INTEGER PRIMARY KEY,
-      applied_at TEXT DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-
-  // Future migrations will be added here
-  // Example:
-  // const currentVersion = db.prepare('SELECT MAX(version) as version FROM schema_migrations').get() as { version: number | null };
-  // if (!currentVersion.version || currentVersion.version < 1) {
-  //   db.exec('ALTER TABLE ...');
-  //   db.prepare('INSERT INTO schema_migrations (version) VALUES (?)').run(1);
-  // }
-
-  console.log('✓ Migrations completed');
+export async function runMigrations(): Promise<void> {
+  await runUnifiedMigrations();
 }
 
 /**
  * Close the database connection
  */
-export function closeDatabase(): void {
-  if (db) {
-    db.close();
-    db = null;
-  }
+export async function closeDatabase(): Promise<void> {
+  await closeUnifiedDb();
 }
 
 // ============================================================================
@@ -179,57 +121,45 @@ export interface UserProfileRow {
 /**
  * Insert a new RSU entry
  */
-export function insertRSUEntry(entry: RSUEntryInput): number {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function insertRSUEntry(entry: RSUEntryInput): Promise<number> {
+  return insert(`
     INSERT INTO rsu_entries (user_id, vest_date, fmv_usd, shares, employer, ticker_symbol)
-    VALUES (@user_id, @vest_date, @fmv_usd, @shares, @employer, @ticker_symbol)
-  `);
-
-  const result = stmt.run({
-    ...entry,
-    ticker_symbol: entry.ticker_symbol || null,
-  });
-
-  return result.lastInsertRowid as number;
+    VALUES ($1, $2, $3, $4, $5, $6)
+  `, [
+    entry.user_id,
+    entry.vest_date,
+    entry.fmv_usd,
+    entry.shares,
+    entry.employer,
+    entry.ticker_symbol || null
+  ]);
 }
 
 /**
  * Get all RSU entries for a user
  */
-export function getRSUEntries(userId: number): RSUEntryRow[] {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function getRSUEntries(userId: number): Promise<RSUEntryRow[]> {
+  return query<RSUEntryRow>(`
     SELECT * FROM rsu_entries
-    WHERE user_id = ?
+    WHERE user_id = $1
     ORDER BY vest_date DESC
-  `);
-
-  return stmt.all(userId) as RSUEntryRow[];
+  `, [userId]);
 }
 
 /**
  * Get a single RSU entry by ID
  */
-export function getRSUEntry(id: number): RSUEntryRow | undefined {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
-    SELECT * FROM rsu_entries WHERE id = ?
-  `);
-
-  return stmt.get(id) as RSUEntryRow | undefined;
+export async function getRSUEntry(id: number): Promise<RSUEntryRow | null> {
+  return queryOne<RSUEntryRow>(`
+    SELECT * FROM rsu_entries WHERE id = $1
+  `, [id]);
 }
 
 /**
  * Insert a tax calculation
  */
-export function insertTaxCalculation(calc: TaxCalculationInput): number {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function insertTaxCalculation(calc: TaxCalculationInput): Promise<number> {
+  return insert(`
     INSERT INTO tax_calculations (
       rsu_entry_id, user_id, rsu_income_usd, rsu_income_cad, exchange_rate,
       us_federal_tax, us_state_tax, us_total_tax,
@@ -237,162 +167,160 @@ export function insertTaxCalculation(calc: TaxCalculationInput): number {
       ftc_eligible_usd, ftc_claimed_cad, net_tax_payable, effective_tax_rate,
       tax_year, notes
     ) VALUES (
-      @rsu_entry_id, @user_id, @rsu_income_usd, @rsu_income_cad, @exchange_rate,
-      @us_federal_tax, @us_state_tax, @us_total_tax,
-      @canada_federal_tax, @canada_provincial_tax, @canada_total_tax,
-      @ftc_eligible_usd, @ftc_claimed_cad, @net_tax_payable, @effective_tax_rate,
-      @tax_year, @notes
+      $1, $2, $3, $4, $5,
+      $6, $7, $8,
+      $9, $10, $11,
+      $12, $13, $14, $15,
+      $16, $17
     )
-  `);
-
-  const result = stmt.run({
-    ...calc,
-    notes: calc.notes || null,
-  });
-
-  return result.lastInsertRowid as number;
+  `, [
+    calc.rsu_entry_id,
+    calc.user_id,
+    calc.rsu_income_usd,
+    calc.rsu_income_cad,
+    calc.exchange_rate,
+    calc.us_federal_tax,
+    calc.us_state_tax,
+    calc.us_total_tax,
+    calc.canada_federal_tax,
+    calc.canada_provincial_tax,
+    calc.canada_total_tax,
+    calc.ftc_eligible_usd,
+    calc.ftc_claimed_cad,
+    calc.net_tax_payable,
+    calc.effective_tax_rate,
+    calc.tax_year,
+    calc.notes || null
+  ]);
 }
 
 /**
  * Get tax calculations for a user
  */
-export function getTaxCalculations(userId: number): TaxCalculationRow[] {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function getTaxCalculations(userId: number): Promise<TaxCalculationRow[]> {
+  return query<TaxCalculationRow>(`
     SELECT * FROM tax_calculations
-    WHERE user_id = ?
+    WHERE user_id = $1
     ORDER BY calculation_date DESC
-  `);
-
-  return stmt.all(userId) as TaxCalculationRow[];
+  `, [userId]);
 }
 
 /**
  * Get tax calculations for a specific RSU entry
  */
-export function getTaxCalculationsByRSUEntry(rsuEntryId: number): TaxCalculationRow[] {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function getTaxCalculationsByRSUEntry(rsuEntryId: number): Promise<TaxCalculationRow[]> {
+  return query<TaxCalculationRow>(`
     SELECT * FROM tax_calculations
-    WHERE rsu_entry_id = ?
+    WHERE rsu_entry_id = $1
     ORDER BY calculation_date DESC
-  `);
-
-  return stmt.all(rsuEntryId) as TaxCalculationRow[];
+  `, [rsuEntryId]);
 }
 
 /**
  * Create or update a user profile
  */
-export function upsertUserProfile(profile: UserProfileInput & { id?: number }): number {
-  const db = getDatabase();
-
+export async function upsertUserProfile(profile: UserProfileInput & { id?: number }): Promise<number> {
   if (profile.id) {
     // Update existing profile
-    const stmt = db.prepare(`
+    await query(`
       UPDATE user_profiles
-      SET email = COALESCE(@email, email),
-          first_name = COALESCE(@first_name, first_name),
-          last_name = COALESCE(@last_name, last_name),
-          us_state = COALESCE(@us_state, us_state),
-          canada_province = COALESCE(@canada_province, canada_province),
-          filing_status = COALESCE(@filing_status, filing_status),
-          updated_at = CURRENT_TIMESTAMP
-      WHERE id = @id
-    `);
+      SET email = COALESCE($1, email),
+          first_name = COALESCE($2, first_name),
+          last_name = COALESCE($3, last_name),
+          us_state = COALESCE($4, us_state),
+          canada_province = COALESCE($5, canada_province),
+          filing_status = COALESCE($6, filing_status),
+          updated_at = ${isPostgres ? 'EXTRACT(EPOCH FROM NOW())::BIGINT' : 'unixepoch()'}
+      WHERE id = $7
+    `, [
+      profile.email,
+      profile.first_name,
+      profile.last_name,
+      profile.us_state,
+      profile.canada_province,
+      profile.filing_status,
+      profile.id
+    ]);
 
-    stmt.run(profile);
     return profile.id;
   } else {
     // Insert new profile
-    const stmt = db.prepare(`
+    return insert(`
       INSERT INTO user_profiles (email, first_name, last_name, us_state, canada_province, filing_status)
-      VALUES (@email, @first_name, @last_name, @us_state, @canada_province, @filing_status)
-    `);
-
-    const result = stmt.run(profile);
-    return result.lastInsertRowid as number;
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `, [
+      profile.email,
+      profile.first_name,
+      profile.last_name,
+      profile.us_state,
+      profile.canada_province,
+      profile.filing_status
+    ]);
   }
 }
 
 /**
  * Get user profile by ID
  */
-export function getUserProfile(id: number): UserProfileRow | undefined {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
-    SELECT * FROM user_profiles WHERE id = ?
-  `);
-
-  return stmt.get(id) as UserProfileRow | undefined;
+export async function getUserProfile(id: number): Promise<UserProfileRow | null> {
+  return queryOne<UserProfileRow>(`
+    SELECT * FROM user_profiles WHERE id = $1
+  `, [id]);
 }
 
 /**
  * Get user profile by Clerk user ID
  */
-export function getUserProfileByClerkId(clerkUserId: string): UserProfileRow | undefined {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
-    SELECT * FROM user_profiles WHERE clerk_user_id = ?
-  `);
-
-  return stmt.get(clerkUserId) as UserProfileRow | undefined;
+export async function getUserProfileByClerkId(clerkUserId: string): Promise<UserProfileRow | null> {
+  return queryOne<UserProfileRow>(`
+    SELECT * FROM user_profiles WHERE clerk_user_id = $1
+  `, [clerkUserId]);
 }
 
 /**
  * Create a new user profile from Clerk webhook
  */
-export function createUserProfile(clerkUserId: string, email?: string): number {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
+export async function createUserProfile(clerkUserId: string, email?: string): Promise<number> {
+  return insert(`
     INSERT INTO user_profiles (clerk_user_id, email, subscription_tier)
-    VALUES (?, ?, 'free')
-  `);
-
-  const result = stmt.run(clerkUserId, email || null);
-  return result.lastInsertRowid as number;
+    VALUES ($1, $2, 'free')
+  `, [clerkUserId, email || null]);
 }
 
 /**
  * Update user profile (for onboarding or profile updates)
  */
-export function updateUserProfile(clerkUserId: string, data: Partial<UserProfileInput>): void {
-  const db = getDatabase();
-
+export async function updateUserProfile(clerkUserId: string, data: Partial<UserProfileInput>): Promise<void> {
   const fields: string[] = [];
   const values: any[] = [];
+  let paramIndex = 1;
 
   if (data.first_name !== undefined) {
-    fields.push('first_name = ?');
+    fields.push(`first_name = $${paramIndex++}`);
     values.push(data.first_name);
   }
   if (data.last_name !== undefined) {
-    fields.push('last_name = ?');
+    fields.push(`last_name = $${paramIndex++}`);
     values.push(data.last_name);
   }
   if (data.us_state !== undefined) {
-    fields.push('us_state = ?');
+    fields.push(`us_state = $${paramIndex++}`);
     values.push(data.us_state);
   }
   if (data.canada_province !== undefined) {
-    fields.push('canada_province = ?');
+    fields.push(`canada_province = $${paramIndex++}`);
     values.push(data.canada_province);
   }
   if (data.filing_status !== undefined) {
-    fields.push('filing_status = ?');
+    fields.push(`filing_status = $${paramIndex++}`);
     values.push(data.filing_status);
   }
   if (data.subscription_tier !== undefined) {
-    fields.push('subscription_tier = ?');
+    fields.push(`subscription_tier = $${paramIndex++}`);
     values.push(data.subscription_tier);
   }
   if (data.stripe_customer_id !== undefined) {
-    fields.push('stripe_customer_id = ?');
+    fields.push(`stripe_customer_id = $${paramIndex++}`);
     values.push(data.stripe_customer_id);
   }
 
@@ -400,65 +328,62 @@ export function updateUserProfile(clerkUserId: string, data: Partial<UserProfile
     return;
   }
 
-  fields.push('updated_at = unixepoch()');
+  fields.push(`updated_at = ${isPostgres ? 'EXTRACT(EPOCH FROM NOW())::BIGINT' : 'unixepoch()'}`);
   values.push(clerkUserId);
 
-  const stmt = db.prepare(`
+  await query(`
     UPDATE user_profiles
     SET ${fields.join(', ')}
-    WHERE clerk_user_id = ?
-  `);
-
-  stmt.run(...values);
+    WHERE clerk_user_id = $${paramIndex}
+  `, values);
 }
 
 /**
  * Get or create a default user (for MVP single-user mode)
  */
-export function getOrCreateDefaultUser(): UserProfileRow {
-  const db = getDatabase();
+export async function getOrCreateDefaultUser(): Promise<UserProfileRow> {
+  const rows = await query<UserProfileRow>('SELECT * FROM user_profiles LIMIT 1');
 
-  let user = db.prepare('SELECT * FROM user_profiles LIMIT 1').get() as UserProfileRow | undefined;
-
-  if (!user) {
-    // Insert new profile directly to avoid upsert logic
-    const stmt = db.prepare(`
-      INSERT INTO user_profiles (email, first_name, last_name, us_state, canada_province, filing_status)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-
-    const result = stmt.run('user@example.com', 'Demo', 'User', 'WA', 'BC', 'single');
-    user = getUserProfile(result.lastInsertRowid as number);
+  if (rows.length > 0) {
+    return rows[0];
   }
 
+  // Insert new profile directly to avoid upsert logic
+  const id = await insert(`
+    INSERT INTO user_profiles (email, first_name, last_name, us_state, canada_province, filing_status)
+    VALUES ($1, $2, $3, $4, $5, $6)
+  `, ['user@example.com', 'Demo', 'User', 'WA', 'BC', 'single']);
+
+  const user = await getUserProfile(id);
   return user!;
 }
 
 /**
  * Cache exchange rate
  */
-export function cacheExchangeRate(date: string, rate: number): void {
-  const db = getDatabase();
-
-  const stmt = db.prepare(`
-    INSERT OR REPLACE INTO exchange_rates (rate_date, usd_to_cad)
-    VALUES (?, ?)
-  `);
-
-  stmt.run(date, rate);
+export async function cacheExchangeRate(date: string, rate: number): Promise<void> {
+  if (isPostgres) {
+    await query(`
+      INSERT INTO exchange_rates (rate_date, usd_to_cad)
+      VALUES ($1, $2)
+      ON CONFLICT (rate_date) DO UPDATE SET usd_to_cad = $2
+    `, [date, rate]);
+  } else {
+    await query(`
+      INSERT OR REPLACE INTO exchange_rates (rate_date, usd_to_cad)
+      VALUES ($1, $2)
+    `, [date, rate]);
+  }
 }
 
 /**
  * Get cached exchange rate
  */
-export function getCachedExchangeRate(date: string): number | undefined {
-  const db = getDatabase();
+export async function getCachedExchangeRate(date: string): Promise<number | undefined> {
+  const result = await queryOne<{ usd_to_cad: number }>(`
+    SELECT usd_to_cad FROM exchange_rates WHERE rate_date = $1
+  `, [date]);
 
-  const stmt = db.prepare(`
-    SELECT usd_to_cad FROM exchange_rates WHERE rate_date = ?
-  `);
-
-  const result = stmt.get(date) as { usd_to_cad: number } | undefined;
   return result?.usd_to_cad;
 }
 
