@@ -87,7 +87,8 @@ export async function seedDatabase(): Promise<void> {
   }
 
   // Sample tax calculations for each RSU entry
-  rsuEntries.forEach((entry, index) => {
+  for (let index = 0; index < rsuEntries.length; index++) {
+    const entry = rsuEntries[index];
     const rsuId = rsuIds[index];
     const totalValue = entry.fmv_usd * entry.shares;
     const exchangeRate = exchangeRates[index].rate;
@@ -135,9 +136,9 @@ export async function seedDatabase(): Promise<void> {
       notes: 'Sample calculation using simplified tax rates',
     };
 
-    insertTaxCalculation(taxCalc);
+    await insertTaxCalculation(taxCalc);
     console.log(`  ↳ Tax calculation: Net ${netTaxPayable.toFixed(2)} CAD (${effectiveRate.toFixed(2)}% effective rate)`);
-  });
+  }
 
   console.log('\n✨ Database seeding completed successfully!\n');
 }
