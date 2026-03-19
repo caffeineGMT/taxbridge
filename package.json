@@ -46,6 +46,7 @@
     "verify:clerk": "tsx scripts/verify-clerk-keys.ts",
     "test:clerk-signup": "tsx scripts/test-clerk-signup.ts",
     "verify:free-tier": "tsx scripts/verify-free-tier-limit.ts",
+    "verify:free-tier:production": "tsx scripts/verify-free-tier-production.ts",
     "verify:sentry": "tsx scripts/verify-sentry-production.ts",
     "health-check": "tsx scripts/health-check.ts",
     "health-check:watch": "tsx scripts/health-check.ts --watch",
