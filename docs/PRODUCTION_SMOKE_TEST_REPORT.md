@@ -1,8 +1,8 @@
 # Production Smoke Test Report
 
-**Generated:** 2026-03-19T18:59:43.318Z
+**Generated:** 2026-03-19T19:30:06.534Z
 **Production URL:** https://taxbridge.vercel.app
-**Total Duration:** 36.94s
+**Total Duration:** 40.84s
 
 ## Summary
 
@@ -21,20 +21,20 @@
 ### 1. ✅ Site Accessibility Check
 
 **Status:** PASS
-**Duration:** 1.37s
+**Duration:** 1.29s
 
 **Details:**
 ✅ Site is UP and accessible (HTTP 200)
 
 **Screenshots:**
-- ![homepage-1773946747663.png](./screenshots/homepage-1773946747663.png)
+- ![homepage-1773948566879.png](./screenshots/homepage-1773948566879.png)
 
 ---
 
 ### 2. ❌ Calculator Flow End-to-End
 
 **Status:** FAIL
-**Duration:** 13.18s
+**Duration:** 12.67s
 
 **Details:**
 ❌ Calculator flow failed: locator.waitFor: Timeout 10000ms exceeded.
@@ -51,60 +51,60 @@ Call log:
 ```
 
 **Screenshots:**
-- ![calculator-initial-1773946750859.png](./screenshots/calculator-initial-1773946750859.png)
+- ![calculator-initial-1773948569590.png](./screenshots/calculator-initial-1773948569590.png)
 
 ---
 
 ### 3. ❌ Signup & Clerk Authentication
 
 **Status:** FAIL
-**Duration:** 12.22s
+**Duration:** 13.06s
 
 **Details:**
 ❌ Clerk widget not found on signup page
 
 **Screenshots:**
-- ![signup-page-1773946763040.png](./screenshots/signup-page-1773946763040.png)
-- ![signup-clerk-widget-1773946773119.png](./screenshots/signup-clerk-widget-1773946773119.png)
+- ![signup-page-1773948582616.png](./screenshots/signup-page-1773948582616.png)
+- ![signup-clerk-widget-1773948592686.png](./screenshots/signup-clerk-widget-1773948592686.png)
 
 ---
 
 ### 4. ❌ Payment Flow (Stripe)
 
 **Status:** FAIL
-**Duration:** 1.70s
+**Duration:** 2.84s
 
 **Details:**
 ❌ Pricing information not visible
 
 **Screenshots:**
-- ![pricing-page-1773946774780.png](./screenshots/pricing-page-1773946774780.png)
+- ![pricing-page-1773948595478.png](./screenshots/pricing-page-1773948595478.png)
 
 ---
 
 ### 5. ❌ PostHog Event Tracking
 
 **Status:** FAIL
-**Duration:** 5.54s
+**Duration:** 7.65s
 
 **Details:**
 ❌ PostHog not loaded and no network requests detected
 
 **Screenshots:**
-- ![posthog-tracking-1773946780315.png](./screenshots/posthog-tracking-1773946780315.png)
+- ![posthog-tracking-1773948603146.png](./screenshots/posthog-tracking-1773948603146.png)
 
 ---
 
 ### 6. ❌ Sentry Error Monitoring
 
 **Status:** FAIL
-**Duration:** 2.93s
+**Duration:** 3.32s
 
 **Details:**
 ⚠️ Sentry not detected - may be disabled or placeholder DSN
 
 **Screenshots:**
-- ![sentry-check-1773946783218.png](./screenshots/sentry-check-1773946783218.png)
+- ![sentry-check-1773948606423.png](./screenshots/sentry-check-1773948606423.png)
 
 ---
 
@@ -113,13 +113,13 @@ Call log:
 All screenshots saved to: `/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/smoke-test-2026-03-19`
 
 **Screenshot Files:**
-- homepage-1773946747663.png
-- calculator-initial-1773946750859.png
-- signup-page-1773946763040.png
-- signup-clerk-widget-1773946773119.png
-- pricing-page-1773946774780.png
-- posthog-tracking-1773946780315.png
-- sentry-check-1773946783218.png
+- homepage-1773948566879.png
+- calculator-initial-1773948569590.png
+- signup-page-1773948582616.png
+- signup-clerk-widget-1773948592686.png
+- pricing-page-1773948595478.png
+- posthog-tracking-1773948603146.png
+- sentry-check-1773948606423.png
 
 ## Next Steps
 
