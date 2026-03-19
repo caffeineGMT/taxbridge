@@ -36,6 +36,8 @@
     "verify:blog": "tsx scripts/verify-blog-publication.ts",
     "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
     "analyze:seo:traffic": "tsx scripts/analyze-seo-traffic.ts",
+    "audit:seo": "tsx scripts/seo-traffic-audit.ts",
+    "audit:seo:json": "tsx scripts/seo-traffic-audit.ts --export-json",
     "verify:production": "tsx scripts/verify-production-site.ts",
     "verify:deployment": "tsx scripts/verify-deployment.ts",
     "verify:task": "tsx scripts/verify-task.ts",
@@ -197,7 +199,9 @@
     "verify:stripe:final": "tsx scripts/verify-stripe-final.ts",
     "verify:stripe:revenue": "tsx scripts/verify-stripe-revenue.ts",
     "validate:env": "tsx scripts/validate-env-production.ts",
-    "analyze:recurrence": "tsx scripts/analyze-task-recurrence.ts"
+    "analyze:recurrence": "tsx scripts/analyze-task-recurrence.ts",
+    "qa:bug-hunt": "tsx scripts/production-qa-bug-hunt.ts",
+    "qa:manual": "cat docs/qa-bug-hunt/MANUAL_TESTING_CHECKLIST.md"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
