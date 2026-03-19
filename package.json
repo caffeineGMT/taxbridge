@@ -57,6 +57,7 @@
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
     "revenue:metrics": "tsx scripts/pull-revenue-metrics.ts",
     "verify:revenue": "tsx scripts/verify-revenue-gate.ts",
+    "verify:revenue-dashboard": "tsx scripts/verify-revenue-dashboard.ts",
     "ab:check": "tsx scripts/analyze-headline-ab-test.ts",
     "ab:export": "tsx scripts/analyze-headline-ab-test.ts --export-csv",
     "ab:daily": "tsx scripts/analyze-headline-ab-test.ts --daily-summary",

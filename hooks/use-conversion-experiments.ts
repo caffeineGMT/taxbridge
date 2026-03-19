@@ -222,7 +222,7 @@ export interface ConversionExperimentsConfig {
 export function useConversionExperiments(): ConversionExperimentsConfig {
   const [isLoading, setIsLoading] = useState(true);
   const [headlineVariant, setHeadlineVariant] = useState<HeadlineVariant>('control');
-  const [freeTierVariant, setFreeTierVariant] = useState<FreeTierVariant>('unlimited');
+  const [freeTierVariant, setFreeTierVariant] = useState<FreeTierVariant>('limited_10'); // Fixed: was 'unlimited' (invalid), now 'limited_10' (current baseline)
   const [socialProofVariant, setSocialProofVariant] = useState<SocialProofVariant>('above_fold');
 
   // Initialize variants on mount
