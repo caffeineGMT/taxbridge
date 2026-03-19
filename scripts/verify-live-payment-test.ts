@@ -130,7 +130,7 @@ function verifyUser(email: string) {
       log('FREE TIER:', 'yellow');
       console.log('  • No Stripe IDs (before payment)');
       console.log('  • Status: null or "canceled"');
-      console.log('  • RSU Limit: 1 entry');
+      console.log('  • RSU Limit: 10 entries');
       console.log('  • PDF Export: Blocked (shows upgrade modal)');
     } else if (tier === 'pro') {
       log('PRO TIER:', 'green');

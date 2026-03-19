@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-03-19T16:35:37.791Z",
+  "results": [
+    {
+      "url": "https://taxbridgecpa.com",
+      "name": "taxbridgecpa.com",
+      "status": 0,
+      "accessible": false,
+      "expected": false,
+      "match": true,
+      "error": "page.goto: net::ERR_NAME_NOT_RESOLVED at https://taxbridgecpa.com/\nCall log:\n  - navigating to \"https://taxbridgecpa.com/\", waiting until \"domcontentloaded\"\n"
+    },
+    {
+      "url": "https://taxbridge.vercel.app",
+      "name": "taxbridge.vercel.app",
+      "status": 200,
+      "accessible": true,
+      "expected": true,
+      "match": true
+    }
+  ],
+  "summary": {
+    "totalTests": 2,
+    "passed": 2,
+    "failed": 0,
+    "allPassed": true
+  }
+}

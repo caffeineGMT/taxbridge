@@ -79,7 +79,7 @@ Most overpay $5K-$15K because they don't know about Foreign Tax Credits.
 ```
 💰 Pricing strategy:
 
-Free: Basic calculator (1 RSU entry, view results)
+Free: Basic calculator (10 RSU entries, view results)
 Pro: $299/year (unlimited RSUs, multi-year tracking, PDF export)
 
 Why $299? Because:

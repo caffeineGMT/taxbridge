@@ -210,7 +210,7 @@ Signup Completed → Pricing Page Viewed → Checkout Started → Payment Comple
 3. **Unclear Upgrade Path** - No prominent "Upgrade to Pro" prompts in dashboard
 
 **Optimizations:**
-- Add paywall after 1 RSU entry (currently unlimited for free tier)
+- Add paywall after 10 RSU entries (currently generous free tier)
 - Show "Upgrade to Pro" banner in dashboard
 - Add feature discovery tooltips highlighting Pro features
 

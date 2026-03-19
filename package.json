@@ -33,6 +33,7 @@
     "monitor:funnel": "tsx scripts/monitor-funnel-performance.ts",
     "verify:blog": "tsx scripts/verify-blog-publication.ts",
     "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
+    "verify:production": "tsx scripts/verify-production-site.ts",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
     "verify:revenue": "tsx scripts/verify-revenue-api.ts",
     "db:init": "tsx scripts/init-db.ts",

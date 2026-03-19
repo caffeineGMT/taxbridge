@@ -417,7 +417,7 @@ Pro plan ($299/year) for unlimited RSUs, multi-year tracking, PDF exports, and p
 
 Enterprise plan ($2,000/year) for tax professionals who want to manage multiple clients, with API access, white-label reports, and client management dashboard.
 
-Free tier is genuinely free forever - basic calculator with one RSU entry. No credit card required. Great for testing or one-time calculations.
+Free tier is genuinely free forever - basic calculator with 10 RSU entries. No credit card required. Great for testing or one-time calculations.
 
 Revenue-generating from day one because this solves a real $5K-$15K/year problem. People are willing to pay $299 to save $10K.
 ```

@@ -159,7 +159,7 @@ Session recordings show users actively searching for:
 2. User clicks CTA and lands on pricing page
 
 3. User reviews pricing tiers:
-   - **Free:** Basic calculator (1 RSU entry limit)
+   - **Free:** Basic calculator (10 RSU entries limit)
    - **Pro ($299/year):** Unlimited entries, FTC optimizer, multi-year analysis, PDF export
    - **Enterprise ($999/year):** Everything in Pro + dedicated support, CPA review
 

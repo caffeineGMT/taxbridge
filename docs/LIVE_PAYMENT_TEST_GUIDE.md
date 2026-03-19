@@ -215,7 +215,7 @@ pro|cus_...|sub_...|active
 **Verify**:
 - [ ] All 5 entries saved successfully
 - [ ] No "Upgrade to Pro" paywall shown
-- [ ] Free tier limit (1 entry) bypassed
+- [ ] Free tier limit (10 entries) bypassed
 
 #### Step 5.2: Test PDF Export
 

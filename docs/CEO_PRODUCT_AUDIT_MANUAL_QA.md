@@ -92,7 +92,7 @@ The production application is **LIVE and functional** but has **4 P0 blockers** 
 
 | Tier | Price | Price ID | Features | Status |
 |------|-------|----------|----------|--------|
-| Free | $0 | - | 1 RSU entry, basic calculator | ✅ Live |
+| Free | $0 | - | 10 RSU entries, basic calculator | ✅ Live |
 | Pro | $49/year | `price_1ProAnnual` | Unlimited RSUs, FTC optimizer, AI advisor | ✅ Live |
 | Enterprise | $2,000/year | `price_1EntAnnual` | White-label, API access, client dashboard | ✅ Live |
 

@@ -685,7 +685,7 @@ async function testProFeatures(userId: number) {
       { subscriptionTier: userProfile?.subscription_tier }
     );
 
-    // Test 2: Verify unlimited RSU entries (create 15 entries, free tier limit is 1)
+    // Test 2: Verify unlimited RSU entries (create 15 entries, free tier limit is 10)
     const testRSUEntries = [];
     for (let i = 0; i < 15; i++) {
       const insertStmt = db.prepare(`
@@ -714,11 +714,11 @@ async function testProFeatures(userId: number) {
       'Unlimited RSU Entries',
       hasUnlimitedRSU,
       hasUnlimitedRSU
-        ? `Successfully created ${rsuCount.count} RSU entries (exceeds free tier limit of 1)`
+        ? `Successfully created ${rsuCount.count} RSU entries (exceeds free tier limit of 10)`
         : `Failed to create unlimited RSU entries (only ${rsuCount.count} created)`,
       {
         createdEntries: rsuCount.count,
-        freeTierLimit: 1,
+        freeTierLimit: 10,
         proTierLimit: 'unlimited',
       }
     );
@@ -740,17 +740,17 @@ async function testProFeatures(userId: number) {
     );
 
     // Test 4: Verify access gates would block free tier
-    const freeTierBlocked = rsuCount.count > 1; // Free tier only allows 1 RSU entry
+    const freeTierBlocked = rsuCount.count > 10; // Free tier only allows 10 RSU entries
 
     addResult(
       'Access Gate Validation',
       freeTierBlocked,
       freeTierBlocked
-        ? 'Access gate correctly blocks free tier at 1 RSU entry'
+        ? 'Access gate correctly blocks free tier at 10 RSU entries'
         : 'Access gate may not be working correctly',
       {
         currentRSUCount: rsuCount.count,
-        freeTierWouldBlock: rsuCount.count > 1,
+        freeTierWouldBlock: rsuCount.count > 10,
       }
     );
 
