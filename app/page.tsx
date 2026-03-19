@@ -390,25 +390,25 @@ export default function Home() {
 
             <div>
               <h3 className="font-semibold text-slate-100 mb-4">Product</h3>
-              <ul className="space-y-2">
-                <li><Link href="#features" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Features</Link></li>
-                <li><Link href="/dashboard" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Dashboard</Link></li>
+              <ul className="space-y-1">
+                <li><Link href="#features" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">Features</Link></li>
+                <li><Link href="/dashboard" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">Dashboard</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-semibold text-slate-100 mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li><Link href="/privacy" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">Terms of Service</Link></li>
+              <ul className="space-y-1">
+                <li><Link href="/privacy" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">Terms of Service</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="font-semibold text-slate-100 mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li><Link href="/about" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">About</Link></li>
-                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
+              <ul className="space-y-1">
+                <li><Link href="/about" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">About</Link></li>
+                <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="block text-sm text-slate-400 hover:text-emerald-400 transition-colors py-2 touch-manipulation">GitHub</a></li>
               </ul>
             </div>
           </div>

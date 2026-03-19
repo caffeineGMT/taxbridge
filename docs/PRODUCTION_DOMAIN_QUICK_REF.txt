@@ -1,0 +1,41 @@
+# Production Domain Quick Reference
+
+## ✅ CORRECT PRODUCTION DOMAIN
+
+```
+https://taxbridge.app
+https://www.taxbridge.app
+```
+
+**Status:** LIVE ✅
+**Vercel:** Configured ✅
+**SSL:** Active ✅
+
+## ❌ NOT CONFIGURED (DO NOT USE)
+
+```
+https://taxbridgecpa.com
+```
+
+**Status:** NOT IN VERCEL ❌
+**Error:** 000/503 ❌
+
+## USE IN:
+- All code (app/, lib/, scripts/)
+- All marketing materials
+- All documentation
+- Reddit posts
+- Email campaigns
+- Social media links
+
+## VERIFICATION
+
+```bash
+# Check production status
+curl -I https://www.taxbridge.app
+
+# Expected: HTTP/2 200 OK
+```
+
+## LAST UPDATED
+March 19, 2026 - All references corrected
