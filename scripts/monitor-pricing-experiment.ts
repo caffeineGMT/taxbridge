@@ -94,16 +94,16 @@ function calculateStatisticalSignificance(
 function generateReport(metrics: ExperimentMetrics, dayNumber: number): string {
   const { overview, variants, recommendations } = metrics;
 
+  const annual29 = variants.annual_29 || { conversions: 0, revenue: 0, percentage: '0%' };
   const annual49 = variants.annual_49 || { conversions: 0, revenue: 0, percentage: '0%' };
   const annual79 = variants.annual_79 || { conversions: 0, revenue: 0, percentage: '0%' };
-  const annual99 = variants.annual_99 || { conversions: 0, revenue: 0, percentage: '0%' };
   const monthly19 = variants.monthly_19 || { conversions: 0, revenue: 0, percentage: '0%' };
 
   // Find leader
   const variantList = [
+    { name: '$29/year', ...annual29 },
     { name: '$49/year', ...annual49 },
     { name: '$79/year', ...annual79 },
-    { name: '$99/year', ...annual99 },
   ];
 
   const leader = variantList.reduce((max, v) => v.revenue > max.revenue ? v : max);
@@ -140,8 +140,9 @@ function generateReport(metrics: ExperimentMetrics, dayNumber: number): string {
 
   return `
 ╔════════════════════════════════════════════════════════════════════════════╗
-║                    PRICING EXPERIMENT - DAY ${dayNumber} REPORT                     ║
+║                    PRICING EXPERIMENT V2 - DAY ${dayNumber} REPORT                  ║
 ║                     ${new Date().toISOString().split('T')[0]}                      ║
+║                  $29 vs $49 vs $79 Competitive Test                        ║
 ╚════════════════════════════════════════════════════════════════════════════╝
 
 📊 OVERVIEW
@@ -157,9 +158,9 @@ function generateReport(metrics: ExperimentMetrics, dayNumber: number): string {
 ┌─────────────┬─────────────┬────────────┬────────────────┬─────────────┐
 │ Variant     │ Conversions │ Conv. %    │ Revenue        │ Rev. %      │
 ├─────────────┼─────────────┼────────────┼────────────────┼─────────────┤
+│ $29/year    │ ${String(annual29.conversions).padEnd(11)} │ ${annual29.percentage.padEnd(10)} │ $${String(annual29.revenue.toFixed(2)).padEnd(12)} │ ${String(((annual29.revenue / overview.total_revenue) * 100).toFixed(1) + '%').padEnd(11)} │
 │ $49/year    │ ${String(annual49.conversions).padEnd(11)} │ ${annual49.percentage.padEnd(10)} │ $${String(annual49.revenue.toFixed(2)).padEnd(12)} │ ${String(((annual49.revenue / overview.total_revenue) * 100).toFixed(1) + '%').padEnd(11)} │
 │ $79/year    │ ${String(annual79.conversions).padEnd(11)} │ ${annual79.percentage.padEnd(10)} │ $${String(annual79.revenue.toFixed(2)).padEnd(12)} │ ${String(((annual79.revenue / overview.total_revenue) * 100).toFixed(1) + '%').padEnd(11)} │
-│ $99/year    │ ${String(annual99.conversions).padEnd(11)} │ ${annual99.percentage.padEnd(10)} │ $${String(annual99.revenue.toFixed(2)).padEnd(12)} │ ${String(((annual99.revenue / overview.total_revenue) * 100).toFixed(1) + '%').padEnd(11)} │
 │ $19/month   │ ${String(monthly19.conversions).padEnd(11)} │ ${monthly19.percentage.padEnd(10)} │ $${String(monthly19.revenue.toFixed(2)).padEnd(12)} │ ${String(((monthly19.revenue / overview.total_revenue) * 100).toFixed(1) + '%').padEnd(11)} │
 └─────────────┴─────────────┴────────────┴────────────────┴─────────────┘
 
