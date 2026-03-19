@@ -1,53 +1,83 @@
-# STRIPE PRODUCTION ACTIVATION - EXECUTIVE SUMMARY
+# 🔴 STRIPE PRODUCTION KEYS - EXECUTIVE SUMMARY
+**[P0-CRITICAL] Revenue Blocker - 8th Sprint**
 
-**Project:** TaxBridge Cross-Border Tax Tool
-**Task:** [P0-CRITICAL] Move Stripe from TEST to PRODUCTION mode
-**Priority:** REVENUE BLOCKER - Blocks ALL revenue
-**Timeline:** 2 hours execution
-**Confidence:** 99%
-**Date:** March 19, 2026
-
----
-
-## CURRENT STATUS
-
-🔴 **CRITICAL REVENUE BLOCKER**
-
-- **Stripe Mode:** 100% TEST MODE (sk_test_, pk_test_ keys)
-- **Revenue Capability:** ZERO - Cannot accept real payments
-- **Impact:** Every day delayed = $100-500 lost revenue opportunity
-- **Risk:** Product Hunt launch scheduled but payments won't work
+**Date**: 2026-03-19
+**Status**: ❌ **NOT COMPLETE - REQUIRES MANUAL ACTION**
+**Owner**: Michael (CTO)
+**Impact**: $0 MRR - ZERO revenue capability
 
 ---
 
-## TASK OBJECTIVE
+## TL;DR
 
-Replace ALL Stripe test keys with live keys, create production Price IDs for Basic ($49/year) and Pro ($79/year) plans, test checkout with real card + immediate refund, verify webhooks work end-to-end.
+**Problem**: ALL Stripe keys are placeholders. The application cannot accept real payments.
 
-**Before:** Test mode only, zero revenue capability
-**After:** Production-ready payments, first customer = revenue starts flowing
-
----
-
-## DELIVERABLES
-
-### 1. Production Setup Script ✅
-**File:** `scripts/activate-stripe-production-annual.ts`
-
-**Features:**
-- Validates LIVE Stripe key (sk_live_)
-- Creates 3 products in Stripe:
-  - **Basic Plan:** $49/year (5 RSU entries limit)
-  - **Pro Plan:** $79/year (unlimited RSUs, FTC optimizer, priority support)
-  - **Enterprise Plan:** Custom pricing (product only, no price)
-- Prints exact Vercel env vars to copy-paste
-- Production-ready error handling
-- Prevents accidental test mode execution
-
-**Usage:**
+**Current State**:
 ```bash
-export STRIPE_SECRET_KEY=sk_live_YOUR_KEY
-npx tsx scripts/activate-stripe-production-annual.ts
+STRIPE_SECRET_KEY=sk_live_YOUR_LIVE_SECRET_KEY_HERE ❌ PLACEHOLDER
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_YOUR_LIVE_PUBLISHABLE_KEY_HERE ❌ PLACEHOLDER
+STRIPE_WEBHOOK_SECRET=whsec_YOUR_LIVE_WEBHOOK_SECRET_HERE ❌ PLACEHOLDER
+STRIPE_BASIC_PRICE_ID=price_YOUR_LIVE_BASIC_PRICE_ID ❌ PLACEHOLDER
+STRIPE_PRO_PRICE_ID=price_YOUR_LIVE_PRO_PRICE_ID ❌ PLACEHOLDER
+STRIPE_ENTERPRISE_PRICE_ID=prod_YOUR_LIVE_ENTERPRISE_PRODUCT_ID ❌ PLACEHOLDER
+```
+
+**Required State**:
+```bash
+STRIPE_SECRET_KEY=sk_live_51XXXXX... ✅ REAL PRODUCTION KEY (108 chars)
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_51XXXXX... ✅ REAL PRODUCTION KEY (108 chars)
+STRIPE_WEBHOOK_SECRET=whsec_XXXXX... ✅ REAL WEBHOOK SECRET (64 chars)
+STRIPE_BASIC_PRICE_ID=price_1XXXXX... ✅ REAL PRICE ID (29 chars)
+STRIPE_PRO_PRICE_ID=price_1XXXXX... ✅ REAL PRICE ID (29 chars)
+STRIPE_ENTERPRISE_PRICE_ID=prod_XXXXX... ✅ REAL PRODUCT ID (24 chars)
+```
+
+**Action Required**: Michael must manually complete the 10-step checklist in `docs/STRIPE_PRODUCTION_ACTIVATION_CHECKLIST.md`
+
+**Time to Fix**: 2 hours
+**Revenue Impact**: Unblocks ALL revenue (currently $0 → potential $5K-$20K MRR)
+
+---
+
+## Verification Script Output (Current State)
+
+```bash
+$ npm run verify:stripe-production
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Configuration Status:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✗ STRIPE_SECRET_KEY
+  ✗ STRIPE_SECRET_KEY is a PLACEHOLDER - replace with real sk_live_ key
+
+⚠ Secret Key Placeholder
+  🔴 CRITICAL: Placeholder detected.
+
+✗ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ✗ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is a PLACEHOLDER
+
+✗ STRIPE_WEBHOOK_SECRET
+  ✗ STRIPE_WEBHOOK_SECRET is a PLACEHOLDER
+
+✗ STRIPE_BASIC_PRICE_ID
+  ✗ STRIPE_BASIC_PRICE_ID is a PLACEHOLDER
+
+✗ STRIPE_PRO_PRICE_ID
+  ✗ STRIPE_PRO_PRICE_ID is a PLACEHOLDER
+
+✗ STRIPE_ENTERPRISE_PRICE_ID
+  ✗ STRIPE_ENTERPRISE_PRICE_ID is a PLACEHOLDER
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Summary: 2 passed, 7 failed, 2 warnings
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ STRIPE PRODUCTION MODE: INACTIVE
+🔴 Revenue is BLOCKED.
+```
+
+---
 ```
 
 **Output:** Price IDs for Basic, Pro, Enterprise plans
