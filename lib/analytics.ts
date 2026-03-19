@@ -17,7 +17,9 @@ export type AnalyticsEvent =
   | 'notification_clicked'
   | 'cancellation_survey_email_sent'
   | 'cancellation_survey_submitted'
-  | 'subscription_canceled';
+  | 'subscription_canceled'
+  | 'subscription_paused'
+  | 'subscription_resumed';
 
 /**
  * Track an analytics event for a user
