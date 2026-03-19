@@ -168,7 +168,8 @@
     "ph:monitor": "tsx scripts/monitor-ph-comments.ts",
     "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts",
     "prepare": "husky",
-    "verify:production:evidence": "tsx scripts/verify-production-site-evidence.ts"
+    "verify:production:evidence": "tsx scripts/verify-production-site-evidence.ts",
+    "verify:stripe:mode": "tsx scripts/verify-stripe-mode.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
