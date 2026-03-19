@@ -46,7 +46,7 @@
     "verify:clerk": "tsx scripts/verify-clerk-keys.ts",
     "test:clerk-signup": "tsx scripts/test-clerk-signup.ts",
     "verify:free-tier": "tsx scripts/verify-free-tier-limit.ts",
-    "verify:sentry": "tsx scripts/verify-sentry-production.ts",
+    "verify:sentry": "tsx scripts/verify-sentry.ts",
     "health-check": "tsx scripts/health-check.ts",
     "health-check:watch": "tsx scripts/health-check.ts --watch",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
@@ -100,6 +100,7 @@
     "verify:stripe-production": "tsx scripts/verify-stripe-production.ts",
     "verify:stripe:live": "tsx scripts/verify-stripe-live.ts",
     "verify:stripe:mode": "tsx scripts/verify-stripe-mode.ts",
+    "verify:sentry": "tsx scripts/verify-sentry-production.ts",
     "stripe:create-competitive-prices": "tsx scripts/stripe-create-competitive-prices.ts",
     "analyze:sessions": "tsx scripts/analyze-posthog-session-recordings.ts",
     "analyze:channels": "tsx scripts/analyze-channel-attribution.ts",
@@ -174,10 +175,9 @@
     "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts",
     "prepare": "husky",
     "verify:production:evidence": "tsx scripts/verify-production-site-evidence.ts",
+    "verify:stripe:mode": "tsx scripts/verify-stripe-mode.ts",
     "smoke:test": "tsx scripts/production-smoke-test.ts",
-    "smoke:test:production": "tsx scripts/production-smoke-test.ts",
-    "revenue:test": "tsx scripts/execute-revenue-test.ts",
-    "revenue:test:full": "tsx scripts/execute-revenue-test.ts"
+    "smoke:test:production": "tsx scripts/production-smoke-test.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
