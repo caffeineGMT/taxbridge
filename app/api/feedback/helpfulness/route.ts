@@ -10,7 +10,7 @@ import { auth } from '@clerk/nextjs/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     const body = await req.json();
 
     const { helpful, comment, calculationAmount, page } = body;

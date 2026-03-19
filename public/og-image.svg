@@ -1,0 +1,76 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- TaxBridge OG Image (Social Sharing) -->
+
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="og-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="og-text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#34d399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#og-bg)"/>
+
+  <!-- Grid Pattern -->
+  <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+    <path d="M 80 0 L 0 0 0 80" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <!-- Main Content -->
+  <g>
+    <!-- Title: TaxBridge -->
+    <text x="600" y="220" font-family="Inter, system-ui, sans-serif" font-size="80" font-weight="700" text-anchor="middle" fill="url(#og-text-gradient)">
+      TaxBridge
+    </text>
+
+    <!-- Subtitle -->
+    <text x="600" y="290" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="400" text-anchor="middle" fill="#f1f5f9">
+      US-Canada Cross-Border Tax Calculator
+    </text>
+
+    <!-- Description -->
+    <text x="600" y="340" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#94a3b8">
+      For H-1B &amp; TN Visa Tech Workers with RSU Income
+    </text>
+
+    <!-- Features -->
+    <g transform="translate(300, 400)">
+      <!-- Feature 1: Calculator -->
+      <circle cx="0" cy="0" r="24" fill="#10b981" opacity="0.2"/>
+      <circle cx="0" cy="0" r="24" stroke="#10b981" stroke-width="2" fill="none"/>
+      <text x="40" y="8" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#f1f5f9">
+        Instant Tax Calculations
+      </text>
+    </g>
+
+    <g transform="translate(300, 460)">
+      <!-- Feature 2: FTC -->
+      <circle cx="0" cy="0" r="24" fill="#3b82f6" opacity="0.2"/>
+      <circle cx="0" cy="0" r="24" stroke="#3b82f6" stroke-width="2" fill="none"/>
+      <text x="40" y="8" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#f1f5f9">
+        FTC Optimizer Included
+      </text>
+    </g>
+
+    <g transform="translate(300, 520)">
+      <!-- Feature 3: Free -->
+      <circle cx="0" cy="0" r="24" fill="#f59e0b" opacity="0.2"/>
+      <circle cx="0" cy="0" r="24" stroke="#f59e0b" stroke-width="2" fill="none"/>
+      <text x="40" y="8" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#f1f5f9">
+        100% Free to Start
+      </text>
+    </g>
+  </g>
+
+  <!-- URL -->
+  <text x="600" y="600" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500" text-anchor="middle" fill="#64748b">
+    taxbridge.app
+  </text>
+</svg>

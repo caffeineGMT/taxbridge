@@ -1,0 +1,32 @@
+{
+  "name": "TaxBridge",
+  "short_name": "TaxBridge",
+  "description": "US-Canada cross-border tax calculator for H-1B and TN visa tech workers with RSU income",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["finance", "productivity", "business"],
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en-US"
+}

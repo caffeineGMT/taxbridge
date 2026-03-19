@@ -138,6 +138,7 @@
     "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.71.2",
     "recharts": "^3.8.0",
+    "resend": "^6.9.4",
     "schema-dts": "^1.1.5",
     "snoowrap": "^1.23.0",
     "stripe": "^20.4.1",
