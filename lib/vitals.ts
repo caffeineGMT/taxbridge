@@ -1,4 +1,5 @@
 import { onCLS, onINP, onLCP, onFCP, onTTFB, Metric } from 'web-vitals';
+import { getDeviceInfo } from './analytics/tracking-utils';
 
 /**
  * Web Vitals tracking configuration
@@ -13,6 +14,7 @@ export interface VitalsPayload {
   delta: number;
   id: string;
   navigationType: string;
+  deviceInfo?: ReturnType<typeof getDeviceInfo>;
 }
 
 /**
@@ -26,6 +28,7 @@ async function sendToAnalytics(metric: Metric) {
     delta: metric.delta,
     id: metric.id,
     navigationType: metric.navigationType,
+    deviceInfo: getDeviceInfo(), // Include device information
   };
 
   try {

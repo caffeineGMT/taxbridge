@@ -56,6 +56,9 @@
     --chart-3: 46.4 95% 53.1%;
     --chart-4: 0 84.2% 60.2%;
     --chart-5: 280 89% 60%;
+
+    /* Tell browsers this is a dark theme for native form control rendering */
+    color-scheme: dark;
   }
 }
 
@@ -178,6 +181,20 @@
   input[type="date"] {
     min-width: 0;
   }
+
+  /* ===== Safari backdrop-filter fix ===== */
+  /* Tailwind's backdrop-blur-* classes don't include -webkit prefix.
+     This global rule ensures Safari renders backdrop blur correctly. */
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness, ) var(--tw-backdrop-contrast, ) var(--tw-backdrop-grayscale, ) var(--tw-backdrop-hue-rotate, ) var(--tw-backdrop-invert, ) var(--tw-backdrop-opacity, ) var(--tw-backdrop-saturate, ) var(--tw-backdrop-sepia, );
+  }
+
+  /* ===== Safari bg-clip-text fix ===== */
+  /* Tailwind's bg-clip-text class doesn't include -webkit prefix. */
+  .bg-clip-text {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 @layer utilities {
@@ -213,6 +230,11 @@
   /* Focus ring for accessibility */
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-950;
+  }
+
+  /* Accessible muted text - meets WCAG 2.1 AA 4.5:1 contrast on dark backgrounds */
+  .text-muted-accessible {
+    @apply text-slate-400;
   }
 
   /* Launch banner animations */
@@ -255,4 +277,14 @@
     background-color: hsl(var(--border));
     border-radius: 3px;
   }
+}
+
+/*
+ * WCAG 2.1 AA Color Contrast Fix
+ * On dark backgrounds (slate-900/950), text-slate-500 (#64748b) has only ~3.4:1 contrast ratio.
+ * WCAG AA requires 4.5:1 for normal text. We bump it to #8b9bb5 (~4.7:1) in dark mode.
+ * This applies only in dark mode to avoid breaking light theme contexts.
+ */
+.dark .text-slate-500 {
+  color: #8b9bb5;
 }

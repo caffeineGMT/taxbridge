@@ -38,9 +38,26 @@ const ON_BRACKETS = [
 
 const ON_BASIC_PERSONAL_AMOUNT = 11865;
 
-// 2025 Alberta Provincial Tax (Flat Rate)
-const AB_FLAT_RATE = 0.10;
+// 2025 Alberta Provincial Tax Brackets (Progressive)
+// Source: CRA provincial tax rates
+const AB_BRACKETS = [
+  { min: 0, max: 148269, rate: 0.10 },
+  { min: 148269, max: 177922, rate: 0.12 },
+  { min: 177922, max: 237230, rate: 0.13 },
+  { min: 237230, max: 355845, rate: 0.14 },
+  { min: 355845, max: Infinity, rate: 0.15 },
+];
 const AB_BASIC_PERSONAL_AMOUNT = 21885;
+
+// 2025 Quebec Provincial Tax Brackets
+// Source: Revenu Québec
+const QC_BRACKETS = [
+  { min: 0, max: 51780, rate: 0.14 },
+  { min: 51780, max: 103545, rate: 0.19 },
+  { min: 103545, max: 126000, rate: 0.24 },
+  { min: 126000, max: Infinity, rate: 0.2575 },
+];
+const QC_BASIC_PERSONAL_AMOUNT = 17183;
 
 interface TaxBracket {
   min: number;
@@ -121,6 +138,11 @@ function calculateProgressiveTax(
  * (In reality, Canada uses BPA as a non-refundable tax credit)
  */
 export function calculateCanadaFederalTax(income: number): FederalTaxResult {
+  // Guard against negative or non-finite income
+  if (!Number.isFinite(income) || income <= 0) {
+    return { tax: 0, effectiveRate: 0, marginalRate: 0, breakdown: [] };
+  }
+
   const taxableIncome = Math.max(0, income - FEDERAL_BASIC_PERSONAL_AMOUNT);
   const { tax, breakdown, marginalRate } = calculateProgressiveTax(
     taxableIncome,
@@ -147,8 +169,13 @@ export function calculateCanadaFederalTax(income: number): FederalTaxResult {
  */
 export function calculateCanadaProvincialTax(
   income: number,
-  province: 'BC' | 'ON' | 'AB'
+  province: 'BC' | 'ON' | 'AB' | 'QC'
 ): ProvincialTaxResult {
+  // Guard against negative or non-finite income
+  if (!Number.isFinite(income) || income <= 0) {
+    return { tax: 0, effectiveRate: 0, breakdown: 'No taxable income' };
+  }
+
   let tax = 0;
   let basicAmount = 0;
   let breakdown = '';
@@ -168,8 +195,15 @@ export function calculateCanadaProvincialTax(
   } else if (province === 'AB') {
     basicAmount = AB_BASIC_PERSONAL_AMOUNT;
     const taxableIncome = Math.max(0, income - basicAmount);
-    tax = taxableIncome * AB_FLAT_RATE;
-    breakdown = `AB flat 10% tax on $${income.toLocaleString()} (taxable: $${taxableIncome.toLocaleString()})`;
+    const result = calculateProgressiveTax(taxableIncome, AB_BRACKETS);
+    tax = result.tax;
+    breakdown = `AB tax on $${income.toLocaleString()} (taxable: $${taxableIncome.toLocaleString()})`;
+  } else if (province === 'QC') {
+    basicAmount = QC_BASIC_PERSONAL_AMOUNT;
+    const taxableIncome = Math.max(0, income - basicAmount);
+    const result = calculateProgressiveTax(taxableIncome, QC_BRACKETS);
+    tax = result.tax;
+    breakdown = `QC tax on $${income.toLocaleString()} (taxable: $${taxableIncome.toLocaleString()})`;
   }
 
   const effectiveRate = income > 0 ? tax / income : 0;

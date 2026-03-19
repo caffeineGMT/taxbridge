@@ -8,9 +8,31 @@
  */
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, Clock, Target, Users, MessageCircle, MousePointer, Zap } from 'lucide-react';
+
+// Dynamically import recharts components to reduce initial bundle (~300KB)
+const LaunchCharts = dynamic(
+  () => import('./launch-charts'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {[1, 2, 3, 4].map(i => (
+          <Card key={i}>
+            <CardHeader>
+              <div className="h-6 w-40 bg-gray-200 animate-pulse rounded" />
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] bg-gray-100 animate-pulse rounded" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    ),
+  }
+);
 
 interface LaunchMetrics {
   timestamp: string;
@@ -308,79 +330,7 @@ export default function LaunchDashboard() {
         )}
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Upvotes Over Time</CardTitle>
-              <CardDescription>Hourly upvote growth</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="upvotes" stroke="#2563eb" fill="#93c5fd" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Ranking Position</CardTitle>
-              <CardDescription>Product of the Day ranking</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis reversed domain={[1, 20]} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="ranking" stroke="#dc2626" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Velocity Trend</CardTitle>
-              <CardDescription>Upvotes per hour</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="velocity" stroke="#16a34a" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Engagement Metrics</CardTitle>
-              <CardDescription>Comments over time</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" />
-                  <YAxis />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="comments" stroke="#f59e0b" fill="#fcd34d" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </div>
+        <LaunchCharts chartData={chartData} />
 
         {/* Detailed Metrics Table */}
         <Card>

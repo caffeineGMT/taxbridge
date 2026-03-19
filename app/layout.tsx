@@ -19,9 +19,10 @@ const inter = Inter({
 });
 
 // Lazy load non-critical client components to reduce initial JS bundle
-const PostHogProvider = dynamic(() => import('@/components/PostHogProvider'), { ssr: false });
-const ReferralTracker = dynamic(() => import('@/components/ReferralTracker'), { ssr: false });
-const WebVitalsTracker = dynamic(() => import('@/components/WebVitalsTracker'), { ssr: false });
+const PostHogProvider = dynamic(() => import('@/components/PostHogProvider'));
+const ReferralTracker = dynamic(() => import('@/components/ReferralTracker'));
+const WebVitalsTracker = dynamic(() => import('@/components/WebVitalsTracker'));
+const CookieConsent = dynamic(() => import('@/components/legal/cookie-consent').then(mod => ({ default: mod.CookieConsent })));
 
 // Separate viewport export (Next.js 14+ best practice — avoids console warning)
 export const viewport: Viewport = {
@@ -172,6 +173,7 @@ export default function RootLayout({
           {children}
           <Toaster />
           <Analytics />
+          <CookieConsent />
           </TooltipProvider>
         </body>
       </html>

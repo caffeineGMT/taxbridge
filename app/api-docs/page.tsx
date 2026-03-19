@@ -6,10 +6,23 @@
  */
 
 import dynamic from 'next/dynamic';
-import 'swagger-ui-react/swagger-ui.css';
 
-// Dynamically import SwaggerUI to avoid SSR issues
-const SwaggerUI = dynamic(() => import('swagger-ui-react'), { ssr: false });
+// Dynamically import SwaggerUI with its CSS to avoid loading ~1MB of CSS on other pages
+const SwaggerUI = dynamic(
+  () => {
+    // Import CSS alongside component so it only loads when this page is visited
+    import('swagger-ui-react/swagger-ui.css');
+    return import('swagger-ui-react');
+  },
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-96 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+      </div>
+    ),
+  }
+);
 
 export default function ApiDocsPage() {
   return (

@@ -13,12 +13,13 @@ export function QuickActions() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <nav aria-label="Quick actions" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Link href="/rsu-entry" data-tour="add-rsu">
             <Button
               className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-slate-950 font-semibold transition-all hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20"
+              tabIndex={-1}
             >
-              <PlusCircle className="mr-2 h-4 w-4" />
+              <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
               Add RSU Entry
             </Button>
           </Link>
@@ -26,8 +27,9 @@ export function QuickActions() {
           <Link href="/dashboard/import">
             <Button
               className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
+              tabIndex={-1}
             >
-              <Upload className="mr-2 h-4 w-4" />
+              <Upload className="mr-2 h-4 w-4" aria-hidden="true" />
               Bulk Import CSV
             </Button>
           </Link>
@@ -36,8 +38,9 @@ export function QuickActions() {
             <Button
               variant="outline"
               className="w-full border-slate-700 hover:border-blue-500 hover:bg-slate-800 text-slate-100 transition-all hover:scale-105"
+              tabIndex={-1}
             >
-              <Calculator className="mr-2 h-4 w-4" />
+              <Calculator className="mr-2 h-4 w-4" aria-hidden="true" />
               View Tax Summary
             </Button>
           </Link>
@@ -46,8 +49,9 @@ export function QuickActions() {
             <Button
               variant="outline"
               className="w-full border-slate-700 hover:border-amber-500 hover:bg-slate-800 text-slate-100 transition-all hover:scale-105"
+              tabIndex={-1}
             >
-              <FileText className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 h-4 w-4" aria-hidden="true" />
               Required Forms
             </Button>
           </Link>
@@ -56,12 +60,13 @@ export function QuickActions() {
             <Button
               variant="outline"
               className="w-full border-slate-700 hover:border-purple-500 hover:bg-slate-800 text-slate-100 transition-all hover:scale-105"
+              tabIndex={-1}
             >
-              <TrendingUp className="mr-2 h-4 w-4" />
+              <TrendingUp className="mr-2 h-4 w-4" aria-hidden="true" />
               Tax Insights
             </Button>
           </Link>
-        </div>
+        </nav>
       </CardContent>
     </Card>
   );

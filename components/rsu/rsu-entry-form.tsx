@@ -24,6 +24,9 @@ import { Popover } from '@/components/ui/popover';
 import { TooltipProvider, InfoTooltip } from '@/components/ui/tooltip';
 import { z } from 'zod';
 import UpgradeModal from '@/components/UpgradeModal';
+import { FieldTracker, trackError, trackApiError } from '@/lib/analytics/tracking-utils';
+import { trackEvent } from '@/lib/analytics/posthog';
+import { sanitizeCurrencyInput, parseCurrencyInput, sanitizeIntegerInput, parseIntegerInput } from '@/lib/input-validation';
 
 const US_STATES = [
   { value: 'WA', label: 'Washington' },
@@ -67,6 +70,9 @@ export function RSUEntryForm() {
   const [showUpgradeModal, setShowUpgradeModal] = React.useState(false);
   const [upgradeInfo, setUpgradeInfo] = React.useState<{ currentCount: number; limit: number } | null>(null);
 
+  // Field-level analytics tracker
+  const fieldTrackerRef = React.useRef<FieldTracker | null>(null);
+
   const form = useForm<RSUFormData>({
     resolver: zodResolver(FormSchema),
     mode: 'onTouched',
@@ -85,6 +91,29 @@ export function RSUEntryForm() {
   const shares = form.watch('shares');
   const fmvUsd = form.watch('fmvUsd');
   const selectedEmployer = form.watch('employer');
+
+  // Initialize field tracker
+  React.useEffect(() => {
+    fieldTrackerRef.current = new FieldTracker('rsu-entry-form');
+
+    // Track form start
+    trackEvent('first_rsu_entry_started', {
+      form_type: 'rsu_entry',
+    });
+
+    // Track abandonment on page leave
+    const handleBeforeUnload = () => {
+      if (!isSubmitting && fieldTrackerRef.current) {
+        fieldTrackerRef.current.trackFormAbandonment();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [isSubmitting]);
 
   React.useEffect(() => {
     const total = (shares || 0) * (fmvUsd || 0);
@@ -120,17 +149,73 @@ export function RSUEntryForm() {
             limit: result.limit,
           });
           setShowUpgradeModal(true);
+
+          // Track paywall hit
+          trackEvent('paywall_shown', {
+            feature: 'rsu_entry',
+            current_count: result.currentCount,
+            limit: result.limit,
+          });
+
+          // Track form completion (failed due to limit)
+          fieldTrackerRef.current?.trackFormCompletion(false, {
+            failure_reason: 'upgrade_required',
+            current_count: result.currentCount,
+            limit: result.limit,
+          });
+
           return;
         }
         throw new Error(result.error || 'Failed to save RSU event');
       }
 
       setToast({ type: 'success', message: 'RSU event saved successfully!' });
+
+      // Track successful form completion
+      fieldTrackerRef.current?.trackFormCompletion(true, {
+        employer: data.employer,
+        us_state: data.usState,
+        canada_province: data.canadaProvince,
+        shares: data.shares,
+        total_value: data.totalValueUsd,
+      });
+
+      // Track RSU entry created event
+      trackEvent('rsu_entry_created', {
+        employer: data.employer,
+        us_state: data.usState,
+        canada_province: data.canadaProvince,
+        shares: data.shares,
+        total_value: data.totalValueUsd,
+      });
+
       form.reset();
     } catch (error) {
       setToast({
         type: 'error',
         message: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+      });
+
+      // Track error
+      trackError(error as Error, {
+        context: 'rsu_entry_form',
+        form_data: data,
+      });
+
+      // Track API error if it's a network issue
+      trackApiError(
+        '/api/rsu',
+        500,
+        (error as Error).message,
+        {
+          context: 'rsu_entry_form',
+        }
+      );
+
+      // Track form completion (failed)
+      fieldTrackerRef.current?.trackFormCompletion(false, {
+        failure_reason: 'api_error',
+        error_message: (error as Error).message,
       });
     } finally {
       setIsSubmitting(false);
@@ -218,11 +303,26 @@ export function RSUEntryForm() {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            step="0.01"
+                            type="text"
+                            inputMode="decimal"
                             placeholder="450.50"
                             {...field}
-                            onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                            value={field.value || ''}
+                            onChange={(e) => {
+                              const sanitized = sanitizeCurrencyInput(e.target.value, {
+                                maxValue: 100000, // Match Zod schema max
+                                allowNegative: false,
+                                decimalPlaces: 2,
+                              });
+                              const numValue = parseCurrencyInput(sanitized, 0);
+                              field.onChange(numValue);
+                              fieldTrackerRef.current?.trackFieldChange('fmvUsd', numValue);
+                            }}
+                            onFocus={() => fieldTrackerRef.current?.trackFieldFocus('fmvUsd')}
+                            onBlur={(e) => {
+                              field.onBlur();
+                              fieldTrackerRef.current?.trackFieldBlur('fmvUsd', !!e.target.value);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -241,11 +341,25 @@ export function RSUEntryForm() {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            step="1"
+                            type="text"
+                            inputMode="numeric"
                             placeholder="100"
                             {...field}
-                            onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                            value={field.value || ''}
+                            onChange={(e) => {
+                              const sanitized = sanitizeIntegerInput(e.target.value, {
+                                maxValue: 1000000, // Match Zod schema max
+                                allowNegative: false,
+                              });
+                              const numValue = parseIntegerInput(sanitized, 0);
+                              field.onChange(numValue);
+                              fieldTrackerRef.current?.trackFieldChange('shares', numValue);
+                            }}
+                            onFocus={() => fieldTrackerRef.current?.trackFieldFocus('shares')}
+                            onBlur={(e) => {
+                              field.onBlur();
+                              fieldTrackerRef.current?.trackFieldBlur('shares', !!e.target.value);
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -260,7 +374,18 @@ export function RSUEntryForm() {
                       <FormItem>
                         <FormLabel>Employer</FormLabel>
                         <FormControl>
-                          <Select {...field}>
+                          <Select
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                              fieldTrackerRef.current?.trackFieldChange('employer', e.target.value);
+                            }}
+                            onFocus={() => fieldTrackerRef.current?.trackFieldFocus('employer')}
+                            onBlur={(e) => {
+                              field.onBlur();
+                              fieldTrackerRef.current?.trackFieldBlur('employer', !!e.target.value);
+                            }}
+                          >
                             <option value="">Select employer</option>
                             {SUPPORTED_EMPLOYERS.map((employer) => (
                               <option key={employer.value} value={employer.value}>
@@ -284,7 +409,18 @@ export function RSUEntryForm() {
                           <InfoTooltip content="The US state where you were working when these RSUs vested. This determines your state tax liability on the RSU income." />
                         </FormLabel>
                         <FormControl>
-                          <Select {...field}>
+                          <Select
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                              fieldTrackerRef.current?.trackFieldChange('usState', e.target.value);
+                            }}
+                            onFocus={() => fieldTrackerRef.current?.trackFieldFocus('usState')}
+                            onBlur={(e) => {
+                              field.onBlur();
+                              fieldTrackerRef.current?.trackFieldBlur('usState', !!e.target.value);
+                            }}
+                          >
                             {US_STATES.map((state) => (
                               <option key={state.value} value={state.value}>
                                 {state.label}
@@ -307,7 +443,18 @@ export function RSUEntryForm() {
                           <InfoTooltip content="Your current province of residence in Canada. Provincial tax rates vary significantly and affect your total Canadian tax obligation." />
                         </FormLabel>
                         <FormControl>
-                          <Select {...field}>
+                          <Select
+                            {...field}
+                            onChange={(e) => {
+                              field.onChange(e);
+                              fieldTrackerRef.current?.trackFieldChange('canadaProvince', e.target.value);
+                            }}
+                            onFocus={() => fieldTrackerRef.current?.trackFieldFocus('canadaProvince')}
+                            onBlur={(e) => {
+                              field.onBlur();
+                              fieldTrackerRef.current?.trackFieldBlur('canadaProvince', !!e.target.value);
+                            }}
+                          >
                             {CANADA_PROVINCES.map((province) => (
                               <option key={province.value} value={province.value}>
                                 {province.label}

@@ -73,8 +73,8 @@ export function calculateFTC(
   usTax: number,
   canadaTax: number,
   income: number,
-  state: 'WA' | 'CA' | 'NY' | 'TX',
-  province: 'BC' | 'ON' | 'AB'
+  state: 'WA' | 'CA' | 'NY' | 'TX' | 'MA',
+  province: 'BC' | 'ON' | 'AB' | 'QC'
 ): FTCResult {
   // Input validation
   if (income <= 0) {
@@ -203,8 +203,8 @@ export function calculateFTCWithAllocation(
   canadaTax: number,
   usSourcedIncome: number,
   canadaSourcedIncome: number,
-  state: 'WA' | 'CA' | 'NY' | 'TX',
-  province: 'BC' | 'ON' | 'AB'
+  state: 'WA' | 'CA' | 'NY' | 'TX' | 'MA',
+  province: 'BC' | 'ON' | 'AB' | 'QC'
 ): FTCResult {
   const totalIncome = usSourcedIncome + canadaSourcedIncome;
 

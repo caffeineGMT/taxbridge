@@ -10,11 +10,19 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       <div className="relative">
         <select
           className={cn(
-            'flex h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-10 min-h-[44px]',
-            // Better font size for mobile - prevents zoom on iOS
+            'flex h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10 min-h-[44px]',
+            // Better font size for mobile - prevents zoom on iOS Safari
             'md:text-sm',
             className
           )}
+          style={{
+            // Cross-browser appearance reset (CSS class handled globally, this is defense-in-depth)
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            appearance: 'none',
+            // Fix Firefox option text color in dark mode
+            colorScheme: 'dark',
+          }}
           ref={ref}
           {...props}
         >

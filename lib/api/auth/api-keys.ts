@@ -3,7 +3,7 @@
  * Generate, validate, and revoke API keys for enterprise organizations
  */
 
-import { db } from '@/lib/db';
+import { getDatabase } from '@/lib/db';
 import { randomBytes } from 'crypto';
 
 export interface ApiKeyValidationResult {
@@ -22,6 +22,7 @@ export function generateApiKey(orgId: number): string {
   const apiKey = `sk_live_${randomPart}`;
 
   // Update organization with new API key
+  const db = getDatabase();
   const stmt = db.prepare(`
     UPDATE organizations
     SET api_key = ?
@@ -46,6 +47,7 @@ export function validateApiKey(apiKey: string): ApiKeyValidationResult {
   }
 
   try {
+    const db = getDatabase();
     const stmt = db.prepare(`
       SELECT id, name
       FROM organizations
@@ -73,6 +75,7 @@ export function validateApiKey(apiKey: string): ApiKeyValidationResult {
  * Revoke an API key for an organization
  */
 export function revokeApiKey(orgId: number): void {
+  const db = getDatabase();
   const stmt = db.prepare(`
     UPDATE organizations
     SET api_key = NULL
@@ -86,6 +89,7 @@ export function revokeApiKey(orgId: number): void {
  * Get organization by ID
  */
 export function getOrganization(orgId: number): { id: number; name: string; api_key: string | null } | undefined {
+  const db = getDatabase();
   const stmt = db.prepare(`
     SELECT id, name, api_key
     FROM organizations
@@ -99,6 +103,7 @@ export function getOrganization(orgId: number): { id: number; name: string; api_
  * Log API usage for rate limiting and analytics
  */
 export function logApiUsage(orgId: number, endpoint: string): void {
+  const db = getDatabase();
   const stmt = db.prepare(`
     INSERT INTO api_usage (org_id, endpoint, request_count, last_used_at)
     VALUES (?, ?, 1, CURRENT_TIMESTAMP)
@@ -129,6 +134,7 @@ export function getApiUsageStats(orgId: number): Array<{
   request_count: number;
   last_used_at: string;
 }> {
+  const db = getDatabase();
   const stmt = db.prepare(`
     SELECT endpoint, request_count, last_used_at
     FROM api_usage

@@ -17,6 +17,7 @@ import { CheckoutFlow } from '@/components/checkout/CheckoutFlow';
 import { RSUEntryRow } from '@/lib/db';
 import { trackEvent, trackRevenue } from '@/lib/analytics/posthog';
 import { toast } from '@/hooks/use-toast';
+import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
 
 interface DashboardContentProps {
   rsuEvents: RSUEntryRow[];
@@ -106,6 +107,9 @@ export function DashboardContent({
             Overview of your RSU vesting events and tax calculations for {currentYear}
           </p>
         </div>
+
+        {/* Tax Disclaimer */}
+        <TaxDisclaimer variant="compact" />
 
         {/* Stats Grid */}
         <section

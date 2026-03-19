@@ -152,31 +152,36 @@ describe('Canada Provincial Tax Calculator', () => {
       // Gross: $100,000
       // Basic amount: $21,885
       // Taxable income: $78,115
-      // Flat 10%: $7,811.50
+      // 10% on $78,115 = $7,811.50 (all within first bracket $148,269)
 
       expect(result.tax).toBeGreaterThanOrEqual(7762 - 50); // $7,812 - $50
       expect(result.tax).toBeLessThanOrEqual(7862 + 50); // $7,812 + $50
       expect(result.effectiveRate).toBeCloseTo(0.0781, 2);
-      expect(result.breakdown).toContain('AB flat 10%');
+      expect(result.breakdown).toContain('AB tax');
     });
 
     it('calculates AB tax for $50k income', () => {
       const result = calculateCanadaProvincialTax(50000, 'AB');
 
       // Taxable: $28,115
-      // 10% flat: $2,811.50
+      // 10% on $28,115 = $2,811.50 (within first bracket)
       expect(result.tax).toBeGreaterThan(2761);
       expect(result.tax).toBeLessThan(2861);
       expect(result.breakdown).toContain('AB');
     });
 
-    it('handles high income with flat rate', () => {
+    it('handles high income with progressive brackets', () => {
       const result = calculateCanadaProvincialTax(300000, 'AB');
 
       // Taxable: $278,115
-      // 10% flat: $27,811.50
-      expect(result.tax).toBeGreaterThan(27000);
-      expect(result.effectiveRate).toBeCloseTo(0.0927, 2);
+      // 10% on $148,269 = $14,826.90
+      // 12% on ($177,922 - $148,269) = $3,558.36
+      // 13% on ($237,230 - $177,922) = $7,710.04
+      // 14% on ($278,115 - $237,230) = $5,723.90
+      // Total: ~$31,819.20
+      expect(result.tax).toBeGreaterThan(31000);
+      expect(result.tax).toBeLessThan(33000);
+      expect(result.effectiveRate).toBeCloseTo(0.1061, 2);
     });
   });
 });
@@ -226,8 +231,8 @@ describe('Combined Federal + Provincial Tax', () => {
     const onTax = calculateCanadaProvincialTax(100000, 'ON');
     const abTax = calculateCanadaProvincialTax(100000, 'AB');
 
-    // Despite flat 10% rate, AB's high basic amount makes it competitive
-    // For $100k income, AB should be highest due to 10% flat rate
+    // At $100k, AB's 10% rate on first bracket ($148,269) exceeds BC/ON rates
+    // despite AB's higher basic personal amount ($21,885)
     expect(abTax.tax).toBeGreaterThan(bcTax.tax);
     expect(abTax.tax).toBeGreaterThan(onTax.tax);
   });

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react';
+import { sanitizeIntegerInput, parseIntegerInput, sanitizeCurrencyInput, parseCurrencyInput } from '@/lib/input-validation';
 
 interface ROIInputs {
   firmName: string;
@@ -97,10 +98,18 @@ export function ROICalculator() {
             </label>
             <input
               id="attorneyCount"
-              type="number"
-              min="1"
+              type="text"
+              inputMode="numeric"
               value={inputs.attorneyCount}
-              onChange={(e) => setInputs({ ...inputs, attorneyCount: parseInt(e.target.value) || 0 })}
+              onChange={(e) => {
+                const sanitized = sanitizeIntegerInput(e.target.value, {
+                  allowNegative: false,
+                  minValue: 1,
+                  maxValue: 100000,
+                });
+                const numValue = parseIntegerInput(sanitized, 0);
+                setInputs({ ...inputs, attorneyCount: numValue });
+              }}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
           </div>
@@ -112,10 +121,18 @@ export function ROICalculator() {
             </label>
             <input
               id="clientsPerYear"
-              type="number"
-              min="1"
+              type="text"
+              inputMode="numeric"
               value={inputs.clientsPerYear}
-              onChange={(e) => setInputs({ ...inputs, clientsPerYear: parseInt(e.target.value) || 0 })}
+              onChange={(e) => {
+                const sanitized = sanitizeIntegerInput(e.target.value, {
+                  allowNegative: false,
+                  minValue: 1,
+                  maxValue: 100000,
+                });
+                const numValue = parseIntegerInput(sanitized, 0);
+                setInputs({ ...inputs, clientsPerYear: numValue });
+              }}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
           </div>
@@ -127,11 +144,19 @@ export function ROICalculator() {
             </label>
             <input
               id="hoursPerWeek"
-              type="number"
-              min="0"
-              step="0.5"
+              type="text"
+              inputMode="decimal"
               value={inputs.hoursPerWeek}
-              onChange={(e) => setInputs({ ...inputs, hoursPerWeek: parseFloat(e.target.value) || 0 })}
+              onChange={(e) => {
+                const sanitized = sanitizeCurrencyInput(e.target.value, {
+                  allowNegative: false,
+                  minValue: 0,
+                  maxValue: 168, // Max hours in a week
+                  decimalPlaces: 1,
+                });
+                const numValue = parseCurrencyInput(sanitized, 0);
+                setInputs({ ...inputs, hoursPerWeek: numValue });
+              }}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
             <p className="text-sm text-textMuted mt-1">
@@ -146,11 +171,19 @@ export function ROICalculator() {
             </label>
             <input
               id="billableRate"
-              type="number"
-              min="1"
-              step="10"
+              type="text"
+              inputMode="decimal"
               value={inputs.billableRate}
-              onChange={(e) => setInputs({ ...inputs, billableRate: parseInt(e.target.value) || 0 })}
+              onChange={(e) => {
+                const sanitized = sanitizeCurrencyInput(e.target.value, {
+                  allowNegative: false,
+                  minValue: 1,
+                  maxValue: 10000, // $10k/hour max
+                  decimalPlaces: 2,
+                });
+                const numValue = parseCurrencyInput(sanitized, 0);
+                setInputs({ ...inputs, billableRate: numValue });
+              }}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
           </div>

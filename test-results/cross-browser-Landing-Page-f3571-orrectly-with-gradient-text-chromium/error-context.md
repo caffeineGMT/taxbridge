@@ -1,0 +1,470 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - region "Notifications alt+T"
+  - banner [ref=e2]:
+    - navigation "Main navigation" [ref=e3]:
+      - link "Pawcasso Atelier - Home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - text: PAWCASSO
+      - list [ref=e5]:
+        - listitem [ref=e6]:
+          - link "View gallery" [ref=e7] [cursor=pointer]:
+            - /url: /gallery
+            - text: Gallery
+        - listitem [ref=e8]:
+          - link "Read blog" [ref=e9] [cursor=pointer]:
+            - /url: /blog
+            - text: Blog
+        - listitem [ref=e10]:
+          - link "About us" [ref=e11] [cursor=pointer]:
+            - /url: /about
+            - text: About
+        - listitem [ref=e12]:
+          - link "Frequently asked questions" [ref=e13] [cursor=pointer]:
+            - /url: /faq
+            - text: FAQ
+        - listitem [ref=e14]:
+          - link "Gift cards" [ref=e15] [cursor=pointer]:
+            - /url: /gift
+            - text: Gift Cards
+        - listitem [ref=e16]:
+          - link "Order custom portrait" [ref=e17] [cursor=pointer]:
+            - /url: /order
+            - text: Order
+  - main [ref=e18]:
+    - generic [ref=e24]: 53 orders in the last 24 hours
+    - generic [ref=e27]:
+      - img "Pomeranian" [ref=e29]
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - paragraph [ref=e32]: Sophia from San Francisco
+          - img [ref=e33]
+        - paragraph [ref=e35]: Deluxe • Pomeranian
+        - paragraph [ref=e36]: 52 minutes ago
+    - generic [ref=e39]:
+      - paragraph [ref=e40]: Pawcasso Atelier
+      - heading "Where Art Meets Animal." [level=1] [ref=e41]
+      - paragraph [ref=e42]: Bespoke animal portraits crafted in the style of the masters.
+      - generic [ref=e43]:
+        - link "Order Your Portrait — $9" [ref=e44] [cursor=pointer]:
+          - /url: /order
+        - link "Follow Us" [ref=e45] [cursor=pointer]:
+          - /url: https://instagram.com/pawcasso.atelier
+          - img [ref=e46]
+          - text: Follow Us
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]: 200+
+          - generic [ref=e52]: Happy Customers
+        - generic [ref=e54]:
+          - generic [ref=e55]: 350+
+          - generic [ref=e56]: Portraits Created
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - text: "4.9"
+            - img [ref=e60]
+          - generic [ref=e62]: 120 Reviews
+      - generic [ref=e66]:
+        - generic [ref=e68]:
+          - generic [ref=e69]: 🔒
+          - generic [ref=e70]:
+            - generic [ref=e71]: Secure Checkout
+            - generic [ref=e72]: SSL encrypted
+        - generic [ref=e74]:
+          - generic [ref=e75]: ✓
+          - generic [ref=e76]:
+            - generic [ref=e77]: 100% Satisfaction
+            - generic [ref=e78]: Free revisions
+        - generic [ref=e80]:
+          - generic [ref=e81]: ⚡
+          - generic [ref=e82]:
+            - generic [ref=e83]: 24hr Delivery
+            - generic [ref=e84]: Or your money back
+        - generic [ref=e86]:
+          - generic [ref=e87]: 💳
+          - generic [ref=e88]:
+            - generic [ref=e89]: Safe Payment
+            - generic [ref=e90]: Stripe powered
+        - generic [ref=e92]:
+          - generic [ref=e93]: 🎨
+          - generic [ref=e94]:
+            - generic [ref=e95]: Professional Quality
+            - generic [ref=e96]: 4.9/5 avg rating
+        - generic [ref=e98]:
+          - generic [ref=e99]: 🔒
+          - generic [ref=e100]:
+            - generic [ref=e101]: Secure Checkout
+            - generic [ref=e102]: SSL encrypted
+        - generic [ref=e104]:
+          - generic [ref=e105]: ✓
+          - generic [ref=e106]:
+            - generic [ref=e107]: 100% Satisfaction
+            - generic [ref=e108]: Free revisions
+        - generic [ref=e110]:
+          - generic [ref=e111]: ⚡
+          - generic [ref=e112]:
+            - generic [ref=e113]: 24hr Delivery
+            - generic [ref=e114]: Or your money back
+        - generic [ref=e116]:
+          - generic [ref=e117]: 💳
+          - generic [ref=e118]:
+            - generic [ref=e119]: Safe Payment
+            - generic [ref=e120]: Stripe powered
+        - generic [ref=e122]:
+          - generic [ref=e123]: 🎨
+          - generic [ref=e124]:
+            - generic [ref=e125]: Professional Quality
+            - generic [ref=e126]: 4.9/5 avg rating
+    - generic [ref=e131]:
+      - heading "Three simple steps." [level=2] [ref=e132]
+      - paragraph [ref=e133]: Upload a photo, pick a style, get a masterpiece.
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e137]: "1"
+          - heading "Upload your photo" [level=3] [ref=e138]
+          - paragraph [ref=e139]: Send us your favorite photo of your pet. Any angle, any lighting — we make it work.
+        - generic [ref=e140]:
+          - generic [ref=e142]: "2"
+          - heading "Choose a style" [level=3] [ref=e143]
+          - paragraph [ref=e144]: Renaissance, Baroque, Impressionist, Ghibli, Pop Art — 16 curated styles to choose from.
+        - generic [ref=e145]:
+          - generic [ref=e147]: "3"
+          - heading "Receive your art" [level=3] [ref=e148]
+          - paragraph [ref=e149]: Get a stunning high-resolution digital portrait within 24 hours. Ready to print or share.
+    - generic [ref=e153]:
+      - generic [ref=e154]:
+        - img "Cat with a Pearl Earring" [ref=e156]
+        - img "Big Eyes" [ref=e158]
+        - img "Imperial Portrait" [ref=e160]
+        - img "Felt Family Portrait" [ref=e162]
+        - img "Happy Chonk" [ref=e164]
+        - img "Arms Crossed" [ref=e166]
+        - img "Cloud Puff" [ref=e168]
+        - img "Perler Bead Pup" [ref=e170]
+      - generic [ref=e171]:
+        - heading "One pet, endless styles." [level=2] [ref=e172]
+        - paragraph [ref=e173]: From Renaissance oil paintings to Pixar 3D characters — pick the style that captures your pet's personality.
+        - generic [ref=e174]:
+          - button "RenaissanceCat with a Pearl Earring" [ref=e175]:
+            - generic [ref=e177]: RenaissanceCat with a Pearl Earring
+          - button "Pixar 3DBig Eyes" [ref=e178]:
+            - generic [ref=e180]: Pixar 3DBig Eyes
+          - button "Chinese ClassicalImperial Portrait" [ref=e181]:
+            - generic [ref=e183]: Chinese ClassicalImperial Portrait
+          - button "Needle FeltFelt Family Portrait" [ref=e184]:
+            - generic [ref=e186]: Needle FeltFelt Family Portrait
+          - button "Pixar 3DHappy Chonk" [ref=e187]:
+            - generic [ref=e189]: Pixar 3DHappy Chonk
+          - button "Vinyl ToyArms Crossed" [ref=e190]:
+            - generic [ref=e192]: Vinyl ToyArms Crossed
+          - button "Needle FeltCloud Puff" [ref=e193]:
+            - generic [ref=e195]: Needle FeltCloud Puff
+          - button "Pixel ArtPerler Bead Pup" [ref=e196]:
+            - generic [ref=e198]: Pixel ArtPerler Bead Pup
+    - generic [ref=e201]:
+      - generic [ref=e202]:
+        - heading "Featured works." [level=2] [ref=e203]
+        - paragraph [ref=e204]: A selection from our growing collection.
+      - list "Gallery of pet portraits" [ref=e205]:
+        - listitem "View Cat with a Pearl Earring, Renaissance style portrait of Cat" [ref=e206]:
+          - generic [ref=e207]:
+            - img "Cat with a Pearl Earring - Renaissance style custom cat portrait by Pawcasso Atelier" [ref=e208]
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - img [ref=e213]
+                - generic [ref=e215]: "4.9"
+              - generic [ref=e216]: (127)
+            - generic [ref=e217]:
+              - heading "Cat with a Pearl Earring" [level=3] [ref=e218]
+              - paragraph [ref=e219]: Renaissance · Cat
+        - listitem "View Felt Family Portrait, Needle Felt style portrait of Border Collie" [ref=e220]:
+          - generic [ref=e221]:
+            - img "Felt Family Portrait - Needle Felt style custom border collie portrait by Pawcasso Atelier" [ref=e222]
+            - generic [ref=e225]:
+              - generic [ref=e226]:
+                - img [ref=e227]
+                - generic [ref=e229]: "5"
+              - generic [ref=e230]: (89)
+            - generic [ref=e231]:
+              - heading "Felt Family Portrait" [level=3] [ref=e232]
+              - paragraph [ref=e233]: Needle Felt · Border Collie
+        - listitem "View Boxing Match, Ink Wash style portrait of Border Collie" [ref=e234]:
+          - generic [ref=e235]:
+            - img "Boxing Match - Ink Wash style custom border collie portrait by Pawcasso Atelier" [ref=e236]
+            - generic [ref=e239]:
+              - generic [ref=e240]:
+                - img [ref=e241]
+                - generic [ref=e243]: "4.8"
+              - generic [ref=e244]: (143)
+            - generic [ref=e245]:
+              - heading "Boxing Match" [level=3] [ref=e246]
+              - paragraph [ref=e247]: Ink Wash · Border Collie
+        - listitem "View Imperial Portrait, Chinese Classical style portrait of Border Collie" [ref=e248]:
+          - generic [ref=e249]:
+            - img "Imperial Portrait - Chinese Classical style custom border collie portrait by Pawcasso Atelier" [ref=e250]
+            - generic [ref=e253]:
+              - generic [ref=e254]:
+                - img [ref=e255]
+                - generic [ref=e257]: "4.9"
+              - generic [ref=e258]: (98)
+            - generic [ref=e259]:
+              - heading "Imperial Portrait" [level=3] [ref=e260]
+              - paragraph [ref=e261]: Chinese Classical · Border Collie
+        - listitem "View Big Eyes, Pixar 3D style portrait of Border Collie" [ref=e262]:
+          - generic [ref=e263]:
+            - img "Big Eyes - Pixar 3D style custom border collie portrait by Pawcasso Atelier" [ref=e264]
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - img [ref=e269]
+                - generic [ref=e271]: "5"
+              - generic [ref=e272]: (156)
+            - generic [ref=e273]:
+              - heading "Big Eyes" [level=3] [ref=e274]
+              - paragraph [ref=e275]: Pixar 3D · Border Collie
+        - listitem "View Perler Bead Pup, Pixel Art style portrait of Chihuahua" [ref=e276]:
+          - generic [ref=e277]:
+            - img "Perler Bead Pup - Pixel Art style custom chihuahua portrait by Pawcasso Atelier" [ref=e278]
+            - generic [ref=e281]:
+              - generic [ref=e282]:
+                - img [ref=e283]
+                - generic [ref=e285]: "4.8"
+              - generic [ref=e286]: (74)
+            - generic [ref=e287]:
+              - heading "Perler Bead Pup" [level=3] [ref=e288]
+              - paragraph [ref=e289]: Pixel Art · Chihuahua
+      - link "View full gallery" [ref=e291] [cursor=pointer]:
+        - /url: /gallery
+        - text: View full gallery
+        - img [ref=e292]
+    - generic [ref=e296]:
+      - heading "Happy Pet Parents" [level=2] [ref=e297]
+      - paragraph [ref=e298]: Join hundreds of delighted customers
+      - generic [ref=e299]:
+        - generic [ref=e300]:
+          - generic [ref=e301]:
+            - generic [ref=e302]:
+              - img "Duke's portrait" [ref=e304]
+              - generic [ref=e305]:
+                - paragraph [ref=e307]: Sarah K.
+                - paragraph [ref=e308]: Duke
+            - generic [ref=e309]:
+              - img [ref=e310]
+              - img [ref=e312]
+              - img [ref=e314]
+              - img [ref=e316]
+              - img [ref=e318]
+            - paragraph [ref=e320]: “I commissioned a Renaissance portrait of our rescue lab, Duke. When the file arrived, my wife cried. It's now the centerpiece of our living room.”
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - img "Miso's portrait" [ref=e324]
+              - generic [ref=e325]:
+                - paragraph [ref=e327]: James L.
+                - paragraph [ref=e328]: Miso
+            - generic [ref=e329]:
+              - img [ref=e330]
+              - img [ref=e332]
+              - img [ref=e334]
+              - img [ref=e336]
+              - img [ref=e338]
+            - paragraph [ref=e340]: “We lost our tabby, Miso, last spring. Having her immortalized in an Impressionist style feels like she's still sitting in that sunbeam.”
+          - generic [ref=e341]:
+            - generic [ref=e342]:
+              - img "Baguette's portrait" [ref=e344]
+              - generic [ref=e345]:
+                - paragraph [ref=e347]: Priya M.
+                - paragraph [ref=e348]: Baguette
+            - generic [ref=e349]:
+              - img [ref=e350]
+              - img [ref=e352]
+              - img [ref=e354]
+              - img [ref=e356]
+              - img [ref=e358]
+            - paragraph [ref=e360]: “I ordered a Baroque portrait of my French Bulldog, Baguette, as a joke gift. It was so stunning we had it printed on canvas the same day.”
+          - generic [ref=e361]:
+            - generic [ref=e362]:
+              - img "Shadow's portrait" [ref=e364]
+              - generic [ref=e365]:
+                - paragraph [ref=e367]: Mei T.
+                - paragraph [ref=e368]: Shadow
+            - generic [ref=e369]:
+              - img [ref=e370]
+              - img [ref=e372]
+              - img [ref=e374]
+              - img [ref=e376]
+              - img [ref=e378]
+            - paragraph [ref=e380]: “The Ukiyo-e style for our black cat, Shadow, is my favorite. It looks like an authentic woodblock print from the Edo period.”
+          - generic [ref=e381]:
+            - generic [ref=e382]:
+              - img "Alfie's portrait" [ref=e384]
+              - generic [ref=e385]:
+                - paragraph [ref=e387]: Alex R.
+                - paragraph [ref=e388]: Alfie
+            - generic [ref=e389]:
+              - img [ref=e390]
+              - img [ref=e392]
+              - img [ref=e394]
+              - img [ref=e396]
+              - img [ref=e398]
+            - paragraph [ref=e400]: “Our Border Collie Alfie has never looked more regal. The oil painting style captured his intelligence and energy perfectly. Worth every penny!”
+          - generic [ref=e401]:
+            - generic [ref=e402]:
+              - img "Coco's portrait" [ref=e404]
+              - generic [ref=e405]:
+                - paragraph [ref=e407]: Emma D.
+                - paragraph [ref=e408]: Coco
+            - generic [ref=e409]:
+              - img [ref=e410]
+              - img [ref=e412]
+              - img [ref=e414]
+              - img [ref=e416]
+              - img [ref=e418]
+            - paragraph [ref=e420]: “I was skeptical about AI art, but this blew my mind. The attention to detail on Coco's fluffy fur is incredible. Feels hand-painted.”
+        - link "See all customer reviews" [ref=e422] [cursor=pointer]:
+          - /url: /gallery/customer-reviews
+          - text: See all customer reviews
+          - img [ref=e423]
+    - generic [ref=e427]:
+      - heading "Just $9." [level=2] [ref=e428]
+      - paragraph [ref=e429]: No subscriptions. No hidden fees. One portrait, one price.
+      - generic [ref=e431]:
+        - generic [ref=e433]: $9
+        - paragraph [ref=e434]: per portrait
+        - list [ref=e435]:
+          - listitem [ref=e436]:
+            - generic [ref=e437]: ✓
+            - generic [ref=e438]: 4000 x 5000px resolution
+          - listitem [ref=e439]:
+            - generic [ref=e440]: ✓
+            - generic [ref=e441]: 16 art styles to choose from
+          - listitem [ref=e442]:
+            - generic [ref=e443]: ✓
+            - generic [ref=e444]: Delivered within 24 hours
+          - listitem [ref=e445]:
+            - generic [ref=e446]: ✓
+            - generic [ref=e447]: Unlimited revisions
+        - link "Get Started" [ref=e448] [cursor=pointer]:
+          - /url: /order
+    - generic [ref=e454]:
+      - generic [ref=e455]: 🎁
+      - heading "Give the Gift of Pet Art" [level=2] [ref=e456]
+      - paragraph [ref=e457]: Delight pet lovers with a beautiful AI-generated portrait. Gift cards available in $25, $50, $100, or custom amounts. Digital delivery, valid for 1 year.
+      - link "Buy Gift Card" [ref=e459] [cursor=pointer]:
+        - /url: /gift
+        - text: Buy Gift Card
+        - img [ref=e460]
+      - generic [ref=e462]:
+        - generic [ref=e463]:
+          - generic [ref=e464]: ⚡
+          - heading "Instant Delivery" [level=3] [ref=e465]
+          - paragraph [ref=e466]: Email delivery or schedule for a special date
+        - generic [ref=e467]:
+          - generic [ref=e468]: 🎨
+          - heading "16+ Art Styles" [level=3] [ref=e469]
+          - paragraph [ref=e470]: Renaissance, Baroque, Ghibli, and more
+        - generic [ref=e471]:
+          - generic [ref=e472]: 💰
+          - heading "Earn 10% Credit" [level=3] [ref=e473]
+          - paragraph [ref=e474]: Get credit when your recipient orders
+    - generic [ref=e477]:
+      - heading "Questions?" [level=2] [ref=e478]
+      - paragraph [ref=e479]: Everything you need to know.
+      - generic [ref=e480]:
+        - generic [ref=e481]:
+          - heading "How does the process work?" [level=3] [ref=e482]
+          - paragraph [ref=e483]: Upload your pet’s photo, choose an art style, and we’ll craft a bespoke portrait. You’ll receive the finished work as a high-resolution digital file within 24 hours.
+        - generic [ref=e484]:
+          - heading "What file do I receive?" [level=3] [ref=e485]
+          - paragraph [ref=e486]: Every portrait is delivered as a high-resolution PNG at 4000×5000 pixels — print-quality and ready to frame, share, or use however you like.
+        - generic [ref=e487]:
+          - heading "Can you match a specific style?" [level=3] [ref=e488]
+          - paragraph [ref=e489]: We offer 16 curated styles including Renaissance, Baroque, Impressionist, Ghibli, Ukiyo-e, Pop Art, and more. You can also send a reference image and we’ll match it.
+        - generic [ref=e490]:
+          - heading "What if I’m not happy?" [level=3] [ref=e491]
+          - paragraph [ref=e492]: We offer up to 3 revisions within 14 days to make sure your portrait is perfect. Just reach out and we’ll work with you.
+      - link "View all questions →" [ref=e494] [cursor=pointer]:
+        - /url: /faq
+    - generic [ref=e498]:
+      - heading "Follow us on Instagram" [level=3] [ref=e499]
+      - paragraph [ref=e500]: See daily pet portraits, customer stories, and behind-the-scenes content.
+      - link "Follow @pawcasso.atelier" [ref=e501] [cursor=pointer]:
+        - /url: https://instagram.com/pawcasso.atelier
+        - img [ref=e502]
+        - text: Follow @pawcasso.atelier
+    - generic [ref=e506]:
+      - heading "Ready to immortalize your pet?" [level=2] [ref=e507]:
+        - text: Ready to immortalize
+        - text: your pet?
+      - paragraph [ref=e508]: Every portrait is a one-of-a-kind masterpiece.
+      - link "Commission a Portrait" [ref=e509] [cursor=pointer]:
+        - /url: /order
+  - contentinfo [ref=e510]:
+    - generic [ref=e511]:
+      - generic [ref=e512]:
+        - generic [ref=e513]:
+          - heading "PAWCASSO" [level=3] [ref=e514]
+          - paragraph [ref=e515]: Bespoke animal portraits crafted in the tradition of the masters. Where every pet becomes a masterpiece.
+        - generic [ref=e516]:
+          - heading "Explore" [level=4] [ref=e517]
+          - list [ref=e518]:
+            - listitem [ref=e519]:
+              - link "Gallery" [ref=e520] [cursor=pointer]:
+                - /url: /gallery
+            - listitem [ref=e521]:
+              - link "Order" [ref=e522] [cursor=pointer]:
+                - /url: /order
+            - listitem [ref=e523]:
+              - link "About" [ref=e524] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e525]:
+              - link "FAQ" [ref=e526] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e527]:
+              - link "Blog" [ref=e528] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e529]:
+          - heading "Portraits" [level=4] [ref=e530]
+          - list [ref=e531]:
+            - listitem [ref=e532]:
+              - link "Dog Portraits" [ref=e533] [cursor=pointer]:
+                - /url: /custom-dog-portraits
+            - listitem [ref=e534]:
+              - link "Cat Portraits" [ref=e535] [cursor=pointer]:
+                - /url: /custom-cat-portraits
+            - listitem [ref=e536]:
+              - link "Art Styles" [ref=e537] [cursor=pointer]:
+                - /url: /pet-portrait-styles
+            - listitem [ref=e538]:
+              - link "Gift Portraits" [ref=e539] [cursor=pointer]:
+                - /url: /pet-portrait-gift
+            - listitem [ref=e540]:
+              - link "Memorial Art" [ref=e541] [cursor=pointer]:
+                - /url: /memorial-portraits
+        - generic [ref=e542]:
+          - heading "Connect" [level=4] [ref=e543]
+          - link "@pawcasso.atelier" [ref=e544] [cursor=pointer]:
+            - /url: https://instagram.com/pawcasso.atelier
+            - img [ref=e545]
+            - text: "@pawcasso.atelier"
+          - paragraph [ref=e547]: New portraits daily. DM for custom requests.
+          - link "@pawcasso.atelier" [ref=e548] [cursor=pointer]:
+            - /url: https://tiktok.com/@pawcasso.atelier
+            - img [ref=e549]
+            - text: "@pawcasso.atelier"
+      - generic [ref=e551]: © 2026 Pawcasso Atelier
+  - generic [ref=e556] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e557]:
+      - img [ref=e558]
+    - generic [ref=e561]:
+      - button "Open issues overlay" [ref=e562]:
+        - generic [ref=e563]:
+          - generic [ref=e564]: "7"
+          - generic [ref=e565]: "8"
+        - generic [ref=e566]:
+          - text: Issue
+          - generic [ref=e567]: s
+      - button "Collapse issues badge" [ref=e568]:
+        - img [ref=e569]
+  - alert [ref=e573]
+```

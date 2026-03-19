@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
 import { Upload, Download, CheckCircle, XCircle, FileText, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
 import { validateCSVRow, type CSVRow } from '@/lib/validation/csv';
+import { ImportFlowTracker, trackError, trackApiError } from '@/lib/analytics/tracking-utils';
 
 interface ParsedRow {
   data: any;
@@ -30,6 +31,14 @@ export default function ImportFlow() {
     errors?: Array<{ row: number; message: string; data: any }>;
   } | null>(null);
 
+  // Analytics tracker
+  const importTrackerRef = useRef<ImportFlowTracker | null>(null);
+
+  // Initialize import tracker
+  useEffect(() => {
+    importTrackerRef.current = new ImportFlowTracker();
+  }, []);
+
   // File drop handler
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
@@ -38,6 +47,13 @@ export default function ImportFlow() {
     setFileName(file.name);
     setIsProcessing(true);
     setFlowError(null);
+
+    // Track file upload
+    importTrackerRef.current?.trackFileUpload(file.name, file.size);
+    importTrackerRef.current?.trackStep(1, 'file_upload', {
+      file_name: file.name,
+      file_size: file.size,
+    });
 
     Papa.parse(file, {
       header: true,
@@ -56,10 +72,30 @@ export default function ImportFlow() {
         setParsedRows(validated);
         setIsProcessing(false);
         setCurrentStep('preview');
+
+        // Track parse success
+        const validCount = validated.filter(r => r.valid).length;
+        const invalidCount = validated.length - validCount;
+
+        importTrackerRef.current?.trackStep(2, 'preview', {
+          total_rows: validated.length,
+          valid_rows: validCount,
+          invalid_rows: invalidCount,
+          validation_rate: validCount / validated.length,
+        });
       },
       error: (error) => {
-        setFlowError(`Failed to parse CSV file: ${error.message}. Please check the file format and try again.`);
+        const errorMsg = `Failed to parse CSV file: ${error.message}. Please check the file format and try again.`;
+        setFlowError(errorMsg);
         setIsProcessing(false);
+
+        // Track parse error
+        importTrackerRef.current?.trackError(error.message, 'parse');
+        trackError(error, {
+          context: 'csv_import_parse',
+          file_name: file.name,
+          file_size: file.size,
+        });
       },
     });
   }, []);
@@ -79,17 +115,26 @@ export default function ImportFlow() {
       .map((r) => r.validatedData);
 
     if (validRows.length === 0) {
-      setFlowError('No valid rows to import. Please fix the errors in your CSV and try again.');
+      const errorMsg = 'No valid rows to import. Please fix the errors in your CSV and try again.';
+      setFlowError(errorMsg);
+      importTrackerRef.current?.trackError(errorMsg, 'validation');
       return;
     }
 
     if (validRows.length > 1000) {
-      setFlowError('Maximum 1,000 rows allowed per import. Please split your file into smaller batches and try again.');
+      const errorMsg = 'Maximum 1,000 rows allowed per import. Please split your file into smaller batches and try again.';
+      setFlowError(errorMsg);
+      importTrackerRef.current?.trackError(errorMsg, 'validation');
       return;
     }
 
     setIsProcessing(true);
     setFlowError(null);
+
+    // Track import start
+    importTrackerRef.current?.trackStep(3, 'import_start', {
+      valid_rows: validRows.length,
+    });
 
     try {
       const response = await fetch('/api/rsu/bulk', {
@@ -108,11 +153,28 @@ export default function ImportFlow() {
 
       setImportResult(result);
       setCurrentStep('confirmation');
+
+      // Track successful import
+      importTrackerRef.current?.trackCompletion(
+        result.success || 0,
+        result.failed || 0
+      );
     } catch (error) {
-      setFlowError(
-        error instanceof Error
-          ? error.message
-          : 'Import failed. Please check your data and try again.'
+      const errorMsg = error instanceof Error
+        ? error.message
+        : 'Import failed. Please check your data and try again.';
+      setFlowError(errorMsg);
+
+      // Track import error
+      importTrackerRef.current?.trackError(errorMsg, 'import');
+      trackApiError(
+        '/api/rsu/bulk',
+        500,
+        errorMsg,
+        {
+          context: 'csv_import',
+          valid_rows: validRows.length,
+        }
       );
     } finally {
       setIsProcessing(false);

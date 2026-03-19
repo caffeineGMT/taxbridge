@@ -9,12 +9,9 @@ import { calculateFTC } from '@/lib/tax/ftc-calculator';
 import Header from '@/components/Header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import {
-  IncomeLineChart,
-  CumulativeTaxAreaChart,
-  YearSelector,
-  FTCCarryforwardBanner,
-} from './components';
+import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
+// Chart components dynamically imported only when used (recharts is ~300KB)
+// import { IncomeLineChart, CumulativeTaxAreaChart, YearSelector, FTCCarryforwardBanner } from './components';
 
 interface YearlyData {
   year: number;
@@ -156,6 +153,9 @@ export default async function MultiYearDashboard({
           {/* TODO: Implement YearSelector component */}
           {/* <YearSelector selectedYear={selectedYear} availableYears={availableYears} /> */}
         </div>
+
+        {/* Tax Disclaimer */}
+        <TaxDisclaimer variant="compact" />
 
         {/* Summary Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
