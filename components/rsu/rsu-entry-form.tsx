@@ -175,13 +175,14 @@ export function RSUEntryForm() {
                         trigger={
                           <Button
                             variant="outline"
+                            aria-label={field.value ? `Vesting date: ${format(new Date(field.value), 'PPP')}. Click to change` : 'Pick a vesting date'}
                             className={cn(
                               'w-full justify-start text-left font-normal',
                               !field.value && 'text-muted-foreground'
                             )}
                             type="button"
                           >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <CalendarIcon className="mr-2 h-4 w-4" aria-hidden="true" />
                             {field.value ? format(new Date(field.value), 'PPP') : 'Pick a date'}
                           </Button>
                         }
@@ -298,7 +299,7 @@ export function RSUEntryForm() {
                 />
               </div>
 
-              <div className="p-6 bg-background rounded-lg border border-primary/20">
+              <div className="p-6 bg-background rounded-lg border border-primary/20" aria-live="polite">
                 <div className="text-sm text-text-secondary mb-1">Total Value</div>
                 <div className="text-3xl font-bold text-primary">
                   ${form.watch('totalValueUsd').toLocaleString('en-US', {
@@ -313,7 +314,7 @@ export function RSUEntryForm() {
                 className="w-full bg-primary hover:bg-primary/90"
                 disabled={isSubmitting}
               >
-                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />}
                 {isSubmitting ? 'Saving...' : 'Save RSU Event'}
               </Button>
             </form>

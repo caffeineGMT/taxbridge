@@ -1,7 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { TaxComparisonChart } from './tax-comparison-chart';
+import dynamic from 'next/dynamic';
+
+const TaxComparisonChart = dynamic(
+  () => import('./tax-comparison-chart').then(mod => ({ default: mod.TaxComparisonChart })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-80 rounded-lg bg-slate-800/50 animate-pulse flex items-center justify-center text-slate-500">
+        Loading chart...
+      </div>
+    ),
+  }
+);
 import { FilingStrategyCard } from './filing-strategy-card';
 import {
   Accordion,

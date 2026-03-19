@@ -22,12 +22,16 @@ export function StatsCard({
   trend
 }: StatsCardProps) {
   return (
-    <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
+    <Card
+      className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10"
+      role="group"
+      aria-label={`${title}: ${value}`}
+    >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-slate-400">
           {title}
         </CardTitle>
-        <div className={`p-2 rounded-lg bg-gradient-to-br ${iconColor}`}>
+        <div className={`p-2 rounded-lg bg-gradient-to-br ${iconColor}`} aria-hidden="true">
           <Icon className="h-4 w-4 text-slate-950" />
         </div>
       </CardHeader>
@@ -37,8 +41,11 @@ export function StatsCard({
           <p className="text-xs text-slate-500 mt-1">{description}</p>
         )}
         {trend && (
-          <p className={`text-xs mt-2 ${trend.isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-            {trend.isPositive ? '↑' : '↓'} {trend.value}
+          <p
+            className={`text-xs mt-2 ${trend.isPositive ? 'text-emerald-500' : 'text-red-500'}`}
+            aria-label={`Trend: ${trend.isPositive ? 'up' : 'down'} ${trend.value}`}
+          >
+            <span aria-hidden="true">{trend.isPositive ? '↑' : '↓'}</span> {trend.value}
           </p>
         )}
       </CardContent>

@@ -62,6 +62,7 @@
 @layer base {
   * {
     border-color: hsl(var(--border));
+    box-sizing: border-box;
   }
 
   body {
@@ -69,15 +70,113 @@
     color: hsl(var(--foreground));
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    /* Prevent font size inflation on mobile (Safari/Firefox) */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Smoother font rendering across browsers */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold;
   }
 
-  /* Smooth scrolling */
+  /* Smooth scrolling - respect user motion preferences */
   html {
     scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* ===== Cross-Browser Input Normalization ===== */
+
+  /* Remove number input spinners across all browsers */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* Consistent search input styling (Safari adds special styling) */
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+
+  /* Normalize autofill styling across browsers */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: hsl(var(--foreground));
+    -webkit-box-shadow: 0 0 0px 1000px hsl(var(--background)) inset;
+    box-shadow: 0 0 0px 1000px hsl(var(--background)) inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Consistent select styling across browsers */
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  /* Consistent textarea resize handle */
+  textarea {
+    resize: vertical;
+  }
+
+  /* Prevent iOS tap highlight */
+  button, a, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Consistent focus styles across all browsers */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Remove Firefox dotted focus outline */
+  button::-moz-focus-inner,
+  [type="button"]::-moz-focus-inner,
+  [type="reset"]::-moz-focus-inner,
+  [type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+  }
+
+  /* Consistent placeholder opacity in Firefox */
+  ::placeholder {
+    opacity: 1;
+  }
+
+  /* Fix Safari date input width */
+  input[type="date"] {
+    min-width: 0;
   }
 }
 
@@ -95,14 +194,20 @@
     @apply bg-gradient-to-r from-amber-500 to-amber-600;
   }
 
-  /* Glass morphism effect */
+  /* Glass morphism effect - with Safari webkit prefix */
   .glass {
-    @apply bg-slate-900/50 backdrop-blur-sm border border-slate-800;
+    @apply bg-slate-900/50 border border-slate-800;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
   }
 
-  /* Animated gradient text */
+  /* Animated gradient text - with Safari webkit prefix */
   .gradient-text {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500;
+    background: linear-gradient(to right, #34d399, #3b82f6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   /* Focus ring for accessibility */
@@ -124,5 +229,30 @@
       transform: translateY(0);
       opacity: 1;
     }
+  }
+
+  /* ===== Cross-Browser Backdrop Filter ===== */
+  .backdrop-blur-safari {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ===== Cross-Browser Scrollbar Styling ===== */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
   }
 }
