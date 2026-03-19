@@ -98,7 +98,8 @@
     "conference:followup:dry-run": "tsx scripts/conference-followup-cron.ts --dry-run",
     "lighthouse:production": "npx lighthouse https://www.taxbridge.app --output=json --output=html --output-path=./docs/lighthouse/lighthouse-regression-check --chrome-flags=\"--headless --no-sandbox --disable-gpu\" --preset=desktop --quiet",
     "lighthouse:compare": "./scripts/lighthouse-compare.sh",
-    "lighthouse:local": "npm run build && (npm start &); sleep 10; npx lighthouse http://localhost:3000 --output=json --output=html --output-path=./docs/lighthouse/lighthouse-local --chrome-flags=\"--headless --no-sandbox\" --preset=desktop --quiet; kill %1"
+    "lighthouse:local": "npm run build && (npm start &); sleep 10; npx lighthouse http://localhost:3000 --output=json --output=html --output-path=./docs/lighthouse/lighthouse-local --chrome-flags=\"--headless --no-sandbox\" --preset=desktop --quiet; kill %1",
+    "revenue:report": "tsx scripts/generate-revenue-report.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",

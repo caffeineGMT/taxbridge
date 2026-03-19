@@ -1,11 +1,11 @@
 /**
  * Pricing Experiment Hook
  *
- * A/B Test: $49/year vs $79/year for Pro plan
+ * A/B/C Test: $49/year vs $79/year vs $99/year for Pro plan
  * + Monthly $19 option available to all variants
  *
  * Tracks:
- * - Which variant users see
+ * - Which variant users see (33/33/33 split)
  * - Which billing interval they choose (annual vs monthly)
  * - Which price point converts best
  * - Product Hunt cohort behavior
@@ -17,11 +17,11 @@ import { useEffect, useState } from 'react';
 import { trackEvent } from '@/lib/analytics/posthog';
 import posthog from 'posthog-js';
 
-export type PricingVariant = 'annual_49' | 'annual_79';
+export type PricingVariant = 'annual_49' | 'annual_79' | 'annual_99';
 export type BillingInterval = 'monthly' | 'annual';
 
 export interface PricingExperimentConfig {
-  // A/B test variant
+  // A/B/C test variant
   variant: PricingVariant;
   isLoading: boolean;
 
@@ -72,12 +72,21 @@ function getVariantAssignment(): PricingVariant {
 
   // Check if user has existing assignment
   const stored = localStorage.getItem('pricing_experiment_variant');
-  if (stored === 'annual_49' || stored === 'annual_79') {
+  if (stored === 'annual_49' || stored === 'annual_79' || stored === 'annual_99') {
     return stored;
   }
 
-  // New assignment: 50/50 split
-  const variant: PricingVariant = Math.random() < 0.5 ? 'annual_49' : 'annual_79';
+  // New assignment: 33/33/33 split for 3-way test
+  const random = Math.random();
+  let variant: PricingVariant;
+
+  if (random < 0.33) {
+    variant = 'annual_49';
+  } else if (random < 0.66) {
+    variant = 'annual_79';
+  } else {
+    variant = 'annual_99';
+  }
 
   // Persist assignment
   localStorage.setItem('pricing_experiment_variant', variant);
@@ -134,6 +143,12 @@ export function usePricingExperiment(): PricingExperimentConfig {
     annual_79: {
       annualPrice: 79,
       annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_79 || 'price_1ProAnnual79',
+      monthlyPrice: 19,
+      monthlyPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY || 'price_1ProMonthly19',
+    },
+    annual_99: {
+      annualPrice: 99,
+      annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_99 || 'price_1ProAnnual99',
       monthlyPrice: 19,
       monthlyPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY || 'price_1ProMonthly19',
     },

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-03-19T13:22:57.041Z",
+  "stripe": {
+    "configured": false,
+    "mode": "test",
+    "mrr": 0,
+    "arr": 0,
+    "activeSubscriptions": 0
+  },
+  "business": {
+    "totalCustomers": 0,
+    "paidCustomers": 0,
+    "conversionRate": 0
+  },
+  "targets": {
+    "annualTarget": 1000000,
+    "arrProgress": 0,
+    "customersNeeded": 3345
+  },
+  "health": {
+    "status": "CRITICAL",
+    "issues": [
+      "🔴 CRITICAL: Stripe not configured - placeholder keys detected",
+      "🔴 CRITICAL: Zero revenue - $0 ARR",
+      "🔴 CRITICAL: Zero paid customers"
+    ],
+    "recommendations": [
+      "Replace sk_test_YOUR_SECRET_KEY_HERE with real Stripe key in .env.local",
+      "Run: npm run stripe:activate-production",
+      "Activate marketing campaigns to acquire first paying customers",
+      "Test payment flow end-to-end to verify Stripe integration",
+      "Launch Product Hunt campaign",
+      "Email beta users with upgrade offer"
+    ]
+  }
+}

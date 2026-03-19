@@ -74,8 +74,10 @@ const getTiers = (
         tier: 'pro',
         tagline: isAnnual && pricingExperiment.variant === 'annual_49'
           ? '🔥 Launch Special: 50% OFF ($99 → $49/year)'
-          : isAnnual
+          : isAnnual && pricingExperiment.variant === 'annual_79'
           ? 'Best value for serious tax planning'
+          : isAnnual && pricingExperiment.variant === 'annual_99'
+          ? 'Premium tier - Full-featured tax optimization'
           : 'Flexible month-to-month billing',
         badge: '⭐ Recommended',
         features: {
@@ -96,7 +98,9 @@ const getTiers = (
         highlighted: true,
         savings: isAnnual && pricingExperiment.variant === 'annual_49'
           ? 'Save $50 — Launch pricing ends March 31'
-          : isAnnual
+          : isAnnual && pricingExperiment.variant === 'annual_79'
+          ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
+          : isAnnual && pricingExperiment.variant === 'annual_99'
           ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
           : null,
       },
