@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
       why_not_upgrade_details,
       what_would_make_upgrade,
       price_expectation_usd,
+      free_compared_alternatives,
 
       // Common responses
       overall_satisfaction,
@@ -92,12 +93,12 @@ export async function POST(req: NextRequest) {
         purchase_hesitation, purchase_hesitation_category, purchase_hesitation_details,
         what_convinced_purchase, compared_alternatives, would_pay_earlier_if,
         why_not_upgrade, why_not_upgrade_category, why_not_upgrade_details,
-        what_would_make_upgrade, price_expectation_usd,
+        what_would_make_upgrade, price_expectation_usd, free_compared_alternatives,
         overall_satisfaction, most_valuable_feature, missing_features, pain_points,
         would_recommend_to_friend, testimonial, testimonial_permission,
         incentive_requested, incentive_email
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28
       )
     `, [
       campaign_id,
@@ -118,6 +119,7 @@ export async function POST(req: NextRequest) {
       why_not_upgrade_details || null,
       what_would_make_upgrade || null,
       price_expectation_usd || null,
+      free_compared_alternatives || null,
       overall_satisfaction || null,
       most_valuable_feature || null,
       missing_features || null,

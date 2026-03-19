@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS user_feedback_responses (
   why_not_upgrade_details TEXT, -- Detailed explanation
   what_would_make_upgrade TEXT, -- What feature/outcome would make them upgrade
   price_expectation_usd INTEGER, -- What would they be willing to pay?
-  compared_alternatives TEXT, -- Other tools they're using instead
+  free_compared_alternatives TEXT, -- Other tools they're using instead
 
   -- GENERAL QUESTIONS (both user types)
   overall_satisfaction INTEGER CHECK(overall_satisfaction BETWEEN 1 AND 5), -- 1-5 scale

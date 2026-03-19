@@ -48,6 +48,7 @@
     "cron:notifications": "tsx lib/cron/notifications.ts",
     "test:email-drip": "tsx scripts/test-email-drip.ts",
     "test:ab-email": "tsx scripts/test-ab-email-drip.ts",
+    "feedback:launch": "tsx scripts/launch-feedback-campaign.ts",
     "test:payment-flow": "tsx scripts/test-payment-flow.ts",
     "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
     "verify:revenue": "tsx scripts/verify-revenue-gate.ts",

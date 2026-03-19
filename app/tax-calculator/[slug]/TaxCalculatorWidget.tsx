@@ -390,7 +390,7 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
                   trackerRef.current?.trackInputChange('us_state', e.target.value);
                 }}
                 onFocus={() => trackerRef.current?.trackInputChange('us_state_focus', usState)}
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 mobile-select touch-manipulation"
               >
                 <option value="WA">Washington (0% state tax)</option>
                 <option value="CA">California (up to 13.3%)</option>
@@ -413,7 +413,7 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
                   trackerRef.current?.trackInputChange('canada_province', e.target.value);
                 }}
                 onFocus={() => trackerRef.current?.trackInputChange('canada_province_focus', province)}
-                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 mobile-select touch-manipulation"
               >
                 <option value="BC">British Columbia</option>
                 <option value="ON">Ontario</option>
