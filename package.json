@@ -42,6 +42,7 @@
     "verify:monitoring:production": "tsx scripts/verify-monitoring.ts --production",
     "verify:health-baseline": "dotenv -e .env.production -- tsx scripts/production-health-baseline.ts",
     "verify:clerk-auth": "tsx scripts/verify-clerk-auth.ts",
+    "verify:free-tier": "tsx scripts/verify-free-tier-limit.ts",
     "health-check": "tsx scripts/health-check.ts",
     "health-check:watch": "tsx scripts/health-check.ts --watch",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
