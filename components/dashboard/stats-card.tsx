@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { LucideIcon } from 'lucide-react';
 
 interface StatsCardProps {
@@ -7,6 +8,7 @@ interface StatsCardProps {
   description?: string;
   icon: LucideIcon;
   iconColor: string;
+  tooltip?: string;
   trend?: {
     value: string;
     isPositive: boolean;
@@ -19,6 +21,7 @@ export function StatsCard({
   description,
   icon: Icon,
   iconColor,
+  tooltip,
   trend
 }: StatsCardProps) {
   return (
@@ -28,8 +31,24 @@ export function StatsCard({
       aria-label={`${title}: ${value}`}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-slate-400">
+        <CardTitle className="text-sm font-medium text-slate-400 inline-flex items-center gap-1.5">
           {title}
+          {tooltip && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center w-3.5 h-3.5 rounded-full bg-slate-700 hover:bg-slate-600 text-slate-400 hover:text-slate-200 text-[9px] font-bold transition-colors cursor-help"
+                  aria-label="More information"
+                >
+                  ?
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[260px]">
+                <p>{tooltip}</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
         </CardTitle>
         <div className={`p-2 rounded-lg bg-gradient-to-br ${iconColor}`} aria-hidden="true">
           <Icon className="h-4 w-4 text-slate-950" />
@@ -38,7 +57,7 @@ export function StatsCard({
       <CardContent>
         <div className="text-2xl font-bold text-slate-100">{value}</div>
         {description && (
-          <p className="text-xs text-slate-500 mt-1">{description}</p>
+          <p className="text-xs text-slate-400 mt-1">{description}</p>
         )}
         {trend && (
           <p

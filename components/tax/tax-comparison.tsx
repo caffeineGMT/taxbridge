@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { InfoTooltip } from '@/components/ui/tooltip';
 
 interface BracketBreakdown {
   bracket: string;
@@ -98,14 +99,17 @@ export function TaxComparison({
           {/* Federal Tax */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold">Federal Tax</h3>
-              <div className="flex gap-2">
+              <h3 className="font-semibold inline-flex items-center">
+                Federal Tax
+              </h3>
+              <div className="flex gap-2 items-center">
                 <span className={`rounded-md px-2 py-1 text-xs font-medium ${usColors.bg} ${usColors.text}`}>
                   Marginal: {(usTax.federal.marginalRate * 100).toFixed(1)}%
                 </span>
                 <span className={`rounded-md px-2 py-1 text-xs font-medium ${usColors.bg} ${usColors.text}`}>
                   Effective: {(usTax.federal.effectiveRate * 100).toFixed(1)}%
                 </span>
+                <InfoTooltip content="Marginal rate is the tax rate on your next dollar of income. Effective rate is your total tax divided by total income — your actual average tax burden." />
               </div>
             </div>
 
@@ -187,13 +191,14 @@ export function TaxComparison({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold">Federal Tax</h3>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <span className={`rounded-md px-2 py-1 text-xs font-medium ${canadaColors.bg} ${canadaColors.text}`}>
                   Marginal: {(canadaTax.federal.marginalRate * 100).toFixed(1)}%
                 </span>
                 <span className={`rounded-md px-2 py-1 text-xs font-medium ${canadaColors.bg} ${canadaColors.text}`}>
                   Effective: {(canadaTax.federal.effectiveRate * 100).toFixed(1)}%
                 </span>
+                <InfoTooltip content="Marginal rate is the tax rate on your next dollar of income. Effective rate is your total tax divided by total income — your actual average tax burden." />
               </div>
             </div>
 
@@ -238,7 +243,10 @@ export function TaxComparison({
 
           {/* Foreign Tax Credit */}
           <div className="rounded-lg bg-blue-50 border border-blue-200 p-3">
-            <h3 className="font-semibold text-blue-900 mb-2">Foreign Tax Credit (FTC)</h3>
+            <h3 className="font-semibold text-blue-900 mb-2 inline-flex items-center">
+              Foreign Tax Credit (FTC)
+              <InfoTooltip content="The Foreign Tax Credit lets you claim US taxes paid against your Canadian tax bill, preventing double taxation. Under the US-Canada tax treaty, you can credit most US taxes paid." />
+            </h3>
             <p className="text-xs text-blue-700 mb-2">{canadaTax.ftc.explanation}</p>
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-blue-900">FTC Amount:</span>
@@ -253,8 +261,9 @@ export function TaxComparison({
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-sm font-medium">Net Canada Tax After FTC</p>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1 inline-flex items-center gap-1">
                   Effective Rate: {(canadaEffectiveRate * 100).toFixed(2)}%
+                  <InfoTooltip content="Your effective Canadian tax rate after the Foreign Tax Credit is applied. This represents the additional tax you owe to Canada beyond what you've already paid to the US." />
                 </p>
               </div>
               <p className={`text-3xl font-bold ${canadaColors.text}`}>

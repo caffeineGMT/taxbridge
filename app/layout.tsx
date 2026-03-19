@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 import { SkipLink } from '@/components/ui/skip-link';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import Script from 'next/script';
 import './globals.css';
 
@@ -161,6 +162,7 @@ export default function RootLayout({
           </noscript>
         </head>
         <body className={inter.className}>
+          <TooltipProvider delayDuration={300}>
           <SkipLink />
           <Suspense fallback={null}>
             <PostHogProvider />
@@ -170,6 +172,7 @@ export default function RootLayout({
           {children}
           <Toaster />
           <Analytics />
+          </TooltipProvider>
         </body>
       </html>
     </ClerkProvider>

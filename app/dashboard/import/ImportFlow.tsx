@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
-import { Upload, Download, CheckCircle, XCircle, FileText, AlertCircle, Loader2 } from 'lucide-react';
+import { Upload, Download, CheckCircle, XCircle, FileText, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
 import { validateCSVRow, type CSVRow } from '@/lib/validation/csv';
 
 interface ParsedRow {
@@ -22,6 +22,7 @@ export default function ImportFlow() {
   const [parsedRows, setParsedRows] = useState<ParsedRow[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [flowError, setFlowError] = useState<string | null>(null);
   const [importResult, setImportResult] = useState<{
     success: number;
     failed: number;
@@ -36,12 +37,12 @@ export default function ImportFlow() {
     const file = acceptedFiles[0];
     setFileName(file.name);
     setIsProcessing(true);
+    setFlowError(null);
 
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        // Validate each row
         const validated: ParsedRow[] = results.data.map((row: any) => {
           const validation = validateCSVRow(row);
           return {
@@ -57,7 +58,7 @@ export default function ImportFlow() {
         setCurrentStep('preview');
       },
       error: (error) => {
-        alert(`Failed to parse CSV: ${error.message}`);
+        setFlowError(`Failed to parse CSV file: ${error.message}. Please check the file format and try again.`);
         setIsProcessing(false);
       },
     });
@@ -78,16 +79,17 @@ export default function ImportFlow() {
       .map((r) => r.validatedData);
 
     if (validRows.length === 0) {
-      alert('No valid rows to import');
+      setFlowError('No valid rows to import. Please fix the errors in your CSV and try again.');
       return;
     }
 
     if (validRows.length > 1000) {
-      alert('Maximum 1000 rows allowed. Please split your file and try again.');
+      setFlowError('Maximum 1,000 rows allowed per import. Please split your file into smaller batches and try again.');
       return;
     }
 
     setIsProcessing(true);
+    setFlowError(null);
 
     try {
       const response = await fetch('/api/rsu/bulk', {
@@ -107,7 +109,11 @@ export default function ImportFlow() {
       setImportResult(result);
       setCurrentStep('confirmation');
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Import failed');
+      setFlowError(
+        error instanceof Error
+          ? error.message
+          : 'Import failed. Please check your data and try again.'
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -133,11 +139,20 @@ export default function ImportFlow() {
     URL.revokeObjectURL(url);
   };
 
+  // Go back to upload step
+  const handleBackToUpload = () => {
+    setParsedRows([]);
+    setFileName('');
+    setFlowError(null);
+    setCurrentStep('upload');
+  };
+
   // Reset and start over
   const resetFlow = () => {
     setParsedRows([]);
     setFileName('');
     setImportResult(null);
+    setFlowError(null);
     setCurrentStep('upload');
   };
 
@@ -188,6 +203,23 @@ export default function ImportFlow() {
           />
         </div>
 
+        {/* Inline Error Banner */}
+        {flowError && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-start gap-3" role="alert">
+            <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-red-400 text-sm font-medium">{flowError}</p>
+            </div>
+            <button
+              onClick={() => setFlowError(null)}
+              className="ml-auto text-red-400 hover:text-red-300 text-sm flex-shrink-0"
+              aria-label="Dismiss error"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
         {/* Step 1: Upload */}
         {currentStep === 'upload' && (
           <div className="space-y-6">
@@ -227,9 +259,9 @@ export default function ImportFlow() {
             </div>
 
             {isProcessing && (
-              <div className="flex items-center justify-center gap-3 text-slate-400">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Parsing CSV file...</span>
+              <div className="flex flex-col items-center justify-center gap-3 text-slate-400 py-4">
+                <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+                <span className="text-sm">Parsing CSV file...</span>
               </div>
             )}
           </div>
@@ -296,9 +328,22 @@ export default function ImportFlow() {
                             <CheckCircle className="h-5 w-5 text-emerald-500" />
                           ) : (
                             <div className="group relative">
-                              <XCircle className="h-5 w-5 text-red-500" />
-                              <div className="absolute left-0 top-full mt-2 w-64 bg-red-500 text-white text-xs rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg">
-                                {row.errors.join('; ')}
+                              <div className="flex items-center gap-1.5 cursor-help">
+                                <XCircle className="h-5 w-5 text-red-500" />
+                                <span className="text-xs text-red-400 hidden sm:inline">
+                                  {row.errors.length} {row.errors.length === 1 ? 'error' : 'errors'}
+                                </span>
+                              </div>
+                              <div className="absolute left-0 top-full mt-2 w-72 bg-slate-800 border border-red-500/30 text-slate-200 text-xs rounded-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg">
+                                <p className="font-semibold text-red-400 mb-1.5">Validation errors:</p>
+                                <ul className="space-y-1">
+                                  {row.errors.map((err, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                      <span className="text-red-400 mt-px">•</span>
+                                      <span>{err}</span>
+                                    </li>
+                                  ))}
+                                </ul>
                               </div>
                             </div>
                           )}
@@ -313,10 +358,11 @@ export default function ImportFlow() {
             {/* Actions */}
             <div className="flex items-center justify-between">
               <button
-                onClick={resetFlow}
-                className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-colors"
+                onClick={handleBackToUpload}
+                className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-colors inline-flex items-center gap-2"
               >
-                Cancel
+                <ArrowLeft className="h-4 w-4" />
+                Back
               </button>
               <button
                 onClick={handleImport}
@@ -326,7 +372,7 @@ export default function ImportFlow() {
                 {isProcessing ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Importing...
+                    Importing {validCount} rows...
                   </>
                 ) : (
                   <>Import {validCount} Valid Rows</>

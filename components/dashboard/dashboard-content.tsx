@@ -7,7 +7,12 @@ import { DollarSign, TrendingUp, FileCheck, AlertCircle } from 'lucide-react';
 import { StatsCard } from '@/components/dashboard/stats-card';
 import { RSUList } from '@/components/dashboard/rsu-list';
 import { QuickActions } from '@/components/dashboard/quick-actions';
-import { DashboardTour } from '@/components/dashboard/dashboard-tour';
+import dynamic from 'next/dynamic';
+
+const DashboardTour = dynamic(
+  () => import('@/components/dashboard/dashboard-tour').then(mod => ({ default: mod.DashboardTour })),
+  { ssr: false }
+);
 import { CheckoutFlow } from '@/components/checkout/CheckoutFlow';
 import { RSUEntryRow } from '@/lib/db';
 import { trackEvent, trackRevenue } from '@/lib/analytics/posthog';
@@ -117,6 +122,7 @@ export function DashboardContent({
             description={`Year-to-date income for ${currentYear}`}
             icon={DollarSign}
             iconColor="from-emerald-500 to-emerald-600"
+            tooltip="Total fair market value of all RSU shares that vested this year, in USD. This is the taxable income from your equity compensation."
           />
 
           <StatsCard
@@ -128,6 +134,7 @@ export function DashboardContent({
             description="Federal + State (estimated)"
             icon={TrendingUp}
             iconColor="from-blue-500 to-blue-600"
+            tooltip="Estimated combined US federal and state income tax on your RSU income. Your employer typically withholds a portion; the final amount depends on your total income and deductions."
           />
 
           <StatsCard
@@ -139,6 +146,7 @@ export function DashboardContent({
             description="Federal + Provincial (estimated)"
             icon={TrendingUp}
             iconColor="from-purple-500 to-purple-600"
+            tooltip="Estimated Canadian federal and provincial tax on your RSU income, after applying the Foreign Tax Credit (FTC) for taxes already paid to the US."
           />
 
           <StatsCard

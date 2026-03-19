@@ -5,11 +5,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
+    "test:e2e": "npx playwright test",
+    "test:e2e:chrome": "npx playwright test --project=chromium",
+    "test:e2e:firefox": "npx playwright test --project=firefox",
+    "test:e2e:safari": "npx playwright test --project=webkit",
+    "test:e2e:edge": "npx playwright test --project=edge",
+    "test:e2e:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
     "db:migrate": "tsx scripts/run-migrations.ts",
@@ -83,6 +90,7 @@
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-progress": "^1.1.8",
     "@radix-ui/react-toast": "^1.2.15",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@sendgrid/mail": "^8.1.6",
     "@sentry/nextjs": "^10.44.0",
     "@stripe/stripe-js": "^8.11.0",
@@ -149,5 +157,13 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "iOS >= 15",
+    "not dead"
+  ]
 }
