@@ -1,0 +1,169 @@
+┌─────────────────────────────────────────────────────────────────────┐
+│                                                                     │
+│  🚀 TAXBRIDGE DEPLOYMENT QUICK REFERENCE                           │
+│                                                                     │
+│  Print this and keep it visible while coding!                      │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  ✅ YOUR WORKFLOW (Every Single Commit)                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+  1. Write code
+     └─→ Make your changes
+
+  2. npm run build ⚠️ REQUIRED
+     └─→ MUST pass with ZERO errors
+     └─→ Fix all TypeScript/ESLint errors
+     └─→ Re-run until clean
+
+  3. npm run lint
+     └─→ MUST pass
+
+  4. npm test
+     └─→ Run if you changed business logic
+
+  5. git add -A
+     git commit -m "feat: your descriptive message"
+     └─→ Use conventional commit format
+
+  6. git push origin main
+     └─→ Code is now on GitHub staging
+
+  7. ✋ STOP - You are DONE
+     └─→ Do NOT deploy to Vercel
+     └─→ Do NOT run hosting commands
+     └─→ Michael handles production deployment
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  ❌ NEVER RUN THESE COMMANDS                                        │
+└─────────────────────────────────────────────────────────────────────┘
+
+  ❌  vercel
+  ❌  vercel deploy
+  ❌  vercel --prod
+  ❌  npm run deploy
+  ❌  npm run vercel
+
+  → All deployment commands are BLOCKED
+  → These will fail with error message
+  → If you run them accidentally, notify Michael immediately
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  🎯 GOLDEN RULES                                                    │
+└─────────────────────────────────────────────────────────────────────┘
+
+  1. GitHub = Staging
+     Vercel = Production
+     Manual deployment ONLY
+
+  2. npm run build MUST pass
+     Zero TypeScript errors
+     Zero ESLint errors
+
+  3. Test before you commit
+     Unit tests for logic
+     E2E tests for UI changes
+
+  4. Push to GitHub, then STOP
+     Your job ends at GitHub
+     Michael handles Vercel
+
+  5. Real customers, real money
+     Production quality only
+     No placeholders, no TODOs
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  🔧 COMMON COMMANDS                                                 │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Development:
+    npm run dev              Start dev server
+    npm run build            Build (REQUIRED before commit)
+    npm run lint             ESLint check
+
+  Testing:
+    npm test                 Unit tests
+    npm run test:e2e         E2E tests (all browsers)
+    npm run test:e2e:mobile  Mobile tests
+
+  Database:
+    npm run db:init          Initialize database
+    npm run db:migrate       Run migrations
+
+  Stripe/Payments:
+    npm run verify:stripe    Verify Stripe setup
+    npm run test:payment-flow Test payments
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  ⚠️ PRE-COMMIT CHECKLIST                                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Before EVERY git push:
+
+  [ ]  npm run build passes (zero errors)
+  [ ]  npm run lint passes
+  [ ]  npm test passes
+  [ ]  No console.log in production code
+  [ ]  No TypeScript 'any' types
+  [ ]  Accessibility checked (if UI change)
+  [ ]  Mobile responsive (if UI change)
+  [ ]  Commit message is descriptive
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  🆘 HELP                                                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Build fails?
+    → Read error message carefully
+    → Fix TypeScript errors first
+    → Check for missing imports
+    → Ask in team chat if stuck
+
+  Tests fail?
+    → Run specific test: npm test -- file.test.ts
+    → Use watch mode: npm run test:watch
+    → Check test expectations vs actual output
+
+  Critical production bug?
+    → Fix locally
+    → Run npm run build (must pass)
+    → Push to GitHub
+    → IMMEDIATELY notify Michael
+    → Do NOT deploy yourself
+
+  Deployment questions?
+    → See README.md
+    → See docs/DEPLOYMENT.md
+    → Ask Michael
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  📚 DOCUMENTATION                                                   │
+└─────────────────────────────────────────────────────────────────────┘
+
+  README.md              Full project overview
+  CONTRIBUTING.md        Development standards
+  CLAUDE.md              Deployment rules
+  docs/DEPLOYMENT.md     Detailed deployment workflow
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  💡 REMEMBER                                                        │
+└─────────────────────────────────────────────────────────────────────┘
+
+  Your responsibilities:
+    ✅ Write production-quality code
+    ✅ Ensure zero build errors
+    ✅ Push working code to GitHub
+
+  NOT your responsibilities:
+    ❌ Deploying to Vercel
+    ❌ Managing production
+    ❌ Running hosting commands
+
+  Focus on: Writing great code
+  Michael handles: Production deployment
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  TaxBridge • Target: $1M ARR • Production Quality Only             │
+└─────────────────────────────────────────────────────────────────────┘

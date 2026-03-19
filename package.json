@@ -8,6 +8,9 @@
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
+    "deploy": "echo '\n⛔️ ERROR: Direct deployment is DISABLED.\n\n✅ Correct workflow:\n  1. npm run build (verify zero errors)\n  2. git add -A && git commit -m \"your message\"\n  3. git push origin main\n  4. Michael handles Vercel deployment manually\n\nSee README.md for details.\n' && exit 1",
+    "vercel": "echo '⛔️ ERROR: Vercel CLI is disabled. See README.md deployment workflow.' && exit 1",
+    "pre-push": "npm run build && npm run lint",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -130,6 +133,7 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/jspdf": "^1.3.3",
