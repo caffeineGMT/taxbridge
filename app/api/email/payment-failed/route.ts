@@ -242,12 +242,12 @@ Manage Subscription: ${process.env.NEXT_PUBLIC_APP_URL}/dashboard/subscription
       email,
       attemptCount: attempts,
       isUrgent,
-      emailId: result.id,
+      emailId: result.data?.id || 'unknown',
     });
 
     return NextResponse.json({
       success: true,
-      emailId: result.id,
+      emailId: result.data?.id || 'unknown',
     });
   } catch (error) {
     logger.error('Failed to send payment failed email', {

@@ -222,4 +222,22 @@ CREATE INDEX IF NOT EXISTS idx_refunds_charge_id ON refunds(stripe_charge_id);
 CREATE INDEX IF NOT EXISTS idx_refunds_status ON refunds(status);
 CREATE INDEX IF NOT EXISTS idx_refunds_created ON refunds(created_at);
 
+-- Cancellation feedback table for tracking why users cancel
+CREATE TABLE IF NOT EXISTS cancellation_feedback (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  subscription_id TEXT NOT NULL,
+  reason TEXT,
+  comments TEXT,
+  satisfaction_score INTEGER CHECK(satisfaction_score BETWEEN 1 AND 5),
+  would_recommend BOOLEAN,
+  created_at INTEGER DEFAULT (unixepoch()),
+  FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_cancellation_feedback_user_id ON cancellation_feedback(user_id);
+CREATE INDEX IF NOT EXISTS idx_cancellation_feedback_reason ON cancellation_feedback(reason);
+CREATE INDEX IF NOT EXISTS idx_cancellation_feedback_created ON cancellation_feedback(created_at);
+
+
 
