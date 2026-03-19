@@ -159,7 +159,8 @@
     "test:mobile": "node scripts/mobile-test.mjs",
     "ph:screenshots": "tsx scripts/capture-ph-screenshots-vercel.ts",
     "ph:monitor": "tsx scripts/monitor-ph-comments.ts",
-    "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts"
+    "ph:hunt20": "tsx scripts/activate-hunt20-promo.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
@@ -236,6 +237,7 @@
     "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.1.7",
+    "husky": "^9.1.7",
     "lighthouse": "^13.0.3",
     "playwright": "^1.58.2",
     "puppeteer": "^24.39.1",

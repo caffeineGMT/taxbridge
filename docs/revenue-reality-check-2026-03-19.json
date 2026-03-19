@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-03-19T18:04:15.026Z",
+  "dateRange": {
+    "start": "2026-02-17",
+    "end": "2026-03-19",
+    "days": 30
+  },
+  "users": {
+    "total": 1,
+    "totalAllTime": 2,
+    "free": 1,
+    "proActive": 0,
+    "enterpriseActive": 0,
+    "withStripeId": 0,
+    "newInPeriod": 1
+  },
+  "activity": {
+    "calculatorSessions": 0,
+    "rsuEntries": 0,
+    "taxCalculations": 0,
+    "analyticsEvents": 0
+  },
+  "conversions": {
+    "calculatorCompletionRate": "0%",
+    "signupRate": "N/A (no completions)",
+    "paymentRate": "N/A (Stripe test mode)",
+    "overallConversion": "0%"
+  },
+  "revenue": {
+    "mrr": 0,
+    "arr": 0,
+    "payingCustomers": 0,
+    "averageCustomerValue": 0
+  },
+  "gaps": {
+    "stripeConfigured": false,
+    "posthogConfigured": false,
+    "calculatorWorking": false,
+    "revenueUnblocked": false
+  }
+}

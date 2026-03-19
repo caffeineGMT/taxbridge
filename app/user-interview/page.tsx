@@ -8,14 +8,14 @@
  * Offers $25 Amazon gift card incentive.
  */
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 
-export default function UserInterviewPage() {
+function UserInterviewForm() {
   const searchParams = useSearchParams();
   const customerId = searchParams?.get('id') || '';
   const token = searchParams?.get('token') || '';
@@ -298,5 +298,20 @@ export default function UserInterviewPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function UserInterviewPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="text-4xl mb-4">⏳</div>
+          <p className="text-gray-600">Loading interview form...</p>
+        </div>
+      </div>
+    }>
+      <UserInterviewForm />
+    </Suspense>
   );
 }
