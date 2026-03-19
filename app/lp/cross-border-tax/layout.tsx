@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     'tn visa tax software',
   ],
   alternates: {
-    canonical: 'https://taxbridge.app/lp/cross-border-tax',
+    canonical: 'https://taxbridgecpa.com/lp/cross-border-tax',
   },
   openGraph: {
     title: 'Cross-Border Tax Software - Automate US-Canada Tax Filing',
     description:
       'Professional software for cross-border tax calculations. Foreign Tax Credit optimization, compliance tracking. Free calculator + Pro plans.',
-    url: 'https://taxbridge.app/lp/cross-border-tax',
+    url: 'https://taxbridgecpa.com/lp/cross-border-tax',
     type: 'website',
     images: [
       {

@@ -102,10 +102,12 @@ async function setupPricingExperiment() {
     console.log('Add these to your .env.local file:\n');
     console.log(`STRIPE_PRO_PRICE_ID_49=${price49Annual}`);
     console.log(`STRIPE_PRO_PRICE_ID_79=${price79Annual.id}`);
+    console.log(`STRIPE_PRO_PRICE_ID_99=${price99Annual.id}`);
     console.log(`STRIPE_PRO_PRICE_ID_MONTHLY=${price19Monthly.id}`);
     console.log('\nOr use these directly in your code:');
     console.log(`- Annual $49 (Variant A): ${price49Annual}`);
     console.log(`- Annual $79 (Variant B): ${price79Annual.id}`);
+    console.log(`- Annual $99 (Variant C): ${price99Annual.id}`);
     console.log(`- Monthly $19: ${price19Monthly.id}`);
     console.log('='.repeat(70) + '\n');
 
@@ -116,6 +118,7 @@ async function setupPricingExperiment() {
       prices: {
         annual_49: price49Annual,
         annual_79: price79Annual.id,
+        annual_99: price99Annual.id,
         monthly_19: price19Monthly.id,
       },
       experiment_config: {
@@ -123,6 +126,7 @@ async function setupPricingExperiment() {
         variants: {
           A: { price: 49, interval: 'year', price_id: price49Annual },
           B: { price: 79, interval: 'year', price_id: price79Annual.id },
+          C: { price: 99, interval: 'year', price_id: price99Annual.id },
         },
         monthly_option: { price: 19, interval: 'month', price_id: price19Monthly.id },
       },

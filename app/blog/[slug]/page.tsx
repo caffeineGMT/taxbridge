@@ -98,14 +98,14 @@ export default async function BlogArticlePage({
     author: {
       '@type': 'Organization',
       name: article.author,
-      url: 'https://taxbridge.app',
+      url: 'https://taxbridgecpa.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'TaxBridge',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://taxbridge.app/logo.png',
+        url: 'https://taxbridgecpa.com/logo.png',
       },
     },
     datePublished: article.publishedAt,
@@ -116,7 +116,7 @@ export default async function BlogArticlePage({
     inLanguage: 'en-US',
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://taxbridge.app/blog/${article.slug}`,
+      '@id': `https://taxbridgecpa.com/blog/${article.slug}`,
     },
   };
 
@@ -186,7 +186,7 @@ export default async function BlogArticlePage({
                   href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                     article.title
                   )}&url=${encodeURIComponent(
-                    `https://taxbridge.app/blog/${article.slug}`
+                    `https://taxbridgecpa.com/blog/${article.slug}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -196,7 +196,7 @@ export default async function BlogArticlePage({
                 </a>
                 <a
                   href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                    `https://taxbridge.app/blog/${article.slug}`
+                    `https://taxbridgecpa.com/blog/${article.slug}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

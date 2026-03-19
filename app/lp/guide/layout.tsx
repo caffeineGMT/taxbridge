@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     'tax treaty article xv',
   ],
   alternates: {
-    canonical: 'https://taxbridge.app/lp/guide',
+    canonical: 'https://taxbridgecpa.com/lp/guide',
   },
   openGraph: {
     title: 'Cross-Border Tax Guide 2025 - Complete H1B/TN Visa Filing Guide',
     description:
       'Master US-Canada cross-border tax filing. Learn Foreign Tax Credit optimization, tax treaty benefits, and required forms. Free calculator included.',
-    url: 'https://taxbridge.app/lp/guide',
+    url: 'https://taxbridgecpa.com/lp/guide',
     type: 'website',
     images: [
       {

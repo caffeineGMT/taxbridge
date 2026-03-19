@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     'equity tax calculator',
   ],
   alternates: {
-    canonical: 'https://taxbridge.app/lp/calculator',
+    canonical: 'https://taxbridgecpa.com/lp/calculator',
   },
   openGraph: {
     title: 'Free Cross-Border Tax Calculator - US & Canada RSU Taxes',
     description:
       'Calculate your US-Canada cross-border tax on RSU income in 10 minutes. Free Foreign Tax Credit optimizer. CPA-verified accuracy.',
-    url: 'https://taxbridge.app/lp/calculator',
+    url: 'https://taxbridgecpa.com/lp/calculator',
     type: 'website',
     images: [
       {

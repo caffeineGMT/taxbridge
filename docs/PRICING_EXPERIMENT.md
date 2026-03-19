@@ -2,11 +2,14 @@
 
 ## Overview
 
-**Experiment**: A/B test for optimal Pro plan pricing
+**Experiment**: A/B/C test for optimal Pro plan pricing
 **Variants**:
 - Variant A: $49/year (launch special, 50% off $99)
 - Variant B: $79/year (standard pricing)
+- Variant C: $99/year (premium pricing)
 - Bonus: $19/month option for all users
+
+**Distribution**: 33/33/33 split across the 3 annual price points
 
 **Tracking**:
 - Conversion rate by variant
@@ -28,7 +31,8 @@ npx ts-node scripts/setup-pricing-experiment.ts
 
 This will create:
 - `price_XXXXXXXX` - $79/year Pro plan (Variant B)
-- `price_XXXXXXXX` - $19/month Pro plan
+- `price_YYYYYYYY` - $99/year Pro plan (Variant C)
+- `price_ZZZZZZZZ` - $19/month Pro plan
 
 ### 2. Add Environment Variables
 
@@ -41,18 +45,21 @@ NEXT_PUBLIC_STRIPE_PRO_PRICE_ID=price_1ProAnnual49
 # New $79/year price (Variant B)
 NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_79=price_XXXXXXXX
 
+# New $99/year price (Variant C)
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_99=price_YYYYYYYY
+
 # New $19/month price
-NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY=price_XXXXXXXX
+NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY=price_ZZZZZZZZ
 ```
 
-Replace `price_XXXXXXXX` with actual IDs from setup script output.
+Replace `price_XXXXXXXX`, `price_YYYYYYYY`, and `price_ZZZZZZZZ` with actual IDs from setup script output.
 
 ### 3. Deploy to Production
 
 ```bash
 npm run build
 git add -A
-git commit -m "[P1-HIGH] Pricing Experiment - $49 vs $79 A/B test + $19/month option"
+git commit -m "[P2-MEDIUM] Pricing Experiment - $49 vs $79 vs $99 A/B/C test + $19/month option"
 git push origin main
 ```
 
@@ -64,7 +71,7 @@ GitHub → Vercel will auto-deploy.
 
 ### Variant Assignment
 
-- **50/50 split**: Users randomly assigned to $49 or $79 variant
+- **33/33/33 split**: Users randomly assigned to $49, $79, or $99 variant
 - **Persisted**: Assignment stored in localStorage for consistency
 - **Cohort tagging**: Product Hunt users tagged automatically via UTM params
 
@@ -72,7 +79,7 @@ GitHub → Vercel will auto-deploy.
 
 1. User visits `/pricing`
 2. System checks `localStorage` for existing variant assignment
-3. If new user: randomly assign variant A or B (50/50 split)
+3. If new user: randomly assign variant A, B, or C (33/33/33 split)
 4. Show billing interval toggle (Monthly / Annual)
 5. Display pricing based on:
    - Assigned variant (affects annual price only)
@@ -84,23 +91,23 @@ GitHub → Vercel will auto-deploy.
 ```typescript
 // Page view
 pricing_page_viewed {
-  variant: 'annual_49' | 'annual_79',
+  variant: 'annual_49' | 'annual_79' | 'annual_99',
   is_product_hunt_user: boolean,
   user_cohort: 'product_hunt' | 'organic'
 }
 
 // Interval toggle
 pricing_interval_toggled {
-  variant: 'annual_49' | 'annual_79',
+  variant: 'annual_49' | 'annual_79' | 'annual_99',
   from: 'monthly' | 'annual',
   to: 'monthly' | 'annual'
 }
 
 // Tier selected
 pricing_tier_selected {
-  variant: 'annual_49' | 'annual_79',
+  variant: 'annual_49' | 'annual_79' | 'annual_99',
   interval: 'monthly' | 'annual',
-  price: 49 | 79 | 19,
+  price: 49 | 79 | 99 | 19,
   priceId: 'price_XXX',
   is_product_hunt_user: boolean
 }
@@ -108,7 +115,7 @@ pricing_tier_selected {
 // Checkout started
 checkout_started {
   plan: 'pro',
-  variant: 'annual_49' | 'annual_79',
+  variant: 'annual_49' | 'annual_79' | 'annual_99',
   price: number
 }
 ```
@@ -190,13 +197,19 @@ After collecting sufficient data (100+ conversions), decide:
 
 ### If $49 wins (higher conversion + revenue):
 - Keep $49 as standard Pro pricing
-- Consider removing $79 variant
+- Consider removing $79 and $99 variants
 - Promote "Launch Special" scarcity
 
-### If $79 wins (higher revenue despite lower conversion):
+### If $79 wins (balanced conversion and revenue):
 - Transition to $79 as standard pricing
 - Use $49 as limited-time promotions only
-- Emphasize value to justify higher price
+- Emphasize value to justify price vs $49
+
+### If $99 wins (highest revenue despite lower conversion):
+- Implement $99 as premium tier
+- Keep $79 as standard tier
+- Use $49 for promotional campaigns only
+- Consider tiered pricing strategy
 
 ### If monthly $19 wins (>40% of conversions):
 - Make monthly plan default option

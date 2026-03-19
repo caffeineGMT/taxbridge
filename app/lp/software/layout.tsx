@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     'expat tax software',
   ],
   alternates: {
-    canonical: 'https://taxbridge.app/lp/software',
+    canonical: 'https://taxbridgecpa.com/lp/software',
   },
   openGraph: {
     title: 'Tax Software for Cross-Border Workers - Automate US-Canada Taxes',
     description:
       'Modern software for cross-border tax calculations. Multi-year tracking, FTC optimization, compliance tools. Free + Pro plans.',
-    url: 'https://taxbridge.app/lp/software',
+    url: 'https://taxbridgecpa.com/lp/software',
     type: 'website',
     images: [
       {

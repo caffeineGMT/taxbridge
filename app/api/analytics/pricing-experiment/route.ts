@@ -1,8 +1,8 @@
 /**
  * Pricing Experiment Analytics API
  *
- * Analyzes A/B test results for pricing experiment:
- * - $49/year vs $79/year conversion rates
+ * Analyzes A/B/C test results for pricing experiment:
+ * - $49/year vs $79/year vs $99/year conversion rates
  * - Annual vs monthly preference
  * - Product Hunt cohort behavior
  * - Revenue impact projection
@@ -72,6 +72,8 @@ export async function GET(req: NextRequest) {
         variant = 'annual_49';
       } else if (sub.stripe_price_id?.includes('79') || sub.amount === 7900) {
         variant = 'annual_79';
+      } else if (sub.stripe_price_id?.includes('99') || sub.amount === 9900) {
+        variant = 'annual_99';
       } else if (sub.stripe_price_id?.includes('19') || sub.amount === 1900) {
         variant = 'monthly_19';
       }
@@ -102,6 +104,7 @@ export async function GET(req: NextRequest) {
     // Calculate metrics by variant
     const annual49 = filteredResults.filter((r) => r.variant === 'annual_49');
     const annual79 = filteredResults.filter((r) => r.variant === 'annual_79');
+    const annual99 = filteredResults.filter((r) => r.variant === 'annual_99');
     const monthly19 = filteredResults.filter((r) => r.variant === 'monthly_19');
 
     // Calculate conversion rates (requires PostHog data, simplified here)
@@ -134,6 +137,14 @@ export async function GET(req: NextRequest) {
             ? ((annual79.length / filteredResults.length) * 100).toFixed(1)
             : '0.0',
         },
+        annual_99: {
+          conversions: annual99.length,
+          revenue: annual99.reduce((sum, r) => sum + r.amount, 0) / 100,
+          avg_revenue: annual99.length > 0 ? 99 : 0,
+          percentage: filteredResults.length > 0
+            ? ((annual99.length / filteredResults.length) * 100).toFixed(1)
+            : '0.0',
+        },
         monthly_19: {
           conversions: monthly19.length,
           revenue: monthly19.reduce((sum, r) => sum + r.amount, 0) / 100,
@@ -152,6 +163,9 @@ export async function GET(req: NextRequest) {
           annual_79: results.filter(
             (r) => r.cohort === 'product_hunt' && r.variant === 'annual_79'
           ).length,
+          annual_99: results.filter(
+            (r) => r.cohort === 'product_hunt' && r.variant === 'annual_99'
+          ).length,
           monthly_19: results.filter(
             (r) => r.cohort === 'product_hunt' && r.variant === 'monthly_19'
           ).length,
@@ -164,31 +178,44 @@ export async function GET(req: NextRequest) {
           annual_79: results.filter(
             (r) => r.cohort === 'organic' && r.variant === 'annual_79'
           ).length,
+          annual_99: results.filter(
+            (r) => r.cohort === 'organic' && r.variant === 'annual_99'
+          ).length,
           monthly_19: results.filter(
             (r) => r.cohort === 'organic' && r.variant === 'monthly_19'
           ).length,
         },
       },
       price_sensitivity: {
-        annual_preference: annual49.length + annual79.length,
+        annual_preference: annual49.length + annual79.length + annual99.length,
         monthly_preference: monthly19.length,
         annual_percentage:
           filteredResults.length > 0
             ? (
-                ((annual49.length + annual79.length) / filteredResults.length) *
+                ((annual49.length + annual79.length + annual99.length) / filteredResults.length) *
                 100
               ).toFixed(1)
             : '0.0',
         within_annual_preference: {
           prefer_49: annual49.length,
           prefer_79: annual79.length,
+          prefer_99: annual99.length,
+          total_annual: annual49.length + annual79.length + annual99.length,
           ratio_49:
-            annual49.length + annual79.length > 0
-              ? ((annual49.length / (annual49.length + annual79.length)) * 100).toFixed(1)
+            annual49.length + annual79.length + annual99.length > 0
+              ? ((annual49.length / (annual49.length + annual79.length + annual99.length)) * 100).toFixed(1)
+              : '0.0',
+          ratio_79:
+            annual49.length + annual79.length + annual99.length > 0
+              ? ((annual79.length / (annual49.length + annual79.length + annual99.length)) * 100).toFixed(1)
+              : '0.0',
+          ratio_99:
+            annual49.length + annual79.length + annual99.length > 0
+              ? ((annual99.length / (annual49.length + annual79.length + annual99.length)) * 100).toFixed(1)
               : '0.0',
         },
       },
-      recommendations: generateRecommendations(annual49, annual79, monthly19, results),
+      recommendations: generateRecommendations(annual49, annual79, annual99, monthly19, results),
     };
 
     return NextResponse.json({
@@ -220,6 +247,7 @@ export async function GET(req: NextRequest) {
 function generateRecommendations(
   annual49: any[],
   annual79: any[],
+  annual99: any[],
   monthly19: any[],
   allResults: any[]
 ): string[] {
@@ -233,27 +261,41 @@ function generateRecommendations(
   // Revenue comparison
   const revenue49 = annual49.length * 49;
   const revenue79 = annual79.length * 79;
+  const revenue99 = annual99.length * 99;
   const revenueMonthly = monthly19.length * 19; // Monthly, so annualize: * 12
 
   // Recommendation 1: Optimal annual price
-  if (annual49.length > 0 || annual79.length > 0) {
-    if (revenue79 > revenue49 * 1.2) {
+  const allAnnualRevenue = revenue49 + revenue79 + revenue99;
+  const allAnnualCount = annual49.length + annual79.length + annual99.length;
+
+  if (allAnnualCount > 0) {
+    // Find the winner by total revenue
+    const variants = [
+      { price: 49, count: annual49.length, revenue: revenue49, name: '$49' },
+      { price: 79, count: annual79.length, revenue: revenue79, name: '$79' },
+      { price: 99, count: annual99.length, revenue: revenue99, name: '$99' },
+    ].sort((a, b) => b.revenue - a.revenue);
+
+    const winner = variants[0];
+    const secondPlace = variants[1];
+
+    if (winner.revenue > secondPlace.revenue * 1.2) {
       recommendations.push(
-        `🎯 STRONG SIGNAL: $79 annual generates ${((revenue79 / revenue49 - 1) * 100).toFixed(0)}% more revenue despite lower conversion. Consider $79 as default.`
+        `🎯 STRONG SIGNAL: ${winner.name} annual generates ${((winner.revenue / secondPlace.revenue - 1) * 100).toFixed(0)}% more revenue than ${secondPlace.name}. Consider ${winner.name} as default.`
       );
-    } else if (annual49.length > annual79.length * 1.5) {
+    } else if (winner.count > secondPlace.count * 1.5 && winner.price === 49) {
       recommendations.push(
-        `🎯 STRONG SIGNAL: $49 annual converts ${((annual49.length / annual79.length - 1) * 100).toFixed(0)}% better. Keep $49 as launch price.`
+        `🎯 STRONG SIGNAL: $49 annual converts ${((winner.count / secondPlace.count - 1) * 100).toFixed(0)}% better. Keep $49 as launch price for volume.`
       );
     } else {
       recommendations.push(
-        '⚖️ MIXED RESULTS: Conversion and revenue are balanced. Consider longer test duration or tiered pricing.'
+        '⚖️ MIXED RESULTS: All variants performing similarly. Consider longer test duration or tiered pricing strategy.'
       );
     }
   }
 
   // Recommendation 2: Monthly vs Annual
-  const annualTotal = annual49.length + annual79.length;
+  const annualTotal = allAnnualCount;
   if (monthly19.length > annualTotal * 0.3) {
     recommendations.push(
       `💡 INSIGHT: ${((monthly19.length / total) * 100).toFixed(0)}% prefer monthly billing. Promote monthly option more prominently.`

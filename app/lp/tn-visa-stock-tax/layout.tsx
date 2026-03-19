@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     'foreign tax credit tn visa',
   ],
   alternates: {
-    canonical: 'https://taxbridge.app/lp/tn-visa-stock-tax',
+    canonical: 'https://taxbridgecpa.com/lp/tn-visa-stock-tax',
   },
   openGraph: {
     title: 'TN Visa Stock Tax Calculator - Free Cross-Border RSU Tax Tool',
     description:
       'Calculate US-Canada cross-border taxes on stock and RSU compensation for TN visa holders. Free Foreign Tax Credit optimizer. CPA-verified accuracy.',
-    url: 'https://taxbridge.app/lp/tn-visa-stock-tax',
+    url: 'https://taxbridgecpa.com/lp/tn-visa-stock-tax',
     type: 'website',
     images: [
       {
