@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-03-19T21:10:18.014Z",
+  "productionUrl": "https://taxbridge.vercel.app",
+  "totalBugs": 4,
+  "criticalBugs": 4,
+  "highBugs": 0,
+  "mediumBugs": 0,
+  "lowBugs": 0,
+  "bugs": [
+    {
+      "severity": "CRITICAL",
+      "category": "Broken Link",
+      "page": "https://taxbridge.vercel.app/us-canada-tax-calculator",
+      "description": "Page returns HTTP 404",
+      "steps": [
+        "Navigate to https://taxbridge.vercel.app/us-canada-tax-calculator"
+      ],
+      "expected": "HTTP 200 OK",
+      "actual": "HTTP 404",
+      "browser": "Chromium",
+      "viewport": "1920x1080"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "Broken Link",
+      "page": "https://taxbridge.vercel.app/pricing",
+      "description": "Page returns HTTP 404",
+      "steps": [
+        "Navigate to https://taxbridge.vercel.app/pricing"
+      ],
+      "expected": "HTTP 200 OK",
+      "actual": "HTTP 404",
+      "browser": "Chromium",
+      "viewport": "1920x1080"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "Broken Link",
+      "page": "https://taxbridge.vercel.app/us-canada-tax-calculator",
+      "description": "Page returns HTTP 404",
+      "steps": [
+        "Navigate to https://taxbridge.vercel.app/us-canada-tax-calculator"
+      ],
+      "expected": "HTTP 200 OK",
+      "actual": "HTTP 404",
+      "browser": "Chromium",
+      "viewport": "414x896"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "Broken Link",
+      "page": "https://taxbridge.vercel.app/pricing",
+      "description": "Page returns HTTP 404",
+      "steps": [
+        "Navigate to https://taxbridge.vercel.app/pricing"
+      ],
+      "expected": "HTTP 200 OK",
+      "actual": "HTTP 404",
+      "browser": "Chromium",
+      "viewport": "414x896"
+    }
+  ],
+  "screenshotCount": 8,
+  "screenshotsDir": "screenshots-2026-03-19"
+}
