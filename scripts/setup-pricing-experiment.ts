@@ -2,8 +2,9 @@
  * Setup Pricing Experiment - Create Stripe Price Products
  *
  * Creates:
- * 1. $79/year Pro plan (A/B test variant)
- * 2. $19/month Pro plan (new monthly option)
+ * 1. $79/year Pro plan (A/B/C test variant B)
+ * 2. $99/year Pro plan (A/B/C test variant C)
+ * 3. $19/month Pro plan (new monthly option)
  *
  * Run: npx ts-node scripts/setup-pricing-experiment.ts
  */
@@ -42,7 +43,7 @@ async function setupPricingExperiment() {
       console.log('✅ Created Pro product:', product.id);
     }
 
-    // Create $79/year price (A/B test variant B)
+    // Create $79/year price (A/B/C test variant B)
     const price79Annual = await stripe.prices.create({
       product: product.id,
       unit_amount: 7900, // $79.00
@@ -58,6 +59,23 @@ async function setupPricingExperiment() {
       },
     });
     console.log('✅ Created $79/year price:', price79Annual.id);
+
+    // Create $99/year price (A/B/C test variant C)
+    const price99Annual = await stripe.prices.create({
+      product: product.id,
+      unit_amount: 9900, // $99.00
+      currency: 'usd',
+      recurring: {
+        interval: 'year',
+      },
+      nickname: 'Pro Annual $99 (Variant C)',
+      metadata: {
+        tier: 'pro',
+        variant: 'annual_99',
+        experiment: 'pricing_test_2026_q1',
+      },
+    });
+    console.log('✅ Created $99/year price:', price99Annual.id);
 
     // Create $19/month price (new monthly option)
     const price19Monthly = await stripe.prices.create({
