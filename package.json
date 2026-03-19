@@ -27,6 +27,8 @@
     "setup:posthog": "tsx scripts/setup-posthog.ts",
     "verify:posthog": "tsx scripts/verify-posthog-funnel-tracking.ts",
     "verify:posthog-funnel": "tsx scripts/verify-posthog-funnel-tracking.ts",
+    "verify:blog": "tsx scripts/verify-blog-publication.ts",
+    "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
