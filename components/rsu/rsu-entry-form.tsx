@@ -143,6 +143,8 @@ export function RSUEntryForm() {
 
       {toast && (
         <div
+          role="alert"
+          aria-live="assertive"
           className={cn(
             'mb-4 p-4 rounded-md',
             toast.type === 'success' ? 'bg-success/20 text-success' : 'bg-error/20 text-error'

@@ -199,19 +199,21 @@ export default function TaxCalculatorPage() {
               <CardDescription>Enter your details for an instant tax estimate</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* RSU Income */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   RSU Income (USD)
                 </label>
                 <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-6 w-6 text-slate-400" />
                   <input
                     type="number"
                     value={rsuIncome}
                     onChange={(e) => handleRSUInputChange(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    className="w-full pl-12 pr-4 py-4 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 text-lg md:text-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 touch-manipulation"
                     placeholder="100000"
+                    aria-label="RSU income in US dollars"
                   />
                 </div>
                 <p className="mt-2 text-xs text-slate-500">
@@ -221,13 +223,15 @@ export default function TaxCalculatorPage() {
 
               {/* US State */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="us-state" className="block text-sm font-medium text-slate-300 mb-2">
                   US State (where RSUs vested)
                 </label>
                 <select
+                  id="us-state"
                   value={usState}
                   onChange={(e) => setUsState(e.target.value as any)}
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-4 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 touch-manipulation"
+                  aria-label="Select US state where RSUs vested"
                 >
                   <option value="WA">Washington (0% state tax)</option>
                   <option value="CA">California (up to 12.3%)</option>
@@ -238,13 +242,15 @@ export default function TaxCalculatorPage() {
 
               {/* Canadian Province */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="canada-province" className="block text-sm font-medium text-slate-300 mb-2">
                   Canadian Province (where you live)
                 </label>
                 <select
+                  id="canada-province"
                   value={province}
                   onChange={(e) => setProvince(e.target.value as any)}
-                  className="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-4 rounded-lg bg-slate-800 border border-slate-700 text-slate-100 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 touch-manipulation"
+                  aria-label="Select Canadian province where you live"
                 >
                   <option value="BC">British Columbia</option>
                   <option value="ON">Ontario</option>

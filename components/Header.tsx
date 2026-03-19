@@ -32,40 +32,40 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-6 text-sm font-medium">
           <Link
             href="/dashboard"
             className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
           >
-            <Home className="w-4 h-4" />
+            <Home className="w-4 h-4" aria-hidden="true" />
             Dashboard
           </Link>
           <Link
             href="/dashboard/multi-year"
             className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
           >
-            <TrendingUp className="w-4 h-4" />
+            <TrendingUp className="w-4 h-4" aria-hidden="true" />
             Multi-Year
           </Link>
           <Link
             href="/rsu-entry"
             className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
           >
-            <DollarSign className="w-4 h-4" />
+            <DollarSign className="w-4 h-4" aria-hidden="true" />
             Add RSU
           </Link>
           <Link
             href="/calculator"
             className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
           >
-            <Calculator className="w-4 h-4" />
+            <Calculator className="w-4 h-4" aria-hidden="true" />
             Calculator
           </Link>
           <Link
             href="/forms-checklist"
             className="text-slate-300 hover:text-emerald-400 transition-colors flex items-center gap-2"
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-4 h-4" aria-hidden="true" />
             Forms
           </Link>
         </nav>
@@ -74,6 +74,7 @@ export default function Header() {
           {/* Subscription Badge */}
           <Link
             href="/dashboard/subscription"
+            aria-label={`Subscription tier: ${subscriptionTier === 'pro' ? 'Pro' : subscriptionTier === 'enterprise' ? 'Enterprise' : 'Free'}. Manage subscription`}
             className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105"
             style={{
               background: subscriptionTier === 'pro'
@@ -85,9 +86,9 @@ export default function Header() {
             }}
           >
             {subscriptionTier === 'pro' || subscriptionTier === 'enterprise' ? (
-              <Crown className="w-3.5 h-3.5" />
+              <Crown className="w-3.5 h-3.5" aria-hidden="true" />
             ) : (
-              <CreditCard className="w-3.5 h-3.5" />
+              <CreditCard className="w-3.5 h-3.5" aria-hidden="true" />
             )}
             {subscriptionTier === 'pro' ? 'Pro' : subscriptionTier === 'enterprise' ? 'Enterprise' : 'Free'}
           </Link>

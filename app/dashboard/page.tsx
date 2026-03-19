@@ -70,6 +70,7 @@ export default async function DashboardPage() {
       {/* Background Grid Pattern */}
       <div
         className="fixed inset-0 opacity-10 pointer-events-none"
+        aria-hidden="true"
         style={{
           backgroundImage: `
             repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.05) 80px, rgba(255,255,255,0.05) 81px),
@@ -92,7 +93,7 @@ export default async function DashboardPage() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-950/50 mt-16">
+      <footer className="border-t border-slate-800 bg-slate-950/50 mt-16" role="contentinfo">
         <div className="container mx-auto px-6 py-8">
           <div className="text-center text-sm text-slate-500">
             <p>&copy; {new Date().getFullYear()} TaxBridge. Built for tech workers navigating cross-border taxation.</p>

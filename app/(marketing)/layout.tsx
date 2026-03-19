@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Inter } from 'next/font/google';
+import { SkipLink } from '@/components/ui/skip-link';
 import '../globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -13,13 +14,14 @@ export default function MarketingLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+          <SkipLink />
           {/* Header */}
           <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
             <div className="container mx-auto flex h-16 items-center justify-between px-6">
               <Link href="/" className="flex items-center space-x-2">
                 <div className="text-2xl font-bold text-emerald-500">TaxBridge</div>
               </Link>
-              <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+              <nav aria-label="Main navigation" className="hidden md:flex items-center space-x-6 text-sm font-medium">
                 <Link
                   href="/us-canada-tax-calculator"
                   className="text-slate-300 hover:text-emerald-400 transition-colors"
@@ -49,10 +51,10 @@ export default function MarketingLayout({
           </header>
 
           {/* Main Content */}
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
 
           {/* Footer */}
-          <footer className="border-t border-slate-800 bg-slate-950/50">
+          <footer className="border-t border-slate-800 bg-slate-950/50" role="contentinfo">
             <div className="container mx-auto px-6 py-12">
               <div className="grid md:grid-cols-4 gap-8 mb-8">
                 <div className="col-span-2 md:col-span-1">

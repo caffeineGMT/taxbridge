@@ -19,9 +19,9 @@ export default function Home() {
 
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-6">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-emerald-500">TaxBridge</div>
+            <div className="text-xl sm:text-2xl font-bold text-emerald-500">TaxBridge</div>
           </div>
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <Link href="#features" className="text-slate-300 hover:text-emerald-400 transition-colors">
@@ -39,35 +39,35 @@ export default function Home() {
 
       <main className="relative">
         {/* Hero Section */}
-        <section className="container mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-100 leading-tight">
+        <section className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-12 sm:pb-16 md:pt-32 md:pb-24">
+          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-100 leading-tight px-2">
               Simplify Your
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
                 Cross-Border Tax Filing
               </span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto px-4">
               Built for H-1B and TN visa tech workers with US RSUs now living in Canada.
               Navigate dual-country taxation with confidence.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Link href="/dashboard">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center pt-4 px-4">
+              <Link href="/dashboard" className="w-full sm:w-auto">
                 <Button
                   size="lg"
-                  className="group bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-lg px-8 py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20"
+                  className="w-full sm:w-auto group bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20"
                 >
                   Get Started
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="#features">
+              <Link href="#features" className="w-full sm:w-auto">
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-slate-700 hover:border-emerald-500 hover:bg-slate-800 text-slate-100 text-lg px-8 py-6 transition-all"
+                  className="w-full sm:w-auto border-slate-700 hover:border-emerald-500 hover:bg-slate-800 text-slate-100 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all"
                 >
                   Learn More
                 </Button>
@@ -77,21 +77,21 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="container mx-auto px-6 py-16 md:py-24">
+        <section id="features" className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-100 text-center mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-100 text-center mb-8 sm:mb-12">
               Everything You Need
             </h2>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {/* Feature Card 1: RSU Calculator */}
               <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <Calculator className="h-6 w-6 text-slate-950" />
                   </div>
-                  <CardTitle className="text-xl text-slate-100">RSU Calculator</CardTitle>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                  <CardTitle className="text-lg sm:text-xl text-slate-100">RSU Calculator</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-slate-400 leading-relaxed">
                     Track vesting events with automatic FMV calculation. Enter date, shares, and employer
                     (Meta, Amazon, Google, Microsoft) for instant valuation.
                   </CardDescription>
@@ -100,12 +100,12 @@ export default function Home() {
 
               {/* Feature Card 2: Tax Optimizer */}
               <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 cursor-pointer">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <TrendingUp className="h-6 w-6 text-slate-950" />
                   </div>
-                  <CardTitle className="text-xl text-slate-100">Tax Optimizer</CardTitle>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                  <CardTitle className="text-lg sm:text-xl text-slate-100">Tax Optimizer</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-slate-400 leading-relaxed">
                     Calculate US federal & state plus Canada federal & provincial tax on RSU income.
                     Foreign Tax Credit optimizer eliminates double taxation.
                   </CardDescription>
@@ -114,12 +114,12 @@ export default function Home() {
 
               {/* Feature Card 3: Forms Checklist */}
               <Card className="group border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:-translate-y-2 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/10 cursor-pointer">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                     <FileText className="h-6 w-6 text-slate-950" />
                   </div>
-                  <CardTitle className="text-xl text-slate-100">Forms Checklist</CardTitle>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed">
+                  <CardTitle className="text-lg sm:text-xl text-slate-100">Forms Checklist</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-slate-400 leading-relaxed">
                     Complete checklist for required forms: W-2, 1040/1040-NR, T1, T4, FBAR, Form 8938,
                     and Treaty Article XV Form 8833.
                   </CardDescription>
@@ -130,23 +130,23 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="container mx-auto px-6 py-16 md:py-24">
+        <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-100 mb-4">
                 Trusted by Tech Workers Across North America
               </h2>
-              <p className="text-lg text-slate-400">
+              <p className="text-base sm:text-lg text-slate-400">
                 Real results from beta users who saved thousands in double taxation
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Testimonial 1 */}
               <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
                       P
                     </div>
                     <div>
@@ -172,9 +172,9 @@ export default function Home() {
 
               {/* Testimonial 2 */}
               <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
                       D
                     </div>
                     <div>
@@ -200,9 +200,9 @@ export default function Home() {
 
               {/* Testimonial 3 */}
               <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm hover:border-emerald-500 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
                       M
                     </div>
                     <div>
@@ -223,8 +223,8 @@ export default function Home() {
               </Card>
             </div>
 
-            <div className="mt-8 text-center">
-              <Link href="/pricing" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-2 transition-colors">
+            <div className="mt-6 sm:mt-8 text-center">
+              <Link href="/pricing" className="text-emerald-400 hover:text-emerald-300 font-medium inline-flex items-center gap-2 transition-colors text-sm sm:text-base">
                 Read more success stories
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -233,21 +233,21 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto px-6 py-16 md:py-24">
+        <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
           <div className="max-w-4xl mx-auto">
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-600 p-12 text-center">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-600 p-8 sm:p-12 text-center">
               <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
                   Ready to Simplify Your Taxes?
                 </h2>
-                <p className="text-lg text-emerald-50 mb-8 max-w-2xl mx-auto">
+                <p className="text-base sm:text-lg text-emerald-50 mb-6 sm:mb-8 max-w-2xl mx-auto">
                   Join tech workers across North America who trust TaxBridge for accurate
                   cross-border tax calculations.
                 </p>
                 <Link href="/dashboard">
                   <Button
                     size="lg"
-                    className="bg-white hover:bg-slate-100 text-emerald-600 font-semibold text-lg px-8 py-6 transition-all hover:scale-105 hover:shadow-xl"
+                    className="w-full sm:w-auto bg-white hover:bg-slate-100 text-emerald-600 font-semibold text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl"
                   >
                     Start Calculating Now
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -265,10 +265,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-slate-800 bg-slate-950/50">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+        <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
             <div className="col-span-2 md:col-span-1">
-              <div className="text-2xl font-bold text-emerald-500 mb-4">TaxBridge</div>
+              <div className="text-xl sm:text-2xl font-bold text-emerald-500 mb-4">TaxBridge</div>
               <p className="text-sm text-slate-400">
                 Cross-border tax calculations made simple for tech workers.
               </p>
@@ -299,7 +299,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
+          <div className="pt-6 sm:pt-8 border-t border-slate-800 text-center text-sm text-slate-500">
             <p>&copy; {new Date().getFullYear()} TaxBridge. Built for tech workers navigating cross-border taxation.</p>
           </div>
         </div>

@@ -79,19 +79,27 @@ const FormLabel = React.forwardRef<
 FormLabel.displayName = 'FormLabel';
 
 const FormControl = React.forwardRef<
-  React.ElementRef<'div'>,
+  HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => {
+>(({ children, ...props }, ref) => {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
+  // Clone aria attributes onto child input/select elements for proper screen reader association
+  const ariaProps = {
+    id: formItemId,
+    'aria-describedby': !error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`,
+    'aria-invalid': !!error,
+  };
+
   return (
-    <div
-      ref={ref}
-      id={formItemId}
-      aria-describedby={!error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`}
-      aria-invalid={!!error}
-      {...props}
-    />
+    <div ref={ref} {...props}>
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, ariaProps as any);
+        }
+        return child;
+      })}
+    </div>
   );
 });
 FormControl.displayName = 'FormControl';
@@ -128,6 +136,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
+      role="alert"
       className={cn('text-sm font-medium text-destructive', className)}
       {...props}
     >

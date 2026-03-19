@@ -9,6 +9,7 @@ import PostHogProvider from '@/components/PostHogProvider';
 import { Toaster } from '@/components/ui/toaster';
 import WebVitalsTracker from '@/components/WebVitalsTracker';
 import Script from 'next/script';
+import { SkipLink } from '@/components/ui/skip-link';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -77,11 +78,13 @@ export default function RootLayout({
               height="1"
               width="1"
               style={{ display: 'none' }}
+              alt=""
               src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
             />
           </noscript>
         </head>
         <body className={inter.className}>
+          <SkipLink />
           <Suspense fallback={null}>
             <PostHogProvider />
             <ReferralTracker />
