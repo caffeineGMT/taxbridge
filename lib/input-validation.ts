@@ -2,6 +2,12 @@
  * Input validation and sanitization utilities for numeric and currency inputs
  * Handles edge cases: empty inputs, non-numeric values, copy-paste with special chars,
  * negative numbers, and extreme values
+ *
+ * BUG FIX (2026-03-19): Fixed order of operations in sanitizeCurrencyInput
+ * - Normalize minus sign BEFORE decimal point handling
+ * - Re-split parts after normalizing to ensure consistent state
+ * - This fixes issues with: double negatives (--100), negative decimals (-100.555),
+ *   and combinations with currency symbols (-$5,000.555)
  */
 
 export interface SanitizeOptions {
@@ -77,16 +83,18 @@ export function sanitizeCurrencyInput(
   // Step 6: Remove all non-numeric characters except decimal point and minus
   cleaned = cleaned.replace(/[^0-9.-]/g, '');
 
-  // Step 7: Ensure only one decimal point
-  const parts = cleaned.split('.');
+  // Step 7: Ensure only one minus sign at the start (do this BEFORE decimal handling)
+  if (isNegative) {
+    cleaned = '-' + cleaned.replace(/-/g, '');
+  }
+
+  // Step 8: Ensure only one decimal point
+  let parts = cleaned.split('.');
   if (parts.length > 2) {
     // Multiple decimal points - keep first decimal point and only first decimal part
     cleaned = parts[0] + '.' + parts[1];
-  }
-
-  // Step 8: Ensure only one minus sign at the start
-  if (isNegative) {
-    cleaned = '-' + cleaned.replace(/-/g, '');
+    // Re-split after cleaning
+    parts = cleaned.split('.');
   }
 
   // Step 9: Reject trailing decimal point without digits
