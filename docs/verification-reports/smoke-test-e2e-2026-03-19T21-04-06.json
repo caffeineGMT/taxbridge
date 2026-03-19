@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-03-19T21:04:06.629Z",
+  "productionURL": "https://taxbridge.vercel.app",
+  "totalDuration": 4865,
+  "summary": {
+    "total": 4,
+    "passed": 1,
+    "failed": 3,
+    "blocked": 0
+  },
+  "results": [
+    {
+      "name": "Calculator Functionality",
+      "status": "FAIL",
+      "duration": 1302,
+      "error": "Unexpected page title: TaxBridge Admin Dashboard",
+      "screenshot": "1-calculator-functionality-FAILED.png",
+      "details": [
+        "Error: Unexpected page title: TaxBridge Admin Dashboard"
+      ]
+    },
+    {
+      "name": "Signup Flow",
+      "status": "FAIL",
+      "duration": 894,
+      "error": "No signup form detected (neither Clerk nor custom form)",
+      "screenshot": "2-signup-flow-FAILED.png",
+      "details": [
+        "Error: No signup form detected (neither Clerk nor custom form)"
+      ]
+    },
+    {
+      "name": "Payment Processing",
+      "status": "FAIL",
+      "duration": 669,
+      "error": "locator.count: Unexpected token \"text(\" while parsing css selector \"[data-testid=\"pricing-card\"], .pricing-card, article:has(text(/\\$/))\". Did you mean to CSS.escape it?",
+      "screenshot": "3-payment-processing-FAILED.png",
+      "details": [
+        "Error: locator.count: Unexpected token \"text(\" while parsing css selector \"[data-testid=\"pricing-card\"], .pricing-card, article:has(text(/\\$/))\". Did you mean to CSS.escape it?"
+      ]
+    },
+    {
+      "name": "Dashboard Access",
+      "status": "PASS",
+      "duration": 1252,
+      "screenshot": "4-dashboard-access.png",
+      "details": [
+        "✓ Dashboard route accessible",
+        "✓ Current URL: https://taxbridge.vercel.app/dashboard",
+        "✓ Dashboard page rendered",
+        "✓ Navigation present",
+        "✓ Main content area present"
+      ]
+    }
+  ],
+  "screenshotDirectory": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/smoke-test-e2e/2026-03-19T21-04-01"
+}
