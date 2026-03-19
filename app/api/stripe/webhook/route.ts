@@ -150,6 +150,72 @@ export async function POST(req: NextRequest) {
           stripe_customer_id: session.customer,
         });
 
+        // Track standard PostHog checkout events
+        if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+          try {
+            const revenueAmount = session.amount_total ? session.amount_total / 100 : (tier === 'pro' ? 20 : 100);
+
+            // Track checkout_completed event
+            const checkoutCompletedEvent = {
+              api_key: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+              event: 'checkout_completed',
+              properties: {
+                distinct_id: userId,
+                plan: tier,
+                revenue: revenueAmount,
+                currency: 'USD',
+                funnelStep: 'Payment Success',
+                funnelStepNumber: 7,
+                stripe_customer_id: session.customer,
+                stripe_session_id: session.id,
+              },
+              timestamp: new Date().toISOString(),
+            };
+
+            await fetch('https://app.posthog.com/capture/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(checkoutCompletedEvent),
+            });
+
+            // Track subscription_activated event
+            const subscriptionActivatedEvent = {
+              api_key: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+              event: 'subscription_activated',
+              properties: {
+                distinct_id: userId,
+                plan: tier,
+                revenue: revenueAmount,
+                currency: 'USD',
+                billingInterval: 'annual',
+                stripe_customer_id: session.customer,
+                stripe_subscription_id: session.subscription,
+                $set: {
+                  subscription_tier: tier,
+                  subscription_status: 'active',
+                },
+              },
+              timestamp: new Date().toISOString(),
+            };
+
+            await fetch('https://app.posthog.com/capture/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(subscriptionActivatedEvent),
+            });
+
+            logger.info('PostHog events tracked', {
+              userId,
+              events: ['checkout_completed', 'subscription_activated'],
+            });
+          } catch (analyticsError) {
+            // Don't fail webhook if analytics fails
+            logger.warn('PostHog tracking failed', {
+              error: analyticsError instanceof Error ? analyticsError : new Error(String(analyticsError)),
+            });
+          }
+        }
+
         // Track affiliate referral if present
         await trackAffiliateReferral(session, parseInt(userId));
 

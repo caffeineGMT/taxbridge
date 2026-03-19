@@ -51,7 +51,7 @@ const FUNNEL_STEPS = [
 /**
  * Analyze funnel drop-off points
  */
-export async function analyzeFunnel(
+async function analyzeFunnel(
   data: FunnelStep[]
 ): Promise<FunnelAnalysis> {
   const totalVisitors = data[0]?.count || 0;

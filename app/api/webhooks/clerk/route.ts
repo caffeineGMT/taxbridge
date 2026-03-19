@@ -50,13 +50,47 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
-    const { id, email_addresses } = evt.data;
+    const { id, email_addresses, created_at } = evt.data;
     const primaryEmail = email_addresses.find((email) => email.id === evt.data.primary_email_address_id);
 
     // Create user profile in database
     try {
       createUserProfile(id, primaryEmail?.email_address);
       console.log('✓ User profile created:', id);
+
+      // Track signup completion in PostHog (server-side)
+      if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        try {
+          const event = {
+            api_key: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+            event: 'signup_completed',
+            properties: {
+              distinct_id: id,
+              email: primaryEmail?.email_address,
+              source: 'clerk_webhook',
+              timestamp: created_at ? new Date(created_at).toISOString() : new Date().toISOString(),
+              $set: {
+                email: primaryEmail?.email_address,
+              },
+            },
+            timestamp: created_at ? new Date(created_at).toISOString() : new Date().toISOString(),
+          };
+
+          // Send to PostHog API (server-side capture)
+          await fetch('https://app.posthog.com/capture/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(event),
+          });
+
+          console.log('✓ PostHog signup_completed tracked:', id);
+        } catch (analyticsError) {
+          // Don't fail webhook if analytics fails
+          console.warn('PostHog tracking failed:', analyticsError);
+        }
+      }
     } catch (error) {
       console.error('Error creating user profile:', error);
       return new Response('Error creating user profile', { status: 500 });
