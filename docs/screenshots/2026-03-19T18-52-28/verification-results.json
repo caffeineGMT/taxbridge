@@ -1,0 +1,52 @@
+[
+  {
+    "name": "homepage",
+    "url": "https://taxbridge.vercel.app",
+    "status": "200",
+    "loadTime": 1026,
+    "title": "TaxBridge Admin Dashboard",
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T18-52-28/homepage.png",
+    "screenshotSize": 204733,
+    "timestamp": "2026-03-19T18:52:31.494Z"
+  },
+  {
+    "name": "calculator",
+    "url": "https://taxbridge.vercel.app/calculator",
+    "status": "404",
+    "loadTime": 657,
+    "title": "TaxBridge Admin Dashboard",
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T18-52-28/calculator.png",
+    "screenshotSize": 37060,
+    "timestamp": "2026-03-19T18:52:33.228Z"
+  },
+  {
+    "name": "pricing",
+    "url": "https://taxbridge.vercel.app/pricing",
+    "status": "404",
+    "loadTime": 715,
+    "title": "TaxBridge Admin Dashboard",
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T18-52-28/pricing.png",
+    "screenshotSize": 37060,
+    "timestamp": "2026-03-19T18:52:35.017Z"
+  },
+  {
+    "name": "dashboard",
+    "url": "https://taxbridge.vercel.app/dashboard",
+    "status": "200",
+    "loadTime": 1181,
+    "title": "TaxBridge Admin Dashboard",
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T18-52-28/dashboard.png",
+    "screenshotSize": 242539,
+    "timestamp": "2026-03-19T18:52:37.310Z"
+  },
+  {
+    "name": "signup",
+    "url": "https://taxbridge.vercel.app/sign-up",
+    "status": "404",
+    "loadTime": 1239,
+    "title": "TaxBridge Admin Dashboard",
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T18-52-28/signup.png",
+    "screenshotSize": 37060,
+    "timestamp": "2026-03-19T18:52:39.625Z"
+  }
+]

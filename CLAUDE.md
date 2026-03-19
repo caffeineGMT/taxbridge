@@ -37,24 +37,40 @@ This auto-captures: screenshots, deployment status, build results, test results,
 
 ## DEPLOYMENT WORKFLOW [CRITICAL - FOLLOW EXACTLY]
 
-**GitHub is the STAGING environment. Manual deployment to production only.**
+**⚠️ CRITICAL: Pushing to GitHub = Deploying to Production**
+
+**GitHub `main` branch is connected to Vercel production. Every push automatically deploys within 2-5 minutes.**
 
 ### Required Workflow:
 1. **Write code** - Make your changes
 2. **Verify build** - Run `npm run build` to ensure ZERO errors
 3. **Fix errors** - Address any build failures before proceeding
 4. **Commit** - `git add` and `git commit` your changes
-5. **Push to GitHub** - `git push origin main`
-6. **STOP** - Deployment to Vercel/production will be done manually by Michael
+5. **✅ PUSH TO GITHUB** - `git push origin main` ← **THIS DEPLOYS TO PRODUCTION**
+6. **Verify deployment** - Check https://vercel.com/caffeineGMT/taxbridge/deployments
 
 ### Strict Rules:
-- ✅ DO push all code to GitHub
+- ✅ **ALWAYS push to GitHub** after committing (required for deployment)
 - ✅ DO run `npm run build` to verify no errors before committing
+- ✅ DO verify Vercel deployment succeeds after pushing
 - ❌ NEVER run `vercel`, `vercel deploy`, or any Vercel CLI commands
-- ❌ NEVER auto-deploy to any hosting platform
+- ❌ NEVER skip the push step (code not pushed = NOT deployed)
 - ❌ NEVER skip the build verification step
 
-All production deployments are handled manually. Your job is to get working, error-free code onto GitHub.
+**IMPORTANT**: "Code committed locally" ≠ "Code deployed". You MUST push to GitHub for code to reach production.
+
+### Why This Matters
+
+**Before March 19, 2026**: Engineers committed code but didn't push → Same bugs "fixed" 6 times → 12 hours wasted.
+
+**Deployment Flow**:
+```
+Local Commit → git push → GitHub → Vercel Auto-Deploy → Production (2-5 min)
+              ^^^^^^^^
+         REQUIRED STEP - Don't skip this!
+```
+
+If you mark a task "DONE" without pushing to GitHub, the code is NOT in production and the task is NOT actually complete.
 
 ---
 
