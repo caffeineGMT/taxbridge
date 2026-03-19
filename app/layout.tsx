@@ -119,10 +119,14 @@ export default function RootLayout({
           {/* Preconnect to critical third-party origins for faster handshake */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link rel="preconnect" href="https://clerk.com" />
+          <link rel="preconnect" href="https://js.stripe.com" />
 
-          {/* DNS prefetch for analytics domains — resolves DNS early without full connection */}
+          {/* DNS prefetch for analytics and auth domains — resolves DNS early without full connection */}
           <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
           <link rel="dns-prefetch" href="https://connect.facebook.net" />
+          <link rel="dns-prefetch" href="https://us.i.posthog.com" />
+          <link rel="dns-prefetch" href="https://vercel-insights.com" />
 
           {/* Google Ads — lazyOnload: loads after everything else, doesn't block LCP */}
           <Script
