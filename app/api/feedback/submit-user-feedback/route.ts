@@ -13,6 +13,7 @@ import {
 } from '@/lib/email/user-feedback-templates';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -184,7 +185,7 @@ export async function POST(req: NextRequest) {
           dynamicData: thankYouData,
         });
 
-        console.log(`[FEEDBACK] Sent thank you email with gift card to ${incentive_email}`);
+        logger.info(`[FEEDBACK] Sent thank you email with gift card to ${incentive_email}`);
       } catch (error: any) {
         // console.error('[FEEDBACK] Gift card generation/email failed:', error);
         // Don't fail the whole request if gift card fails
@@ -203,7 +204,7 @@ export async function POST(req: NextRequest) {
         WHERE id = $2
       `, [Math.floor(Date.now() / 1000), campaign_id]);
 
-      console.log(`[FEEDBACK CAMPAIGN] Campaign ${campaign_id} completed - reached ${campaign.target_responses} responses`);
+      logger.info(`[FEEDBACK CAMPAIGN] Campaign ${campaign_id} completed - reached ${campaign.target_responses} responses`);
     }
 
     return NextResponse.json({

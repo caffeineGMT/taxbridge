@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { trackEmailConversion } from '@/lib/db/queries/reengagement-campaign';
 import { getUserProfileByClerkId } from '@/lib/db';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 // Configure route as dynamic
 export const dynamic = 'force-dynamic';
@@ -72,7 +73,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (success) {
-      console.log(`✅ Email conversion tracked: User ${resolvedUserId} - ${conversionType} - $${revenueAmount}`);
+      logger.info(`✅ Email conversion tracked: User ${resolvedUserId} - ${conversionType} - $${revenueAmount}`);
 
       return NextResponse.json({
         success: true,

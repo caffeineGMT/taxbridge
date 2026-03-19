@@ -5,6 +5,7 @@
  */
 
 import { getDatabase } from '@/lib/db';
+import { logger } from '@/lib/logger';
 
 export interface ConversionData {
   userId: number;
@@ -81,7 +82,7 @@ export function trackEmailConversion(data: ConversionData): boolean {
       updateStmt.run(emailEvent.id);
     }
 
-    console.log(`✓ Conversion tracked for user ${data.userId} (email event: ${emailEvent?.id || 'none'})`);
+    logger.info(`✓ Conversion tracked for user ${data.userId} (email event: ${emailEvent?.id || 'none'})`);
     return true;
   } catch (error) {
     console.error('Error tracking email conversion:', error);

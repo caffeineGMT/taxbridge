@@ -12,6 +12,7 @@ import {
   getAffiliateBySlug,
 } from '@/lib/db/queries/influencer-affiliates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -99,7 +100,7 @@ export async function POST(req: NextRequest) {
       payout_method: payout_method || 'stripe',
     });
 
-    console.log(
+    logger.info(
       `[Affiliate] New influencer application: ${firm_name} (${email}), platform: ${platform}, audience: ${audience_size}`
     );
 

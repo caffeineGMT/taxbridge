@@ -1,3 +1,4 @@
+import { logger } from '@/lib/logger';
 import {
   getDatabase,
   insertRSUEntry,
@@ -14,11 +15,11 @@ import {
 export async function seedDatabase(): Promise<void> {
   const db = getDatabase();
 
-  console.log('🌱 Seeding database with sample data...');
+  logger.info('🌱 Seeding database with sample data...');
 
   // Get or create default user
   const user = await getOrCreateDefaultUser();
-  console.log(`✓ User profile created: ${user.first_name} ${user.last_name} (ID: ${user.id})`);
+  logger.info(`✓ User profile created: ${user.first_name} ${user.last_name} (ID: ${user.id})`);
 
   // Cache some exchange rates
   const exchangeRates = [
@@ -32,7 +33,7 @@ export async function seedDatabase(): Promise<void> {
   exchangeRates.forEach(({ date, rate }) => {
     cacheExchangeRate(date, rate);
   });
-  console.log(`✓ Cached ${exchangeRates.length} exchange rates`);
+  logger.info(`✓ Cached ${exchangeRates.length} exchange rates`);
 
   // Sample RSU entries
   const rsuEntries: RSUEntryInput[] = [
@@ -83,7 +84,7 @@ export async function seedDatabase(): Promise<void> {
     const entry = rsuEntries[index];
     const id = await insertRSUEntry(entry);
     rsuIds.push(id);
-    console.log(`✓ RSU entry ${index + 1}: ${entry.employer} - ${entry.shares} shares @ $${entry.fmv_usd} on ${entry.vest_date}`);
+    logger.info(`✓ RSU entry ${index + 1}: ${entry.employer} - ${entry.shares} shares @ $${entry.fmv_usd} on ${entry.vest_date}`);
   }
 
   // Sample tax calculations for each RSU entry
@@ -137,10 +138,10 @@ export async function seedDatabase(): Promise<void> {
     };
 
     await insertTaxCalculation(taxCalc);
-    console.log(`  ↳ Tax calculation: Net ${netTaxPayable.toFixed(2)} CAD (${effectiveRate.toFixed(2)}% effective rate)`);
+    logger.info(`  ↳ Tax calculation: Net ${netTaxPayable.toFixed(2)} CAD (${effectiveRate.toFixed(2)}% effective rate)`);
   }
 
-  console.log('\n✨ Database seeding completed successfully!\n');
+  logger.info('\n✨ Database seeding completed successfully!\n');
 }
 
 // Allow running this file directly

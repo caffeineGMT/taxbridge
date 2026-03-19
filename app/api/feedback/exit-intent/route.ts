@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Store in database (using Prisma/your DB client)
-    console.log('Exit Intent Feedback received:', {
+    logger.info('Exit Intent Feedback received:', {
       userId: userId || 'anonymous',
       reason,
       email,

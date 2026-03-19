@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import Database from 'better-sqlite3';
 import { buildUTMLink, PRODUCT_URL } from './config';
+import { logger } from '@/lib/logger';
 
 export interface UltimateGuide {
   id?: number;
@@ -25,7 +26,7 @@ export class UltimateGuideGenerator {
   }
 
   async generateGuide(subreddit: string, topic: string): Promise<UltimateGuide> {
-    console.log(`📝 Generating Ultimate Guide for r/${subreddit}: "${topic}"`);
+    logger.info(`📝 Generating Ultimate Guide for r/${subreddit}: "${topic}"`);
 
     const systemPrompt = `You are a cross-border tax expert creating comprehensive Reddit guides.
 
@@ -132,9 +133,9 @@ The product mention should be natural, like:
 
     guide.id = result.lastInsertRowid as number;
 
-    console.log(`✅ Guide generated and saved (ID: ${guide.id})`);
-    console.log(`   Title: "${title}"`);
-    console.log(`   Length: ${guideContent.length} characters`);
+    logger.info(`✅ Guide generated and saved (ID: ${guide.id})`);
+    logger.info(`   Title: "${title}"`);
+    logger.info(`   Length: ${guideContent.length} characters`);
 
     return guide;
   }
@@ -165,7 +166,7 @@ The product mention should be natural, like:
       WHERE id = ?
     `).run(scheduledFor.toISOString(), guideId);
 
-    console.log(`✅ Guide ${guideId} scheduled for ${scheduledFor.toISOString()}`);
+    logger.info(`✅ Guide ${guideId} scheduled for ${scheduledFor.toISOString()}`);
   }
 
   close() {

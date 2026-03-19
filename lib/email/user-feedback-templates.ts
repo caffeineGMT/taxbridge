@@ -337,7 +337,7 @@ export async function generateFeedbackGiftCard(params: {
 
   const code = `TXBR-FEEDBACK-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
 
-  console.log(`[GIFT CARD] Generated $${params.amount} gift card for ${params.recipientEmail} (${params.recipientName}): ${code}`);
+  logger.info(`[GIFT CARD] Generated $${params.amount} gift card for ${params.recipientEmail} (${params.recipientName}): ${code}`);
 
   // TODO: Store in database for tracking and audit trail
   return code;
@@ -354,5 +354,5 @@ export async function logFeedbackEmailSent(params: {
   templateId: string;
 }): Promise<void> {
   // This would insert into feedback_email_tracking table
-  console.log(`[FEEDBACK EMAIL] Logged email sent to ${params.email} for campaign ${params.campaignId}`);
+  logger.info(`[FEEDBACK EMAIL] Logged email sent to ${params.email} for campaign ${params.campaignId}`);
 }

@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import Database from 'better-sqlite3';
 import { buildUTMLink, PRODUCT_URL } from './config';
+import { logger } from '@/lib/logger';
 
 export interface CommentDraft {
   postId: string;
@@ -106,7 +107,7 @@ Your response should be ONLY the comment text, ready to post.`;
       } | undefined;
 
       if (!post) {
-        console.log(`⚠️  Post ${redditId} not found in database`);
+        logger.info(`⚠️  Post ${redditId} not found in database`);
         continue;
       }
 
@@ -117,8 +118,8 @@ Your response should be ONLY the comment text, ready to post.`;
       // Decide whether to include link (50% chance for natural distribution)
       const includeLink = Math.random() > 0.5;
 
-      console.log(`\n🤖 Generating comment for: "${post.title}"`);
-      console.log(`   Include link: ${includeLink ? 'YES' : 'NO'}`);
+      logger.info(`\n🤖 Generating comment for: "${post.title}"`);
+      logger.info(`   Include link: ${includeLink ? 'YES' : 'NO'}`);
 
       const commentText = await this.generateComment(
         post.title,
@@ -168,7 +169,7 @@ Your response should be ONLY the comment text, ready to post.`;
       );
 
       drafts.push(draft);
-      console.log(`   ✅ Draft saved for review`);
+      logger.info(`   ✅ Draft saved for review`);
     }
 
     return drafts;

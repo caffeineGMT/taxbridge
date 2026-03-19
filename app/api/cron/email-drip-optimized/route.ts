@@ -11,6 +11,7 @@ import {
   type EmailVariant,
 } from '@/lib/email/enhanced-nurture-templates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
@@ -97,7 +98,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log('🚀 Starting OPTIMIZED 7-day email drip campaign with A/B testing...');
+  logger.info('🚀 Starting OPTIMIZED 7-day email drip campaign with A/B testing...');
 
   const results = {
     timestamp: new Date().toISOString(),
@@ -120,11 +121,11 @@ export async function GET(request: NextRequest) {
 
   // Process each drip email type
   for (const config of DRIP_CONFIGS) {
-    console.log(`\n📧 Processing ${config.description}...`);
+    logger.info(`\n📧 Processing ${config.description}...`);
 
     // Get eligible users
     const eligibleUsers = getUsersForDripEmail(config.eventType, config.dayOffset);
-    console.log(`   Found ${eligibleUsers.length} eligible users`);
+    logger.info(`   Found ${eligibleUsers.length} eligible users`);
 
     let sent = 0;
     let failed = 0;
@@ -209,7 +210,7 @@ export async function GET(request: NextRequest) {
             variantBCount++;
           }
 
-          console.log(`   ✓ Sent to ${user.email} (Variant ${variant})`);
+          logger.info(`   ✓ Sent to ${user.email} (Variant ${variant})`);
         } else {
           failed++;
           // console.error(`   ✗ Failed to send to ${user.email}`);
@@ -240,14 +241,14 @@ export async function GET(request: NextRequest) {
     results.totalVariantA += variantACount;
     results.totalVariantB += variantBCount;
 
-    console.log(`   📊 ${config.description}:`);
-    console.log(`      Total: ${sent} sent, ${failed} failed, ${skipped} skipped`);
-    console.log(`      A/B: ${variantACount} Variant A, ${variantBCount} Variant B`);
+    logger.info(`   📊 ${config.description}:`);
+    logger.info(`      Total: ${sent} sent, ${failed} failed, ${skipped} skipped`);
+    logger.info(`      A/B: ${variantACount} Variant A, ${variantBCount} Variant B`);
   }
 
-  console.log(`\n✅ Optimized drip campaign completed:`);
-  console.log(`   ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`);
-  console.log(`   A/B Split: ${results.totalVariantA} Variant A, ${results.totalVariantB} Variant B`);
+  logger.info(`\n✅ Optimized drip campaign completed:`);
+  logger.info(`   ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`);
+  logger.info(`   A/B Split: ${results.totalVariantA} Variant A, ${results.totalVariantB} Variant B`);
 
   return NextResponse.json(results);
 }

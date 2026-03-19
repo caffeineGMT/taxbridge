@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { logger } from '@/lib/logger';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -98,7 +99,7 @@ export async function initializeDatabase(): Promise<void> {
   const schema = fs.readFileSync(schemaPath, 'utf-8');
   await query(schema);
 
-  console.log('✓ Database schema initialized successfully');
+  logger.info('✓ Database schema initialized successfully');
 }
 
 /**
@@ -123,7 +124,7 @@ export async function runMigrations(): Promise<void> {
   const migrationsDir = path.join(__dirname, 'postgres-migrations');
 
   if (!fs.existsSync(migrationsDir)) {
-    console.log('✓ No migrations to run');
+    logger.info('✓ No migrations to run');
     return;
   }
 
@@ -145,7 +146,7 @@ export async function runMigrations(): Promise<void> {
       continue; // Already applied
     }
 
-    console.log(`Running migration ${version}: ${file}`);
+    logger.info(`Running migration ${version}: ${file}`);
 
     const migrationPath = path.join(migrationsDir, file);
     const sql = fs.readFileSync(migrationPath, 'utf-8');
@@ -157,7 +158,7 @@ export async function runMigrations(): Promise<void> {
       await client.query(sql);
       await client.query('INSERT INTO schema_migrations (version) VALUES ($1)', [version]);
       await client.query('COMMIT');
-      console.log(`✓ Migration ${version} completed`);
+      logger.info(`✓ Migration ${version} completed`);
     } catch (error) {
       await client.query('ROLLBACK');
       throw new Error(`Migration ${version} failed: ${error}`);
@@ -166,7 +167,7 @@ export async function runMigrations(): Promise<void> {
     }
   }
 
-  console.log('✓ All migrations completed');
+  logger.info('✓ All migrations completed');
 }
 
 /**

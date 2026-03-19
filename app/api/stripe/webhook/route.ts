@@ -278,7 +278,7 @@ export async function POST(req: NextRequest) {
           subscription.id
         );
 
-        console.log(`✓ Subscription ${subscription.id} updated to status: ${subscription.status}`);
+        logger.info(`✓ Subscription ${subscription.id} updated to status: ${subscription.status}`);
         break;
       }
 
@@ -337,7 +337,7 @@ export async function POST(req: NextRequest) {
           userId: user?.id?.toString(),
         });
 
-        console.log(`✓ Subscription ${subscription.id} canceled, user downgraded to free`);
+        logger.info(`✓ Subscription ${subscription.id} canceled, user downgraded to free`);
         break;
       }
 

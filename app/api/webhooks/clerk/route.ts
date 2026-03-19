@@ -3,6 +3,7 @@ import { Webhook } from 'svix';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { createUserProfile, updateUserProfile, getUserProfileByClerkId } from '@/lib/db';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
     // Create user profile in database
     try {
       createUserProfile(id, primaryEmail?.email_address);
-      console.log('✓ User profile created:', id);
+      logger.info('✓ User profile created:', id);
 
       // Track signup completion in PostHog (server-side)
       if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -86,7 +87,7 @@ export async function POST(req: Request) {
             body: JSON.stringify(event),
           });
 
-          console.log('✓ PostHog signup_completed tracked:', id);
+          logger.info('✓ PostHog signup_completed tracked:', id);
         } catch (analyticsError) {
           // Don't fail webhook if analytics fails
           console.warn('PostHog tracking failed:', analyticsError);
@@ -111,11 +112,11 @@ export async function POST(req: Request) {
           first_name: first_name || undefined,
           last_name: last_name || undefined,
         });
-        console.log('✓ User profile updated:', id);
+        logger.info('✓ User profile updated:', id);
       } else {
         // Create if doesn't exist (safety fallback)
         createUserProfile(id, primaryEmail?.email_address);
-        console.log('✓ User profile created (via update event):', id);
+        logger.info('✓ User profile created (via update event):', id);
       }
     } catch (error) {
       // console.error('Error updating user profile:', error);

@@ -20,6 +20,7 @@ import {
   mapWebhookEventToProspectStatus,
 } from '@/lib/outreach/instantly-integration';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -56,13 +57,13 @@ export async function POST(req: NextRequest) {
 async function processEvent(event: InstantlyWebhookEvent) {
   const { event_type, lead, email, reply, timestamp } = event;
 
-  console.log(`[Webhook] ${event_type} for ${lead.email}`);
+  logger.info(`[Webhook] ${event_type} for ${lead.email}`);
 
   // Find prospect in database
   const prospect = getProspectByEmail(lead.email);
 
   if (!prospect) {
-    console.log(`[Webhook] Prospect not found: ${lead.email}`);
+    logger.info(`[Webhook] Prospect not found: ${lead.email}`);
     return NextResponse.json({
       received: true,
       matched: false,

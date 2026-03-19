@@ -7,6 +7,7 @@
 
 import { useEffect } from 'react';
 import { posthog } from 'posthog-js';
+import { logger } from '@/lib/logger';
 import {
   extractUTMParams,
   getStoredUTMParams,
@@ -114,7 +115,7 @@ export function trackGoogleAdsConversion({
   }
 
   // Console log for debugging (remove in production)
-  console.log('[Google Ads Conversion]', {
+  logger.info('[Google Ads Conversion]', {
     event,
     value: conversionValue,
     gclid,

@@ -1,4 +1,5 @@
 import sgMail from '@sendgrid/mail';
+import { logger } from '@/lib/logger';
 
 // Initialize SendGrid client
 const apiKey = process.env.SENDGRID_API_KEY;
@@ -58,7 +59,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
 
   try {
     await sgMail.send(msg);
-    console.log(`✓ Email sent to ${to} (${templateId ? `template: ${templateId}` : `subject: ${subject}`})`);
+    logger.info(`✓ Email sent to ${to} (${templateId ? `template: ${templateId}` : `subject: ${subject}`})`);
     return true;
   } catch (error: any) {
     console.error(`✗ Failed to send email to ${to}:`, error.response?.body || error.message);
@@ -96,7 +97,7 @@ export async function sendBulkEmails(emails: EmailParams[]): Promise<number> {
     try {
       await sgMail.send(messages);
       successCount += batch.length;
-      console.log(`✓ Sent batch of ${batch.length} emails (${i + batch.length}/${emails.length})`);
+      logger.info(`✓ Sent batch of ${batch.length} emails (${i + batch.length}/${emails.length})`);
     } catch (error: any) {
       console.error(`✗ Failed to send batch:`, error.response?.body || error.message);
     }

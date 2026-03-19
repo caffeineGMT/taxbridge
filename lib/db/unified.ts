@@ -10,12 +10,13 @@ import Database from 'better-sqlite3';
 import type { Database as SQLiteDatabase } from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
+import { logger } from '@/lib/logger';
 
 // Database type detection
 const IS_POSTGRES = !!process.env.DATABASE_URL;
 const IS_SQLITE = !IS_POSTGRES;
 
-console.log(`[DB] Using ${IS_POSTGRES ? 'PostgreSQL' : 'SQLite'} database`);
+logger.info(`[DB] Using ${IS_POSTGRES ? 'PostgreSQL' : 'SQLite'} database`);
 
 // SQLite singleton (for development)
 let sqliteDb: SQLiteDatabase | null = null;
@@ -208,7 +209,7 @@ export async function initializeDatabase(): Promise<void> {
     const schemaPath = path.join(process.cwd(), 'lib', 'db', 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf-8');
     db.exec(schema);
-    console.log('✓ SQLite database schema initialized successfully');
+    logger.info('✓ SQLite database schema initialized successfully');
   }
 }
 
@@ -230,7 +231,7 @@ export async function runMigrations(): Promise<void> {
       )
     `);
 
-    console.log('✓ SQLite migrations completed');
+    logger.info('✓ SQLite migrations completed');
   }
 }
 

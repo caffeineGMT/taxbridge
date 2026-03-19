@@ -5,6 +5,7 @@ import {
 } from '@/lib/db/queries/drip-campaign';
 import { isValidEmail } from '@/lib/email/sendgrid';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,7 +54,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`✓ User unsubscribed: ${email}`);
+    logger.info(`✓ User unsubscribed: ${email}`);
 
     return NextResponse.json({
       success: true,
@@ -97,7 +98,7 @@ export async function GET(request: NextRequest) {
     });
 
     if (success) {
-      console.log(`✓ User unsubscribed via GET: ${email}`);
+      logger.info(`✓ User unsubscribed via GET: ${email}`);
       return NextResponse.redirect(
         new URL(`/unsubscribe?email=${encodeURIComponent(email)}&success=true`, request.url)
       );

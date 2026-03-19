@@ -37,6 +37,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
+import { logger } from '@/lib/logger';
 
 interface Client {
   user_id: number;
@@ -244,7 +245,7 @@ export default function ClientDashboard({ initialClients }: ClientDashboardProps
       setInviteRole('client');
 
       // In production, this would be sent via email
-      console.log('Invite URL:', data.inviteUrl);
+      logger.info('Invite URL:', data.inviteUrl);
     } catch (error) {
       console.error('Invite error:', error);
       alert('Failed to send invitation');

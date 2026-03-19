@@ -15,6 +15,7 @@ import {
 } from '@/lib/email/customer-interview-templates';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -156,7 +157,7 @@ export async function POST(req: NextRequest) {
           status: 'invited',
         });
 
-        console.log(`[INTERVIEW INVITE] Sent to ${user.email} (interview #${interviewId})`);
+        logger.info(`[INTERVIEW INVITE] Sent to ${user.email} (interview #${interviewId})`);
 
       } catch (error: any) {
         // console.error(`[INTERVIEW INVITE] Failed for user ${user.id}:`, error);

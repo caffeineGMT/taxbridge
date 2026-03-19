@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getInactiveUsers, markUserContacted, wasRecentlyContacted } from '@/lib/analytics/retention';
 import { sendReengagementEmail } from '@/lib/email/reengagement-templates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,12 +19,12 @@ export async function POST(request: NextRequest) {
     // Get inactive users
     const inactiveUsers = getInactiveUsers(daysInactive);
 
-    console.log(`Found ${inactiveUsers.length} inactive users (${daysInactive}+ days)`);
+    logger.info(`Found ${inactiveUsers.length} inactive users (${daysInactive}+ days)`);
 
     // Filter out users who were recently contacted
     const usersToContact = inactiveUsers.filter(user => !wasRecentlyContacted(user.userId, 7));
 
-    console.log(`${usersToContact.length} users eligible for re-engagement (not contacted in last 7 days)`);
+    logger.info(`${usersToContact.length} users eligible for re-engagement (not contacted in last 7 days)`);
 
     // Limit to maxEmails to prevent email spam
     const limitedUsers = usersToContact.slice(0, maxEmails);

@@ -1,4 +1,5 @@
 import { getDatabase } from './db';
+import { logger } from '@/lib/logger';
 
 /**
  * Supported analytics event types
@@ -53,7 +54,7 @@ export async function trackEvent(
 ): Promise<void> {
   // Only track server-side to avoid "Module not found: Can't resolve 'fs'" error in client bundles
   if (typeof window !== 'undefined') {
-    console.log('[Analytics] Client-side event tracked (no DB):', eventName, { userId, metadata });
+    logger.info('[Analytics] Client-side event tracked (no DB):', eventName, { userId, metadata });
     return;
   }
 

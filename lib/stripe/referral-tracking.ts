@@ -18,6 +18,7 @@ import { getDatabase } from '../db';
 import { getReferralRewardEmailData, EMAIL_TEMPLATES } from '../email/templates';
 import Stripe from 'stripe';
 import sgMail from '@sendgrid/mail';
+import { logger } from '@/lib/logger';
 
 // Initialize SendGrid (only if API key exists)
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
@@ -42,7 +43,7 @@ export async function trackUserReferral(
   const referralCode = session.metadata?.user_referral_code;
 
   if (!referralCode) {
-    console.log('No user referral code in session metadata');
+    logger.info('No user referral code in session metadata');
     return;
   }
 
@@ -60,7 +61,7 @@ export async function trackUserReferral(
     return;
   }
 
-  console.log('Processing user referral:', {
+  logger.info('Processing user referral:', {
     referrer: referrer.id,
     referred: referredUserId,
     code: referralCode,
@@ -70,7 +71,7 @@ export async function trackUserReferral(
   const referralId = createReferral(referrer.id, referredUserId, referralCode);
 
   if (referralId === -1) {
-    console.log('Referral already exists');
+    logger.info('Referral already exists');
     return;
   }
 
@@ -84,7 +85,7 @@ export async function trackUserReferral(
   const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
   updateLeaderboardEntry(referrer.id, currentMonth);
 
-  console.log('✓ User referral tracked and rewarded:', { referralId, referrer: referrer.id });
+  logger.info('✓ User referral tracked and rewarded:', { referralId, referrer: referrer.id });
 }
 
 /**
@@ -118,7 +119,7 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
     referralId
   );
 
-  console.log('✓ Added $10 credit to referrer account:', {
+  logger.info('✓ Added $10 credit to referrer account:', {
     referrerId,
     amount: REFERRER_REWARD_AMOUNT,
     referralId,
@@ -130,7 +131,7 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
   // Send reward notification email
   await sendReferralRewardEmail(referrerId, referrer.email, referrer.first_name || 'there');
 
-  console.log('✓ Referral reward granted and email sent:', { referrerId, email: referrer.email });
+  logger.info('✓ Referral reward granted and email sent:', { referrerId, email: referrer.email });
 }
 
 /**
@@ -175,7 +176,7 @@ async function sendReferralRewardEmail(
     };
 
     await sgMail.send(msg);
-    console.log('[Referral Email] Reward email sent to:', email);
+    logger.info('[Referral Email] Reward email sent to:', email);
   } catch (error: any) {
     console.error('[Referral Email] Failed to send reward email:', error.response?.body || error.message);
     // Don't throw - email failure shouldn't block the reward

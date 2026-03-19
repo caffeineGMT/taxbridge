@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
+import { logger } from '@/lib/logger';
 
 interface CountdownTimerProps {
   expiryDate: string; // ISO 8601 date string
@@ -38,7 +39,7 @@ interface TimeRemaining {
  *   expiryDate="2026-03-25T23:59:59Z"
  *   label="HUNT20 discount expires in:"
  *   className="bg-amber-600 text-white"
- *   onExpire={() => console.log('Discount expired!')}
+ *   onExpire={() => logger.info('Discount expired!')}
  * />
  * ```
  */

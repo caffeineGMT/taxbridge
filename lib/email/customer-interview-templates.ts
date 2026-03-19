@@ -294,7 +294,7 @@ export async function generateGiftCard(params: {
   // For now, return a placeholder code
   const code = `TXBR-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
 
-  console.log(`[GIFT CARD] Generated $${params.amount} gift card for ${params.recipientEmail}: ${code}`);
+  logger.info(`[GIFT CARD] Generated $${params.amount} gift card for ${params.recipientEmail}: ${code}`);
 
   // TODO: Store in database for tracking
   return code;

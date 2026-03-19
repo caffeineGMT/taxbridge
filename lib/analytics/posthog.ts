@@ -13,6 +13,7 @@
  */
 
 import posthog from 'posthog-js';
+import { logger } from '@/lib/logger';
 
 export const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY || '';
 export const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com';
@@ -24,7 +25,7 @@ export function initPostHog() {
       api_host: POSTHOG_HOST,
       loaded: (posthog) => {
         if (process.env.NODE_ENV === 'development') {
-          console.log('[PostHog] Initialized');
+          logger.info('[PostHog] Initialized');
         }
       },
       capture_pageview: false, // We'll manually track pageviews for better control
@@ -167,7 +168,7 @@ export function trackEvent(
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('[PostHog]', eventName, properties);
+      logger.info('[PostHog]', eventName, properties);
     }
   }
 }
@@ -368,7 +369,7 @@ export function trackUTMAttribution(url?: string) {
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('[PostHog] UTM Attribution tracked:', utmParams);
+      logger.info('[PostHog] UTM Attribution tracked:', utmParams);
     }
   }
 }
@@ -394,7 +395,7 @@ export function trackRedditConversion(
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log('[PostHog] Reddit conversion tracked:', eventType, {
+      logger.info('[PostHog] Reddit conversion tracked:', eventType, {
         subreddit: utmParams.utm_term,
         content_type: utmParams.utm_content,
       });

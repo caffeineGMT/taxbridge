@@ -10,6 +10,7 @@
  */
 
 import sgMail from '@sendgrid/mail';
+import { logger } from '@/lib/logger';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
@@ -131,7 +132,7 @@ ${FROM_EMAIL}`;
       }
     });
 
-    console.log(`✅ Sent Email 1 to ${prospect.name} (${prospect.email})`);
+    logger.info(`✅ Sent Email 1 to ${prospect.name} (${prospect.email})`);
     return true;
   } catch (error) {
     console.error(`❌ Failed to send Email 1 to ${prospect.email}:`, error);
@@ -247,7 +248,7 @@ ${FROM_EMAIL}`;
       }
     });
 
-    console.log(`✅ Sent Email 2 to ${prospect.name} (${prospect.email})`);
+    logger.info(`✅ Sent Email 2 to ${prospect.name} (${prospect.email})`);
     return true;
   } catch (error) {
     console.error(`❌ Failed to send Email 2 to ${prospect.email}:`, error);
@@ -355,7 +356,7 @@ ${FROM_EMAIL}`;
       }
     });
 
-    console.log(`✅ Sent Email 3 to ${prospect.name} (${prospect.email})`);
+    logger.info(`✅ Sent Email 3 to ${prospect.name} (${prospect.email})`);
     return true;
   } catch (error) {
     console.error(`❌ Failed to send Email 3 to ${prospect.email}:`, error);

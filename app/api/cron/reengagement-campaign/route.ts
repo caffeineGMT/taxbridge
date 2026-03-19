@@ -11,6 +11,7 @@ import {
   getReengagementDay14EmailData,
 } from '@/lib/email/reengagement-campaign-templates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
@@ -90,7 +91,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log('🚀 Starting re-engagement email campaign cron job...');
+  logger.info('🚀 Starting re-engagement email campaign cron job...');
 
   const results = {
     timestamp: new Date().toISOString(),
@@ -110,11 +111,11 @@ export async function GET(request: NextRequest) {
 
   // Process each re-engagement email type
   for (const config of REENGAGEMENT_CONFIGS) {
-    console.log(`\n📧 Processing ${config.description}...`);
+    logger.info(`\n📧 Processing ${config.description}...`);
 
     // Get eligible users (calculator users who didn't convert)
     const eligibleUsers = getUsersForReengagement(config.dayOffset, config.eventType);
-    console.log(`   Found ${eligibleUsers.length} eligible users`);
+    logger.info(`   Found ${eligibleUsers.length} eligible users`);
 
     let sent = 0;
     let failed = 0;
@@ -173,7 +174,7 @@ export async function GET(request: NextRequest) {
           );
 
           sent++;
-          console.log(`   ✓ Sent to ${user.email}`);
+          logger.info(`   ✓ Sent to ${user.email}`);
         } else {
           failed++;
           // console.error(`   ✗ Failed to send to ${user.email}`);
@@ -200,28 +201,28 @@ export async function GET(request: NextRequest) {
     results.totalFailed += failed;
     results.totalSkipped += skipped;
 
-    console.log(`   📊 ${config.description}: ${sent} sent, ${failed} failed, ${skipped} skipped`);
+    logger.info(`   📊 ${config.description}: ${sent} sent, ${failed} failed, ${skipped} skipped`);
   }
 
   // Get campaign performance metrics
   try {
     const metrics = getReengagementMetrics();
     results.metrics = metrics;
-    console.log('\n📈 Campaign Performance Metrics:');
+    logger.info('\n📈 Campaign Performance Metrics:');
     metrics.forEach(metric => {
-      console.log(`   ${metric.event_type}:`);
-      console.log(`     - Sent: ${metric.total_sent}`);
-      console.log(`     - Open Rate: ${metric.open_rate}%`);
-      console.log(`     - Click Rate: ${metric.click_rate}%`);
-      console.log(`     - Conversion Rate: ${metric.conversion_rate}%`);
-      console.log(`     - Revenue: $${metric.total_revenue.toFixed(2)}`);
-      console.log(`     - Revenue/Email: $${metric.revenue_per_email.toFixed(2)}`);
+      logger.info(`   ${metric.event_type}:`);
+      logger.info(`     - Sent: ${metric.total_sent}`);
+      logger.info(`     - Open Rate: ${metric.open_rate}%`);
+      logger.info(`     - Click Rate: ${metric.click_rate}%`);
+      logger.info(`     - Conversion Rate: ${metric.conversion_rate}%`);
+      logger.info(`     - Revenue: $${metric.total_revenue.toFixed(2)}`);
+      logger.info(`     - Revenue/Email: $${metric.revenue_per_email.toFixed(2)}`);
     });
   } catch (error) {
     // console.error('Failed to fetch metrics:', error);
   }
 
-  console.log(
+  logger.info(
     `\n✅ Re-engagement campaign completed: ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`
   );
 

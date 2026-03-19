@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { insert, queryOne } from '@/lib/db/unified';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -177,7 +178,7 @@ async function generateReferralMessaging(insightId: number) {
       `, [msg.type, msg.text, insightId.toString(), true, msg.theme]);
     }
 
-    console.log(`[REFERRAL MESSAGING] Generated ${messages.length} messages from insight #${insightId}`);
+    logger.info(`[REFERRAL MESSAGING] Generated ${messages.length} messages from insight #${insightId}`);
 
   } catch (error) {
     // console.error('[REFERRAL MESSAGING] Generation error:', error);

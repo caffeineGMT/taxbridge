@@ -19,6 +19,7 @@ import {
 } from '@/lib/email/user-feedback-templates';
 import { sendEmail, sendBulkEmails } from '@/lib/email/sendgrid';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(`[FEEDBACK CAMPAIGN] Starting campaign: ${campaign_name}`);
+    logger.info(`[FEEDBACK CAMPAIGN] Starting campaign: ${campaign_name}`);
 
     // Step 1: Detect user types
     const paidUsers = await getPaidUsers();
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
     `);
     const freeUsers = allUsers.filter(u => u.subscription_tier === 'free');
 
-    console.log(`[FEEDBACK CAMPAIGN] Found ${paidUsers.length} paid users, ${freeUsers.length} free users`);
+    logger.info(`[FEEDBACK CAMPAIGN] Found ${paidUsers.length} paid users, ${freeUsers.length} free users`);
 
     // Step 2: Auto-detect campaign type if 'auto'
     let actualTargetUserType = target_user_type;
@@ -58,11 +59,11 @@ export async function POST(req: NextRequest) {
       if (paidUsers.length > 0) {
         actualTargetUserType = 'paid';
         campaignType = 'paid_purchase_barriers';
-        console.log(`[FEEDBACK CAMPAIGN] Auto-detected: PAID users exist (${paidUsers.length})`);
+        logger.info(`[FEEDBACK CAMPAIGN] Auto-detected: PAID users exist (${paidUsers.length})`);
       } else if (freeUsers.length > 0) {
         actualTargetUserType = 'free';
         campaignType = 'free_upgrade_barriers';
-        console.log(`[FEEDBACK CAMPAIGN] Auto-detected: NO paid users, targeting FREE users (${freeUsers.length})`);
+        logger.info(`[FEEDBACK CAMPAIGN] Auto-detected: NO paid users, targeting FREE users (${freeUsers.length})`);
       } else {
         return NextResponse.json(
           {
@@ -98,7 +99,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(`[FEEDBACK CAMPAIGN] Targeting ${targetUsers.length} ${actualTargetUserType} users`);
+    logger.info(`[FEEDBACK CAMPAIGN] Targeting ${targetUsers.length} ${actualTargetUserType} users`);
 
     // Step 4: Create campaign record
     const campaignId = await insert(`
@@ -122,7 +123,7 @@ export async function POST(req: NextRequest) {
       dry_run ? 'draft' : 'active',
     ]);
 
-    console.log(`[FEEDBACK CAMPAIGN] Created campaign ID: ${campaignId}`);
+    logger.info(`[FEEDBACK CAMPAIGN] Created campaign ID: ${campaignId}`);
 
     // Step 5: Send emails
     const emailResults: any[] = [];
@@ -186,9 +187,9 @@ export async function POST(req: NextRequest) {
             dynamicData: emailData,
           });
 
-          console.log(`[FEEDBACK CAMPAIGN] Sent email to ${user.email}`);
+          logger.info(`[FEEDBACK CAMPAIGN] Sent email to ${user.email}`);
         } else {
-          console.log(`[FEEDBACK CAMPAIGN] [DRY RUN] Would send email to ${user.email}`);
+          logger.info(`[FEEDBACK CAMPAIGN] [DRY RUN] Would send email to ${user.email}`);
         }
 
         emailResults.push({

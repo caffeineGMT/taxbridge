@@ -11,6 +11,7 @@ import {
   type OrgClientFilters,
 } from '@/lib/db/queries/enterprise';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/enterprise/clients
@@ -82,7 +83,7 @@ async function postHandler(
     const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/enterprise/invite/${invite.token}`;
 
     // TODO: Send email with invite link
-    console.log(`Invite created for ${email}: ${inviteUrl}`);
+    logger.info(`Invite created for ${email}: ${inviteUrl}`);
 
     return NextResponse.json({
       success: true,

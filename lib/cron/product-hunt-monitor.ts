@@ -12,6 +12,7 @@
  */
 
 import { ProductHuntMonitor } from '../../scripts/monitor-product-hunt';
+import { logger } from '@/lib/logger';
 
 // Configuration
 const PRODUCT_SLUG = process.env.PRODUCT_HUNT_SLUG || 'taxbridge';
@@ -21,16 +22,16 @@ const CHECK_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
  * Run monitoring check and schedule next
  */
 async function runMonitoringCycle() {
-  console.log(`\n⏰ Hourly Product Hunt check - ${new Date().toLocaleString()}\n`);
+  logger.info(`\n⏰ Hourly Product Hunt check - ${new Date().toLocaleString()}\n`);
 
   try {
     const monitor = new ProductHuntMonitor(PRODUCT_SLUG);
     await monitor.monitor();
 
-    console.log('\n✅ Check complete. Next check in 1 hour.\n');
+    logger.info('\n✅ Check complete. Next check in 1 hour.\n');
   } catch (error) {
     console.error('❌ Error during monitoring:', error);
-    console.log('Will retry in 1 hour...\n');
+    logger.info('Will retry in 1 hour...\n');
   }
 }
 
@@ -38,13 +39,13 @@ async function runMonitoringCycle() {
  * Start continuous monitoring
  */
 export async function startMonitoring() {
-  console.log('🚀 Starting Product Hunt Launch Monitor');
-  console.log('─'.repeat(60));
-  console.log(`  Product: ${PRODUCT_SLUG}`);
-  console.log(`  Check Interval: Every hour`);
-  console.log(`  Dashboard: http://localhost:3000/launch-dashboard`);
-  console.log('─'.repeat(60));
-  console.log('\nPress Ctrl+C to stop monitoring\n');
+  logger.info('🚀 Starting Product Hunt Launch Monitor');
+  logger.info('─'.repeat(60));
+  logger.info(`  Product: ${PRODUCT_SLUG}`);
+  logger.info(`  Check Interval: Every hour`);
+  logger.info(`  Dashboard: http://localhost:3000/launch-dashboard`);
+  logger.info('─'.repeat(60));
+  logger.info('\nPress Ctrl+C to stop monitoring\n');
 
   // Run immediately
   await runMonitoringCycle();
@@ -58,7 +59,7 @@ export async function startMonitoring() {
  */
 export async function sendAlert(message: string, priority: 'low' | 'medium' | 'high' | 'critical') {
   // TODO: Integrate with SendGrid, Twilio, or Slack for alerts
-  console.log(`\n🔔 ALERT [${priority.toUpperCase()}]: ${message}\n`);
+  logger.info(`\n🔔 ALERT [${priority.toUpperCase()}]: ${message}\n`);
 
   // For now, just log to console
   // In production, you would:

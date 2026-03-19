@@ -7,6 +7,7 @@
 
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { logger } from '@/lib/logger';
 
 export default function ReferralTracker() {
   const searchParams = useSearchParams();
@@ -19,7 +20,7 @@ export default function ReferralTracker() {
         // Backend will determine if it's affiliate or user referral
         localStorage.setItem('referral_code', ref); // For affiliate partners
         localStorage.setItem('user_referral_code', ref); // For user referrals
-        console.log('[Referral] Captured referral code:', ref);
+        logger.info('[Referral] Captured referral code:', ref);
       } catch (error) {
         console.warn('[Referral] Failed to save referral code:', error);
       }

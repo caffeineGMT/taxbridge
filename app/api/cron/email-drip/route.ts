@@ -12,6 +12,7 @@ import {
   getDay7EmailData,
 } from '@/lib/email/templates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
@@ -92,7 +93,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  console.log('🚀 Starting 7-day email drip campaign cron job...');
+  logger.info('🚀 Starting 7-day email drip campaign cron job...');
 
   const results = {
     timestamp: new Date().toISOString(),
@@ -111,11 +112,11 @@ export async function GET(request: NextRequest) {
 
   // Process each drip email type
   for (const config of DRIP_CONFIGS) {
-    console.log(`\n📧 Processing ${config.description}...`);
+    logger.info(`\n📧 Processing ${config.description}...`);
 
     // Get eligible users
     const eligibleUsers = getUsersForDripEmail(config.eventType, config.dayOffset);
-    console.log(`   Found ${eligibleUsers.length} eligible users`);
+    logger.info(`   Found ${eligibleUsers.length} eligible users`);
 
     let sent = 0;
     let failed = 0;
@@ -164,7 +165,7 @@ export async function GET(request: NextRequest) {
             emailData.utm_campaign || config.eventType
           );
           sent++;
-          console.log(`   ✓ Sent to ${user.email}`);
+          logger.info(`   ✓ Sent to ${user.email}`);
         } else {
           failed++;
           // console.error(`   ✗ Failed to send to ${user.email}`);
@@ -191,10 +192,10 @@ export async function GET(request: NextRequest) {
     results.totalFailed += failed;
     results.totalSkipped += skipped;
 
-    console.log(`   📊 ${config.description}: ${sent} sent, ${failed} failed, ${skipped} skipped`);
+    logger.info(`   📊 ${config.description}: ${sent} sent, ${failed} failed, ${skipped} skipped`);
   }
 
-  console.log(`\n✅ Drip campaign completed: ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`);
+  logger.info(`\n✅ Drip campaign completed: ${results.totalSent} sent, ${results.totalFailed} failed, ${results.totalSkipped} skipped`);
 
   return NextResponse.json(results);
 }

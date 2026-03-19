@@ -24,7 +24,7 @@ export function trackMetaSignup() {
       content_name: 'Free Signup',
       status: 'completed',
     });
-    console.log('[Meta Pixel] Tracked signup');
+    logger.info('[Meta Pixel] Tracked signup');
   }
 }
 
@@ -39,7 +39,7 @@ export function trackMetaPurchase(value = 299) {
       content_name: 'Pro Subscription',
       content_type: 'product',
     });
-    console.log('[Meta Pixel] Tracked purchase:', value);
+    logger.info('[Meta Pixel] Tracked purchase:', value);
   }
 }
 
@@ -52,7 +52,7 @@ export function trackMetaCalculatorUse() {
       content_name: 'RSU Tax Calculator',
       action: 'used',
     });
-    console.log('[Meta Pixel] Tracked calculator use');
+    logger.info('[Meta Pixel] Tracked calculator use');
   }
 }
 
@@ -64,7 +64,7 @@ export function trackMetaLead(contentName?: string) {
     window.fbq('track', 'Lead', {
       content_name: contentName || 'Generic Lead',
     });
-    console.log('[Meta Pixel] Tracked lead:', contentName);
+    logger.info('[Meta Pixel] Tracked lead:', contentName);
   }
 }
 
@@ -77,7 +77,7 @@ export function trackMetaEnterpriseDemo() {
       content_name: 'Enterprise Demo',
       value: 0,
     });
-    console.log('[Meta Pixel] Tracked enterprise demo request');
+    logger.info('[Meta Pixel] Tracked enterprise demo request');
   }
 }
 
@@ -89,6 +89,6 @@ export function trackMetaViewContent(contentName: string) {
     window.fbq('track', 'ViewContent', {
       content_name: contentName,
     });
-    console.log('[Meta Pixel] Tracked view content:', contentName);
+    logger.info('[Meta Pixel] Tracked view content:', contentName);
   }
 }

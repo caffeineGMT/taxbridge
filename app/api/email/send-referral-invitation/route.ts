@@ -12,6 +12,7 @@ import { getUserReferralCode } from '@/lib/db/queries/referrals';
 import { getReferralInvitationEmailData, EMAIL_TEMPLATES } from '@/lib/email/templates';
 import sgMail from '@sendgrid/mail';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 // Initialize SendGrid (only if API key exists)
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
@@ -54,7 +55,7 @@ export async function POST(request: NextRequest) {
     // TODO: Implement proper rate limiting with Redis/database
     // For now, we'll just log the attempt
 
-    console.log('[Referral Email] Sending invitation:', {
+    logger.info('[Referral Email] Sending invitation:', {
       from: userProfile.email,
       to: friendEmail,
       code: referralCode,
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
 
     try {
       await sgMail.send(msg);
-      console.log('[Referral Email] Sent successfully:', { to: friendEmail });
+      logger.info('[Referral Email] Sent successfully:', { to: friendEmail });
     } catch (emailError: any) {
     return handleApiError(error, { route: '/api/email/send-referral-invitation', method: request.method });
     }

@@ -5,13 +5,14 @@ import { RedditKeywordMonitor } from '../reddit/keyword-monitor';
 import { RedditCommentGenerator } from '../reddit/comment-generator';
 import { RedditCommentPoster } from '../reddit/comment-poster';
 import { RedditKarmaTracker } from '../reddit/karma-tracker';
+import { logger } from '@/lib/logger';
 
-console.log('🤖 Reddit Automation Scheduler Started');
-console.log('='.repeat(60));
+logger.info('🤖 Reddit Automation Scheduler Started');
+logger.info('='.repeat(60));
 
 // 1. Monitor keywords every 2 hours
 cron.schedule('0 */2 * * *', async () => {
-  console.log(`\n[${new Date().toISOString()}] Running keyword monitoring...`);
+  logger.info(`\n[${new Date().toISOString()}] Running keyword monitoring...`);
 
   const monitor = new RedditKeywordMonitor();
   const generator = new RedditCommentGenerator();
@@ -20,10 +21,10 @@ cron.schedule('0 */2 * * *', async () => {
     const newPosts = await monitor.monitorKeywords();
 
     if (newPosts.length > 0) {
-      console.log(`Found ${newPosts.length} new posts, generating drafts...`);
+      logger.info(`Found ${newPosts.length} new posts, generating drafts...`);
       const postIds = newPosts.map(p => p.redditId);
       await generator.createCommentDrafts(postIds);
-      console.log('✅ Drafts created for review');
+      logger.info('✅ Drafts created for review');
     }
   } catch (error) {
     console.error('❌ Error in keyword monitoring:', error);
@@ -35,7 +36,7 @@ cron.schedule('0 */2 * * *', async () => {
 
 // 2. Update metrics daily at 9 AM
 cron.schedule('0 9 * * *', async () => {
-  console.log(`\n[${new Date().toISOString()}] Updating metrics...`);
+  logger.info(`\n[${new Date().toISOString()}] Updating metrics...`);
 
   const poster = new RedditCommentPoster();
   const karmaTracker = new RedditKarmaTracker();
@@ -43,7 +44,7 @@ cron.schedule('0 9 * * *', async () => {
   try {
     await poster.updateMetrics();
     await karmaTracker.trackKarma();
-    console.log('✅ Metrics updated');
+    logger.info('✅ Metrics updated');
   } catch (error) {
     console.error('❌ Error updating metrics:', error);
   } finally {
@@ -54,14 +55,14 @@ cron.schedule('0 9 * * *', async () => {
 
 // 3. Check for approved comments to post every 6 hours
 cron.schedule('0 */6 * * *', async () => {
-  console.log(`\n[${new Date().toISOString()}] Checking for approved comments...`);
+  logger.info(`\n[${new Date().toISOString()}] Checking for approved comments...`);
 
   const poster = new RedditCommentPoster();
 
   try {
     const posted = await poster.postApprovedComments();
     if (posted > 0) {
-      console.log(`✅ Posted ${posted} comments`);
+      logger.info(`✅ Posted ${posted} comments`);
     }
   } catch (error) {
     console.error('❌ Error posting comments:', error);
@@ -70,14 +71,14 @@ cron.schedule('0 */6 * * *', async () => {
   }
 });
 
-console.log('\n📅 Scheduled jobs:');
-console.log('• Keyword monitoring: Every 2 hours');
-console.log('• Metrics update: Daily at 9 AM');
-console.log('• Post approved comments: Every 6 hours');
-console.log('\nPress Ctrl+C to stop...\n');
+logger.info('\n📅 Scheduled jobs:');
+logger.info('• Keyword monitoring: Every 2 hours');
+logger.info('• Metrics update: Daily at 9 AM');
+logger.info('• Post approved comments: Every 6 hours');
+logger.info('\nPress Ctrl+C to stop...\n');
 
 // Keep the process alive
 process.on('SIGINT', () => {
-  console.log('\n\n👋 Stopping Reddit automation scheduler...');
+  logger.info('\n\n👋 Stopping Reddit automation scheduler...');
   process.exit(0);
 });

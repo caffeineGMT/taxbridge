@@ -11,6 +11,7 @@ import {
   getAffiliatePartner,
 } from '@/lib/db/queries/affiliates';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 /**
  * Check if user is admin
@@ -75,8 +76,8 @@ export async function POST(req: NextRequest) {
       approveAffiliatePartner(partner_id);
 
       // TODO: Send approval email to partner with referral link
-      console.log(`[Affiliate] Approved: ${partner.firm_name} (${partner.email})`);
-      console.log(`[Affiliate] Referral link: ${process.env.NEXT_PUBLIC_APP_URL || 'https://taxbridge.app'}?ref=${partner.referral_code}`);
+      logger.info(`[Affiliate] Approved: ${partner.firm_name} (${partner.email})`);
+      logger.info(`[Affiliate] Referral link: ${process.env.NEXT_PUBLIC_APP_URL || 'https://taxbridge.app'}?ref=${partner.referral_code}`);
 
       return NextResponse.json({
         success: true,
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
       rejectAffiliatePartner(partner_id, rejection_reason);
 
       // TODO: Send rejection email to partner
-      console.log(`[Affiliate] Rejected: ${partner.firm_name} (${partner.email})`);
+      logger.info(`[Affiliate] Rejected: ${partner.firm_name} (${partner.email})`);
 
       return NextResponse.json({
         success: true,

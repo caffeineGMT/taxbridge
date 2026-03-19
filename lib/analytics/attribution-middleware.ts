@@ -7,6 +7,7 @@
 
 import { getUserProfileByClerkId } from '@/lib/db';
 import { trackUserAttribution, trackConversionEvent } from '@/lib/analytics/attribution';
+import { logger } from '@/lib/logger';
 
 /**
  * Track user signup attribution from PostHog user properties
@@ -57,7 +58,7 @@ export async function trackSignupAttribution(
     // Track signup event
     trackConversionEvent(user.id, 'signed_up');
 
-    console.log('✓ Signup attribution tracked for user:', user.id);
+    logger.info('✓ Signup attribution tracked for user:', user.id);
   } catch (error) {
     console.error('Failed to track signup attribution:', error);
     // Don't throw - attribution tracking should not block signup
@@ -89,7 +90,7 @@ export async function trackPaidUpgrade(
       subscription_amount: amount,
     });
 
-    console.log(`✓ Paid upgrade tracked: user=${userId}, tier=${tier}, amount=${amount}`);
+    logger.info(`✓ Paid upgrade tracked: user=${userId}, tier=${tier}, amount=${amount}`);
   } catch (error) {
     console.error('Failed to track paid upgrade:', error);
   }

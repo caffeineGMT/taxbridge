@@ -32,7 +32,7 @@ export function trackSignup() {
       event_category: 'signup',
       event_label: 'Free Signup',
     });
-    console.log('[Google Ads] Tracked signup conversion');
+    logger.info('[Google Ads] Tracked signup conversion');
   }
 }
 
@@ -50,7 +50,7 @@ export function trackProSubscription(value = 299) {
       event_label: 'Pro Subscription',
       transaction_id: `pro_${Date.now()}`,
     });
-    console.log('[Google Ads] Tracked Pro subscription conversion:', value);
+    logger.info('[Google Ads] Tracked Pro subscription conversion:', value);
   }
 }
 
@@ -67,7 +67,7 @@ export function trackEnterpriseDemoRequest() {
       event_category: 'lead',
       event_label: 'Enterprise Demo Request',
     });
-    console.log('[Google Ads] Tracked enterprise demo request');
+    logger.info('[Google Ads] Tracked enterprise demo request');
   }
 }
 
@@ -84,7 +84,7 @@ export function trackCalculatorUse() {
       event_category: 'engagement',
       event_label: 'Calculator Use',
     });
-    console.log('[Google Ads] Tracked calculator use');
+    logger.info('[Google Ads] Tracked calculator use');
   }
 }
 
@@ -97,6 +97,6 @@ export function trackCustomEvent(eventName: string, params?: Record<string, any>
       ...params,
       send_to: GOOGLE_ADS_ID,
     });
-    console.log('[Google Ads] Tracked custom event:', eventName, params);
+    logger.info('[Google Ads] Tracked custom event:', eventName, params);
   }
 }

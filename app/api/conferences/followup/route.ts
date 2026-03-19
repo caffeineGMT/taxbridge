@@ -3,6 +3,7 @@ import { getPendingFollowups, getLeadsByConference, markFollowupSent, updateLead
 import { getConferenceById } from '@/lib/conferences/config';
 import { generateFollowupEmail, generateBatchFollowupEmails } from '@/lib/conferences/followup-emails';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -70,7 +71,7 @@ export async function POST(request: NextRequest) {
             },
           });
         } else {
-          console.log(`[DRY RUN - No SendGrid key] Would send to: ${email.to}`);
+          logger.info(`[DRY RUN - No SendGrid key] Would send to: ${email.to}`);
         }
 
         markFollowupSent(lead.id);

@@ -4,6 +4,7 @@
  */
 
 import Stripe from 'stripe';
+import { logger } from '@/lib/logger';
 import {
   getAffiliatePartnerByReferralCode,
   createAffiliateReferral,
@@ -56,7 +57,7 @@ export async function trackAffiliateReferral(
     // Update user profile with referral code
     updateUserReferredBy(userId, referralCode);
 
-    console.log(`[Affiliate] Tracked referral: ${affiliate.firm_name} → User #${userId} → $${commissionAmount.toFixed(2)} commission`);
+    logger.info(`[Affiliate] Tracked referral: ${affiliate.firm_name} → User #${userId} → $${commissionAmount.toFixed(2)} commission`);
   } catch (error) {
     console.error('[Affiliate] Error tracking referral:', error);
     // Don't throw - webhook should still succeed even if affiliate tracking fails

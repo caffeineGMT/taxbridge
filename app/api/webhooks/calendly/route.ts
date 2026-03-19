@@ -3,6 +3,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import crypto from 'crypto';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
 
@@ -73,10 +74,10 @@ export async function POST(request: NextRequest) {
     const webhookData: CalendlyWebhookPayload = JSON.parse(rawBody);
     const { event, payload } = webhookData;
 
-    console.log(`📅 Calendly webhook received: ${event}`);
-    console.log(`   Invitee: ${payload.invitee.email}`);
-    console.log(`   Event: ${payload.scheduled_event.name}`);
-    console.log(`   Scheduled: ${payload.scheduled_event.start_time}`);
+    logger.info(`📅 Calendly webhook received: ${event}`);
+    logger.info(`   Invitee: ${payload.invitee.email}`);
+    logger.info(`   Event: ${payload.scheduled_event.name}`);
+    logger.info(`   Scheduled: ${payload.scheduled_event.start_time}`);
 
     // Find prospect by email
     const prospect = db
@@ -90,7 +91,7 @@ export async function POST(request: NextRequest) {
       .get(payload.invitee.email) as any;
 
     if (!prospect) {
-      console.log(`ℹ️  No prospect found for ${payload.invitee.email} (might be a different campaign)`);
+      logger.info(`ℹ️  No prospect found for ${payload.invitee.email} (might be a different campaign)`);
       return NextResponse.json({ message: 'Prospect not found, skipping' });
     }
 
@@ -124,7 +125,7 @@ export async function POST(request: NextRequest) {
           })
         );
 
-        console.log(`✅ Updated ${prospect.firm_name} → demo_scheduled`);
+        logger.info(`✅ Updated ${prospect.firm_name} → demo_scheduled`);
         break;
 
       case 'invitee.canceled':
@@ -155,12 +156,12 @@ export async function POST(request: NextRequest) {
             })
           );
 
-          console.log(`⚠️  ${prospect.firm_name} cancelled demo: ${payload.invitee.cancellation.reason}`);
+          logger.info(`⚠️  ${prospect.firm_name} cancelled demo: ${payload.invitee.cancellation.reason}`);
         }
         break;
 
       default:
-        console.log(`ℹ️  Unhandled event type: ${event}`);
+        logger.info(`ℹ️  Unhandled event type: ${event}`);
     }
 
     return NextResponse.json({ message: 'Webhook processed successfully' });

@@ -19,6 +19,7 @@ import {
 } from '../db/notifications';
 import { sendEmail } from '../email/sendgrid';
 import { getNotificationDigestEmailData } from '../email/templates';
+import { logger } from '@/lib/logger';
 
 interface NotificationJob {
   userId: number;
@@ -32,12 +33,12 @@ interface NotificationJob {
 }
 
 async function runNotificationCron() {
-  console.log('🔔 Starting notification cron job...\n');
+  logger.info('🔔 Starting notification cron job...\n');
 
   const jobs: Map<number, NotificationJob> = new Map();
 
   // 1. Check for tax deadline reminders (30 days before)
-  console.log('📅 Checking tax deadlines...');
+  logger.info('📅 Checking tax deadlines...');
   const usersWithDeadlines = getUsersWithUpcomingDeadlines(30);
 
   for (const user of usersWithDeadlines) {
@@ -66,10 +67,10 @@ async function runNotificationCron() {
     jobs.get(user.user_id)!.notifications.push({ type: 'deadline', title, body });
   }
 
-  console.log(`  ✓ Created ${usersWithDeadlines.length} deadline notifications\n`);
+  logger.info(`  ✓ Created ${usersWithDeadlines.length} deadline notifications\n`);
 
   // 2. Check for FTC opportunities
-  console.log('💰 Checking FTC opportunities...');
+  logger.info('💰 Checking FTC opportunities...');
   const usersWithFTC = getUsersWithFTCOpportunities();
 
   for (const user of usersWithFTC) {
@@ -98,10 +99,10 @@ async function runNotificationCron() {
     jobs.get(user.user_id)!.notifications.push({ type: 'ftc_opportunity', title, body });
   }
 
-  console.log(`  ✓ Created ${usersWithFTC.length} FTC opportunity notifications\n`);
+  logger.info(`  ✓ Created ${usersWithFTC.length} FTC opportunity notifications\n`);
 
   // 3. Check for subscription renewals (7 days before)
-  console.log('🔄 Checking subscription renewals...');
+  logger.info('🔄 Checking subscription renewals...');
   const usersWithRenewals = getUsersWithUpcomingRenewals(7);
 
   for (const user of usersWithRenewals) {
@@ -131,10 +132,10 @@ async function runNotificationCron() {
     jobs.get(user.user_id)!.notifications.push({ type: 'renewal', title, body });
   }
 
-  console.log(`  ✓ Created ${usersWithRenewals.length} renewal notifications\n`);
+  logger.info(`  ✓ Created ${usersWithRenewals.length} renewal notifications\n`);
 
   // 4. Send email digests
-  console.log('📧 Sending email digests...');
+  logger.info('📧 Sending email digests...');
   let emailsSent = 0;
 
   for (const [userId, job] of jobs.entries()) {
@@ -144,7 +145,7 @@ async function runNotificationCron() {
     const userSettings = stmt.get(userId) as { email_notifications_enabled: number } | undefined;
 
     if (!userSettings || !userSettings.email_notifications_enabled) {
-      console.log(`  ⏭️  Skipping email for user ${userId} (notifications disabled)`);
+      logger.info(`  ⏭️  Skipping email for user ${userId} (notifications disabled)`);
       continue;
     }
 
@@ -165,12 +166,12 @@ async function runNotificationCron() {
     }
   }
 
-  console.log(`  ✓ Sent ${emailsSent} email digests\n`);
+  logger.info(`  ✓ Sent ${emailsSent} email digests\n`);
 
   // Summary
-  console.log('✅ Notification cron job completed');
-  console.log(`   Total users notified: ${jobs.size}`);
-  console.log(`   Email digests sent: ${emailsSent}\n`);
+  logger.info('✅ Notification cron job completed');
+  logger.info(`   Total users notified: ${jobs.size}`);
+  logger.info(`   Email digests sent: ${emailsSent}\n`);
 }
 
 // Run if called directly

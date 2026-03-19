@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 // API endpoint to track social media analytics events
 // Records bio link clicks, video engagement, and conversion events
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
     events.push(event);
 
     // Log for server-side tracking
-    console.log(`[Social Media Track] ${event.event} from ${event.platform}`, {
+    logger.info(`[Social Media Track] ${event.event} from ${event.platform}`, {
       campaign: event.utm_campaign,
       source: event.utm_source,
     });

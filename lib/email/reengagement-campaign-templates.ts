@@ -11,6 +11,7 @@
  */
 
 import { generateEmailUrls } from './utm-tracking';
+import { logger } from '@/lib/logger';
 
 export interface ReengagementEmailData {
   firstName: string;
@@ -1079,7 +1080,7 @@ export async function sendReengagementEmail(
       },
     });
 
-    console.log(`✓ Re-engagement Day ${day} email sent to ${params.email}`);
+    logger.info(`✓ Re-engagement Day ${day} email sent to ${params.email}`);
     return true;
   } catch (error) {
     console.error(`✗ Failed to send re-engagement Day ${day} email to ${params.email}:`, error);

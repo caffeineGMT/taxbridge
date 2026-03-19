@@ -10,6 +10,7 @@ import { submitFeedback } from '@/lib/customer-success';
 import { getUserProfileByClerkId } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 import { handleApiError } from '@/lib/api-error-handler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   try {
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
       utm_campaign,
     });
 
-    console.log(`✓ Feedback submitted: ${finalEmail} (ID: ${feedbackId})`);
+    logger.info(`✓ Feedback submitted: ${finalEmail} (ID: ${feedbackId})`);
 
     return NextResponse.json({
       success: true,
