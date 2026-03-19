@@ -21,7 +21,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    timeout: 30000, // 30s per test
+    actionTimeout: 30000, // 30s per action
   },
 
   // Test timeout
