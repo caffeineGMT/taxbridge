@@ -67,12 +67,15 @@ const getTiers = (
       {
         name: 'Pro',
         price: proPrice,
-        regularPrice: isAnnual && pricingExperiment.variant === 'annual_49' ? 99 : undefined,
+        regularPrice: isAnnual && pricingExperiment.variant === 'annual_39' ? 79 :
+                      isAnnual && pricingExperiment.variant === 'annual_49' ? 99 : undefined,
         monthlyEquivalent,
         annual: isAnnual,
         priceId: proPriceId,
         tier: 'pro',
-        tagline: isAnnual && pricingExperiment.variant === 'annual_49'
+        tagline: isAnnual && pricingExperiment.variant === 'annual_39'
+          ? '🔥 Competitor Price Match: 50% OFF ($79 → $39/year)'
+          : isAnnual && pricingExperiment.variant === 'annual_49'
           ? '🔥 Launch Special: 50% OFF ($99 → $49/year)'
           : isAnnual && pricingExperiment.variant === 'annual_79'
           ? 'Best value for serious tax planning'
@@ -96,7 +99,9 @@ const getTiers = (
         },
         cta: 'Start 14-Day Free Trial',
         highlighted: true,
-        savings: isAnnual && pricingExperiment.variant === 'annual_49'
+        savings: isAnnual && pricingExperiment.variant === 'annual_39'
+          ? 'Save $40 — Competitive pricing expires April 2'
+          : isAnnual && pricingExperiment.variant === 'annual_49'
           ? 'Save $50 — Launch pricing ends March 31'
           : isAnnual && pricingExperiment.variant === 'annual_79'
           ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
@@ -382,71 +387,28 @@ export default function PricingPage() {
 
     setLoadingTier(tier);
 
-    try {
-      const userResponse = await fetch('/api/user');
-      if (!userResponse.ok) {
-        toast({
-          title: 'Sign in required',
-          description: 'Please sign in to upgrade your account.',
-          variant: 'destructive',
-        });
-        setTimeout(() => router.push('/sign-up'), 1500);
-        return;
-      }
+    // Track checkout started
+    trackEvent('checkout_started', {
+      plan: tier,
+      funnelStep: 'Checkout',
+      funnelStepNumber: 6,
+    });
 
-      const userData = await userResponse.json();
-      const userId = userData.user.id;
-      const referralCode = localStorage.getItem('referral_code');
+    // Track checkout conversion for experiments
+    conversionExperiments.trackConversion('checkout');
 
-      const response = await fetch('/api/stripe/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId,
-          tier,
-          userId,
-          ...(referralCode && { referralCode }),
-        }),
-      });
+    // Get current price for the tier
+    const currentPrice = tier === 'pro' ? pricingExperiment.getCurrentPrice() : 2000;
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to create checkout session');
-      }
+    // Route to unified checkout page with A/B test variants
+    const checkoutUrl = new URL('/checkout', window.location.origin);
+    checkoutUrl.searchParams.set('tier', tier);
+    checkoutUrl.searchParams.set('priceId', priceId);
+    checkoutUrl.searchParams.set('price', currentPrice.toString());
+    checkoutUrl.searchParams.set('interval', pricingExperiment.selectedInterval);
 
-      const { url } = await response.json();
-
-      if (url) {
-        // Track checkout started AND conversion for experiments
-        trackEvent('checkout_started', {
-          plan: tier,
-          funnelStep: 'Checkout',
-          funnelStepNumber: 6,
-        });
-
-        // Track checkout conversion for experiments
-        conversionExperiments.trackConversion('checkout');
-
-        toast({
-          title: 'Redirecting to checkout...',
-          description: 'Please wait while we prepare your secure payment page.',
-        });
-
-        setTimeout(() => {
-          window.location.href = url;
-        }, 500);
-      } else {
-        throw new Error('No checkout URL returned');
-      }
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
-      toast({
-        title: 'Checkout failed',
-        description: error instanceof Error ? error.message : 'Failed to start checkout. Please try again.',
-        variant: 'destructive',
-      });
-      setLoadingTier(null);
-    }
+    router.push(checkoutUrl.pathname + checkoutUrl.search);
+    setLoadingTier(null);
   };
 
   const formatPrice = (usdPrice: number) => {
