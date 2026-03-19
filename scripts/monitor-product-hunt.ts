@@ -235,7 +235,7 @@ class ProductHuntMonitor {
       await this.saveLaunchData(launchData);
 
       // Display results
-      this.displayMetrics(product.name, metrics, todayProducts.products.slice(0, 5));
+      this.displayMetrics(product.name, product.id, metrics, todayProducts.products.slice(0, 5));
 
       // Display alerts
       if (metrics.alerts.length > 0) {
@@ -266,6 +266,7 @@ class ProductHuntMonitor {
    */
   private displayMetrics(
     productName: string,
+    productId: string,
     metrics: LaunchMetrics,
     topProducts: any[]
   ): void {
@@ -281,7 +282,7 @@ class ProductHuntMonitor {
     console.log('\n🏆 Top 5 Products Today:');
     console.log('─'.repeat(60));
     topProducts.forEach((product, index) => {
-      const isOurs = product.id === metrics.productId;
+      const isOurs = product.id === productId;
       const marker = isOurs ? '👉' : '  ';
       console.log(`${marker} #${index + 1}: ${product.name.padEnd(30)} ${product.votesCount} upvotes`);
     });

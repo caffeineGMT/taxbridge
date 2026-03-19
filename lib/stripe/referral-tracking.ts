@@ -117,13 +117,14 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
       const subscription = await stripe.subscriptions.retrieve(referrer.stripe_subscription_id);
 
       // Extend subscription period by 60 days (2 months)
-      const newPeriodEnd = subscription.current_period_end + (60 * 24 * 60 * 60); // +60 days in seconds
+      const currentPeriodEnd = (subscription as any).current_period_end as number;
+      const newPeriodEnd = currentPeriodEnd + (60 * 24 * 60 * 60); // +60 days in seconds
 
       await stripe.subscriptions.update(referrer.stripe_subscription_id, {
         trial_end: newPeriodEnd,
         proration_behavior: 'none',
         metadata: {
-          ...subscription.metadata,
+          ...(subscription as any).metadata,
           referral_reward: 'true',
           referral_id: referralId.toString(),
         },
