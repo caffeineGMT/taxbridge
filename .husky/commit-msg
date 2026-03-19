@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# Task Completion Evidence Pre-Commit Hook
+#
+# This hook enforces the task completion policy:
+# - If commit message contains "DONE", "COMPLETE", or "FINISHED", it MUST reference evidence file
+# - Evidence file must exist and be valid
+# - This prevents the 8-sprint cycle of fake completions
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Get commit message
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# Check if commit message indicates task completion
+if echo "$COMMIT_MSG" | grep -iE '(DONE|COMPLETE|FINISHED|✅ TASK COMPLETE)' > /dev/null; then
+  echo "${YELLOW}⚠️  Task completion detected in commit message${NC}"
+  echo ""
+
+  # Check if evidence file is referenced
+  if ! echo "$COMMIT_MSG" | grep -E '(VERIFICATION|evidence|screenshot|docs/evidence)' > /dev/null; then
+    echo "${RED}❌ COMMIT BLOCKED${NC}"
+    echo ""
+    echo "Task completion detected but NO EVIDENCE referenced."
+    echo ""
+    echo "According to TASK_COMPLETION_POLICY.md:"
+    echo "  - NO task can be marked DONE without evidence"
+    echo "  - Evidence must be one of: screenshot, log, video, deployed URL, analytics"
+    echo ""
+    echo "To fix:"
+    echo "  1. Run: npm run verify:task -- --task-id=<ID> --title='<title>' --feature-url=<url>"
+    echo "  2. Include evidence file path in commit message"
+    echo "  3. Add '+ VERIFICATION' to commit message"
+    echo ""
+    echo "Example:"
+    echo "  ${GREEN}[P0-001] Fix calculator bug + VERIFICATION${NC}"
+    echo "  ${GREEN}Evidence: docs/evidence/P0-001-*.json${NC}"
+    echo ""
+    echo "Or bypass (NOT RECOMMENDED):"
+    echo "  ${YELLOW}git commit --no-verify${NC}"
+    echo ""
+    exit 1
+  fi
+
+  # Check if evidence file exists
+  EVIDENCE_FILES=$(find docs/evidence -name "*.json" -mtime -1 2>/dev/null | wc -l | tr -d ' ')
+
+  if [ "$EVIDENCE_FILES" -eq 0 ]; then
+    echo "${YELLOW}⚠️  WARNING: No recent evidence files found${NC}"
+    echo ""
+    echo "Commit mentions task completion but no evidence files were created in last 24 hours."
+    echo ""
+    echo "Did you run verification?"
+    echo "  ${BLUE}npm run verify:task -- --task-id=<ID> --title='<title>' --feature-url=<url>${NC}"
+    echo ""
+    echo "Continue anyway? (not recommended)"
+    echo "  ${YELLOW}git commit --no-verify${NC}"
+    echo ""
+    exit 1
+  fi
+
+  echo "${GREEN}✅ Evidence verification passed${NC}"
+  echo "${GREEN}   Found $EVIDENCE_FILES recent evidence file(s)${NC}"
+  echo ""
+fi
+
+# All checks passed
+exit 0
