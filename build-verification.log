@@ -1,0 +1,360 @@
+
+> cross-border-tax@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.13
+   - Environments: .env.local, .env.production
+
+   Creating an optimized production build ...
+ ⚠ Compiled with warnings in 8.1s
+
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/index.js
+./node_modules/@sentry/node/build/cjs/integrations/tracing/postgresjs.js
+./node_modules/@sentry/node/build/cjs/index.js
+./node_modules/@sentry/nextjs/build/cjs/index.server.js
+./app/global-error.tsx
+
+./node_modules/@fastify/otel/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@fastify/otel/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+./node_modules/@fastify/otel/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+./node_modules/@fastify/otel/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+./node_modules/@fastify/otel/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+./node_modules/@fastify/otel/index.js
+./node_modules/@sentry/node/build/cjs/integrations/tracing/fastify/index.js
+./node_modules/@sentry/node/build/cjs/index.js
+./node_modules/@sentry/nextjs/build/cjs/index.server.js
+./sentry.server.config.ts
+
+./node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+./node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+./node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+./node_modules/@prisma/instrumentation/node_modules/@opentelemetry/instrumentation/build/esm/index.js
+./node_modules/@prisma/instrumentation/dist/index.js
+./node_modules/@sentry/node/build/cjs/integrations/tracing/prisma.js
+./node_modules/@sentry/node/build/cjs/index.js
+./node_modules/@sentry/nextjs/build/cjs/index.server.js
+./sentry.server.config.ts
+
+./app/api/feedback/launch-campaign/route.ts
+Attempted import error: 'update' is not exported from '@/lib/db/unified' (imported as 'update').
+
+Import trace for requested module:
+./app/api/feedback/launch-campaign/route.ts
+
+./app/api/feedback/submit-user-feedback/route.ts
+Attempted import error: 'update' is not exported from '@/lib/db/unified' (imported as 'update').
+
+Import trace for requested module:
+./app/api/feedback/submit-user-feedback/route.ts
+
+./app/api/feedback/submit-user-feedback/route.ts
+Attempted import error: 'update' is not exported from '@/lib/db/unified' (imported as 'update').
+
+Import trace for requested module:
+./app/api/feedback/submit-user-feedback/route.ts
+
+./app/api/feedback/submit-user-feedback/route.ts
+Attempted import error: 'update' is not exported from '@/lib/db/unified' (imported as 'update').
+
+Import trace for requested module:
+./app/api/feedback/submit-user-feedback/route.ts
+
+./app/api/feedback/submit-user-feedback/route.ts
+Attempted import error: 'update' is not exported from '@/lib/db/unified' (imported as 'update').
+
+Import trace for requested module:
+./app/api/feedback/submit-user-feedback/route.ts
+
+./app/api/track/email-conversion/route.ts
+Attempted import error: 'getUserByClerkId' is not exported from '@/lib/db' (imported as 'getUserByClerkId').
+
+Import trace for requested module:
+./app/api/track/email-conversion/route.ts
+
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+Critical dependency: the request of a dependency is an expression
+
+Import trace for requested module:
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/instrumentation.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/node/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/platform/index.js
+./node_modules/@opentelemetry/instrumentation/build/esm/index.js
+./node_modules/@sentry/node/build/cjs/integrations/tracing/postgresjs.js
+./node_modules/@sentry/node/build/cjs/index.js
+./node_modules/@sentry/nextjs/build/cjs/index.server.js
+./app/api/ai/tax-advice/route.ts
+
+ ✓ Compiled successfully in 11.6s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+[DB] Using SQLite database
+   Generating static pages (0/232) ...
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+[DB] Using SQLite database
+   Generating static pages (58/232) 
+[DB] Using SQLite database
+[DB] Using SQLite database
+   Generating static pages (116/232) 
+   Generating static pages (174/232) 
+[DB] Using SQLite database
+ ✓ Generating static pages (232/232)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                              Size  First Load JS
+┌ ○ /                                                 14.1 kB         189 kB
+├ ○ /_not-found                                          1 kB         104 kB
+├ ƒ /admin/analytics                                    192 B         106 kB
+├ ƒ /admin/conferences                                 2.6 kB         109 kB
+├ ƒ /admin/conversion-experiments                     4.28 kB         165 kB
+├ ƒ /admin/conversion-funnel                          4.18 kB         165 kB
+├ ƒ /admin/customer-success                             447 B         103 kB
+├ ƒ /admin/experiments                                4.54 kB         165 kB
+├ ƒ /admin/feedback-campaigns                         3.21 kB         114 kB
+├ ƒ /admin/hr-outreach                                  447 B         103 kB
+├ ƒ /admin/immigration-lawyer-pipeline                3.38 kB         114 kB
+├ ƒ /admin/interviews                                   447 B         103 kB
+├ ƒ /admin/outreach                                     447 B         103 kB
+├ ƒ /admin/partners                                   3.94 kB         115 kB
+├ ƒ /admin/post-launch-campaign                       3.51 kB         106 kB
+├ ƒ /admin/posthog-funnel                               192 B         106 kB
+├ ƒ /admin/retention                                  11.2 kB         248 kB
+├ ƒ /admin/revenue                                    3.98 kB         107 kB
+├ ƒ /admin/social-media                               20.3 kB         123 kB
+├ ƒ /admin/testimonials                               4.71 kB         116 kB
+├ ○ /affiliates                                        7.8 kB         110 kB
+├ ƒ /affiliates/dashboard/[code]                      5.34 kB         108 kB
+├ ○ /affiliates/leaderboard                           3.71 kB         106 kB
+├ ○ /analytics/attribution                            5.09 kB         116 kB
+├ ○ /analytics/reddit                                 4.82 kB         116 kB
+├ ƒ /api/admin/partners                                 447 B         103 kB
+├ ƒ /api/admin/partners/[id]/approve                    447 B         103 kB
+├ ƒ /api/admin/partners/[id]/reject                     447 B         103 kB
+├ ƒ /api/admin/send-ph-campaign                         447 B         103 kB
+├ ƒ /api/affiliates/dashboard/[code]                    447 B         103 kB
+├ ƒ /api/affiliates/leaderboard                         447 B         103 kB
+├ ƒ /api/affiliates/signup                              447 B         103 kB
+├ ƒ /api/affiliates/toolkit/[code]                      447 B         103 kB
+├ ƒ /api/affiliates/track                               447 B         103 kB
+├ ƒ /api/ai/tax-advice                                  447 B         103 kB
+├ ƒ /api/analytics/attribution                          447 B         103 kB
+├ ƒ /api/analytics/conversion-experiments               447 B         103 kB
+├ ƒ /api/analytics/daily-revenue                        447 B         103 kB
+├ ƒ /api/analytics/email-ab-tests                       447 B         103 kB
+├ ƒ /api/analytics/email-drip                           447 B         103 kB
+├ ƒ /api/analytics/experiments                          447 B         103 kB
+├ ƒ /api/analytics/funnel                               447 B         103 kB
+├ ƒ /api/analytics/google-ads                           447 B         103 kB
+├ ƒ /api/analytics/mrr-trend                            447 B         103 kB
+├ ƒ /api/analytics/pricing-experiment                   447 B         103 kB
+├ ƒ /api/analytics/reengagement                         447 B         103 kB
+├ ƒ /api/analytics/retention                            447 B         103 kB
+├ ƒ /api/analytics/retention/activity                   447 B         103 kB
+├ ƒ /api/analytics/retention/calculator                 447 B         103 kB
+├ ƒ /api/analytics/retention/feature                    447 B         103 kB
+├ ƒ /api/analytics/revenue                              447 B         103 kB
+├ ƒ /api/analytics/revenue-metrics                      447 B         103 kB
+├ ƒ /api/analytics/send-reengagement                    447 B         103 kB
+├ ƒ /api/analytics/stripe-metrics                       447 B         103 kB
+├ ƒ /api/analytics/track                                447 B         103 kB
+├ ƒ /api/analytics/viral-coefficient                    447 B         103 kB
+├ ƒ /api/analytics/vitals                               447 B         103 kB
+├ ƒ /api/billing                                        447 B         103 kB
+├ ƒ /api/conferences/discount/validate                  447 B         103 kB
+├ ƒ /api/conferences/followup                           447 B         103 kB
+├ ƒ /api/conferences/leads                              447 B         103 kB
+├ ƒ /api/conferences/leads/[id]                         447 B         103 kB
+├ ƒ /api/conferences/stats                              447 B         103 kB
+├ ƒ /api/cron/email-drip                                447 B         103 kB
+├ ƒ /api/cron/email-drip-optimized                      447 B         103 kB
+├ ƒ /api/cron/reengagement-campaign                     447 B         103 kB
+├ ƒ /api/email/cancellation-survey                      447 B         103 kB
+├ ƒ /api/email/payment-failed                           447 B         103 kB
+├ ƒ /api/email/referral-reminder                        447 B         103 kB
+├ ƒ /api/email/send-referral-invitation                 447 B         103 kB
+├ ƒ /api/enterprise/api-keys/generate                   447 B         103 kB
+├ ƒ /api/enterprise/api-keys/revoke                     447 B         103 kB
+├ ƒ /api/enterprise/clients                             447 B         103 kB
+├ ƒ /api/enterprise/demo-request                        447 B         103 kB
+├ ƒ /api/enterprise/export                              447 B         103 kB
+├ ƒ /api/enterprise/invite/[token]                      447 B         103 kB
+├ ƒ /api/enterprise/orgs                                447 B         103 kB
+├ ƒ /api/exchange-rate                                  447 B         103 kB
+├ ƒ /api/feedback/campaigns                             447 B         103 kB
+├ ƒ /api/feedback/exit-intent                           447 B         103 kB
+├ ƒ /api/feedback/helpfulness                           447 B         103 kB
+├ ƒ /api/feedback/launch-campaign                       447 B         103 kB
+├ ƒ /api/feedback/nps                                   447 B         103 kB
+├ ƒ /api/feedback/responses                             447 B         103 kB
+├ ƒ /api/feedback/submit                                447 B         103 kB
+├ ƒ /api/feedback/submit-user-feedback                  447 B         103 kB
+├ ƒ /api/forms/toggle                                   447 B         103 kB
+├ ƒ /api/health                                         447 B         103 kB
+├ ƒ /api/interviews/invite                              447 B         103 kB
+├ ƒ /api/interviews/submit                              447 B         103 kB
+├ ƒ /api/marketing/capture-lead                         447 B         103 kB
+├ ƒ /api/newsletter/subscribe                           447 B         103 kB
+├ ƒ /api/notifications                                  447 B         103 kB
+├ ƒ /api/notifications/mark-read                        447 B         103 kB
+├ ƒ /api/onboarding                                     447 B         103 kB
+├ ƒ /api/onboarding/sample-data                         447 B         103 kB
+├ ƒ /api/openapi.yaml                                   447 B         103 kB
+├ ƒ /api/outreach/immigration-lawyers/activity          447 B         103 kB
+├ ƒ /api/outreach/immigration-lawyers/prospects         447 B         103 kB
+├ ƒ /api/outreach/immigration-lawyers/stats             447 B         103 kB
+├ ƒ /api/outreach/pipeline                              447 B         103 kB
+├ ƒ /api/outreach/stats                                 447 B         103 kB
+├ ƒ /api/outreach/sync                                  447 B         103 kB
+├ ƒ /api/outreach/webhook                               447 B         103 kB
+├ ƒ /api/partners/approve                               447 B         103 kB
+├ ƒ /api/partners/dashboard/[code]                      447 B         103 kB
+├ ƒ /api/partners/email-templates/[code]                447 B         103 kB
+├ ƒ /api/partners/marketing-kit/[code]                  447 B         103 kB
+├ ƒ /api/partners/performance-report/[code]             447 B         103 kB
+├ ƒ /api/partners/portal/[code]                         447 B         103 kB
+├ ƒ /api/partners/public/[code]                         447 B         103 kB
+├ ƒ /api/partners/signup                                447 B         103 kB
+├ ƒ /api/partners/social-posts/[code]                   447 B         103 kB
+├ ƒ /api/product-hunt                                   447 B         103 kB
+├ ƒ /api/rsu                                            447 B         103 kB
+├ ƒ /api/rsu/[id]                                       447 B         103 kB
+├ ƒ /api/rsu/bulk                                       447 B         103 kB
+├ ƒ /api/settings/notifications                         447 B         103 kB
+├ ƒ /api/social-media/track                             447 B         103 kB
+├ ƒ /api/stats/users                                    447 B         103 kB
+├ ƒ /api/stripe/billing-portal                          447 B         103 kB
+├ ƒ /api/stripe/cancel-subscription                     447 B         103 kB
+├ ƒ /api/stripe/create-checkout                         447 B         103 kB
+├ ƒ /api/stripe/create-portal-session                   447 B         103 kB
+├ ƒ /api/stripe/pause-subscription                      447 B         103 kB
+├ ƒ /api/stripe/refund                                  447 B         103 kB
+├ ƒ /api/stripe/webhook                                 447 B         103 kB
+├ ƒ /api/survey/cancellation                            447 B         103 kB
+├ ƒ /api/survey/cancellation-enhanced                   447 B         103 kB
+├ ƒ /api/test-sentry                                    447 B         103 kB
+├ ƒ /api/testimonials                                   447 B         103 kB
+├ ƒ /api/testimonials/[id]                              447 B         103 kB
+├ ƒ /api/track/email-conversion                         447 B         103 kB
+├ ƒ /api/unsubscribe                                    447 B         103 kB
+├ ƒ /api/user                                           447 B         103 kB
+├ ƒ /api/v1/bulk-import                                 447 B         103 kB
+├ ƒ /api/v1/bulk-import/sample                          447 B         103 kB
+├ ƒ /api/v1/calculate                                   447 B         103 kB
+├ ƒ /api/v1/forms                                       447 B         103 kB
+├ ƒ /api/webhooks/calendly                              447 B         103 kB
+├ ƒ /api/webhooks/clerk                                 447 B         103 kB
+├ ○ /blog                                               192 B         106 kB
+├ ● /blog/[slug]                                      2.46 kB         109 kB
+├   ├ /blog/h1b-rsu-tax-calculator-2026-guide
+├   ├ /blog/tn-visa-stock-options-tax-complete-guide
+├   ├ /blog/cross-border-tax-guide-canada-us-2026
+├   └ [+39 more paths]
+├ ○ /canada-tax-filing-checklist                      8.07 kB         122 kB
+├ ƒ /conference/[slug]                                4.79 kB         111 kB
+├ ƒ /dashboard                                        9.54 kB         261 kB
+├ ○ /dashboard/analytics/email-ab-tests               3.22 kB         114 kB
+├ ○ /dashboard/analytics/reengagement                 4.96 kB         116 kB
+├ ○ /dashboard/experiments                            3.79 kB         115 kB
+├ ƒ /dashboard/import                                 32.2 kB         209 kB
+├ ƒ /dashboard/multi-year                             2.12 kB         181 kB
+├ ○ /dashboard/pricing-analytics                      4.74 kB         116 kB
+├ ○ /dashboard/retention-analytics                    4.85 kB         242 kB
+├ ○ /dashboard/revenue-analytics                      4.56 kB         242 kB
+├ ƒ /dashboard/subscription                           4.72 kB         184 kB
+├ ○ /demo                                             10.9 kB         114 kB
+├ ○ /demo/checkout                                    3.86 kB         245 kB
+├ ○ /enterprise                                         192 B         106 kB
+├ ○ /enterprise/calculator                            5.36 kB         111 kB
+├ ƒ /enterprise/clients                               10.5 kB         151 kB
+├ ○ /enterprise/request-demo                          4.45 kB         111 kB
+├ ƒ /forms-checklist                                  6.85 kB         186 kB
+├ ○ /h1b-rsu-tax-guide                                11.3 kB         131 kB
+├ ○ /launch-dashboard                                 5.09 kB         116 kB
+├ ○ /lp/calculator                                    4.21 kB         121 kB
+├ ○ /lp/cross-border-tax                              3.33 kB         179 kB
+├ ○ /lp/guide                                         4.58 kB         121 kB
+├ ○ /lp/h1b-rsu-calculator                             2.8 kB         179 kB
+├ ○ /lp/social                                        3.08 kB         109 kB
+├ ○ /lp/software                                         4 kB         121 kB
+├ ○ /lp/tn-visa-stock-tax                             2.93 kB         179 kB
+├ ○ /onboarding                                        6.8 kB         229 kB
+├ ƒ /p/[code]                                         3.71 kB         106 kB
+├ ƒ /partner/[slug]                                     192 B         106 kB
+├ ○ /partners                                         4.24 kB         107 kB
+├ ƒ /partners/application-submitted                     192 B         106 kB
+├ ƒ /partners/dashboard                               2.48 kB         113 kB
+├ ƒ /partners/dashboard/[code]                        3.89 kB         107 kB
+├ ƒ /partners/portal/[code]                           5.15 kB         139 kB
+├ ○ /partners/signup                                  3.59 kB         115 kB
+├ ○ /pricing                                          13.2 kB         184 kB
+├ ○ /privacy                                            192 B         106 kB
+├ ƒ /referrals                                        9.68 kB         130 kB
+├ ○ /robots.txt                                         447 B         103 kB
+├ ƒ /rsu-entry                                        21.8 kB         281 kB
+├ ƒ /rsu/[id]                                         9.19 kB         151 kB
+├ ○ /settings/billing                                 8.21 kB         256 kB
+├ ○ /settings/notifications                           6.52 kB         185 kB
+├ ƒ /sign-in/[[...sign-in]]                             344 B         140 kB
+├ ƒ /sign-up/[[...sign-up]]                             344 B         140 kB
+├ ○ /sitemap.xml                                        447 B         103 kB
+├ ○ /status                                             447 B         103 kB
+├ ○ /survey/cancellation                              4.13 kB         115 kB
+├ ○ /survey/user-feedback                             10.5 kB         127 kB
+├ ● /tax-calculator/[slug]                            9.56 kB         216 kB
+├   ├ /tax-calculator/wa-bc
+├   ├ /tax-calculator/wa-on
+├   ├ /tax-calculator/wa-ab
+├   └ [+47 more paths]
+├ ○ /terms                                              192 B         106 kB
+├ ○ /test/accessibility                                 447 B         103 kB
+├ ○ /testimonial/submit                               4.34 kB         115 kB
+├ ○ /unsubscribe                                      4.28 kB         115 kB
+└ ○ /us-canada-tax-calculator                         8.85 kB         182 kB
++ First Load JS shared by all                          103 kB
+  ├ chunks/1255-b09ebd1f89e564fd.js                   45.7 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js               54.2 kB
+  └ other shared chunks (total)                        2.7 kB
+
+
+ƒ Middleware                                           136 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
