@@ -24,8 +24,8 @@ export async function GET(request: NextRequest) {
     // Get all A/B test results from database
     const results: ABTestResult[] = getABTestAnalytics();
 
-    // Calculate winners for each email type
-    const eventTypes = ['drip_welcome', 'drip_day3', 'drip_day7', 'drip_day14'] as const;
+    // Calculate winners for each email type (only testing Day 1, 3, 7)
+    const eventTypes = ['drip_day1', 'drip_day3', 'drip_day7'] as const;
     const winners: WinnerAnalysis[] = [];
 
     for (const eventType of eventTypes) {
