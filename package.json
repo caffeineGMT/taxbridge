@@ -119,6 +119,7 @@
     "lighthouse:compare": "./scripts/lighthouse-compare.sh",
     "lighthouse:local": "npm run build && (npm start &); sleep 10; npx lighthouse http://localhost:3000 --output=json --output=html --output-path=./docs/lighthouse/lighthouse-local --chrome-flags=\"--headless --no-sandbox\" --preset=desktop --quiet; kill %1",
     "revenue:report": "tsx scripts/generate-revenue-report.ts",
+    "revenue:track": "tsx scripts/track-daily-revenue.ts",
     "monitor:ab-tests": "tsx scripts/monitor-ab-tests.ts",
     "implement:ab-winners": "tsx scripts/implement-ab-winners.ts",
     "implement:ab-winners:dry-run": "tsx scripts/implement-ab-winners.ts --dry-run",
