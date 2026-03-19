@@ -21,29 +21,10 @@ async function runMigration() {
     // Read migration SQL
     const migrationSQL = readFileSync(MIGRATION_PATH, 'utf-8');
 
-    // Split into individual statements (SQLite doesn't support multi-statement exec)
-    const statements = migrationSQL
-      .split(';')
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0 && !s.startsWith('--'));
+    // Execute the entire migration as a single transaction
+    console.log('📄 Executing migration SQL...\n');
 
-    console.log(`📄 Executing ${statements.length} SQL statements...\n`);
-
-    // Execute each statement
-    db.transaction(() => {
-      for (const statement of statements) {
-        try {
-          db.exec(statement);
-        } catch (error: any) {
-          // Ignore "already exists" errors
-          if (error.message.includes('already exists') || error.message.includes('duplicate')) {
-            console.log(`⏭️  Skipped (already exists): ${statement.substring(0, 50)}...`);
-          } else {
-            throw error;
-          }
-        }
-      }
-    })();
+    db.exec(migrationSQL);
 
     console.log('✅ Migration completed successfully!\n');
 
