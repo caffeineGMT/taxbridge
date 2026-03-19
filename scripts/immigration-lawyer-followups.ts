@@ -90,7 +90,7 @@ function generateFollowUp2(prospect: Prospect): { subject: string; html: string 
   </div>
 
   <p>Or if you prefer, you can apply directly and start referring immediately:<br>
-  <a href="https://taxbridgecpa.com/partners/signup" style="color: #667eea;">https://taxbridgecpa.com/partners/signup</a></p>
+  <a href="https://taxbridge.app/partners/signup" style="color: #667eea;">https://taxbridge.app/partners/signup</a></p>
 
   <p>Questions? Just hit reply.</p>
 
@@ -132,7 +132,7 @@ function generateFollowUp3(prospect: Prospect): { subject: string; html: string 
     <p style="margin: 0 0 10px 0; font-size: 16px;"><strong>Here's what you'd get:</strong></p>
     <ul style="margin: 0; line-height: 1.8;">
       <li>$89.70/year recurring revenue per H-1B/TN client referral</li>
-      <li>Co-branded page: taxbridgecpa.com/partner/${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}</li>
+      <li>Co-branded page: taxbridge.app/partner/${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}</li>
       <li>Email templates you can send to clients immediately</li>
       <li>Real-time dashboard showing referrals and earnings</li>
     </ul>
@@ -144,7 +144,7 @@ function generateFollowUp3(prospect: Prospect): { subject: string; html: string 
 
   <ol>
     <li><strong>Quick call:</strong> <a href="https://calendly.com/taxbridge/partnership-demo" style="color: #667eea;">Book 15 minutes</a> and I'll walk you through it</li>
-    <li><strong>Self-serve:</strong> <a href="https://taxbridgecpa.com/partners/signup" style="color: #667eea;">Apply here</a> and start referring immediately</li>
+    <li><strong>Self-serve:</strong> <a href="https://taxbridge.app/partners/signup" style="color: #667eea;">Apply here</a> and start referring immediately</li>
   </ol>
 
   <p>If this isn't a fit, no problem at all — I appreciate you reading this far.</p>
@@ -154,7 +154,7 @@ function generateFollowUp3(prospect: Prospect): { subject: string; html: string 
   <p style="margin-top: 30px;">Cheers,<br>
   <strong>Michael Guo</strong><br>
   Founder, TaxBridge<br>
-  <a href="mailto:partnerships@taxbridgecpa.com" style="color: #667eea;">partnerships@taxbridgecpa.com</a></p>
+  <a href="mailto:partnerships@taxbridge.app" style="color: #667eea;">partnerships@taxbridge.app</a></p>
 
 </body>
 </html>
@@ -186,7 +186,7 @@ async function sendFollowUp(
 
   try {
     const result = await resend.emails.send({
-      from: 'Michael Guo at TaxBridge <partnerships@taxbridgecpa.com>',
+      from: 'Michael Guo at TaxBridge <partnerships@taxbridge.app>',
       to: prospect.contact_email,
       subject: email.subject,
       html: email.html,

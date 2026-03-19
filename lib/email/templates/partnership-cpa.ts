@@ -77,8 +77,8 @@ Looking forward to helping you scale your cross-border practice more efficiently
 Best regards,
 Michael Guo
 Founder, TaxBridge
-https://taxbridgecpa.com
-michael@taxbridgecpa.com
+https://taxbridge.app
+michael@taxbridge.app
 
 P.S. - ${cpaWebsite ? `I saw on ${cpaWebsite} that you ` : 'Since you '}specialize in ${specialization || 'cross-border tax'}. I'd love to get your feedback on the tool - CPAs like you have been instrumental in making TaxBridge accurate and compliant.`;
 

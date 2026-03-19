@@ -77,8 +77,8 @@ export default function ApplicationSubmittedPage({
           <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
             <p className="text-sm text-slate-400">
               <strong className="text-white">Questions?</strong> Email us at{' '}
-              <a href="mailto:partners@taxbridgecpa.com" className="text-blue-400 hover:underline">
-                partners@taxbridgecpa.com
+              <a href="mailto:partners@taxbridge.app" className="text-blue-400 hover:underline">
+                partners@taxbridge.app
               </a>
             </p>
           </div>

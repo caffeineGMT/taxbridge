@@ -38,7 +38,7 @@ export function getInactiveUserNudgeEmail(params: {
     hasCompletedProfile: params.hasCompletedProfile,
     dashboardUrl: urls.dashboard_url,
     calculatorUrl: urls.calculator_url,
-    supportUrl: 'https://taxbridgecpa.com/support',
+    supportUrl: 'https://taxbridge.app/support',
     unsubscribeUrl: urls.unsubscribe_url,
   };
 

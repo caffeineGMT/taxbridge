@@ -226,7 +226,7 @@ function printVerificationSteps(): void {
   log('   → Look for: tax_calculation_viewed (within 60 seconds)\n', colors.reset);
 
   log('4️⃣  After Vercel deployment:', colors.cyan);
-  log('   → Visit: https://taxbridgecpa.com', colors.reset);
+  log('   → Visit: https://taxbridge.app', colors.reset);
   log('   → Complete calculator flow', colors.reset);
   log('   → Verify events appear in PostHog dashboard\n', colors.reset);
 }

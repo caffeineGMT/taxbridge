@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('Payment Flow - Cross Browser', () => {
-  const PROD_URL = 'https://taxbridgecpa.com';
+  const PROD_URL = 'https://taxbridge.app';
 
   test('pricing page should be accessible', async ({ page, browserName }) => {
     await page.goto(`${PROD_URL}/pricing`);

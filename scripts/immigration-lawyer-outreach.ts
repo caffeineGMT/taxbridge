@@ -84,14 +84,14 @@ function generateEmail1(prospect: Prospect): { subject: string; html: string } {
   <h2 style="color: #667eea; margin-top: 30px;">What you get:</h2>
 
   <ol style="line-height: 1.8;">
-    <li><strong>Co-branded landing page:</strong> <code>taxbridgecpa.com/partner/${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}</code></li>
+    <li><strong>Co-branded landing page:</strong> <code>taxbridge.app/partner/${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}</code></li>
     <li><strong>Marketing toolkit:</strong> Pre-written emails, blog posts, social media content</li>
     <li><strong>Partner dashboard:</strong> Real-time tracking of referrals and commissions</li>
     <li><strong>Monthly payouts:</strong> Automatic payments on the 1st of each month</li>
   </ol>
 
   <div style="text-align: center; margin: 40px 0;">
-    <a href="https://taxbridgecpa.com/partners/signup?ref=${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}"
+    <a href="https://taxbridge.app/partners/signup?ref=${prospect.firm_name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}"
        style="background: #667eea; color: white; padding: 16px 32px; text-decoration: none; border-radius: 6px; font-weight: 600; display: inline-block; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);">
       Apply for Partnership Program →
     </a>
@@ -111,12 +111,12 @@ function generateEmail1(prospect: Prospect): { subject: string; html: string } {
   <p style="margin-top: 30px;">Best regards,</p>
   <p style="margin: 5px 0;"><strong>Michael Guo</strong><br>
   Founder, TaxBridge<br>
-  <a href="mailto:partnerships@taxbridgecpa.com" style="color: #667eea;">partnerships@taxbridgecpa.com</a></p>
+  <a href="mailto:partnerships@taxbridge.app" style="color: #667eea;">partnerships@taxbridge.app</a></p>
 
   <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #666;">
     <p><strong>P.S.</strong> Our average partner refers 30 clients in their first year. That's $2,691 in recurring revenue with zero overhead costs.</p>
     <p style="margin-top: 20px;">TaxBridge • Cross-Border RSU Tax Calculator for H-1B &amp; TN Visa Holders<br>
-    <a href="https://taxbridgecpa.com" style="color: #667eea;">taxbridgecpa.com</a> • Built for tech workers moving between US and Canada</p>
+    <a href="https://taxbridge.app" style="color: #667eea;">taxbridge.app</a> • Built for tech workers moving between US and Canada</p>
   </div>
 
 </body>
@@ -165,7 +165,7 @@ async function sendOutreachEmail(prospect: Prospect, dryRun: boolean = false) {
 
   try {
     const result = await resend.emails.send({
-      from: 'Michael Guo at TaxBridge <partnerships@taxbridgecpa.com>',
+      from: 'Michael Guo at TaxBridge <partnerships@taxbridge.app>',
       to: prospect.contact_email,
       subject: email.subject,
       html: email.html,

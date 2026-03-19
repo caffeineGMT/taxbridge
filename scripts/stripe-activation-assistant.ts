@@ -129,7 +129,7 @@ function phase3_WebhookSetup() {
   console.log('   Click "Add endpoint" button\n');
 
   printInfo('STEP 3: Configure endpoint');
-  console.log('   Endpoint URL: https://taxbridgecpa.com/api/stripe/webhook\n');
+  console.log('   Endpoint URL: https://taxbridge.app/api/stripe/webhook\n');
 
   printInfo('STEP 4: Select events to send:');
   console.log('   ☐ checkout.session.completed');
@@ -201,7 +201,7 @@ function phase5_TestPayment() {
   console.log('   ZIP:         12345 (any 5 digits)\n');
 
   printInfo('STEP 1: Go to your pricing page');
-  console.log('   URL: https://taxbridgecpa.com/pricing\n');
+  console.log('   URL: https://taxbridge.app/pricing\n');
 
   printInfo('STEP 2: Click "Get Started" on Pro plan ($79/year)');
 
@@ -252,7 +252,7 @@ function main() {
   printWarning('\n⚠️  PREREQUISITES:');
   console.log('   • Stripe account created');
   console.log('   • Vercel account with deployment access');
-  console.log('   • Production domain: taxbridgecpa.com\n');
+  console.log('   • Production domain: taxbridge.app\n');
 
   console.log('━'.repeat(60));
   console.log('Press ENTER to begin Phase 1, or Ctrl+C to exit');

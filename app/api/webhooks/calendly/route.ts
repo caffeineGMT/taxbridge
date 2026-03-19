@@ -17,7 +17,7 @@ const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
  *
  * Setup instructions:
  * 1. Go to https://calendly.com/integrations/webhooks
- * 2. Create webhook: POST https://taxbridgecpa.com/api/webhooks/calendly
+ * 2. Create webhook: POST https://taxbridge.app/api/webhooks/calendly
  * 3. Subscribe to events: invitee.created, invitee.canceled
  * 4. Copy signing key to .env.local: CALENDLY_WEBHOOK_SECRET
  */

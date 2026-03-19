@@ -215,8 +215,8 @@ async function createHunt20Coupon() {
           coupon: HUNT20_CONFIG.id,
         },
       ],
-      success_url: 'https://taxbridgecpa.com/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'https://taxbridgecpa.com/pricing',
+      success_url: 'https://taxbridge.app/success?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'https://taxbridge.app/pricing',
       metadata: {
         test: 'hunt20_activation_script',
       },
@@ -254,7 +254,7 @@ async function createHunt20Coupon() {
   console.log('   https://dashboard.stripe.com/coupons/HUNT20\n');
 
   console.log('2. Test on your website:');
-  console.log('   a. Go to: https://taxbridgecpa.com/pricing');
+  console.log('   a. Go to: https://taxbridge.app/pricing');
   console.log('   b. Click "Get Started" on Pro plan');
   console.log('   c. Enter coupon code: HUNT20');
   console.log('   d. Verify price: $79 → $63.20');

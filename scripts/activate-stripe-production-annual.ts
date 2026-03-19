@@ -210,7 +210,7 @@ async function createProductsAndPrices() {
     console.log('2. SETUP STRIPE WEBHOOK:');
     console.log('   • Go to: https://dashboard.stripe.com/webhooks');
     console.log('   • Click "Add endpoint"');
-    console.log('   • Endpoint URL: https://taxbridgecpa.com/api/stripe/webhook');
+    console.log('   • Endpoint URL: https://taxbridge.app/api/stripe/webhook');
     console.log('   • Select events:');
     console.log('     - checkout.session.completed');
     console.log('     - customer.subscription.updated');

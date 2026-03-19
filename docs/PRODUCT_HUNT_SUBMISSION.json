@@ -1,0 +1,89 @@
+{
+  "name": "TaxBridge",
+  "tagline": "Cross-border tax calculator for H-1B tech workers with RSUs",
+  "description": "TaxBridge automates dual-country tax calculations for H-1B/TN visa holders. Calculate US federal + state and Canada federal + provincial tax on RSU income. Foreign Tax Credit optimizer eliminates double taxation. Built for Meta, Amazon, Google, Microsoft employees.",
+  "website": "https://cross-border-tax.vercel.app",
+  "links": {
+    "website": "https://cross-border-tax.vercel.app",
+    "pricing": "https://cross-border-tax.vercel.app/pricing",
+    "calculator": "https://cross-border-tax.vercel.app/calculator",
+    "forms": "https://cross-border-tax.vercel.app/dashboard/forms-checklist"
+  },
+  "topics": [
+    "saas",
+    "finance",
+    "tax",
+    "productivity",
+    "tech"
+  ],
+  "launch_date": "2026-03-25",
+  "launch_time": "00:01:00",
+  "timezone": "America/Los_Angeles",
+  "maker": {
+    "name": "Michael Guo",
+    "title": "Founder",
+    "bio": "H-1B tech worker at Meta who moved to Canada and built TaxBridge to automate cross-border tax calculations",
+    "twitter": "@michaelguo",
+    "linkedin": "https://linkedin.com/in/michaelguo"
+  },
+  "promo_code": {
+    "code": "HUNT20",
+    "discount": "20%",
+    "duration": "48 hours",
+    "original_price": "$299/year",
+    "discounted_price": "$239/year"
+  },
+  "thumbnail": "/product-hunt/thumbnail.svg",
+  "screenshots": [
+    {
+      "file": "/product-hunt/screenshots/hero-dashboard.png",
+      "caption": "Main dashboard with RSU entries and tax overview",
+      "order": 1
+    },
+    {
+      "file": "/product-hunt/screenshots/ftc-optimizer.png",
+      "caption": "Foreign Tax Credit optimizer - eliminates double taxation",
+      "order": 2
+    },
+    {
+      "file": "/product-hunt/screenshots/forms-checklist.png",
+      "caption": "Complete tax forms checklist (W-2, 1040, T1, FBAR, 8938, 8833)",
+      "order": 3
+    },
+    {
+      "file": "/product-hunt/screenshots/pricing-page.png",
+      "caption": "Pro plan: $299/year - 10x cheaper than hiring a CPA",
+      "order": 4
+    },
+    {
+      "file": "/product-hunt/screenshots/landing-hero.png",
+      "caption": "Built for H-1B/TN tech workers with US RSUs living in Canada",
+      "order": 5
+    }
+  ],
+  "first_comment": "👋 Hey Product Hunt! I'm Michael, founder of TaxBridge.\n\n**The Problem:**\nI'm an H-1B tech worker who moved from the US to Canada while still earning RSU income from Meta. Filing taxes became a nightmare - I had to pay both US and Canadian taxes on the same income. My accountant charged $800/year just for RSU calculations, and I still ended up overpaying $2,300 in taxes due to incorrectly claimed Foreign Tax Credits.\n\n**The Solution:**\nTaxBridge automates dual-country tax calculations for cross-border tech workers. We handle:\n\n✅ **Dual Tax Calculation:** US federal + state AND Canada federal + provincial tax on RSU income\n✅ **FTC Optimizer:** Eliminates double taxation by maximizing Foreign Tax Credit claims\n✅ **Forms Checklist:** Complete list of required forms (W-2, 1040/1040-NR, T1, T4, FBAR, Form 8938, Treaty Article XV Form 8833)\n\n**Built for Big Tech:**\n- Auto-imports RSU vesting data from Meta, Amazon, Google, Microsoft\n- Handles complex equity compensation (RSUs, stock options, ESPP)\n- USD/CAD conversion using Bank of Canada official rates\n- Professional PDF reports to share with your CPA\n\n**Real Beta User Results:**\n- Priya (Meta, Vancouver): Saved $2,300 in FTC errors\n- David (Amazon, Toronto): Saved $4,100 on 2025 filing\n- Maria (Google, Montreal): \"Made dual-country taxes crystal clear\"\n\n**Special Launch Offer:**\nUse code **HUNT20** for 20% off Pro plan for the next 48 hours ($299 → $239/year)\n\n**Questions I'm here to answer:**\n- How does the Foreign Tax Credit work for dual-country filers?\n- What's the difference between 1040 and 1040-NR for H-1B holders in Canada?\n- How do you handle Treaty Article XV compliance?\n- What makes TaxBridge different from TurboTax or hiring a CPA?\n\nAsk me anything! 🚀",
+  "utm_parameters": {
+    "source": "producthunt",
+    "medium": "launch",
+    "campaign": "hunt2026"
+  },
+  "goals": {
+    "primary": "500+ upvotes → #1 Product of the Day",
+    "secondary": {
+      "visitors": "1,000+",
+      "signups": "100+",
+      "paid_subscribers": "20+",
+      "revenue": "$5,980"
+    }
+  },
+  "preparation_checklist": [
+    "Create HUNT20 promo code in Stripe (20% off)",
+    "Capture 5 screenshots at 1280x800px",
+    "Upload thumbnail (240x240px)",
+    "Create Product Hunt account/profile",
+    "Email beta users 24h before launch",
+    "Prepare social media posts (LinkedIn, Twitter)",
+    "Set phone alerts for comment notifications",
+    "Block calendar for 12 hours on launch day"
+  ]
+}

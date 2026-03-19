@@ -3,7 +3,7 @@ import { generateAllPageParams } from '@/lib/seo/geo-data';
 import { getAllArticleSlugs } from '@/lib/blog/articles';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://taxbridgecpa.com';
+  const baseUrl = 'https://taxbridge.app';
   const now = new Date();
 
   // Static public pages with individual priorities

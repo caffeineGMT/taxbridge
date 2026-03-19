@@ -429,7 +429,7 @@ export default function RedditAnalyticsDashboard() {
             <h4 className="font-semibold mb-2">Step 1: Use UTM-tagged links</h4>
             <p className="text-sm text-muted-foreground mb-2">All Reddit posts/comments should use tracking links from <code className="bg-background px-1 py-0.5 rounded">lib/utm-generator.ts</code>:</p>
             <code className="text-xs bg-background block p-2 rounded">
-              https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study
+              https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study
             </code>
           </div>
 

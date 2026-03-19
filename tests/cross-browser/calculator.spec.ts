@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('Calculator - Cross Browser', () => {
-  const PROD_URL = 'https://taxbridgecpa.com';
+  const PROD_URL = 'https://taxbridge.app';
 
   test.beforeEach(async ({ page }) => {
     await page.goto(PROD_URL);

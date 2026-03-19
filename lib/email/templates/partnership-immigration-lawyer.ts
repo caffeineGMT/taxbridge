@@ -69,8 +69,8 @@ Looking forward to working together to help your clients keep more of their hard
 Best regards,
 Michael Guo
 Founder, TaxBridge
-https://taxbridgecpa.com
-michael@taxbridgecpa.com
+https://taxbridge.app
+michael@taxbridge.app
 
 P.S. - ${lawyerWebsite ? `I noticed on ${lawyerWebsite} that you ` : 'Since you '}specialize in ${specialization || 'H-1B/TN visa cases'}. Our clients are exactly the same demographic - this partnership could be incredibly valuable for both of us.`;
 

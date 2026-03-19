@@ -328,8 +328,8 @@ export default async function PartnerDashboardPage() {
               <CardContent className="space-y-2 text-sm text-slate-400">
                 <p>
                   <strong className="text-white">Email:</strong>{' '}
-                  <a href="mailto:partners@taxbridgecpa.com" className="text-blue-400 hover:underline">
-                    partners@taxbridgecpa.com
+                  <a href="mailto:partners@taxbridge.app" className="text-blue-400 hover:underline">
+                    partners@taxbridge.app
                   </a>
                 </p>
                 <p>

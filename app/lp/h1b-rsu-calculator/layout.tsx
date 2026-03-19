@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     'cross-border rsu tax',
   ],
   alternates: {
-    canonical: 'https://taxbridgecpa.com/lp/h1b-rsu-calculator',
+    canonical: 'https://taxbridge.app/lp/h1b-rsu-calculator',
   },
   openGraph: {
     title: 'H1B RSU Tax Calculator - Calculate Your Exact Tax in 2 Minutes',
     description:
       'Avoid double taxation on your Meta, Amazon, or Google RSUs. Free calculator with automatic Foreign Tax Credit. 2,000+ H1B workers helped, $1M+ in tax savings identified.',
-    url: 'https://taxbridgecpa.com/lp/h1b-rsu-calculator',
+    url: 'https://taxbridge.app/lp/h1b-rsu-calculator',
     type: 'website',
     images: [
       {

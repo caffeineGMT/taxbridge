@@ -73,7 +73,7 @@ export function getRedditTrackingLink(
 export const RedditLinks = {
   // r/personalfinance case study post
   personalFinanceCaseStudy: getRedditTrackingLink(
-    'https://taxbridgecpa.com',
+    'https://taxbridge.app',
     'personalfinance',
     'case-study',
     'long-form'
@@ -81,49 +81,49 @@ export const RedditLinks = {
 
   // r/h1b engagement
   h1bComment: getRedditTrackingLink(
-    'https://taxbridgecpa.com',
+    'https://taxbridge.app',
     'h1b',
     'comment',
     'helpful-reply'
   ),
 
   h1bPost: getRedditTrackingLink(
-    'https://taxbridgecpa.com',
+    'https://taxbridge.app',
     'h1b',
     'post'
   ),
 
   // r/ImmigrationCanada engagement
   immigrationCanadaComment: getRedditTrackingLink(
-    'https://taxbridgecpa.com',
+    'https://taxbridge.app',
     'ImmigrationCanada',
     'comment',
     'helpful-reply'
   ),
 
   immigrationCanadaPost: getRedditTrackingLink(
-    'https://taxbridgecpa.com',
+    'https://taxbridge.app',
     'ImmigrationCanada',
     'post'
   ),
 
   // Calculator direct links
   calculatorPersonalFinance: getRedditTrackingLink(
-    'https://taxbridgecpa.com/#calculator',
+    'https://taxbridge.app/#calculator',
     'personalfinance',
     'case-study',
     'calculator-cta'
   ),
 
   calculatorH1B: getRedditTrackingLink(
-    'https://taxbridgecpa.com/#calculator',
+    'https://taxbridge.app/#calculator',
     'h1b',
     'comment',
     'calculator-cta'
   ),
 
   calculatorImmigrationCanada: getRedditTrackingLink(
-    'https://taxbridgecpa.com/#calculator',
+    'https://taxbridge.app/#calculator',
     'ImmigrationCanada',
     'comment',
     'calculator-cta'

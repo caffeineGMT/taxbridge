@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-03-19T15:39:55.852Z",
+  "stripeMode": "unconfigured",
+  "keyStatus": {
+    "configured": false,
+    "keyPrefix": "none",
+    "isPlaceholder": false
+  },
+  "customers": {
+    "total": 0,
+    "withActiveSubscriptions": 0,
+    "withCanceledSubscriptions": 0
+  },
+  "subscriptions": {
+    "active": 0,
+    "pastDue": 0,
+    "canceled": 0,
+    "trialing": 0,
+    "incomplete": 0,
+    "total": 0
+  },
+  "revenue": {
+    "mrr": 0,
+    "arr": 0,
+    "byPlan": {}
+  },
+  "recentActivity": {
+    "paymentsLast30Days": 0,
+    "totalRevenueLast30Days": 0,
+    "newCustomersLast30Days": 0,
+    "churnedCustomersLast30Days": 0
+  },
+  "warnings": [
+    "⚠️  CRITICAL: Stripe is not configured. Cannot accept payments.",
+    "⚠️  CRITICAL: Revenue is $0 because Stripe keys are placeholders.",
+    "⚠️  ACTION REQUIRED: Replace placeholder Stripe keys with real keys from Stripe Dashboard."
+  ],
+  "errors": [
+    "STRIPE_SECRET_KEY environment variable not set"
+  ]
+}

@@ -50,6 +50,8 @@
     "outreach:update-stats": "tsx scripts/outreach-update-stats.ts",
     "immigration:outreach": "tsx scripts/immigration-lawyer-outreach.ts",
     "immigration:outreach:dry-run": "tsx scripts/immigration-lawyer-outreach.ts --dry-run",
+    "capture:screenshots": "tsx scripts/capture-product-hunt-screenshots.ts",
+    "submit:producthunt": "echo '⚠️  Product Hunt submission requires manual steps. See docs/PRODUCT_HUNT_MANUAL_SUBMISSION.md' && exit 1",
     "immigration:followups": "tsx scripts/immigration-lawyer-followups.ts",
     "monitor:cro": "tsx scripts/monitor-cro-test.ts",
     "pricing:setup": "tsx scripts/setup-pricing-experiment.ts",

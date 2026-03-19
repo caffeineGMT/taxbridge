@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
  */
 
 test.describe('Forms - Cross Browser', () => {
-  const PROD_URL = 'https://taxbridgecpa.com';
+  const PROD_URL = 'https://taxbridge.app';
 
   test('signup form should be accessible', async ({ page, browserName }) => {
     await page.goto(PROD_URL);

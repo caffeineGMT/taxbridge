@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Playwright config for cross-browser regression testing on PRODUCTION
- * Tests taxbridgecpa.com across Chrome, Firefox, Safari, Edge, and mobile
+ * Tests taxbridge.app across Chrome, Firefox, Safari, Edge, and mobile
  */
 export default defineConfig({
   testDir: './tests/cross-browser',

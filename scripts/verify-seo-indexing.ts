@@ -4,7 +4,7 @@
  * SEO Infrastructure & Google Indexing Validation Script
  *
  * Validates:
- * 1. Production site accessibility (taxbridgecpa.com)
+ * 1. Production site accessibility (taxbridge.app)
  * 2. Sitemap accessibility and content
  * 3. Blog article accessibility
  * 4. Google indexing status (site: operator)
@@ -44,9 +44,9 @@ function addResult(result: ValidationResult) {
 async function checkProductionSite() {
   console.log('═══ PRODUCTION SITE ACCESSIBILITY ═══\n');
 
-  // Check taxbridgecpa.com
+  // Check taxbridge.app
   try {
-    const response = execSync('curl -I https://taxbridgecpa.com 2>&1', {
+    const response = execSync('curl -I https://taxbridge.app 2>&1', {
       encoding: 'utf-8',
       timeout: 10000
     });
@@ -56,7 +56,7 @@ async function checkProductionSite() {
         category: 'Production Site',
         check: 'Domain Accessibility',
         status: 'FAIL',
-        details: 'taxbridgecpa.com returns 503 or is unreachable',
+        details: 'taxbridge.app returns 503 or is unreachable',
         impact: 'CRITICAL',
         action: 'Fix DNS configuration or Vercel deployment settings'
       });
@@ -65,7 +65,7 @@ async function checkProductionSite() {
         category: 'Production Site',
         check: 'Domain Accessibility',
         status: 'PASS',
-        details: 'taxbridgecpa.com is accessible (200 OK)'
+        details: 'taxbridge.app is accessible (200 OK)'
       });
     } else {
       addResult({
@@ -138,12 +138,12 @@ async function checkSitemap() {
   try {
     const sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
 
-    if (sitemapContent.includes('taxbridgecpa.com')) {
+    if (sitemapContent.includes('taxbridge.app')) {
       addResult({
         category: 'Sitemap',
         check: 'Local Configuration',
         status: 'PASS',
-        details: 'app/sitemap.ts correctly uses taxbridgecpa.com base URL'
+        details: 'app/sitemap.ts correctly uses taxbridge.app base URL'
       });
     } else if (sitemapContent.includes('taxbridge.app')) {
       addResult({
@@ -152,7 +152,7 @@ async function checkSitemap() {
         status: 'FAIL',
         details: 'app/sitemap.ts still uses wrong domain (taxbridge.app)',
         impact: 'CRITICAL',
-        action: 'Change base URL to taxbridgecpa.com'
+        action: 'Change base URL to taxbridge.app'
       });
     } else {
       addResult({
@@ -174,7 +174,7 @@ async function checkSitemap() {
 
   // Check production sitemap accessibility
   try {
-    const response = execSync('curl -I https://taxbridgecpa.com/sitemap.xml 2>&1', {
+    const response = execSync('curl -I https://taxbridge.app/sitemap.xml 2>&1', {
       encoding: 'utf-8',
       timeout: 10000
     });
@@ -184,12 +184,12 @@ async function checkSitemap() {
         category: 'Sitemap',
         check: 'Production Accessibility',
         status: 'PASS',
-        details: 'https://taxbridgecpa.com/sitemap.xml is accessible (200 OK)'
+        details: 'https://taxbridge.app/sitemap.xml is accessible (200 OK)'
       });
 
       // Count URLs in sitemap
       try {
-        const sitemapContent = execSync('curl -s https://taxbridgecpa.com/sitemap.xml 2>&1', {
+        const sitemapContent = execSync('curl -s https://taxbridge.app/sitemap.xml 2>&1', {
           encoding: 'utf-8',
           timeout: 10000
         });
@@ -261,7 +261,7 @@ async function checkBlogArticles() {
 
     for (const slug of sampleSlugs) {
       try {
-        const response = execSync(`curl -I https://taxbridgecpa.com/blog/${slug} 2>&1`, {
+        const response = execSync(`curl -I https://taxbridge.app/blog/${slug} 2>&1`, {
           encoding: 'utf-8',
           timeout: 10000
         });
@@ -320,9 +320,9 @@ async function checkGoogleIndexing() {
 
   addResult({
     category: 'Google Indexing',
-    check: 'site:taxbridgecpa.com',
+    check: 'site:taxbridge.app',
     status: 'WARNING',
-    details: 'Manual check required - search "site:taxbridgecpa.com" on Google',
+    details: 'Manual check required - search "site:taxbridge.app" on Google',
     action: 'Set up Google Search Console to track indexing progress'
   });
 
@@ -343,12 +343,12 @@ async function checkEnvironmentConfig() {
     const envPath = path.join(process.cwd(), '.env.production');
     const envContent = fs.readFileSync(envPath, 'utf-8');
 
-    if (envContent.includes('NEXT_PUBLIC_APP_URL=https://taxbridgecpa.com')) {
+    if (envContent.includes('NEXT_PUBLIC_APP_URL=https://taxbridge.app')) {
       addResult({
         category: 'Environment',
         check: '.env.production',
         status: 'PASS',
-        details: 'NEXT_PUBLIC_APP_URL correctly set to taxbridgecpa.com'
+        details: 'NEXT_PUBLIC_APP_URL correctly set to taxbridge.app'
       });
     } else if (envContent.includes('taxbridge.app')) {
       addResult({
@@ -357,7 +357,7 @@ async function checkEnvironmentConfig() {
         status: 'FAIL',
         details: 'NEXT_PUBLIC_APP_URL uses wrong domain',
         impact: 'HIGH',
-        action: 'Update to taxbridgecpa.com'
+        action: 'Update to taxbridge.app'
       });
     } else {
       addResult({
@@ -422,7 +422,7 @@ function generateSummary() {
 
   if (criticalIssues.length > 0) {
     console.log('⚡ IMMEDIATE ACTION REQUIRED (P0):');
-    console.log('   1. Fix production domain (taxbridgecpa.com) - currently returning 503');
+    console.log('   1. Fix production domain (taxbridge.app) - currently returning 503');
     console.log('   2. Verify Vercel deployment has correct application');
     console.log('   3. Once domain is live, verify sitemap.xml accessibility\n');
   } else {

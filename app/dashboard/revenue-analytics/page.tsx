@@ -452,7 +452,7 @@ export default function RevenueAnalyticsDashboard() {
           {trafficSources.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <p>No traffic data available yet. Start driving traffic with UTM parameters to see attribution data.</p>
-              <p className="text-sm mt-2">Example: https://taxbridgecpa.com/?utm_source=google&utm_medium=cpc&utm_campaign=h1b-rsus</p>
+              <p className="text-sm mt-2">Example: https://taxbridge.app/?utm_source=google&utm_medium=cpc&utm_campaign=h1b-rsus</p>
             </div>
           ) : (
             <>

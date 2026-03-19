@@ -44,15 +44,15 @@ export default function CROTestLandingPage() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'TaxBridge',
-    url: 'https://taxbridgecpa.com',
-    logo: 'https://taxbridgecpa.com/logo.png',
+    url: 'https://taxbridge.app',
+    logo: 'https://taxbridge.app/logo.png',
     description:
       'US-Canada cross-border tax calculator for H-1B and TN visa tech workers with RSU income.',
     sameAs: [],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Support',
-      email: 'support@taxbridgecpa.com',
+      email: 'support@taxbridge.app',
     },
   };
 
