@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description: 'Track LinkedIn outreach to FAANG HR departments',
 };
 
+// Force dynamic rendering - requires database access
+export const dynamic = 'force-dynamic';
+
 export default async function HROutreachDashboard() {
   // Fetch real data from database
   const summary = getHRDashboardSummary();

@@ -13,9 +13,6 @@
 
 'use client';
 
-// Force dynamic rendering - this page requires runtime data fetching
-export const dynamic = 'force-dynamic';
-
 import React, { useState, useEffect } from 'react';
 import {
   DollarSign,
