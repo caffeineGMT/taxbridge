@@ -53,39 +53,87 @@ $ curl -s -o /dev/null -w "%{http_code}" https://taxbridge.vercel.app/checkout
 
 ---
 
-## QUICK UNBLOCK (30-60 min)
+## QUICK UNBLOCK (2-3 hours)
 
-### Step 1: Get Stripe Keys (5 min)
+### PHASE 1: Fix Stripe (60 min)
+
+#### Step 1: Get Stripe Keys (5 min)
 - Go to https://dashboard.stripe.com/apikeys
 - Toggle to **"Production"** mode
 - Copy `sk_live_...` and `pk_live_...`
 
-### Step 2: Create Price IDs (10 min)
+#### Step 2: Create Price IDs (10 min)
 ```bash
 export STRIPE_SECRET_KEY=sk_live_your_real_key
 npx tsx scripts/activate-stripe-production-annual.ts
 ```
 Copy price IDs from output
 
-### Step 3: Create Webhook (5 min)
+#### Step 3: Create Webhook (5 min)
 - Go to https://dashboard.stripe.com/webhooks
 - URL: `https://taxbridge.vercel.app/api/stripe/webhook`
 - Events: `checkout.session.completed`, `customer.subscription.*`
 - Copy `whsec_...` secret
 
-### Step 4: Update Vercel (10 min)
+#### Step 4: Update Vercel (10 min)
 - Go to https://vercel.com/taxbridge/settings/environment-variables
 - Update ALL 5 keys with REAL values (not placeholders)
 
-### Step 5: Verify (5 min)
+#### Step 5: Verify (5 min)
 ```bash
-npx tsx scripts/verify-stripe-mode.ts
-# Should show: ✅ PRODUCTION MODE ACTIVE
+npx tsx scripts/verify-stripe-production.ts
+# Should show: ✅ STRIPE PRODUCTION MODE IS ACTIVE
+```
+
+### PHASE 2: Fix Missing Pages (30 min)
+
+#### Step 6: Investigate 404 Errors
+```bash
+# Check build output
+npm run build 2>&1 | grep -E "(pricing|checkout)"
+
+# Verify pages exist in build output
+ls -la .next/server/app/pricing/
+ls -la .next/server/app/checkout/
+
+# Check for build errors
+cat .next/build-manifest.json | jq '.pages | keys' | grep -E "(pricing|checkout)"
+```
+
+#### Step 7: Possible Fixes
+
+**Option A**: Build failure during deployment
+- Check Vercel deployment logs
+- Look for errors specific to pricing/checkout pages
+- Fix errors and redeploy
+
+**Option B**: Routing configuration
+- Check `next.config.js` for excludes/redirects
+- Check middleware for route blocks
+- Remove any blocks and redeploy
+
+**Option C**: Authentication redirect
+- Check if pages require auth without being wrapped in auth middleware
+- Add auth wrapper or make pages public
+
+#### Step 8: Verify Pages Work
+```bash
+# After redeployment:
+curl -s -o /dev/null -w "%{http_code}" https://taxbridge.vercel.app/pricing
+# Should show: 200
+
+curl -s -o /dev/null -w "%{http_code}" https://taxbridge.vercel.app/checkout
+# Should show: 200
 ```
 
 ---
 
-## EXECUTE TEST (30 min - AFTER unblock)
+## EXECUTE TEST (30 min - AFTER Phase 1 & 2 complete)
+
+**Prerequisites**:
+- ✅ Stripe verification passes: `npx tsx scripts/verify-stripe-production.ts`
+- ✅ Pricing page returns HTTP 200: `curl https://taxbridge.vercel.app/pricing`
+- ✅ Checkout page returns HTTP 200: `curl https://taxbridge.vercel.app/checkout`
 
 ```bash
 # Screen record this:
