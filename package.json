@@ -122,7 +122,9 @@
     "monitor:ab-tests": "tsx scripts/monitor-ab-tests.ts",
     "implement:ab-winners": "tsx scripts/implement-ab-winners.ts",
     "implement:ab-winners:dry-run": "tsx scripts/implement-ab-winners.ts --dry-run",
-    "implement:ab-winners:confirm": "tsx scripts/implement-ab-winners.ts --confirm"
+    "implement:ab-winners:confirm": "tsx scripts/implement-ab-winners.ts --confirm",
+    "conversion:baseline": "tsx scripts/pull-conversion-baseline.ts",
+    "analyze:funnel": "tsx scripts/diagnose-conversion-funnel.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
