@@ -4,42 +4,85 @@ import { getAllArticleSlugs } from '@/lib/blog/articles';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://taxbridge.app';
+  const now = new Date();
 
-  // Static pages
-  const staticPages = [
-    '',
-    '/us-canada-tax-calculator',
-    '/h1b-rsu-tax-guide',
-    '/canada-tax-filing-checklist',
-    '/pricing',
-    '/dashboard',
-    '/blog',
-  ].map(route => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1.0 : 0.8,
-  }));
+  // Static public pages with individual priorities
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/us-canada-tax-calculator`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/pricing`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/h1b-rsu-tax-guide`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/canada-tax-filing-checklist`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/enterprise`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/partners`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/api-docs`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+  ];
 
   // Generate all geo-targeted landing pages
-  const geoPages = generateAllPageParams().map(({ state, province, employer }) => {
+  const geoPages: MetadataRoute.Sitemap = generateAllPageParams().map(({ state, province, employer }) => {
     const slug = employer
       ? `${employer}-${province.toLowerCase()}`
       : `${state.toLowerCase()}-${province.toLowerCase()}`;
 
     return {
       url: `${baseUrl}/tax-calculator/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: employer ? 0.9 : 0.85, // Employer pages slightly higher priority
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: employer ? 0.9 : 0.85,
     };
   });
 
   // Blog articles
-  const blogPages = getAllArticleSlugs().map(slug => ({
+  const blogPages: MetadataRoute.Sitemap = getAllArticleSlugs().map(slug => ({
     url: `${baseUrl}/blog/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
+    lastModified: now,
+    changeFrequency: 'monthly',
     priority: 0.7,
   }));
 

@@ -89,10 +89,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: metadata.title,
     description: metadata.description,
     keywords: keywords.join(', '),
+    alternates: {
+      canonical: `https://taxbridge.app/tax-calculator/${slug}`,
+    },
     openGraph: {
       title: metadata.title,
       description: metadata.description,
+      url: `https://taxbridge.app/tax-calculator/${slug}`,
+      siteName: 'TaxBridge',
       type: 'website',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: metadata.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: metadata.title,
+      description: metadata.description,
+      images: ['/og-image.png'],
     },
   };
 }

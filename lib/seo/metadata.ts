@@ -100,9 +100,9 @@ export const presetMetadata = {
     canonicalUrl: '/us-canada-tax-calculator',
   }),
   guide: generatePageMetadata({
-    title: 'H1B RSU Tax Guide: US-Canada Cross-Border Filing (2025)',
+    title: 'H1B RSU Tax Guide: US-Canada Cross-Border Filing (2026)',
     description:
-      'Complete guide to filing US and Canada taxes on RSU income. Learn Article XV, Foreign Tax Credit, required forms (W-2, 1040, T1, T4, FBAR, 8938), and common mistakes. Updated for 2025.',
+      'Complete guide to filing US and Canada taxes on RSU income. Learn Article XV, Foreign Tax Credit, required forms (W-2, 1040, T1, T4, FBAR, 8938), and common mistakes. Updated for 2026.',
     keywords: [
       'h1b rsu tax guide',
       'cross border tax filing',
@@ -115,7 +115,7 @@ export const presetMetadata = {
     canonicalUrl: '/h1b-rsu-tax-guide',
   }),
   checklist: generatePageMetadata({
-    title: 'Canada Tax Filing Checklist for US Tech Workers (2025)',
+    title: 'Canada Tax Filing Checklist for US Tech Workers (2026)',
     description:
       'Complete tax filing checklist for Canadians with US RSU income. Track deadlines, required forms (T1, T4, T2209, FBAR, 8938), CRA links, and filing steps. Never miss a deadline.',
     keywords: [

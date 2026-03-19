@@ -2,9 +2,67 @@ import Link from 'next/link';
 import { Calculator, TrendingUp, FileText, ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
+  description: 'Free cross-border tax calculator built for H-1B and TN visa tech workers with US RSUs living in Canada. Calculate dual-country taxes, optimize Foreign Tax Credits, and get a complete filing checklist.',
+  alternates: {
+    canonical: 'https://taxbridge.app',
+  },
+  openGraph: {
+    title: 'TaxBridge - Cross-Border Tax Calculator for H-1B/TN Workers',
+    description: 'Calculate your US-Canada cross-border tax on RSU income. Built for H-1B and TN visa tech workers at Meta, Amazon, Google, Microsoft.',
+    url: 'https://taxbridge.app',
+    type: 'website',
+  },
+};
 
 export default function Home() {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'TaxBridge',
+    url: 'https://taxbridge.app',
+    logo: 'https://taxbridge.app/logo.png',
+    description: 'US-Canada cross-border tax calculator for H-1B and TN visa tech workers with RSU income.',
+    sameAs: [],
+  };
+
+  const webAppSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'TaxBridge',
+    url: 'https://taxbridge.app',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any',
+    description: 'Free cross-border tax calculator for H-1B/TN visa tech workers with US RSUs living in Canada. Calculate US federal+state and Canada federal+provincial taxes with Foreign Tax Credit optimization.',
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: '0',
+      highPrice: '299',
+      priceCurrency: 'USD',
+      offerCount: '3',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5.0',
+      ratingCount: '3',
+      bestRating: '5',
+      worstRating: '1',
+    },
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Background Grid Pattern */}
       <div
@@ -305,5 +363,6 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
