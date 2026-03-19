@@ -1,16 +1,25 @@
 # Revenue Smoke Test - Executive Summary
 
-**Status**: ❌ **BLOCKED**
-**Blocker**: Stripe production keys are placeholders, not real API keys
+**Date**: 2026-03-19 (Updated)
+**Status**: ❌❌❌ **TRIPLE BLOCKED**
+**Blockers**:
+1. ❌ Stripe production keys are placeholders (not real API keys)
+2. ❌ Pricing page returns 404 on production
+3. ❌ Checkout page returns 404 on production
+
 **Impact**: Cannot execute real payment test | $0 MRR capability | 8+ sprints blocked
-**Time to Unblock**: 30-60 minutes (manual Stripe configuration)
+**Time to Unblock**: 2-3 hours (Stripe configuration + fix missing pages)
 **Time to Complete After Unblock**: 30 minutes (automated script execution)
 
 ---
 
 ## TL;DR
 
-**YOU CANNOT RUN THE REVENUE SMOKE TEST** until you replace placeholder Stripe keys with real production keys.
+**YOU CANNOT RUN THE REVENUE SMOKE TEST** until you:
+1. Replace placeholder Stripe keys with real production keys
+2. Fix 404 errors on pricing and checkout pages
+
+### Blocker 1: Stripe Placeholders
 
 Current state:
 ```bash
@@ -21,6 +30,26 @@ Required state:
 ```bash
 STRIPE_SECRET_KEY=sk_live_51AbCdEf...actual_key  # ✅ REAL KEY
 ```
+
+### Blocker 2: Missing Pages (NEW - 2026-03-19)
+
+```bash
+$ curl -s -o /dev/null -w "%{http_code}" https://taxbridge.vercel.app/pricing
+404  # ❌ Page exists in code but returns 404 on production
+
+$ curl -s -o /dev/null -w "%{http_code}" https://taxbridge.vercel.app/checkout
+404  # ❌ Page exists in code but returns 404 on production
+```
+
+**Impact**: Even if Stripe was configured, users cannot select plans or checkout because pages are missing!
+
+**Root Cause**: Unknown - possible deployment issue, build failure, or routing problem
+
+**Files Exist Locally**:
+- `app/pricing/page.tsx` ✅
+- `app/checkout/page.tsx` ✅
+
+**But Production Returns**: HTTP 404 ❌
 
 ---
 

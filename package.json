@@ -93,6 +93,7 @@
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
     "verify:stripe-production": "tsx scripts/verify-stripe-production.ts",
     "verify:stripe:live": "tsx scripts/verify-stripe-live.ts",
+    "verify:sentry": "tsx scripts/verify-sentry-production.ts",
     "stripe:create-competitive-prices": "tsx scripts/stripe-create-competitive-prices.ts",
     "analyze:sessions": "tsx scripts/analyze-posthog-session-recordings.ts",
     "analyze:channels": "tsx scripts/analyze-channel-attribution.ts",
