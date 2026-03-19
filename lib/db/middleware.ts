@@ -25,7 +25,7 @@ export async function getRLSContext(): Promise<RLSContext | null> {
     return null;
   }
 
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     return null;

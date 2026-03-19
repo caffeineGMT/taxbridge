@@ -101,8 +101,8 @@ export const getAllRates = (): Record<number, number> => {
 export const getExchangeRate = async (date: string): Promise<number> => {
   try {
     // Check cache first
-    const cachedRate = getCachedExchangeRate(date);
-    if (cachedRate !== undefined) {
+    const cachedRate = await getCachedExchangeRate(date);
+    if (typeof cachedRate === 'number') {
       return cachedRate;
     }
 

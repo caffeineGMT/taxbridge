@@ -48,6 +48,8 @@
     "stripe:setup-live": "node scripts/setup-stripe-live.js",
     "stripe:activate-production": "tsx scripts/activate-stripe-production.ts",
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
+    "customer-success": "tsx scripts/customer-success-outreach.ts",
+    "customer-success:dry-run": "tsx scripts/customer-success-outreach.ts --dry-run",
     "stripe:quickstart": "tsx scripts/stripe-production-quickstart.ts",
     "test:live-payment": "tsx scripts/test-live-payment.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",

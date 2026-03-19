@@ -10,11 +10,6 @@ import Database from 'better-sqlite3';
 import type { Database as SQLiteDatabase } from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Database type detection
 const IS_POSTGRES = !!process.env.DATABASE_URL;
@@ -183,7 +178,7 @@ export async function initializeDatabase(): Promise<void> {
     await initPG();
   } else {
     const db = getSQLiteDatabase();
-    const schemaPath = path.join(__dirname, 'schema.sql');
+    const schemaPath = path.join(process.cwd(), 'lib', 'db', 'schema.sql');
     const schema = fs.readFileSync(schemaPath, 'utf-8');
     db.exec(schema);
     console.log('✓ SQLite database schema initialized successfully');

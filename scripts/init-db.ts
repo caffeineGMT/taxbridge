@@ -21,7 +21,7 @@ async function main() {
     // Optionally seed data
     if (shouldSeed) {
       console.log('');
-      seedDatabase();
+      await seedDatabase();
     } else {
       console.log('\n💡 Tip: Run with --seed flag to populate sample data');
       console.log('   npm run db:init -- --seed\n');

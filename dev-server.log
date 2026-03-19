@@ -1,0 +1,557 @@
+
+> cross-border-tax@0.1.0 dev
+> next dev
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+   ▲ Next.js 15.5.13
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.83:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · clientTraceMetadata
+     · optimizePackageImports
+
+ ✓ Starting...
+[@sentry/nextjs] Could not find `onRequestError` hook in instrumentation file. This indicates outdated configuration of the Sentry SDK. Use `Sentry.captureRequestError` to instrument the `onRequestError` hook: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#errors-from-nested-react-server-components
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ○ Compiling /instrumentation ...
+ ✓ Compiled /instrumentation in 2.3s (1127 modules)
+[@sentry/nextjs] You have enabled `debug: true`, but Sentry debug logging was removed from your bundle (likely via `withSentryConfig({ disableLogger: true })` / `webpack.treeshake.removeDebugLogging: true`). Set that option to `false` to see Sentry debug output.
+[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.
+Invalid Sentry Dsn: https://your-sentry-key@o0000000.ingest.sentry.io/0000000
+ ✓ Ready in 5.1s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1308ms (1675 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/edge-instrumentation.js']
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1380ms (1473 modules)
+ ⨯ Error: Cannot find module '../webpack-runtime.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/pages/_document.js:70:27)
+    at Object.<anonymous> (.next/server/pages/_document.js:76:3) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (180kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (139kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (194kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 10.2s (5447 modules)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 49ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development-fallback/0.pack.gz_' -> '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development-fallback/0.pack.gz'
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/0.pack.gz'
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 34ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 168ms
+ GET /enterprise/calculator 500 in 168ms
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 93ms
+ GET / 500 in 93ms
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 171ms
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 184ms
+ GET /enterprise/calculator 500 in 184ms
+ GET /enterprise/calculator 500 in 184ms
+ GET / 500 in 184ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 33ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 38ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/build-manifest.json'
+}
+ ✓ Compiled in 937ms (4525 modules)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 336ms
+ GET /enterprise/calculator 500 in 336ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 266ms
+[?25h

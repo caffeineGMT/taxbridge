@@ -11,13 +11,13 @@ import {
 /**
  * Seed the database with sample data for testing
  */
-export function seedDatabase(): void {
+export async function seedDatabase(): Promise<void> {
   const db = getDatabase();
 
   console.log('🌱 Seeding database with sample data...');
 
   // Get or create default user
-  const user = getOrCreateDefaultUser();
+  const user = await getOrCreateDefaultUser();
   console.log(`✓ User profile created: ${user.first_name} ${user.last_name} (ID: ${user.id})`);
 
   // Cache some exchange rates
@@ -79,11 +79,12 @@ export function seedDatabase(): void {
   ];
 
   const rsuIds: number[] = [];
-  rsuEntries.forEach((entry, index) => {
-    const id = insertRSUEntry(entry);
+  for (let index = 0; index < rsuEntries.length; index++) {
+    const entry = rsuEntries[index];
+    const id = await insertRSUEntry(entry);
     rsuIds.push(id);
     console.log(`✓ RSU entry ${index + 1}: ${entry.employer} - ${entry.shares} shares @ $${entry.fmv_usd} on ${entry.vest_date}`);
-  });
+  }
 
   // Sample tax calculations for each RSU entry
   rsuEntries.forEach((entry, index) => {

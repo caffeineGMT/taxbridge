@@ -1,0 +1,72 @@
+
+Running 23 tests using 1 worker
+
+  ✘   1 [chromium-desktop] › tests/manual-qa.spec.ts:24:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.1 Landing page loads correctly (10.0s)
+  -   2 [chromium-desktop] › tests/manual-qa.spec.ts:43:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.2 Sign up page loads and form is accessible
+  -   3 [chromium-desktop] › tests/manual-qa.spec.ts:62:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.3 OAuth buttons are present
+  -   4 [chromium-desktop] › tests/manual-qa.spec.ts:75:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.4 Form validation works
+  -   5 [chromium-desktop] › tests/manual-qa.spec.ts:100:9 › Manual QA - User Flow Testing › 2. CALCULATOR FLOW › 2.1 Calculator page loads
+  -   6 [chromium-desktop] › tests/manual-qa.spec.ts:123:9 › Manual QA - User Flow Testing › 2. CALCULATOR FLOW › 2.2 Calculator inputs are accessible and functional
+  -   7 [chromium-desktop] › tests/manual-qa.spec.ts:147:9 › Manual QA - User Flow Testing › 2. CALCULATOR FLOW › 2.3 Calculator handles edge cases
+  -   8 [chromium-desktop] › tests/manual-qa.spec.ts:175:9 › Manual QA - User Flow Testing › 2. CALCULATOR FLOW › 2.4 Calculate button works and shows results
+  -   9 [chromium-desktop] › tests/manual-qa.spec.ts:207:9 › Manual QA - User Flow Testing › 2. CALCULATOR FLOW › 2.5 Results show correct tax breakdown
+  -  10 [chromium-desktop] › tests/manual-qa.spec.ts:243:9 › Manual QA - User Flow Testing › 3. CHECKOUT FLOW › 3.1 Pricing page loads
+  -  11 [chromium-desktop] › tests/manual-qa.spec.ts:262:9 › Manual QA - User Flow Testing › 3. CHECKOUT FLOW › 3.2 Pricing tiers are displayed correctly
+  -  12 [chromium-desktop] › tests/manual-qa.spec.ts:283:9 › Manual QA - User Flow Testing › 3. CHECKOUT FLOW › 3.3 Checkout button is accessible
+  -  13 [chromium-desktop] › tests/manual-qa.spec.ts:305:9 › Manual QA - User Flow Testing › 3. CHECKOUT FLOW › 3.4 Stripe checkout flow initiates (requires auth)
+  -  14 [chromium-desktop] › tests/manual-qa.spec.ts:338:9 › Manual QA - User Flow Testing › 4. DASHBOARD FLOW › 4.1 Dashboard requires authentication
+  -  15 [chromium-desktop] › tests/manual-qa.spec.ts:362:9 › Manual QA - User Flow Testing › 4. DASHBOARD FLOW › 4.2 Dashboard navigation structure
+  -  16 [chromium-desktop] › tests/manual-qa.spec.ts:381:9 › Manual QA - User Flow Testing › 4. DASHBOARD FLOW › 4.3 Multi-year dashboard route exists
+  -  17 [chromium-desktop] › tests/manual-qa.spec.ts:404:9 › Manual QA - User Flow Testing › 4. DASHBOARD FLOW › 4.4 Import flow route exists
+  -  18 [chromium-desktop] › tests/manual-qa.spec.ts:427:9 › Manual QA - User Flow Testing › 4. DASHBOARD FLOW › 4.5 Subscription page route exists
+  -  19 [chromium-desktop] › tests/manual-qa.spec.ts:452:9 › Manual QA - User Flow Testing › 5. MOBILE RESPONSIVENESS › 5.1 Mobile viewport - Landing page
+  -  20 [chromium-desktop] › tests/manual-qa.spec.ts:465:9 › Manual QA - User Flow Testing › 5. MOBILE RESPONSIVENESS › 5.2 Mobile viewport - Calculator
+  -  21 [chromium-desktop] › tests/manual-qa.spec.ts:487:9 › Manual QA - User Flow Testing › 5. MOBILE RESPONSIVENESS › 5.3 Tablet viewport - Dashboard
+  -  22 [chromium-desktop] › tests/manual-qa.spec.ts:497:9 › Manual QA - User Flow Testing › 6. CROSS-BROWSER COMPATIBILITY › 6.1 Check for browser-specific CSS issues
+  -  23 [chromium-desktop] › tests/manual-qa.spec.ts:520:9 › Manual QA - User Flow Testing › 6. CROSS-BROWSER COMPATIBILITY › 6.2 JavaScript errors in console
+
+
+  1) [chromium-desktop] › tests/manual-qa.spec.ts:24:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.1 Landing page loads correctly 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('a[href*="sign-up"], button:has-text("Sign Up"), button:has-text("Get Started")').first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('a[href*="sign-up"], button:has-text("Sign Up"), button:has-text("Get Started")').first()[22m
+
+
+      31 |       // Check for CTA buttons
+      32 |       const ctaButtons = page.locator('a[href*="sign-up"], button:has-text("Sign Up"), button:has-text("Get Started")');
+    > 33 |       await expect(ctaButtons.first()).toBeVisible({ timeout: 5000 });
+         |                                        ^
+      34 |
+      35 |       // Check for navigation
+      36 |       const nav = page.locator('nav, header').first();
+        at /Users/michaelguo/hivemind-projects/cross-border-tax/tests/manual-qa.spec.ts:33:40
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/manual-qa-Manual-QA---User-f748f-anding-page-loads-correctly-chromium-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results/manual-qa-Manual-QA---User-f748f-anding-page-loads-correctly-chromium-desktop/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/manual-qa-Manual-QA---User-f748f-anding-page-loads-correctly-chromium-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/manual-qa-Manual-QA---User-f748f-anding-page-loads-correctly-chromium-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/manual-qa-Manual-QA---User-f748f-anding-page-loads-correctly-chromium-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-desktop] › tests/manual-qa.spec.ts:24:9 › Manual QA - User Flow Testing › 1. SIGNUP FLOW › 1.1 Landing page loads correctly 
+  22 did not run

@@ -26,7 +26,11 @@ export const GOOGLE_ADS_CONFIG = {
 
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    gtag?: (
+      command: string,
+      action: string,
+      params: Record<string, any>
+    ) => void;
     dataLayer?: any[];
   }
 }

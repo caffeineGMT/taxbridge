@@ -1,0 +1,216 @@
+
+> cross-border-tax@0.1.0 dev
+> next dev
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+   ▲ Next.js 15.5.13
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.83:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · clientTraceMetadata
+     · optimizePackageImports
+
+ ✓ Starting...
+[@sentry/nextjs] Could not find `onRequestError` hook in instrumentation file. This indicates outdated configuration of the Sentry SDK. Use `Sentry.captureRequestError` to instrument the `onRequestError` hook: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#errors-from-nested-react-server-components
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ○ Compiling /instrumentation ...
+ ✓ Compiled /instrumentation in 2.8s (1127 modules)
+[@sentry/nextjs] You have enabled `debug: true`, but Sentry debug logging was removed from your bundle (likely via `withSentryConfig({ disableLogger: true })` / `webpack.treeshake.removeDebugLogging: true`). Set that option to `false` to see Sentry debug output.
+[Sentry] Cannot initialize SDK with `debug` option using a non-debug bundle.
+Invalid Sentry Dsn: https://your-sentry-key@o0000000.ingest.sentry.io/0000000
+ ✓ Ready in 7s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1161ms (907 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/edge-instrumentation.js']
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1833ms (1473 modules)
+ ⨯ Error: Cannot find module './chunks/vendor-chunks/next.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/webpack-runtime.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at c.f.require (webpack://cross-border-tax/webpack/runtime/require%20chunk%20loading:29:1)
+    at <unknown> (webpack://cross-border-tax/webpack/runtime/ensure%20chunk:6:1)
+    at Array.reduce (<anonymous>)
+    at c.e (webpack://cross-border-tax/webpack/runtime/ensure%20chunk:5:1)
+    at Array.map (<anonymous>)
+    at c.X (webpack://cross-border-tax/webpack/runtime/startup%20entrypoint:5:1)
+    at <unknown> (.next/server/pages/_document.js:73:47)
+    at Object.<anonymous> (.next/server/pages/_document.js:76:3)
+  27 | 	if(!installedChunks[chunkId]) {
+  28 | 		if(7311 != chunkId) {
+> 29 | 			installChunk(require("./chunks/" + __webpack_require__.u(chunkId)));
+     | ^
+  30 | 		} else installedChunks[chunkId] = 1;
+  31 | 	}
+  32 | }; {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 11.5s (4549 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ✓ Compiled in 1482ms (4525 modules)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './6141.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/webpack-runtime.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+    at Object.<anonymous> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+> 1 | module.exports = require("react");
+    | ^ {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 57ms
+Invalid Sentry Dsn: https://your-sentry-key@o0000000.ingest.sentry.io/0000000
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Cannot find module './6141.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/webpack-runtime.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+    at Object.<anonymous> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+> 1 | module.exports = require("react");
+    | ^ {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './6141.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/webpack-runtime.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+    at Object.<anonymous> (webpack://cross-border-tax/external%20commonjs%20%22react%22:1:1)
+> 1 | module.exports = require("react");
+    | ^ {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 36ms
+ ✓ Compiled in 1991ms (5432 modules)
+ ✓ Compiled in 1302ms (5432 modules)
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/server-development/1.pack.gz'
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (180kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (139kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (194kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'
+ ✓ Compiled in 837ms (2162 modules)
