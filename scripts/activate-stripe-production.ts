@@ -299,7 +299,7 @@ async function main() {
 
   // Initialize Stripe
   const stripe = new Stripe(secretKey, {
-    apiVersion: '2024-12-18.acacia',
+    apiVersion: '2026-02-25.clover',
     typescript: true,
   });
 

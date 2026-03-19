@@ -14,7 +14,7 @@
  */
 
 import Stripe from 'stripe';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import * as readline from 'readline';
 
 // Load production environment
@@ -163,7 +163,7 @@ async function verifyWebhook(stripe: Stripe, sessionId: string): Promise<void> {
 
     console.log(`   ✅ Subscription created: ${subscription.id}`);
     console.log(`   Status: ${subscription.status}`);
-    console.log(`   Current period: ${new Date(subscription.current_period_start * 1000).toLocaleDateString()} - ${new Date(subscription.current_period_end * 1000).toLocaleDateString()}`);
+    console.log(`   Current period: ${new Date((subscription.current_period_start || 0) * 1000).toLocaleDateString()} - ${new Date((subscription.current_period_end || 0) * 1000).toLocaleDateString()}`);
 
     // Check recent events
     const events = await stripe.events.list({
@@ -265,7 +265,7 @@ async function main() {
 
   // Initialize Stripe
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2024-12-18.acacia',
+    apiVersion: '2026-02-25.clover',
     typescript: true,
   });
 
