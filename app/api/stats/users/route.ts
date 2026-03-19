@@ -5,6 +5,7 @@
 
 import { NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET() {
   try {
@@ -18,10 +19,6 @@ export async function GET() {
       displayCount: Math.max(500, result.count), // Never show less than 500 for social proof
     });
   } catch (error) {
-    console.error('Error fetching user stats:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch user statistics' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/stats/users', method: req.method });
   }
 }

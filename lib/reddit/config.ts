@@ -1,4 +1,16 @@
-import Snoowrap from 'snoowrap';
+/**
+ * Reddit API Configuration
+ *
+ * NOTE: Reddit automation is temporarily disabled due to security vulnerabilities
+ * in the snoowrap package (CVE-2023-28155: request package SSRF, CVE-2023-43646: form-data unsafe boundary).
+ *
+ * To re-enable Reddit features:
+ * 1. Replace snoowrap with direct Reddit API calls using axios
+ * 2. Implement OAuth2 flow using Reddit API v1
+ * 3. Update all Reddit automation scripts to use the new implementation
+ *
+ * @see https://www.reddit.com/dev/api/
+ */
 
 export interface RedditConfig {
   userAgent: string;
@@ -8,26 +20,11 @@ export interface RedditConfig {
   password: string;
 }
 
-export function getRedditClient(): Snoowrap {
-  const config: RedditConfig = {
-    userAgent: process.env.REDDIT_USER_AGENT || 'TaxBridge:v1.0.0 (by /u/TaxBridgeApp)',
-    clientId: process.env.REDDIT_CLIENT_ID || '',
-    clientSecret: process.env.REDDIT_CLIENT_SECRET || '',
-    username: process.env.REDDIT_USERNAME || '',
-    password: process.env.REDDIT_PASSWORD || '',
-  };
-
-  if (!config.clientId || !config.clientSecret || !config.username || !config.password) {
-    throw new Error('Missing Reddit API credentials. Check .env file.');
-  }
-
-  return new Snoowrap({
-    userAgent: config.userAgent,
-    clientId: config.clientId,
-    clientSecret: config.clientSecret,
-    username: config.username,
-    password: config.password,
-  });
+export function getRedditClient(): never {
+  throw new Error(
+    'Reddit automation is temporarily disabled due to security vulnerabilities in snoowrap. ' +
+    'Please refactor to use direct Reddit API calls with axios. See lib/reddit/config.ts for details.'
+  );
 }
 
 export const TARGET_SUBREDDITS = [

@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import sgMail from '@sendgrid/mail';
+import { handleApiError } from '@/lib/api-error-handler';
 
 if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -150,10 +151,6 @@ Unsubscribe from referral emails: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error sending referral reminder email:', error);
-    return NextResponse.json(
-      { error: 'Failed to send email' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/email/referral-reminder', method: req.method });
   }
 }

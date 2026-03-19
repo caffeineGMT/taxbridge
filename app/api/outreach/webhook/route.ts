@@ -19,6 +19,7 @@ import {
   type InstantlyWebhookEvent,
   mapWebhookEventToProspectStatus,
 } from '@/lib/outreach/instantly-integration';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
       const expectedSignature = hmac.digest('hex');
 
       if (signature !== expectedSignature) {
-        console.error('[Webhook] Invalid signature');
+        // console.error('[Webhook] Invalid signature');
         return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
       }
 
@@ -48,11 +49,7 @@ export async function POST(req: NextRequest) {
     const event: InstantlyWebhookEvent = await req.json();
     return await processEvent(event);
   } catch (error) {
-    console.error('[Webhook] Error processing event:', error);
-    return NextResponse.json(
-      { error: 'Failed to process webhook event' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/webhook', method: req.method });
   }
 }
 

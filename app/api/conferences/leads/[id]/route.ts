@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getLeadById, updateLeadQualification, updateLeadStatus, markFollowupSent, updateLeadRevenue } from '@/lib/conferences/leads';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -12,8 +13,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ lead });
   } catch (error) {
-    console.error('Error fetching lead:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/leads/[id]', method: request.method });
   }
 }
 
@@ -54,7 +54,6 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const updated = getLeadById(leadId);
     return NextResponse.json({ lead: updated });
   } catch (error) {
-    console.error('Error updating lead:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/leads/[id]', method: request.method });
   }
 }

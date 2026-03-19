@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Database from 'better-sqlite3';
 import path from 'path';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
+import { handleApiError } from '@/lib/api-error-handler';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
 
@@ -98,11 +99,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('Lead capture error:', error);
-    return NextResponse.json(
-      { error: 'Failed to capture lead' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/marketing/capture-lead', method: request.method });
   }
 }
 
@@ -136,7 +133,6 @@ export async function GET() {
 
     return NextResponse.json({ count: result.count }, { status: 200 });
   } catch (error) {
-    console.error('Lead count error:', error);
-    return NextResponse.json({ error: 'Failed to get lead count' }, { status: 500 });
+    return handleApiError(error, { route: '/api/marketing/capture-lead', method: request.method });
   }
 }

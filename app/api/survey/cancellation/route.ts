@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -77,10 +78,6 @@ export async function POST(req: NextRequest) {
       message: 'Survey response recorded',
     });
   } catch (error) {
-    console.error('Error processing survey response:', error);
-    return NextResponse.json(
-      { error: 'Failed to process survey response' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/survey/cancellation', method: req.method });
   }
 }

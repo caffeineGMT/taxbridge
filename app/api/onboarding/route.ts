@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { updateUserProfile } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -29,10 +30,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Onboarding error:', error);
-    return NextResponse.json(
-      { error: 'Failed to save onboarding data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/onboarding', method: req.method });
   }
 }

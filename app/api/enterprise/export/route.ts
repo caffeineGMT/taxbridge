@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withAdminAccess, type RLSContext } from '@/lib/db/middleware';
 import { getOrgClients, type OrgClientFilters } from '@/lib/db/queries/enterprise';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * Convert client data to CSV format
@@ -85,11 +86,7 @@ async function getHandler(
       },
     });
   } catch (error) {
-    console.error('Error exporting clients:', error);
-    return NextResponse.json(
-      { error: 'Failed to export clients' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/export', method: req.method });
   }
 }
 

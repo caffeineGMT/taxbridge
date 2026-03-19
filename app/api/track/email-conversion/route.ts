@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { trackEmailConversion } from '@/lib/db/queries/reengagement-campaign';
-import { getUserByClerkId } from '@/lib/db';
+import { getUserProfileByClerkId } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 // Configure route as dynamic
 export const dynamic = 'force-dynamic';
@@ -87,11 +88,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('❌ Error tracking email conversion:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/track/email-conversion', method: request.method });
   }
 }
 
@@ -135,10 +132,6 @@ export async function GET(request: NextRequest) {
       conversionCount: conversions.length,
     });
   } catch (error) {
-    console.error('❌ Error fetching email conversions:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/track/email-conversion', method: request.method });
   }
 }

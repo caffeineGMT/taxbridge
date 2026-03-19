@@ -8,6 +8,7 @@ import { auth } from '@clerk/nextjs/server';
 import { stripe } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
 import { startOfMonth } from 'date-fns';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(req: NextRequest) {
   try {
@@ -88,7 +89,7 @@ export async function GET(req: NextRequest) {
           invoice_pdf: invoice.invoice_pdf || '',
         }));
       } catch (error) {
-        console.error('Error fetching Stripe data:', error);
+        // console.error('Error fetching Stripe data:', error);
         // Continue without Stripe data
       }
     }
@@ -131,10 +132,6 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(billingInfo);
   } catch (error) {
-    console.error('Error fetching billing info:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch billing information' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/billing', method: req.method });
   }
 }

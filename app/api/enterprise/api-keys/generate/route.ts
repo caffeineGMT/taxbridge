@@ -8,6 +8,7 @@ import { auth } from '@clerk/nextjs/server';
 import { getUserProfileByClerkId } from '@/lib/db';
 import { getMemberRole } from '@/lib/db/queries/enterprise';
 import { generateApiKey } from '@/lib/api/auth/api-keys';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'nodejs';
 
@@ -61,11 +62,6 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error: any) {
-    console.error('API key generation error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/api-keys/generate', method: request.method });
   }
 }

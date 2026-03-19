@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateApiKey, logApiUsage } from '@/lib/api/auth/api-keys';
 import { getRequiredForms, validateFormsRequest } from '@/lib/api/v1/forms';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'nodejs';
 
@@ -63,12 +64,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result, { status: 200 });
   } catch (error: any) {
-    console.error('API forms error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/v1/forms', method: request.method });
   }
 }
 

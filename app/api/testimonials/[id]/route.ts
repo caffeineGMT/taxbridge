@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query, queryOne } from '@/lib/db/unified';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -87,11 +88,7 @@ export async function PATCH(
 
     return NextResponse.json({ message: 'Testimonial updated successfully' }, { status: 200 });
   } catch (error) {
-    console.error('Error updating testimonial:', error);
-    return NextResponse.json(
-      { error: 'Failed to update testimonial' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/testimonials/[id]', method: request.method });
   }
 }
 
@@ -122,10 +119,6 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error deleting testimonial:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete testimonial' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/testimonials/[id]', method: request.method });
   }
 }

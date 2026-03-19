@@ -17,6 +17,7 @@ import {
   getDashboardSummary,
   type EnterpriseProspect,
 } from '@/lib/db/queries/enterprise-prospects';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(req: NextRequest) {
   try {
@@ -49,11 +50,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('[Pipeline] Error fetching prospects:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch pipeline data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/pipeline', method: req.method });
   }
 }
 
@@ -219,11 +216,7 @@ export async function POST(req: NextRequest) {
         );
     }
   } catch (error) {
-    console.error('[Pipeline] Error updating prospect:', error);
-    return NextResponse.json(
-      { error: 'Failed to update prospect' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/pipeline', method: req.method });
   }
 }
 
@@ -275,10 +268,6 @@ export async function PUT(req: NextRequest) {
       total: prospect_ids.length,
     });
   } catch (error) {
-    console.error('[Pipeline] Bulk update error:', error);
-    return NextResponse.json(
-      { error: 'Failed to perform bulk update' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/pipeline', method: req.method });
   }
 }

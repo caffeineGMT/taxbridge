@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Database from 'better-sqlite3';
 import path from 'path';
+import { handleApiError } from '@/lib/api-error-handler';
 
 const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
 
@@ -45,7 +46,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(prospects);
   } catch (error: any) {
-    console.error('Error fetching prospects:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return handleApiError(error, { route: '/api/outreach/immigration-lawyers/prospects', method: request.method });
   }
 }

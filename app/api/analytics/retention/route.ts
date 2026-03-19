@@ -10,6 +10,7 @@ import {
   getInactiveUsers,
   getRetentionSummary,
 } from '@/lib/analytics/retention';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,10 +52,6 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    console.error('Retention analytics API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch retention analytics' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/retention', method: request.method });
   }
 }

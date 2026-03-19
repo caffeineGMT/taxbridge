@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { trackEvent, AnalyticsEvent } from '@/lib/analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,10 +41,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Analytics tracking error:', error);
-    return NextResponse.json(
-      { error: 'Failed to track event' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/track', method: request.method });
   }
 }

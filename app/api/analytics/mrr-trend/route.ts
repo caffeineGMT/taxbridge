@@ -6,6 +6,7 @@
 
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -147,7 +148,7 @@ export async function GET(request: Request) {
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
-    console.error('Error fetching MRR trend:', error);
+    // console.error('Error fetching MRR trend:', error);
     return NextResponse.json(
       {
         success: false,

@@ -142,6 +142,33 @@ export async function insert(
 }
 
 /**
+ * Execute an UPDATE and return the number of rows affected
+ */
+export async function update(
+  text: string,
+  params?: any[]
+): Promise<number> {
+  if (IS_POSTGRES) {
+    const result = await query(text, params);
+    return (result as any).rowCount || 0;
+  } else {
+    const db = getSQLiteDatabase();
+
+    // Convert PostgreSQL $1, $2 syntax to SQLite ? syntax
+    let sqliteQuery = text;
+    if (params && params.length > 0) {
+      for (let i = params.length; i >= 1; i--) {
+        sqliteQuery = sqliteQuery.replace(new RegExp(`\\$${i}\\b`, 'g'), '?');
+      }
+    }
+
+    const stmt = db.prepare(sqliteQuery);
+    const result = stmt.run(params || []);
+    return result.changes;
+  }
+}
+
+/**
  * Get database instance (for compatibility)
  * Returns SQLite Database in development, Pool in production
  *

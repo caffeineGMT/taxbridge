@@ -18,6 +18,7 @@ import {
   logFeedbackEmailSent,
 } from '@/lib/email/user-feedback-templates';
 import { sendEmail, sendBulkEmails } from '@/lib/email/sendgrid';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -198,7 +199,7 @@ export async function POST(req: NextRequest) {
         });
 
       } catch (error: any) {
-        console.error(`[FEEDBACK CAMPAIGN] Failed to send to ${user.email}:`, error);
+        // console.error(`[FEEDBACK CAMPAIGN] Failed to send to ${user.email}:`, error);
         emailResults.push({
           user_id: user.id,
           email: user.email,
@@ -243,11 +244,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Launch feedback campaign error:', error);
-    return NextResponse.json(
-      { error: 'Failed to launch feedback campaign', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/launch-campaign', method: req.method });
   }
 }
 
@@ -284,10 +281,6 @@ export async function GET(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Get campaign status error:', error);
-    return NextResponse.json(
-      { error: 'Failed to get campaign status', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/launch-campaign', method: req.method });
   }
 }

@@ -14,6 +14,7 @@ import {
   getAffiliateBySlug,
   getLeaderboard,
 } from '@/lib/db/queries/influencer-affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   req: NextRequest,
@@ -79,10 +80,6 @@ export async function GET(
       referralUrl: `https://taxbridge.app/signup?ref=${(partner as any).custom_referral_slug || partner.referral_code}`,
     });
   } catch (error) {
-    console.error('[Affiliate] Dashboard error:', error);
-    return NextResponse.json(
-      { error: 'Failed to load dashboard data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/affiliates/dashboard/[code]', method: req.method });
   }
 }

@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,10 +50,6 @@ export async function POST(req: NextRequest) {
       message: 'Helpfulness feedback received',
     });
   } catch (error) {
-    console.error('Helpfulness API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to save helpfulness feedback' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/helpfulness', method: req.method });
   }
 }

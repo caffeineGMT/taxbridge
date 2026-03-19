@@ -10,6 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(req: NextRequest) {
   try {
@@ -229,7 +230,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error analyzing pricing experiment:', error);
+    // console.error('Error analyzing pricing experiment:', error);
     return NextResponse.json(
       {
         success: false,

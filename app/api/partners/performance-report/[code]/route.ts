@@ -11,6 +11,7 @@ import {
   getPaidCommissions
 } from '@/lib/db/queries/affiliates';
 import { generatePerformanceReport } from '@/lib/partners/marketing-content';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -139,10 +140,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error generating performance report:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/performance-report/[code]', method: request.method });
   }
 }

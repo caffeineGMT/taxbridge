@@ -10,6 +10,7 @@ import {
   rejectAffiliatePartner,
   getAffiliatePartner,
 } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * Check if user is admin
@@ -95,10 +96,6 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error) {
-    console.error('[Affiliate] Approval error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process application. Please try again.' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/approve', method: req.method });
   }
 }

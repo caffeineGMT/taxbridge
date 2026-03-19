@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,10 +51,6 @@ export async function POST(req: NextRequest) {
       message: 'NPS feedback received',
     });
   } catch (error) {
-    console.error('NPS API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to save NPS feedback' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/nps', method: req.method });
   }
 }

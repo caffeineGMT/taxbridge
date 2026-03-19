@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -45,10 +46,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error('Error creating billing portal session:', error);
-    return NextResponse.json(
-      { error: 'Failed to create billing portal session' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/stripe/billing-portal', method: req.method });
   }
 }

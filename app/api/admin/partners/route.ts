@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
 import { getAffiliatePartnersByStatus } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * Check if user is admin
@@ -42,10 +43,6 @@ export async function GET(req: NextRequest) {
       rejected: partners.filter(p => p.status === 'rejected').length,
     });
   } catch (error) {
-    console.error('[Admin] Partners list error:', error);
-    return NextResponse.json(
-      { error: 'Failed to load partners' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/admin/partners', method: req.method });
   }
 }

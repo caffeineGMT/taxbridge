@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSampleCSV } from '@/lib/api/v1/bulk-import';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'nodejs';
 
@@ -21,10 +22,6 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Error generating sample CSV:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate sample CSV' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/v1/bulk-import/sample', method: request.method });
   }
 }

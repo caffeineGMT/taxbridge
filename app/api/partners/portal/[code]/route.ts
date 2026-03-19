@@ -11,6 +11,7 @@ import {
   getPendingCommissions,
   getPaidCommissions
 } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -109,10 +110,6 @@ export async function GET(
       }
     });
   } catch (error) {
-    console.error('Error fetching partner portal data:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/portal/[code]', method: request.method });
   }
 }

@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { logUserActivity } from '@/lib/db/queries/retention-analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,10 +26,6 @@ export async function POST(req: NextRequest) {
       message: 'Activity logged',
     });
   } catch (error) {
-    console.error('[Activity Tracking] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to log activity' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/retention/activity', method: req.method });
   }
 }

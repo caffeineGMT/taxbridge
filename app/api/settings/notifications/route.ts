@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getDatabase, getUserProfileByClerkId } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/settings/notifications
@@ -43,11 +44,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching notification settings:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch notification settings' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/settings/notifications', method: req.method });
   }
 }
 
@@ -98,10 +95,6 @@ export async function POST(req: NextRequest) {
       message: 'Notification preferences updated',
     });
   } catch (error) {
-    console.error('Error updating notification settings:', error);
-    return NextResponse.json(
-      { error: 'Failed to update notification settings' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/settings/notifications', method: req.method });
   }
 }

@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { rejectAffiliatePartner } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(
   request: NextRequest,
@@ -27,7 +28,6 @@ export async function POST(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('[Admin] Error rejecting partner:', error);
-    return NextResponse.json({ error: 'Failed to reject partner' }, { status: 500 });
+    return handleApiError(error, { route: '/api/admin/partners/[id]/reject', method: request.method });
   }
 }

@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -63,10 +64,6 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('Error sending cancellation survey email:', error);
-    return NextResponse.json(
-      { error: 'Failed to send cancellation survey email' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/email/cancellation-survey', method: req.method });
   }
 }

@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe, STRIPE_CONFIG } from '@/lib/stripe';
 import { getDatabase } from '@/lib/db';
 import { getUserByReferralCode } from '@/lib/db/queries/referrals';
+import { handleApiError, validationError, stripeError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,18 +15,12 @@ export async function POST(req: NextRequest) {
     const { priceId, tier, userId, referralCode, userReferralCode } = body;
 
     if (!priceId || !tier || !userId) {
-      return NextResponse.json(
-        { error: 'Missing required fields: priceId, tier, userId' },
-        { status: 400 }
-      );
+      throw validationError('Missing required fields: priceId, tier, userId');
     }
 
     // Validate tier
     if (!['pro', 'enterprise'].includes(tier)) {
-      return NextResponse.json(
-        { error: 'Invalid tier. Must be "pro" or "enterprise"' },
-        { status: 400 }
-      );
+      throw validationError('Invalid tier. Must be "pro" or "enterprise"');
     }
 
     // Get user profile
@@ -37,10 +32,7 @@ export async function POST(req: NextRequest) {
     } | undefined;
 
     if (!userProfile) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      throw validationError('User not found');
     }
 
     // Prepare discount coupons array
@@ -65,8 +57,8 @@ export async function POST(req: NextRequest) {
 
           discounts.push({ coupon: coupon.id });
         } catch (error) {
-          console.error('Failed to create referral coupon:', error);
-          // Continue without discount rather than failing
+          // Log to Sentry but continue without discount rather than failing
+          handleApiError(error, { route: '/api/stripe/create-checkout', method: 'POST', userId: userId.toString() });
         }
       }
     }
@@ -97,10 +89,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error('Error creating checkout session:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    // Handle Stripe-specific errors with proper categorization
+    if (error instanceof Error && error.message.includes('Stripe')) {
+      throw stripeError('Failed to create checkout session', { originalError: error.message });
+    }
+    return handleApiError(error, { route: '/api/stripe/create-checkout', method: 'POST' });
   }
 }

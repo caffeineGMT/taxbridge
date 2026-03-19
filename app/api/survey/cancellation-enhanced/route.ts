@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { recordChurnSurvey } from '@/lib/db/queries/retention-analytics';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export interface CancellationSurveyRequest {
   token: string;
@@ -139,14 +140,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('[Cancellation Survey] Error:', error);
-    return NextResponse.json(
-      {
-        error: 'Failed to record survey response',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/survey/cancellation-enhanced', method: req.method });
   }
 }
 
@@ -171,7 +165,6 @@ export async function GET(req: NextRequest) {
       expires_in: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
   } catch (error) {
-    console.error('[Cancellation Survey Token] Error:', error);
-    return NextResponse.json({ error: 'Failed to generate token' }, { status: 500 });
+    return handleApiError(error, { route: '/api/survey/cancellation-enhanced', method: req.method });
   }
 }

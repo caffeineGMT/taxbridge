@@ -11,6 +11,7 @@ import {
   getViralMetrics,
   updateTodayViralMetrics,
 } from '@/lib/db/queries/viral-analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(request: Request) {
   try {
@@ -57,10 +58,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (error: any) {
-    console.error('Viral coefficient API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch viral metrics', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/viral-coefficient', method: request.method });
   }
 }

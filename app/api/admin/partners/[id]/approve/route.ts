@@ -4,6 +4,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { approveAffiliatePartner } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(
   request: NextRequest,
@@ -24,7 +25,6 @@ export async function POST(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('[Admin] Error approving partner:', error);
-    return NextResponse.json({ error: 'Failed to approve partner' }, { status: 500 });
+    return handleApiError(error, { route: '/api/admin/partners/[id]/approve', method: request.method });
   }
 }

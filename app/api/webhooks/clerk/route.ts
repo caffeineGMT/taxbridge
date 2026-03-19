@@ -2,6 +2,7 @@ import { headers } from 'next/headers';
 import { Webhook } from 'svix';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { createUserProfile, updateUserProfile, getUserProfileByClerkId } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
       'svix-signature': svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error('Error verifying webhook:', err);
+    // console.error('Error verifying webhook:', err);
     return new Response('Error occurred', {
       status: 400,
     });
@@ -92,7 +93,7 @@ export async function POST(req: Request) {
         }
       }
     } catch (error) {
-      console.error('Error creating user profile:', error);
+      // console.error('Error creating user profile:', error);
       return new Response('Error creating user profile', { status: 500 });
     }
   }
@@ -117,7 +118,7 @@ export async function POST(req: Request) {
         console.log('✓ User profile created (via update event):', id);
       }
     } catch (error) {
-      console.error('Error updating user profile:', error);
+      // console.error('Error updating user profile:', error);
       return new Response('Error updating user profile', { status: 500 });
     }
   }

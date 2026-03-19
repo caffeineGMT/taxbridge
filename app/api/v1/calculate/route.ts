@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { validateApiKey, logApiUsage } from '@/lib/api/auth/api-keys';
 import { calculateTax, validateCalculationRequest } from '@/lib/api/v1/calculate';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'nodejs';
 
@@ -62,12 +63,7 @@ export async function POST(request: NextRequest) {
     // Return successful response
     return NextResponse.json(result, { status: 200 });
   } catch (error: any) {
-    console.error('API calculation error:', error);
-
-    return NextResponse.json(
-      { error: 'Internal server error', message: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/v1/calculate', method: request.method });
   }
 }
 

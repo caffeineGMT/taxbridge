@@ -14,6 +14,7 @@ import {
   generateInterviewSurveyUrl,
 } from '@/lib/email/customer-interview-templates';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -158,7 +159,7 @@ export async function POST(req: NextRequest) {
         console.log(`[INTERVIEW INVITE] Sent to ${user.email} (interview #${interviewId})`);
 
       } catch (error: any) {
-        console.error(`[INTERVIEW INVITE] Failed for user ${user.id}:`, error);
+        // console.error(`[INTERVIEW INVITE] Failed for user ${user.id}:`, error);
         results.push({
           user_id: user.id,
           email: user.email,
@@ -178,10 +179,6 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Interview invitation error:', error);
-    return NextResponse.json(
-      { error: 'Failed to send interview invitations', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/interviews/invite', method: req.method });
   }
 }

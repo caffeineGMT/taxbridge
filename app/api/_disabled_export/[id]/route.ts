@@ -9,6 +9,7 @@ import {
 import { getYearFromDate, getAverageRate } from '@/lib/currency';
 import { generateTaxSummaryPDF } from '@/lib/pdf/tax-summary-generator';
 import { trackEvent } from '@/lib/analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -140,13 +141,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error generating PDF:', error);
-    return NextResponse.json(
-      {
-        error: 'Failed to generate PDF',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/_disabled_export/[id]', method: request.method });
   }
 }

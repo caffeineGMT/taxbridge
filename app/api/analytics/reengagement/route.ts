@@ -6,6 +6,7 @@ import {
   getUsersWhoClickedButDidntConvert,
 } from '@/lib/db/queries/reengagement-campaign';
 import { getEmailStats } from '@/lib/db/queries/drip-campaign';
+import { handleApiError } from '@/lib/api-error-handler';
 
 // Configure route as dynamic
 export const dynamic = 'force-dynamic';
@@ -150,11 +151,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('❌ Error fetching re-engagement analytics:', error);
-    return NextResponse.json(
-      { error: 'Internal server error', details: String(error) },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/reengagement', method: request.method });
   }
 }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendBulkPHVoterEmails, type PHVoter } from '@/lib/email/product-hunt-campaign';
 import Papa from 'papaparse';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * API endpoint to send bulk emails to Product Hunt voters
@@ -88,13 +89,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error sending PH campaign emails:', error);
-    return NextResponse.json(
-      {
-        error: 'Failed to send emails',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/admin/send-ph-campaign', method: request.method });
   }
 }

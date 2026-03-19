@@ -1,9 +1,9 @@
+/* Import mobile responsiveness enhancements - MUST be before @tailwind */
+@import './mobile-enhancements.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import mobile responsiveness enhancements - MUST be at top */
-@import './mobile-enhancements.css';
 
 @layer base {
   :root {

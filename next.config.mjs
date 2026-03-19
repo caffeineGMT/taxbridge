@@ -3,9 +3,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,  // Temporarily ignore TS errors to unblock sprint audit
   },
-  eslint: {
-    ignoreDuringBuilds: true,  // Temporarily ignore ESLint to unblock sprint audit
-  },
+  // Turbopack is now enabled by default in Next.js 16
+  // Empty config to acknowledge and silence webpack migration warning
+  turbopack: {},
   images: {
     remotePatterns: [
       {

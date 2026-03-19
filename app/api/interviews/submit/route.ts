@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { insert, queryOne } from '@/lib/db/unified';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -98,11 +99,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Interview insights submission error:', error);
-    return NextResponse.json(
-      { error: 'Failed to submit interview insights', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/interviews/submit', method: req.method });
   }
 }
 
@@ -183,7 +180,7 @@ async function generateReferralMessaging(insightId: number) {
     console.log(`[REFERRAL MESSAGING] Generated ${messages.length} messages from insight #${insightId}`);
 
   } catch (error) {
-    console.error('[REFERRAL MESSAGING] Generation error:', error);
+    // console.error('[REFERRAL MESSAGING] Generation error:', error);
   }
 }
 

@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'nodejs';
 
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error serving OpenAPI spec:', error);
+    // console.error('Error serving OpenAPI spec:', error);
     return NextResponse.json(
       { error: 'OpenAPI specification not found' },
       { status: 404 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isDiscountCodeValid } from '@/lib/conferences/config';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,8 +27,7 @@ export async function POST(request: NextRequest) {
       code: result.conference!.discountCode,
     });
   } catch (error) {
-    console.error('Error validating discount code:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/discount/validate', method: request.method });
   }
 }
 
@@ -49,7 +49,6 @@ export async function GET(request: NextRequest) {
       reason: result.reason,
     });
   } catch (error) {
-    console.error('Error validating discount code:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/discount/validate', method: request.method });
   }
 }

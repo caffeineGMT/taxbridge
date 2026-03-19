@@ -6,6 +6,7 @@
  */
 
 import { NextResponse } from 'next/server';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(request: Request) {
   try {
@@ -143,10 +144,6 @@ export async function GET(request: Request) {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error fetching experiment data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch experiment data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/experiments', method: request.method });
   }
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/health
@@ -26,7 +27,7 @@ export async function GET(request: NextRequest) {
       dbResponseTime = Date.now() - dbStartTime;
       dbConnected = result.health === 1;
     } catch (error) {
-      console.error('Database health check failed:', error);
+      // console.error('Database health check failed:', error);
       dbConnected = false;
     }
 
@@ -70,7 +71,7 @@ export async function GET(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('Health check error:', error);
+    // console.error('Health check error:', error);
     return NextResponse.json(
       {
         status: 'error',

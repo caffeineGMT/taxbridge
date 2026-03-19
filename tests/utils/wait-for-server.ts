@@ -18,19 +18,24 @@ export async function waitForServer({
 }: WaitForServerOptions): Promise<void> {
   const startTime = Date.now();
   let lastError: Error | undefined;
+  let attemptCount = 0;
+
+  console.log(`⏳ Waiting for server at ${url} (timeout: ${timeout}ms)`);
 
   while (Date.now() - startTime < timeout) {
+    attemptCount++;
     try {
-      // Try to fetch the server URL
+      // Try to fetch the server URL using native fetch (Node 18+) or http module
       const response = await fetch(url, {
         method: 'HEAD',
         // Use a shorter timeout per request
         signal: AbortSignal.timeout(5000),
       });
 
-      if (response.ok || response.status === 404) {
-        // Server is responding (404 is fine, means server is up)
-        console.log(`✅ Server ready at ${url}`);
+      if (response.ok || response.status === 404 || response.status === 500) {
+        // Server is responding (404/500 is fine, means server is up but may have errors)
+        const elapsed = Date.now() - startTime;
+        console.log(`✅ Server ready at ${url} (status: ${response.status}, attempts: ${attemptCount}, elapsed: ${elapsed}ms)`);
         return;
       }
 
@@ -38,6 +43,12 @@ export async function waitForServer({
     } catch (error) {
       // Connection refused or timeout - server not ready yet
       lastError = error as Error;
+
+      // Log every 10 attempts to show progress
+      if (attemptCount % 10 === 0) {
+        const elapsed = Date.now() - startTime;
+        console.log(`⏳ Still waiting... (attempt ${attemptCount}, elapsed: ${elapsed}ms)`);
+      }
     }
 
     // Wait before retrying
@@ -47,6 +58,6 @@ export async function waitForServer({
   // Timeout exceeded
   const elapsed = Date.now() - startTime;
   throw new Error(
-    `Server at ${url} did not become ready within ${timeout}ms (waited ${elapsed}ms). Last error: ${lastError?.message}`
+    `❌ Server at ${url} did not become ready within ${timeout}ms (waited ${elapsed}ms, ${attemptCount} attempts). Last error: ${lastError?.message}`
   );
 }

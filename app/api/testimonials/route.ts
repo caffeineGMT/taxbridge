@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query, insert } from '@/lib/db/unified';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,11 +48,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ testimonials }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching testimonials:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch testimonials' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/testimonials', method: request.method });
   }
 }
 
@@ -118,10 +115,6 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating testimonial:', error);
-    return NextResponse.json(
-      { error: 'Failed to create testimonial' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/testimonials', method: request.method });
   }
 }

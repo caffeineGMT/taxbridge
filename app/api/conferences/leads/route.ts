@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createLead, getLeadsByConference, getLeadByEmail, type CreateLeadInput } from '@/lib/conferences/leads';
 import { getConferenceById } from '@/lib/conferences/config';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,8 +46,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, id, discount_code: conference.discountCode }, { status: 201 });
   } catch (error) {
-    console.error('Error creating conference lead:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/leads', method: request.method });
   }
 }
 
@@ -62,7 +62,6 @@ export async function GET(request: NextRequest) {
     const leads = getLeadsByConference(conferenceId);
     return NextResponse.json({ leads, count: leads.length });
   } catch (error) {
-    console.error('Error fetching conference leads:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/leads', method: request.method });
   }
 }

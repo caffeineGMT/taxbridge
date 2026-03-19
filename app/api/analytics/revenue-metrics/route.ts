@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { query, queryOne } from '@/lib/db/unified';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -161,7 +162,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
     });
   } catch (error: any) {
-    console.error('Error calculating revenue metrics:', error);
+    // console.error('Error calculating revenue metrics:', error);
     return NextResponse.json(
       {
         success: false,

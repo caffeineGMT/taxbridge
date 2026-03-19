@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getUserProfileByClerkId } from '@/lib/db';
 import { getUserNotifications, getUnreadCount } from '@/lib/db/notifications';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/notifications
@@ -29,10 +30,6 @@ export async function GET(req: NextRequest) {
       userId: user.id,
     });
   } catch (error) {
-    console.error('Error fetching notifications:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch notifications' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/notifications', method: req.method });
   }
 }

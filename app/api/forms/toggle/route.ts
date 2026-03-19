@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { formCompletionQueries } from '@/lib/queries';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,10 +24,6 @@ export async function POST(request: NextRequest) {
       data: result,
     });
   } catch (error) {
-    console.error('Error toggling form completion:', error);
-    return NextResponse.json(
-      { error: 'Failed to toggle form completion' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/forms/toggle', method: request.method });
   }
 }

@@ -5,6 +5,7 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import * as Sentry from '@sentry/nextjs';
 import { logger } from '@/lib/logger';
+import { handleApiError } from '@/lib/api-error-handler';
 
 const DB_PATH = path.join(process.cwd(), 'data', 'taxbridge.db');
 
@@ -257,10 +258,6 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Feedback update error:', error);
-    return NextResponse.json(
-      { error: 'Failed to update feedback' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/ai/tax-advice', method: request.method });
   }
 }

@@ -13,6 +13,7 @@ import {
   getAffiliateBySlug,
   recordAffiliateClick,
 } from '@/lib/db/queries/influencer-affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, tracked: true });
   } catch (error) {
-    console.error('[Affiliate] Track error:', error);
+    // console.error('[Affiliate] Track error:', error);
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }

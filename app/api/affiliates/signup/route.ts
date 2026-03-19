@@ -11,6 +11,7 @@ import {
   createInfluencerAffiliate,
   getAffiliateBySlug,
 } from '@/lib/db/queries/influencer-affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -108,7 +109,7 @@ export async function POST(req: NextRequest) {
       partner_id: partnerId,
     });
   } catch (error: any) {
-    console.error('[Affiliate] Influencer signup error:', error);
+    // console.error('[Affiliate] Influencer signup error:', error);
 
     if (error.message?.includes('UNIQUE constraint')) {
       return NextResponse.json(

@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getInactiveUsers, markUserContacted, wasRecentlyContacted } from '@/lib/analytics/retention';
 import { sendReengagementEmail } from '@/lib/email/reengagement-templates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
           });
         }
       } catch (error) {
-        console.error(`Error sending re-engagement email to ${user.email}:`, error);
+        // console.error(`Error sending re-engagement email to ${user.email}:`, error);
         results.failed++;
         results.emails.push({
           email: user.email,
@@ -101,10 +102,6 @@ export async function POST(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error('Re-engagement email API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to send re-engagement emails' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/send-reengagement', method: request.method });
   }
 }

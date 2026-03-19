@@ -1,59 +1,27 @@
+/**
+ * Reddit Karma Tracker
+ *
+ * DISABLED: This module is temporarily disabled due to security vulnerabilities
+ * in the snoowrap package (CVE-2023-28155, CVE-2023-43646).
+ *
+ * To re-enable: Refactor to use direct Reddit API calls with axios.
+ * See lib/reddit/config.ts for implementation guidance.
+ */
+
 import Database from 'better-sqlite3';
-import { getRedditClient } from './config';
-import Snoowrap from 'snoowrap';
 
 export class RedditKarmaTracker {
   private db: Database.Database;
-  private reddit: Snoowrap;
 
   constructor() {
     this.db = new Database('data/taxbridge.db');
-    this.reddit = getRedditClient();
   }
 
   async trackKarma(): Promise<void> {
-    const username = process.env.REDDIT_USERNAME || '';
-
-    console.log(`📊 Tracking karma for u/${username}...`);
-
-    try {
-      const user: any = await (this.reddit.getUser(username).fetch() as any);
-
-      const accountAgeDays = Math.floor((Date.now() / 1000 - user.created_utc) / 86400);
-
-      this.db.prepare(`
-        INSERT INTO reddit_account_metrics (
-          account_name,
-          karma,
-          comment_karma,
-          link_karma,
-          account_age_days
-        ) VALUES (?, ?, ?, ?, ?)
-      `).run(
-        username,
-        user.link_karma + user.comment_karma,
-        user.comment_karma,
-        user.link_karma,
-        accountAgeDays
-      );
-
-      console.log(`✅ Karma tracked:`);
-      console.log(`   Total: ${user.link_karma + user.comment_karma}`);
-      console.log(`   Comment: ${user.comment_karma}`);
-      console.log(`   Link: ${user.link_karma}`);
-      console.log(`   Account age: ${accountAgeDays} days`);
-
-      // Check if account is ready for promotional content
-      const isReady = this.isAccountReady(user.comment_karma, accountAgeDays);
-      if (isReady) {
-        console.log(`\n🎉 Account is ready for promotional content!`);
-      } else {
-        console.log(`\n⏳ Keep building karma before promotional posts`);
-        console.log(`   Recommended: 100+ comment karma, 30+ day account age`);
-      }
-    } catch (error) {
-      console.error(`❌ Error tracking karma:`, error);
-    }
+    throw new Error(
+      'Reddit automation temporarily disabled due to security vulnerabilities. ' +
+      'See lib/reddit/config.ts for details.'
+    );
   }
 
   isAccountReady(commentKarma: number, accountAgeDays: number): boolean {

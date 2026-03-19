@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { trackFeatureUsage } from '@/lib/db/queries/retention-analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,10 +26,6 @@ export async function POST(req: NextRequest) {
       message: 'Feature usage tracked',
     });
   } catch (error) {
-    console.error('[Feature Tracking] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to track feature' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/retention/feature', method: req.method });
   }
 }

@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAffiliatePartnerByReferralCode } from '@/lib/db/queries/affiliates';
 import { generateEmailTemplates } from '@/lib/partners/marketing-content';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -96,10 +97,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error generating email templates:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/email-templates/[code]', method: request.method });
   }
 }

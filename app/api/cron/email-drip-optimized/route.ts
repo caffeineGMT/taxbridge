@@ -10,6 +10,7 @@ import {
   getTemplateId,
   type EmailVariant,
 } from '@/lib/email/enhanced-nurture-templates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 // Configure route as dynamic (required for Vercel Cron)
 export const dynamic = 'force-dynamic';
@@ -89,7 +90,7 @@ export async function GET(request: NextRequest) {
   const cronSecret = process.env.CRON_SECRET;
 
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    console.error('❌ Unauthorized cron request');
+    // console.error('❌ Unauthorized cron request');
     return NextResponse.json(
       { error: 'Unauthorized' },
       { status: 401 }
@@ -211,11 +212,11 @@ export async function GET(request: NextRequest) {
           console.log(`   ✓ Sent to ${user.email} (Variant ${variant})`);
         } else {
           failed++;
-          console.error(`   ✗ Failed to send to ${user.email}`);
+          // console.error(`   ✗ Failed to send to ${user.email}`);
         }
       } catch (error) {
         failed++;
-        console.error(`   ✗ Error sending to ${user.email}:`, error);
+        // console.error(`   ✗ Error sending to ${user.email}:`, error);
       }
 
       // Rate limiting: wait 100ms between emails to avoid SendGrid throttling

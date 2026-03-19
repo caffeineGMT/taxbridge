@@ -9,6 +9,7 @@ import {
   getAffiliatePartnerByReferralCode,
   getAffiliateReferralsWithUser,
 } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   req: NextRequest,
@@ -52,10 +53,6 @@ export async function GET(
       referrals,
     });
   } catch (error) {
-    console.error('[Affiliate] Dashboard error:', error);
-    return NextResponse.json(
-      { error: 'Failed to load dashboard data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/dashboard/[code]', method: req.method });
   }
 }

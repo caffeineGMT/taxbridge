@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAffiliatePartner } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
       affiliate_id: affiliateId,
     });
   } catch (error) {
-    console.error('[Partner Signup] Error:', error);
+    // console.error('[Partner Signup] Error:', error);
 
     if (error instanceof Error && error.message.includes('UNIQUE constraint failed')) {
       return NextResponse.json(

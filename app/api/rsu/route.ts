@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserProfileByClerkId, insertRSUEntry } from '@/lib/db';
 import { RSUEventSchema } from '@/lib/types';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -64,11 +65,7 @@ export async function POST(request: NextRequest) {
       message: 'RSU entry created successfully',
     });
   } catch (error) {
-    console.error('Error creating RSU entry:', error);
-    return NextResponse.json(
-      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/rsu', method: request.method });
   }
 }
 
@@ -92,10 +89,6 @@ export async function GET() {
 
     return NextResponse.json({ entries });
   } catch (error) {
-    console.error('Error fetching RSU entries:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/rsu', method: request.method });
   }
 }

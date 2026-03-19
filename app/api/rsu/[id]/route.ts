@@ -7,6 +7,7 @@ import {
   calculateForeignTaxCredit,
 } from '@/lib/tax/canada-calculator';
 import { getYearFromDate, getAverageRate } from '@/lib/currency';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -121,13 +122,6 @@ export async function GET(
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('Error fetching RSU tax details:', error);
-    return NextResponse.json(
-      {
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/rsu/[id]', method: request.method });
   }
 }

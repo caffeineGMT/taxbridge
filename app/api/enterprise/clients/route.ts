@@ -10,6 +10,7 @@ import {
   createInviteToken,
   type OrgClientFilters,
 } from '@/lib/db/queries/enterprise';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/enterprise/clients
@@ -33,11 +34,7 @@ async function getHandler(
 
     return NextResponse.json({ clients });
   } catch (error) {
-    console.error('Error fetching clients:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch clients' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/clients', method: req.method });
   }
 }
 
@@ -93,11 +90,7 @@ async function postHandler(
       message: 'Invitation created successfully',
     });
   } catch (error) {
-    console.error('Error creating invitation:', error);
-    return NextResponse.json(
-      { error: 'Failed to create invitation' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/clients', method: req.method });
   }
 }
 

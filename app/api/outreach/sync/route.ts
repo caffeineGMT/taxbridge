@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getCampaignAnalytics } from '@/lib/outreach/instantly-integration';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,10 +36,6 @@ export async function POST(req: NextRequest) {
       synced_at: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('[Sync] Error syncing campaign:', error);
-    return NextResponse.json(
-      { error: 'Failed to sync campaign data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/sync', method: req.method });
   }
 }

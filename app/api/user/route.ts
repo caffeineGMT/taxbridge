@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { trackEvent } from '@/lib/analytics';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET() {
   try {
@@ -63,11 +64,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error('Error fetching user:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch user profile' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/user', method: request.method });
   }
 }
 
@@ -126,10 +123,6 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ user });
   } catch (error) {
-    console.error('Error updating user:', error);
-    return NextResponse.json(
-      { error: 'Failed to update user profile' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/user', method: request.method });
   }
 }

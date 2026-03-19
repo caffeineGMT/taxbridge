@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Database from 'better-sqlite3';
 import path from 'path';
 import crypto from 'crypto';
+import { handleApiError } from '@/lib/api-error-handler';
 
 const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
 
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     // Verify webhook authenticity
     if (!verifyWebhookSignature(rawBody, signature)) {
-      console.error('❌ Invalid webhook signature');
+      // console.error('❌ Invalid webhook signature');
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
 
@@ -164,8 +165,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ message: 'Webhook processed successfully' });
   } catch (error: any) {
-    console.error('❌ Error processing Calendly webhook:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return handleApiError(error, { route: '/api/webhooks/calendly', method: request.method });
   }
 }
 

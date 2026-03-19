@@ -7,6 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db/unified';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(req: NextRequest) {
   try {
@@ -37,10 +38,6 @@ export async function GET(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Get campaigns error:', error);
-    return NextResponse.json(
-      { error: 'Failed to get campaigns', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/campaigns', method: req.method });
   }
 }

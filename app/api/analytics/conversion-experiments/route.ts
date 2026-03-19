@@ -11,6 +11,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
+import { handleApiError } from '@/lib/api-error-handler';
 
 interface ExperimentEvent {
   event: 'exposure' | 'conversion';
@@ -71,11 +72,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error tracking conversion experiment:', error);
-    return NextResponse.json(
-      { error: 'Failed to track experiment event' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/conversion-experiments', method: request.method });
   }
 }
 
@@ -117,11 +114,7 @@ export async function GET(request: NextRequest) {
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error fetching conversion experiments:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch experiment data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/conversion-experiments', method: request.method });
   }
 }
 

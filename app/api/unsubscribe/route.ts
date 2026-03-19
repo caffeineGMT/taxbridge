@@ -4,6 +4,7 @@ import {
   getUserByEmail,
 } from '@/lib/db/queries/drip-campaign';
 import { isValidEmail } from '@/lib/email/sendgrid';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,11 +61,7 @@ export async function POST(request: NextRequest) {
       email,
     });
   } catch (error) {
-    console.error('Unsubscribe error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/unsubscribe', method: request.method });
   }
 }
 
@@ -110,7 +107,7 @@ export async function GET(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('Unsubscribe GET error:', error);
+    // console.error('Unsubscribe GET error:', error);
     return NextResponse.redirect(
       new URL(`/unsubscribe?email=${encodeURIComponent(email || '')}&error=server_error`, request.url)
     );

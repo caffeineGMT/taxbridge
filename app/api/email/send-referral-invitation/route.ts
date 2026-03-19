@@ -11,6 +11,7 @@ import { getUserProfileByClerkId } from '@/lib/db';
 import { getUserReferralCode } from '@/lib/db/queries/referrals';
 import { getReferralInvitationEmailData, EMAIL_TEMPLATES } from '@/lib/email/templates';
 import sgMail from '@sendgrid/mail';
+import { handleApiError } from '@/lib/api-error-handler';
 
 // Initialize SendGrid (only if API key exists)
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
@@ -103,11 +104,7 @@ export async function POST(request: NextRequest) {
       await sgMail.send(msg);
       console.log('[Referral Email] Sent successfully:', { to: friendEmail });
     } catch (emailError: any) {
-      console.error('[Referral Email] SendGrid error:', emailError.response?.body || emailError.message);
-      return NextResponse.json({
-        error: 'Failed to send email',
-        details: emailError.message,
-      }, { status: 500 });
+    return handleApiError(error, { route: '/api/email/send-referral-invitation', method: request.method });
     }
 
     return NextResponse.json({
@@ -117,10 +114,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[Referral Email] Unexpected error:', error);
-    return NextResponse.json({
-      error: 'Internal server error',
-      message: error.message,
-    }, { status: 500 });
+    return handleApiError(error, { route: '/api/email/send-referral-invitation', method: request.method });
   }
 }

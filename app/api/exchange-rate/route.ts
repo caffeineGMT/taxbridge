@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getExchangeRate } from '@/lib/currency';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/exchange-rate?date=YYYY-MM-DD
@@ -34,10 +35,6 @@ export async function GET(request: NextRequest) {
       source: 'Bank of Canada',
     });
   } catch (error) {
-    console.error('Exchange rate API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch exchange rate' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/exchange-rate', method: request.method });
   }
 }

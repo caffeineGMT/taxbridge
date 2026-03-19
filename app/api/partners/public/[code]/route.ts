@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAffiliatePartnerByReferralCode } from '@/lib/db/queries/affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   request: NextRequest,
@@ -48,10 +49,6 @@ export async function GET(
       }
     });
   } catch (error) {
-    console.error('Error fetching partner info:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/partners/public/[code]', method: request.method });
   }
 }

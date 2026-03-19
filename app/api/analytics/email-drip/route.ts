@@ -9,6 +9,7 @@ import {
   getConversionsByEmailType,
 } from '@/lib/email/conversion-tracking';
 import { getEmailStats } from '@/lib/db/queries/drip-campaign';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * Email Drip Campaign Analytics API
@@ -71,11 +72,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(analytics);
   } catch (error) {
-    console.error('Error fetching email analytics:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/email-drip', method: request.method });
   }
 }
 
@@ -126,10 +123,6 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    console.error('Error updating A/B variant:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/email-drip', method: request.method });
   }
 }

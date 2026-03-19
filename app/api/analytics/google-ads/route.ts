@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { posthog } from 'posthog-js';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const runtime = 'edge';
 
@@ -156,11 +157,7 @@ export async function GET(request: NextRequest) {
     */
 
   } catch (error) {
-    console.error('Failed to fetch Google Ads metrics:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch metrics' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/google-ads', method: request.method });
   }
 }
 

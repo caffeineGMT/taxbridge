@@ -10,6 +10,7 @@ import {
   switchUserOrg,
   getOrganization,
 } from '@/lib/db/queries/enterprise';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/enterprise/orgs
@@ -24,11 +25,7 @@ async function getHandler(
 
     return NextResponse.json({ organizations: orgs });
   } catch (error) {
-    console.error('Error fetching organizations:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch organizations' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/orgs', method: req.method });
   }
 }
 
@@ -62,11 +59,7 @@ async function postHandler(
       organization: org,
     });
   } catch (error) {
-    console.error('Error switching organization:', error);
-    return NextResponse.json(
-      { error: 'Failed to switch organization' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/orgs', method: req.method });
   }
 }
 

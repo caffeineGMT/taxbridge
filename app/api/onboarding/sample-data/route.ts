@@ -9,6 +9,7 @@ import {
   type RSUEntryInput,
   type TaxCalculationInput,
 } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * POST /api/onboarding/sample-data
@@ -150,10 +151,6 @@ export async function POST() {
       rsuCount: rsuIds.length,
     });
   } catch (error) {
-    console.error('Error creating sample data:', error);
-    return NextResponse.json(
-      { error: 'Failed to create sample data' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/onboarding/sample-data', method: req.method });
   }
 }

@@ -8,6 +8,7 @@
 
 import { NextResponse } from 'next/server';
 import { getDashboardSummary, getProspects } from '@/lib/db/queries/enterprise-prospects';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -121,10 +122,6 @@ export async function GET() {
       last_updated: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('[Stats] Error fetching stats:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch campaign statistics' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/outreach/stats', method: req.method });
   }
 }

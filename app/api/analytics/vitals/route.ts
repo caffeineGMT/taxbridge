@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDatabase } from '@/lib/db';
 import { VitalsPayload } from '@/lib/vitals';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * POST /api/analytics/vitals
@@ -57,11 +58,7 @@ export async function POST(request: NextRequest) {
       message: 'Vitals tracked successfully'
     });
   } catch (error) {
-    console.error('Error tracking vitals:', error);
-    return NextResponse.json(
-      { error: 'Failed to track vitals' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/vitals', method: request.method });
   }
 }
 
@@ -109,11 +106,7 @@ export async function GET(request: NextRequest) {
       rawData: results,
     });
   } catch (error) {
-    console.error('Error retrieving vitals:', error);
-    return NextResponse.json(
-      { error: 'Failed to retrieve vitals' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/vitals', method: request.method });
   }
 }
 

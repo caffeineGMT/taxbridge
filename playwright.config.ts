@@ -21,10 +21,20 @@ export default defineConfig({
 
   // Auto-start dev server for E2E tests
   webServer: {
-    command: 'npm run dev',
+    command: 'NODE_ENV=test npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    timeout: 120000, // 2 minutes for server to start
+    stdout: 'pipe', // Capture stdout to detect "ready" message
+    stderr: 'pipe', // Capture stderr for debugging
+    env: {
+      // Load test environment variables
+      PLAYWRIGHT_TEST_MODE: 'true',
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'pk_test_PLAYWRIGHT',
+      CLERK_SECRET_KEY: 'sk_test_PLAYWRIGHT',
+      SENTRY_DSN: '',
+      NEXT_PUBLIC_SENTRY_DSN: '',
+    },
   },
 
   projects: [

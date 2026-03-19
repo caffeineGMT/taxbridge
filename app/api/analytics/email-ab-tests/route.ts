@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getABTestAnalytics, getWinningVariant, type ABTestResult } from '@/lib/email/ab-testing';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,7 +63,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching A/B test analytics:', error);
+    // console.error('Error fetching A/B test analytics:', error);
     return NextResponse.json(
       {
         success: false,

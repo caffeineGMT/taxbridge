@@ -12,6 +12,7 @@ import {
   getFeedbackThankYouEmailData,
 } from '@/lib/email/user-feedback-templates';
 import { sendEmail } from '@/lib/email/sendgrid';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(req: NextRequest) {
   try {
@@ -185,7 +186,7 @@ export async function POST(req: NextRequest) {
 
         console.log(`[FEEDBACK] Sent thank you email with gift card to ${incentive_email}`);
       } catch (error: any) {
-        console.error('[FEEDBACK] Gift card generation/email failed:', error);
+        // console.error('[FEEDBACK] Gift card generation/email failed:', error);
         // Don't fail the whole request if gift card fails
       }
     }
@@ -213,11 +214,7 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
-    console.error('[API] Submit feedback error:', error);
-    return NextResponse.json(
-      { error: 'Failed to submit feedback', details: error.message },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/feedback/submit-user-feedback', method: req.method });
   }
 }
 

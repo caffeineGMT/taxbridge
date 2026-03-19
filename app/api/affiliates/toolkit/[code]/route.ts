@@ -9,6 +9,7 @@ import {
 } from '@/lib/db/queries/affiliates';
 import { getAffiliateBySlug } from '@/lib/db/queries/influencer-affiliates';
 import { generateAffiliateToolkit } from '@/lib/partners/affiliate-toolkit';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(
   req: NextRequest,
@@ -49,10 +50,6 @@ export async function GET(
       toolkit,
     });
   } catch (error) {
-    console.error('[Affiliate] Toolkit error:', error);
-    return NextResponse.json(
-      { error: 'Failed to load toolkit' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/affiliates/toolkit/[code]', method: req.method });
   }
 }

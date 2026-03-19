@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { createProductHuntClient } from '@/lib/product-hunt/client';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -89,7 +90,7 @@ export async function GET(request: Request) {
           await fs.writeFile(dataPath, JSON.stringify(launchData, null, 2));
         }
       } catch (error) {
-        console.error('Error fetching fresh metrics:', error);
+        // console.error('Error fetching fresh metrics:', error);
         // Continue with existing data
       }
     }
@@ -141,7 +142,7 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    console.error('Error in Product Hunt API:', error);
+    // console.error('Error in Product Hunt API:', error);
 
     return NextResponse.json(
       {

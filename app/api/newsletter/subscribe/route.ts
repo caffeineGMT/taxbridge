@@ -8,6 +8,7 @@ import { sendEmail } from '@/lib/email/sendgrid';
 import Database from 'better-sqlite3';
 import path from 'path';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
+import { handleApiError } from '@/lib/api-error-handler';
 
 const db = new Database(path.join(process.cwd(), 'data', 'taxbridge.db'));
 
@@ -66,11 +67,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/newsletter/subscribe', method: request.method });
   }
 }
 

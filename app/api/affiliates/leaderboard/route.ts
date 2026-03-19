@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getLeaderboard } from '@/lib/db/queries/influencer-affiliates';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(req: NextRequest) {
   try {
@@ -36,10 +37,6 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('[Affiliate] Leaderboard error:', error);
-    return NextResponse.json(
-      { error: 'Failed to load leaderboard' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/affiliates/leaderboard', method: req.method });
   }
 }

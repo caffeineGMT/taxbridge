@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getLeadStats, getAllLeadStats } from '@/lib/conferences/leads';
 import { CONFERENCES, getConferenceById } from '@/lib/conferences/config';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function GET(request: NextRequest) {
   try {
@@ -66,7 +67,6 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(summary);
   } catch (error) {
-    console.error('Error fetching conference stats:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/stats', method: request.method });
   }
 }

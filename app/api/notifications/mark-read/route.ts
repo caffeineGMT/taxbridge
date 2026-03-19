@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getUserProfileByClerkId } from '@/lib/db';
 import { markAsRead, markAllAsRead } from '@/lib/db/notifications';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * POST /api/notifications/mark-read
@@ -33,10 +34,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
   } catch (error) {
-    console.error('Error marking notifications as read:', error);
-    return NextResponse.json(
-      { error: 'Failed to mark notifications as read' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/notifications/mark-read', method: req.method });
   }
 }

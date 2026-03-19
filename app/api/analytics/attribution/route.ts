@@ -6,6 +6,7 @@ import {
   getAttributionSummary,
   getAdSpendByChannel,
 } from '@/lib/analytics/attribution';
+import { handleApiError } from '@/lib/api-error-handler';
 
 /**
  * GET /api/analytics/attribution
@@ -62,13 +63,6 @@ export async function GET(request: Request) {
       ad_spend: adSpend,
     });
   } catch (error) {
-    console.error('Attribution API error:', error);
-    return NextResponse.json(
-      {
-        error: 'Failed to fetch attribution data',
-        message: error instanceof Error ? error.message : 'Unknown error',
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/analytics/attribution', method: request.method });
   }
 }

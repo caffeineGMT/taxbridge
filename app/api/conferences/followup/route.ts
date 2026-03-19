@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getPendingFollowups, getLeadsByConference, markFollowupSent, updateLeadStatus } from '@/lib/conferences/leads';
 import { getConferenceById } from '@/lib/conferences/config';
 import { generateFollowupEmail, generateBatchFollowupEmails } from '@/lib/conferences/followup-emails';
+import { handleApiError } from '@/lib/api-error-handler';
 
 export async function POST(request: NextRequest) {
   try {
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
       } catch (err) {
         const errMsg = err instanceof Error ? err.message : 'Unknown error';
         errors.push(`Failed to send to ${email.to}: ${errMsg}`);
-        console.error(`Failed to send followup to ${email.to}:`, err);
+        // console.error(`Failed to send followup to ${email.to}:`, err);
       }
     }
 
@@ -89,8 +90,7 @@ export async function POST(request: NextRequest) {
       errors: errors.length > 0 ? errors : undefined,
     });
   } catch (error) {
-    console.error('Error sending followup emails:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/followup', method: request.method });
   }
 }
 
@@ -117,7 +117,6 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch (error) {
-    console.error('Error fetching pending followups:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return handleApiError(error, { route: '/api/conferences/followup', method: request.method });
   }
 }

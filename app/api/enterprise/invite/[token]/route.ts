@@ -12,6 +12,7 @@ import {
   getOrganization,
 } from '@/lib/db/queries/enterprise';
 import { getUserProfileByClerkId } from '@/lib/db';
+import { handleApiError } from '@/lib/api-error-handler';
 
 interface RouteParams {
   params: Promise<{
@@ -48,11 +49,7 @@ export async function GET(
       email: invite.email,
     });
   } catch (error) {
-    console.error('Error validating invite:', error);
-    return NextResponse.json(
-      { error: 'Failed to validate invitation' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/invite/[token]', method: request.method });
   }
 }
 
@@ -117,10 +114,6 @@ export async function POST(
       message: 'Successfully joined organization',
     });
   } catch (error) {
-    console.error('Error accepting invitation:', error);
-    return NextResponse.json(
-      { error: 'Failed to accept invitation' },
-      { status: 500 }
-    );
+    return handleApiError(error, { route: '/api/enterprise/invite/[token]', method: request.method });
   }
 }
