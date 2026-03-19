@@ -1,13 +1,19 @@
 /**
  * Pricing Experiment Hook
  *
- * A/B/C Test: $49/year vs $79/year vs $99/year for Pro plan
+ * A/B/C Test: $29/year vs $49/year vs $79/year for Pro plan
  * + Monthly $19 option available to all variants
+ *
+ * EXPERIMENT HYPOTHESIS:
+ * - Competitor research shows market rate is $29/year (SimpleTax, Sprintax)
+ * - Current $79/year may be too high, limiting conversions
+ * - Testing: $29 (competitor match), $49 (middle ground), $79 (premium positioning)
  *
  * Tracks:
  * - Which variant users see (33/33/33 split)
  * - Which billing interval they choose (annual vs monthly)
  * - Which price point converts best
+ * - Revenue per customer by variant
  * - Product Hunt cohort behavior
  */
 
@@ -17,7 +23,7 @@ import { useEffect, useState } from 'react';
 import { trackEvent } from '@/lib/analytics/posthog';
 import posthog from 'posthog-js';
 
-export type PricingVariant = 'annual_49' | 'annual_79' | 'annual_99';
+export type PricingVariant = 'annual_29' | 'annual_49' | 'annual_79';
 export type BillingInterval = 'monthly' | 'annual';
 
 export interface PricingExperimentConfig {
@@ -68,11 +74,11 @@ function isProductHuntUser(): boolean {
  * Get or set variant assignment (persisted in localStorage)
  */
 function getVariantAssignment(): PricingVariant {
-  if (typeof window === 'undefined') return 'annual_49';
+  if (typeof window === 'undefined') return 'annual_29';
 
   // Check if user has existing assignment
   const stored = localStorage.getItem('pricing_experiment_variant');
-  if (stored === 'annual_49' || stored === 'annual_79' || stored === 'annual_99') {
+  if (stored === 'annual_29' || stored === 'annual_49' || stored === 'annual_79') {
     return stored;
   }
 
@@ -81,11 +87,11 @@ function getVariantAssignment(): PricingVariant {
   let variant: PricingVariant;
 
   if (random < 0.33) {
-    variant = 'annual_49';
+    variant = 'annual_29';
   } else if (random < 0.66) {
-    variant = 'annual_79';
+    variant = 'annual_49';
   } else {
-    variant = 'annual_99';
+    variant = 'annual_79';
   }
 
   // Persist assignment
@@ -105,7 +111,7 @@ function getVariantAssignment(): PricingVariant {
  * Hook for pricing experiment
  */
 export function usePricingExperiment(): PricingExperimentConfig {
-  const [variant, setVariant] = useState<PricingVariant>('annual_49');
+  const [variant, setVariant] = useState<PricingVariant>('annual_29');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedInterval, setSelectedInterval] = useState<BillingInterval>('annual');
 
@@ -118,7 +124,7 @@ export function usePricingExperiment(): PricingExperimentConfig {
     // Track exposure to PostHog
     trackEvent('pricing_experiment_exposed', {
       variant: assigned,
-      experiment_name: 'annual_pricing_test_2026_q1',
+      experiment_name: 'annual_pricing_competitive_test_2026_q1',
       is_product_hunt_user: isProductHuntUser(),
       user_cohort: localStorage.getItem('user_cohort') || 'organic',
     });
@@ -134,6 +140,12 @@ export function usePricingExperiment(): PricingExperimentConfig {
 
   // Price configuration by variant
   const priceConfig = {
+    annual_29: {
+      annualPrice: 29,
+      annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_29 || 'price_1ProAnnual29',
+      monthlyPrice: 19,
+      monthlyPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY || 'price_1ProMonthly19',
+    },
     annual_49: {
       annualPrice: 49,
       annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || 'price_1ProAnnual49',
@@ -143,12 +155,6 @@ export function usePricingExperiment(): PricingExperimentConfig {
     annual_79: {
       annualPrice: 79,
       annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_79 || 'price_1ProAnnual79',
-      monthlyPrice: 19,
-      monthlyPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY || 'price_1ProMonthly19',
-    },
-    annual_99: {
-      annualPrice: 99,
-      annualPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_99 || 'price_1ProAnnual99',
       monthlyPrice: 19,
       monthlyPriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID_MONTHLY || 'price_1ProMonthly19',
     },
@@ -170,7 +176,7 @@ export function usePricingExperiment(): PricingExperimentConfig {
       annualPrice: config.annualPrice,
       monthlyPrice: config.monthlyPrice,
       defaultInterval: selectedInterval,
-      experiment: 'annual_pricing_test_2026_q1',
+      experiment: 'annual_pricing_competitive_test_2026_q1',
       is_product_hunt_user: isProductHuntUser(),
       user_cohort: localStorage.getItem('user_cohort') || 'organic',
     });
@@ -183,7 +189,7 @@ export function usePricingExperiment(): PricingExperimentConfig {
       to: newInterval,
       annualPrice: config.annualPrice,
       monthlyPrice: config.monthlyPrice,
-      experiment: 'annual_pricing_test_2026_q1',
+      experiment: 'annual_pricing_competitive_test_2026_q1',
     });
     setSelectedInterval(newInterval);
   };
@@ -194,7 +200,7 @@ export function usePricingExperiment(): PricingExperimentConfig {
       interval,
       price,
       priceId: interval === 'annual' ? config.annualPriceId : config.monthlyPriceId,
-      experiment: 'annual_pricing_test_2026_q1',
+      experiment: 'annual_pricing_competitive_test_2026_q1',
       is_product_hunt_user: isProductHuntUser(),
       user_cohort: localStorage.getItem('user_cohort') || 'organic',
     });

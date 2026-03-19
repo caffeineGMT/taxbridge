@@ -1,0 +1,48 @@
+
+> cross-border-tax@0.1.0 verify:production
+> tsx scripts/verify-production-site.ts
+
+
+📸 Production Site Verification - 2026-03-19T17:30:27.470Z
+
+Screenshots will be saved to: /Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T17-30-27
+
+
+🔍 Testing: https://taxbridgecpa.com
+   ❌ Connection failed: page.goto: net::ERR_NAME_NOT_RESOLVED at https://taxbridgecpa.com/
+Call log:
+  - navigating to "https://taxbridgecpa.com/", waiting until "domcontentloaded"
+
+
+🔍 Testing: https://taxbridge.vercel.app
+   Status: 200 ✅
+   📄 Capturing: homepage...
+      ✅ Saved: homepage.png
+   📄 Capturing: calculator...
+      ✅ Saved: calculator.png
+   📄 Capturing: pricing...
+      ✅ Saved: pricing.png
+
+================================================================================
+📊 VERIFICATION SUMMARY
+================================================================================
+
+✅ taxbridgecpa.com: DOWN (Expected DOWN)
+   URL: https://taxbridgecpa.com
+   Status: 0
+   Error: page.goto: net::ERR_NAME_NOT_RESOLVED at https://taxbridgecpa.com/
+Call log:
+  - navigating to "https://taxbridgecpa.com/", waiting until "domcontentloaded"
+
+
+✅ taxbridge.vercel.app: UP (Expected UP)
+   URL: https://taxbridge.vercel.app
+   Status: 200
+
+📄 Full report saved: /Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T17-30-27/verification-report.json
+
+================================================================================
+
+✅ All verifications passed!
+
+Screenshots directory: /Users/michaelguo/hivemind-projects/cross-border-tax/docs/screenshots/2026-03-19T17-30-27

@@ -67,20 +67,18 @@ const getTiers = (
       {
         name: 'Pro',
         price: proPrice,
-        regularPrice: isAnnual && pricingExperiment.variant === 'annual_39' ? 79 :
+        regularPrice: isAnnual && pricingExperiment.variant === 'annual_29' ? 79 :
                       isAnnual && pricingExperiment.variant === 'annual_49' ? 99 : undefined,
         monthlyEquivalent,
         annual: isAnnual,
         priceId: proPriceId,
         tier: 'pro',
-        tagline: isAnnual && pricingExperiment.variant === 'annual_39'
-          ? '🔥 Competitor Price Match: 50% OFF ($79 → $39/year)'
+        tagline: isAnnual && pricingExperiment.variant === 'annual_29'
+          ? '🔥 COMPETITOR MATCH: SimpleTax/Sprintax pricing - Limited time!'
           : isAnnual && pricingExperiment.variant === 'annual_49'
-          ? '🔥 Launch Special: 50% OFF ($99 → $49/year)'
+          ? '⚡ SMART CHOICE: Best value for cross-border tax compliance'
           : isAnnual && pricingExperiment.variant === 'annual_79'
-          ? 'Best value for serious tax planning'
-          : isAnnual && pricingExperiment.variant === 'annual_99'
-          ? 'Premium tier - Full-featured tax optimization'
+          ? '💎 PREMIUM: Professional-grade tax optimization & support'
           : 'Flexible month-to-month billing',
         badge: '⭐ Recommended',
         features: {
@@ -99,14 +97,12 @@ const getTiers = (
         },
         cta: 'Start 14-Day Free Trial',
         highlighted: true,
-        savings: isAnnual && pricingExperiment.variant === 'annual_39'
-          ? 'Save $40 — Competitive pricing expires April 2'
+        savings: isAnnual && pricingExperiment.variant === 'annual_29'
+          ? 'Save $50 vs competitors — Market-leading pricing expires April 15'
           : isAnnual && pricingExperiment.variant === 'annual_49'
-          ? 'Save $50 — Launch pricing ends March 31'
+          ? 'Save vs monthly — Smart tax planning under $4/month'
           : isAnnual && pricingExperiment.variant === 'annual_79'
-          ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
-          : isAnnual && pricingExperiment.variant === 'annual_99'
-          ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
+          ? `Premium value — Includes priority CPA support worth $200`
           : null,
       },
       {

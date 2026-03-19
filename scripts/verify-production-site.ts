@@ -16,7 +16,7 @@ const URLS_TO_TEST = [
 
 const PAGES_TO_CAPTURE = [
   { path: '/', name: 'homepage' },
-  { path: '/calculator', name: 'calculator' },
+  { path: '/us-canada-tax-calculator', name: 'calculator' },
   { path: '/pricing', name: 'pricing' },
 ];
 
