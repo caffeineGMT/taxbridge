@@ -13,6 +13,7 @@ export interface EmailParams {
   to: string;
   subject?: string;
   html?: string;
+  text?: string;
   templateId?: string;
   dynamicData?: Record<string, any>;
   from?: {
@@ -23,7 +24,7 @@ export interface EmailParams {
 }
 
 /**
- * Send an email using SendGrid Dynamic Template
+ * Send an email using SendGrid (supports both templates and HTML/text)
  */
 export async function sendEmail(params: EmailParams): Promise<boolean> {
   if (!apiKey) {
@@ -31,7 +32,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
     return false;
   }
 
-  const { to, templateId, dynamicData, from, replyTo } = params;
+  const { to, subject, html, text, templateId, dynamicData, from, replyTo } = params;
 
   const msg: any = {
     to,
@@ -40,13 +41,24 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
       name: process.env.SENDGRID_FROM_NAME || 'TaxBridge',
     },
     replyTo: replyTo || process.env.SENDGRID_REPLY_TO || 'support@taxbridge.app',
-    templateId,
-    dynamicTemplateData: dynamicData,
   };
+
+  // Support both template-based and HTML/text-based emails
+  if (templateId) {
+    msg.templateId = templateId;
+    msg.dynamicTemplateData = dynamicData;
+  } else if (html || text) {
+    if (subject) msg.subject = subject;
+    if (html) msg.html = html;
+    if (text) msg.text = text;
+  } else {
+    console.error(`✗ Email to ${to} missing both templateId and html/text content`);
+    return false;
+  }
 
   try {
     await sgMail.send(msg);
-    console.log(`✓ Email sent to ${to} (template: ${templateId})`);
+    console.log(`✓ Email sent to ${to} (${templateId ? `template: ${templateId}` : `subject: ${subject}`})`);
     return true;
   } catch (error: any) {
     console.error(`✗ Failed to send email to ${to}:`, error.response?.body || error.message);

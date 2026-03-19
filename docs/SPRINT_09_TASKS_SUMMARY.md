@@ -1,149 +1,159 @@
-# Sprint 09 - Task Summary
+# Sprint 09 Tasks - Quick Reference
 
 **Created:** March 19, 2026
-**Sprint Duration:** 7 days (March 20-26, 2026)
-**Total Tasks:** 10 (7 P0 Critical, 3 P1 High)
-**Estimated Effort:** 53 hours (6.6 engineer-days)
+**Sprint Duration:** March 20-27, 2026 (7 days)
+**Total Tasks:** 15 (6 P0, 4 P1, 3 P2, 2 P3)
+**Estimated Hours:** 46 hours
 
 ---
 
-## 🚨 P0 CRITICAL (7 tasks) — Days 1-4
+## 🔴 P0 - CRITICAL BLOCKERS (6 tasks, 16 hours)
 
-### Task #1: Fix Production Site DOWN
-**ID:** c5abf2dd | **Priority:** P0-CRITICAL | **Deadline:** March 20, 2026 12:00 PM PST | **Time:** 4 hours
+| # | Task | Deadline | Hours | ID |
+|---|------|----------|-------|-----|
+| 1 | **Fix Production Site - taxbridgecpa.com Returns 000** | Mar 20, 12pm | 2h | bdd71d59 |
+| 2 | **Move Stripe to Production Mode** | Mar 20, 11:59pm | 0.5h | 9067042f |
+| 3 | **Replace 2,848 Console.logs with Pino Logging** | Mar 21, 11:59pm | 8h | 3e7427e7 |
+| 4 | **Fix Build Cache Bloat - 1.1GB .next Directory** | Mar 21, 6pm | 1h | dc334a88 |
+| 5 | **Fix 19 NPM Security Vulnerabilities** | Mar 20, 6pm | 2h | 559cf600 |
+| 6 | **Upgrade Next.js 15.5.13 → 16.2.0** | Mar 21, 2pm | 3h | 3ba38f89 |
 
-**Issue:** taxbridgecpa.com returns 000 (connection refused) - ZERO user access
-
-**Action Items:**
-1. Check Vercel deployment dashboard
-2. Verify DNS A/CNAME records
-3. Check Vercel build logs
-4. Test staging URL
-5. Fix deployment blockers
-6. Verify SSL certificate
-7. Test production returns 200 OK
+**P0 Total:** 16.5 hours
 
 ---
 
-### Task #2: Activate Stripe Live Mode
-**ID:** dafcd718 | **Priority:** P0-CRITICAL | **Deadline:** March 20, 2026 8:00 PM PST | **Time:** 4 hours
+## 🟠 P1 - HIGH PRIORITY (4 tasks, 17 hours)
 
-**Issue:** Stripe 100% in TEST MODE = ZERO revenue capability
+| # | Task | Deadline | Hours | ID |
+|---|------|----------|-------|-----|
+| 7 | **Fix Failing Playwright E2E Tests** | Mar 22, 6pm | 4h | c7114bfc |
+| 8 | **Fix 22 Remaining TypeScript Errors** | Mar 22, 11:59pm | 3h | ad32e740 |
+| 9 | **Add Error Handling to All 117 API Routes** | Mar 23, 6pm | 6h | 8a94db20 |
+| 10 | **Optimize Bundle Size - 368KB → <150KB** | Mar 24, 6pm | 4h | fe5bbfcf |
 
-**Action Items:**
-1. Switch Stripe Dashboard to LIVE MODE
-2. Create Pro product ($99/year)
-3. Create Enterprise product ($2000/seat)
-4. Generate live API keys
-5. Configure webhook endpoint
-6. Update Vercel environment variables
-7. Test real $1 charge end-to-end
+**P1 Total:** 17 hours
 
 ---
 
-### Task #3: Add API Error Handling
-**ID:** 04c84db7 | **Priority:** P0-CRITICAL | **Deadline:** March 21, 2026 6:00 PM PST | **Time:** 16 hours
+## 🔵 P2 - MEDIUM PRIORITY (3 tasks, 11 hours)
 
-**Issue:** 106 routes, 0 error handlers = 100% crash risk
+| # | Task | Deadline | Hours | ID |
+|---|------|----------|-------|-----|
+| 11 | **ARIA Accessibility - 1% → 80%+ Coverage** | Mar 25, 6pm | 6h | c6c06b42 |
+| 12 | **Resolve 43 TODO/FIXME Comments** | Mar 26, 2pm | 3h | fdf93516 |
+| 13 | **Migrate SQLite → PostgreSQL** | Mar 26, 6pm | 2h | e4db2d37 |
 
-**Action Items:**
-1. Create standardized error handler (lib/api-error-handler.ts)
-2. Wrap all 106 routes with try/catch
-3. Test error scenarios
-4. Add Sentry error tracking
-
----
-
-### Task #4: Fix Build Size Bloat
-**ID:** 11cb7c87 | **Priority:** P0-CRITICAL | **Deadline:** March 22, 2026 6:00 PM PST | **Time:** 12 hours
-
-**Issue:** 915MB build (9.15x over target)
-
-**Action Items:**
-1. Analyze bundle: ANALYZE=true npm run build
-2. Enable SWC minification + removeConsole
-3. Lazy load heavy deps
-4. Remove unused dependencies
-5. Enable output: 'standalone'
+**P2 Total:** 11 hours
 
 ---
 
-### Task #5: Fix npm Vulnerabilities
-**ID:** ddb67a08 | **Priority:** P0-CRITICAL | **Deadline:** March 21, 2026 6:00 PM PST | **Time:** 3 hours
+## ⚪ P3 - LOW PRIORITY (2 tasks, 3 hours)
 
-**Issue:** 19 vulnerabilities (2 critical, 2 high)
+| # | Task | Deadline | Hours | ID |
+|---|------|----------|-------|-----|
+| 14 | **Implement Cache Management Strategy** | Mar 27, 12pm | 1h | 72465801 |
+| 15 | **Set Up Lighthouse CI Baseline** | Mar 27, 6pm | 2h | 5dfd9b4d |
 
-**Action Items:**
-1. npm audit fix --force
-2. Manually upgrade: form-data@latest, request@latest
-3. Reaudit: npm audit
-4. Test build
+**P3 Total:** 3 hours
 
 ---
 
-### Task #6: Remove console.logs
-**ID:** 4b68d553 | **Priority:** P0-CRITICAL | **Deadline:** March 22, 2026 6:00 PM PST | **Time:** 8 hours
+## 📊 SPRINT METRICS
 
-**Issue:** 208 console.logs, 25 expose PII = GDPR/CCPA violations
-
-**Action Items:**
-1. Remove 25 PII-exposing console.logs
-2. Replace with structured logging
-3. Add ESLint rule: "no-console"
-4. Use PostHog for client tracking
+- **Total Tasks:** 15
+- **Total Hours:** 46.5 hours
+- **Timeline:** 7 days
+- **Engineering Capacity:** 5.8 engineers @ 8h/day OR 1 engineer @ 6.6h/day
 
 ---
 
-### Task #7: Upgrade Next.js
-**ID:** 1fdc1036 | **Priority:** P0-CRITICAL | **Deadline:** March 23, 2026 6:00 PM PST | **Time:** 6 hours
+## 🎯 LAUNCH READINESS GATES
 
-**Issue:** 7 minor versions behind (15.5.13 → 16.2.0)
+**Current Status:** 0/11 gates passed (0%)
 
-**Action Items:**
-1. Review Next.js 16.x migration guide
-2. npm install next@latest react@latest react-dom@latest
-3. Test build
-4. Run E2E tests
-5. Deploy to staging
-
----
-
-## 🟠 P1 HIGH (3 tasks) — Days 5-7
-
-### Task #8: Fix E2E Tests
-**ID:** a8a1e0b7 | **Priority:** P1-HIGH | **Deadline:** March 23, 2026 6:00 PM PST | **Time:** 4 hours
-
-**Issue:** Status unknown, Sprint 08 showed 100% failure
+| Gate | Current | Target | Status |
+|------|---------|--------|--------|
+| Production Site | 000 (Down) | 200 OK | ❌ TASK #1 |
+| Stripe Mode | TEST | LIVE | ❌ TASK #2 |
+| Console.logs | 2,848 | 0 | ❌ TASK #3 |
+| Build Cache | 1.1GB | <150MB | ❌ TASK #4 |
+| NPM Vulns | 19 | 0 crit/high | ❌ TASK #5 |
+| Next.js | 15.5.13 | 16.2.0+ | ❌ TASK #6 |
+| E2E Tests | Failing | 100% pass | ⚠️ TASK #7 |
+| TypeScript | 22 errors | 0 errors | ⚠️ TASK #8 |
+| API Errors | ~10% | 100% | ❌ TASK #9 |
+| Bundle Size | 368KB | <150KB | ⚠️ TASK #10 |
+| Accessibility | 1% | 80%+ | ❌ TASK #11 |
 
 ---
 
-### Task #9: Lighthouse CI Baseline
-**ID:** e46ecc09 | **Priority:** P1-HIGH | **Deadline:** March 24, 2026 6:00 PM PST | **Time:** 4 hours
+## 🚀 EXECUTION TIMELINE
 
-**Issue:** No baseline for Core Web Vitals, performance, SEO
+### Week 1: P0 FIXES (March 20-21) - 16 hours
+**Day 1 (March 20):**
+- Tasks #1, #2, #5, #6 (7.5 hours)
+
+**Day 2 (March 21):**
+- Tasks #3, #4 (9 hours)
+
+### Week 2: P1 QUALITY (March 22-24) - 17 hours
+**Day 3 (March 22):**
+- Tasks #7, #8 (7 hours)
+
+**Day 4 (March 23):**
+- Task #9 (6 hours)
+
+**Day 5 (March 24):**
+- Task #10 (4 hours)
+
+### Week 3: P2 POLISH (March 25-27) - 11 hours
+**Day 6 (March 25):**
+- Task #11 (6 hours)
+
+**Day 7 (March 26):**
+- Tasks #12, #13 (5 hours)
+
+### Week 4: P3 MONITORING (March 27) - 3 hours
+**Day 8 (March 27):**
+- Tasks #14, #15 (3 hours)
 
 ---
 
-### Task #10: Accessibility Audit
-**ID:** e560008d | **Priority:** P1-HIGH | **Deadline:** March 25, 2026 6:00 PM PST | **Time:** 8 hours
+## ⚠️ CRITICAL NOTES
 
-**Issue:** Unknown WCAG 2.1 AA compliance
+1. **TASK #1 IS EMERGENCY** - Production site is completely down (000 Connection Refused). ALL revenue and user access blocked. Fix IMMEDIATELY.
+
+2. **TASK #3 IS CATASTROPHIC REGRESSION** - Console.logs increased 15x (189 → 2,848). This is a PII security leak and performance disaster.
+
+3. **TASK #2 HAS BEEN BLOCKER FOR 4+ SPRINTS** - Stripe must be moved to live mode this sprint. No more delays.
+
+4. **Code Quality Collapse** - 2,659 new console.logs suggests NO code review, NO linting enforcement. Need pre-commit hooks after Task #3.
+
+5. **Production Monitoring Missing** - Site went down and nobody knew. Need alerting after Task #1.
 
 ---
 
-## 🎯 LAUNCH GATES: 0/10 GREEN
+## 🎯 POST-SPRINT GRADE PROJECTION
 
-1. 🔴 Production Site UP (000 → 200)
-2. 🔴 Stripe Live Tested (test → live)
-3. 🔴 API Error Handling (0% → 100%)
-4. 🔴 Build Size (915MB → <150MB)
-5. 🔴 Security Clean (4 vulns → 0)
-6. 🔴 No PII Exposure (25 logs → 0)
-7. 🟡 Next.js Current (15.5.13 → 16.2.0)
-8. ⚪ E2E Tests Pass (unknown → 100%)
-9. ⚪ Lighthouse Score (unknown → >85)
-10. ⚪ Accessibility (unknown → WCAG AA)
+**Current Grade:** F (48/100) - PRODUCTION DISASTER
+**Post-Sprint Grade:** A- (92/100) - Production Ready
 
-**Current:** D (64/100) | **Target:** B+ (87/100) | **Improvement:** +23 points
+**Grade Improvement:** +44 points
 
-**Earliest Safe Launch: March 27, 2026**
+---
+
+## 📝 TASK MANAGEMENT
+
+View all tasks: `npx metaclaw task list`
+Filter by priority: `npx metaclaw task list --priority critical`
+Update task status: `npx metaclaw task update <task-id> --status in_progress`
+Complete task: `npx metaclaw task complete <task-id>`
+
+---
+
+## 🔗 RELATED DOCUMENTS
+
+- Full Audit: `docs/SPRINT_09_CEO_AUDIT.md`
+- Sprint 08 Audit: `docs/SPRINT_08_CEO_AUDIT.md`
+- Stripe Setup: `docs/STRIPE_PRODUCTION_SETUP.md`
+- PostgreSQL Migration: `docs/POSTGRES_MIGRATION_CHECKLIST.md`
