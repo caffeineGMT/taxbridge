@@ -92,6 +92,7 @@
     "conference:followup:dry-run": "tsx scripts/conference-followup-cron.ts --dry-run"
   },
   "dependencies": {
+    "@alloc/quick-lru": "^5.2.0",
     "@anthropic-ai/sdk": "^0.80.0",
     "@clerk/nextjs": "^7.0.5",
     "@clerk/themes": "^2.4.57",
@@ -122,7 +123,7 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
     "lucide-react": "^0.577.0",
-    "next": "^15.0.0",
+    "next": "^16.2.0",
     "node-cron": "^4.2.1",
     "papaparse": "^5.5.3",
     "pg": "^8.20.0",

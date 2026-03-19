@@ -1,5 +1,5 @@
 import type { NextConfig } from 'next';
-import { withSentryConfig } from '@sentry/nextjs';
+// import { withSentryConfig } from '@sentry/nextjs'; // TEMPORARILY DISABLED - causing webpack runtime issues
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const analyze = withBundleAnalyzer({
@@ -91,15 +91,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Sentry configuration options
-const sentryWebpackPluginOptions = {
-  silent: true,
-  hideSourceMaps: true,
-  disableLogger: true,
-  org: process.env.SENTRY_ORG,
-  project: process.env.SENTRY_PROJECT,
-  authToken: process.env.SENTRY_AUTH_TOKEN,
-};
+// Sentry configuration options (TEMPORARILY DISABLED)
+// const sentryWebpackPluginOptions = {
+//   silent: true,
+//   hideSourceMaps: true,
+//   disableLogger: true,
+//   org: process.env.SENTRY_ORG,
+//   project: process.env.SENTRY_PROJECT,
+//   authToken: process.env.SENTRY_AUTH_TOKEN,
+// };
 
-// Wrap the config with Sentry and Bundle Analyzer
-export default analyze(withSentryConfig(nextConfig, sentryWebpackPluginOptions));
+// Export without Sentry wrapper (to fix webpack runtime issues)
+// TODO: Re-enable Sentry with proper configuration after fixing build
+export default analyze(nextConfig);

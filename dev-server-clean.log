@@ -271,3 +271,1816 @@ Require stack:
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'
  ✓ Compiled in 657ms (2162 modules)
  ✓ Compiled in 838ms (2162 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ✓ Compiled /_error in 456ms (2243 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 5.2s (4525 modules)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/middleware-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/fallback-build-manifest.json'
+}
+ GET /enterprise/calculator 500 in 453ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 254ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 326ms
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 298ms
+ GET / 500 in 298ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 254ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 265ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 278ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Cannot find module './7018.js'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/webpack-runtime.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages/_document.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/require.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/load-components.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/utils.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/options.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/swc/index.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/config.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/next.js
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (webpack://cross-border-tax/external%20commonjs2%20%22events%22:1:1)
+    at Object.<anonymous> (webpack://cross-border-tax/external%20commonjs2%20%22events%22:1:1)
+> 1 | module.exports = require("events");
+    | ^ {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 258ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 189ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 267ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /rsu-entry 500 in 574ms
+ GET / 500 in 574ms
+ GET /rsu-entry 500 in 574ms
+ GET / 500 in 574ms
+ GET / 500 in 574ms
+ GET / 500 in 574ms
+ GET / 500 in 574ms
+ GET / 500 in 574ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /rsu-entry 500 in 343ms
+ GET / 500 in 343ms
+ GET / 500 in 343ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 367ms
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET / 500 in 343ms
+ GET /dashboard 500 in 343ms
+ GET / 500 in 343ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /rsu-entry 500 in 256ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 268ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 276ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_exec__ (.next/server/app/_not-found/page.js:990:39)
+    at <unknown> (.next/server/app/_not-found/page.js:991:731)
+    at <unknown> (.next/server/app/_not-found/page.js:991:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:994:3)
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 304ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 423ms
+ GET / 500 in 423ms
+ GET / 500 in 423ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+ GET /enterprise/calculator 500 in 35ms
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ Error: Publishable key not valid.
+    at bq (.next/server/middleware.js:13:39747)
+    at cw.initPublishableKeyValues (.next/server/middleware.js:24:17785)
+    at new cw (.next/server/middleware.js:24:16239)
+    at cx (.next/server/middleware.js:24:20336)
+    at async fz (.next/server/middleware.js:32:1463)
+    at async (.next/server/middleware.js:74:2438)
+    at async handler (.next/server/middleware.js:74:13445)
+    at async (.next/server/middleware.js:13:32793)
+    at async a9 (.next/server/middleware.js:13:29478)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/pages-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/app-paths-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/routes-manifest.json'
+}
+[?25h
