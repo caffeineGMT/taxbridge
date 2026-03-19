@@ -48,6 +48,8 @@
     "immigration:outreach": "tsx scripts/immigration-lawyer-outreach.ts",
     "immigration:outreach:dry-run": "tsx scripts/immigration-lawyer-outreach.ts --dry-run",
     "immigration:followups": "tsx scripts/immigration-lawyer-followups.ts",
+    "pricing:setup": "tsx scripts/setup-pricing-experiment.ts",
+    "pricing:monitor": "tsx scripts/monitor-pricing-experiment.ts",
     "immigration:followups:dry-run": "tsx scripts/immigration-lawyer-followups.ts --dry-run",
     "cron:notifications": "tsx lib/cron/notifications.ts",
     "test:email-drip": "tsx scripts/test-email-drip.ts",
