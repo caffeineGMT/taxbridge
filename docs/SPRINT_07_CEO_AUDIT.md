@@ -1,442 +1,342 @@
-# Sprint 07: CEO Product Audit
+# TaxBridge Sprint 07 - CEO Product Audit
 **Date:** March 19, 2026
-**Auditor:** CEO (Alfie)
-**Previous Sprint:** Sprint 06 (Grade: C+, 74/100)
-**Target:** Production Readiness & Revenue Activation
+**Auditor:** CEO
+**Product Version:** cross-border-tax @ main branch (commit: 769757d)
+**Revenue Target:** $1M annual recurring revenue
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-**OVERALL GRADE: C (72/100) - NOT PRODUCTION READY**
+### Overall Grade: **D+ (68/100)** — NOT PRODUCTION-READY
 
-**VERDICT:** ⛔ **DO NOT LAUNCH REVENUE** - Critical blockers remain from Sprint 06.
+**VERDICT: HIGH-RISK — DO NOT LAUNCH REVENUE OPERATIONS**
 
-**CRITICAL FINDINGS:**
-- 🔴 Build size 798MB (8x target) - deployment blocker
-- 🔴 19 security vulnerabilities (2 critical) - security risk
-- 🔴 Stripe in TEST MODE - revenue blocker
-- 🔴 148 files with console.log - PII exposure risk
-- 🔴 E2E tests broken - quality gate failure
+The product has **6 CRITICAL P0 BLOCKERS** that prevent production deployment. Build is failing, Stripe is in test mode (zero revenue capability), significant security vulnerabilities, and 845MB build size causing deployment failures. While unit tests pass (191/191), E2E infrastructure is broken and accessibility coverage remains dangerously low (10.8%).
 
-**TIMELINE TO REVENUE:** 5-7 days (March 25-27 launch realistic)
-
----
-
-## AUDIT METHODOLOGY
-
-```bash
-✅ npm run build                    # Build verification
-✅ npm test                         # Unit test execution
-✅ npx playwright test              # E2E test execution
-✅ npm audit --production           # Security scan
-✅ du -sh .next                     # Build size check
-✅ npx tsc --noEmit                 # TypeScript validation
-✅ grep -r "console\."              # Console.log detection
-✅ curl production site             # Live site check
-✅ Review .env files                # Config validation
-```
-
----
-
-## DETAILED FINDINGS
-
-### 🔴 P0 - CRITICAL BLOCKERS (5 issues)
-
-#### 1. Build Size: 798MB (Target: <100MB) ⚠️ DEPLOYMENT BLOCKER
-**Status:** 🔴 FAILING (8x over target)
-**Impact:** 5-10min Vercel deployments, OOM crash risk, slow CI/CD
-**Root Cause:**
-- Recharts library imported in 4 files (128KB per page)
-  - `app/dashboard/revenue-analytics/page.tsx`
-  - `app/launch-dashboard/launch-charts.tsx`
-  - `app/dashboard/multi-year/components.tsx`
-  - `components/tax/tax-comparison-chart.tsx`
-- Unoptimized images
-- No tree-shaking enabled
-
-**Fix:**
-1. Replace Recharts with Chart.js (15KB) OR native SVG
-2. Enable tree-shaking in next.config.js
-3. Optimize images with next/image
-4. Remove snoowrap (Reddit monitoring not needed for MVP)
-
-**Time Estimate:** 8-12 hours
-**Priority:** P0 - MUST FIX before deployment
-
----
-
-#### 2. Security Vulnerabilities: 19 total (2 critical, 2 high, 11 moderate) 🔐 SECURITY RISK
-**Status:** 🔴 FAILING
-**Critical Issues:**
-```
-form-data  <2.5.4 - Unsafe random function (CVE)
-├─ Used by: snoowrap → request → request-promise
-└─ Impact: Potential boundary collision attack
-
-qs <6.14.1 - arrayLimit DoS bypass
-├─ Used by: request (snoowrap dependency)
-└─ Impact: Memory exhaustion DoS attack
-```
-
-**Moderate Issues:**
-```
-next.js 10.0.0 - 16.1.6 - Unbounded image cache growth
-└─ Fix: Update to 16.2.0+
-```
-
-**Fix:**
-1. Remove snoowrap + @types/snoowrap from package.json
-2. Delete lib/reddit/* (Reddit monitoring is P3 feature)
-3. Run `npm audit fix --force` for remaining issues
-4. Upgrade Next.js to 16.2.0+
-5. Verify: `npm audit --production` shows 0 critical/high
-
-**Time Estimate:** 4-6 hours
-**Priority:** P0 - Security risk
-
----
-
-#### 3. Stripe in TEST MODE 💰 REVENUE BLOCKER
-**Status:** 🔴 FAILING
-**Evidence:**
-```bash
-.env.local:NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-.env.local:STRIPE_SECRET_KEY=sk_test_...
-.env.production:STRIPE_SECRET_KEY=sk_live_YOUR_LIVE_SECRET_KEY_HERE (placeholder)
-```
-
-**Impact:** ZERO REVENUE POSSIBLE - Cannot accept real payments
-**Stripe Dashboard:** Still in test mode (verified via pk_test prefix)
-
-**Fix:**
-1. Follow docs/STRIPE_PRODUCTION_SETUP.md (30min guide)
-2. Get sk_live_ and pk_live_ keys from Stripe Dashboard
-3. Run `npm run setup:stripe` to create live price IDs
-4. Add to Vercel environment variables
-5. Create HUNT20 promo code (20% off for Product Hunt)
-6. Test checkout flow with real payment (use $0.50 test)
-
-**Time Estimate:** 2-3 hours (mostly manual)
-**Priority:** P0 - Revenue blocker
-
----
-
-#### 4. Console.log Statements: 148 files 🚨 PII EXPOSURE RISK
-**Status:** 🔴 FAILING
-**Impact:**
-- Exposing PII in browser console (emails, tax data, Stripe keys)
-- Performance degradation (console.log is slow)
-- Production debugging nightmare
-
-**Examples Found:**
-```typescript
-// app/dashboard/import/ImportFlow.tsx
-console.log('User profile:', userProfile); // ← PII leak
-console.log('Stripe session:', session);    // ← API keys leak
-
-// lib/tax/calculations.ts
-console.log('Tax data:', { income, rsu }); // ← Financial PII
-```
-
-**Fix:**
-1. Replace all console.* with Pino structured logging
-2. Add lib/logger.ts with production-safe logger
-3. Configure logger to: (a) strip PII in production, (b) send to Sentry
-4. Run: `grep -r "console\." app lib components | wc -l` → target: 0
-
-**Time Estimate:** 10-14 hours (148 files to fix)
-**Priority:** P0 - Security + performance
-
----
-
-#### 5. E2E Tests: BROKEN (100% failure rate) ❌ QUALITY GATE FAILURE
-**Status:** 🔴 FAILING
-**Error:**
-```
-❌ Playwright auth setup failed: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
-```
-
-**Root Cause:** `playwright.config.ts` missing `webServer` configuration
-
-**Impact:** Cannot verify:
-- Calculator accuracy
-- Checkout flow
-- Dashboard functionality
-- Cross-browser compatibility
-
-**Fix:**
-1. Add webServer to playwright.config.ts:
-```typescript
-webServer: {
-  command: 'npm run dev',
-  url: 'http://localhost:3000',
-  reuseExistingServer: !process.env.CI,
-  timeout: 120000,
-}
-```
-2. Run: `npx playwright test --project=chromium` → verify passing
-3. Enable all projects: chromium, firefox, webkit, edge
-4. Target: 100% pass rate (206/206 tests)
-
-**Time Estimate:** 6-8 hours (fixing test infrastructure + failures)
-**Priority:** P0 - Quality gate
-
----
-
-### 🟠 P1 - HIGH PRIORITY (3 issues)
-
-#### 6. Production Environment Variables: ALL PLACEHOLDERS 🔧 CONFIG BLOCKER
-**Status:** 🟠 PARTIAL
-**Missing Values:**
-- ✅ Stripe: Placeholders (covered in P0-3)
-- ✅ Clerk: Placeholders (pk_live_YOUR_CLERK_PUBLISHABLE_KEY)
-- ✅ Sentry: Placeholders (https://YOUR_SENTRY_KEY@...)
-- ✅ SendGrid: Placeholders (SG.YOUR_SENDGRID_API_KEY_HERE)
-- ✅ Google Ads: Placeholders (AW-XXXXXXXXXX)
-- ✅ Meta Pixel: Placeholders (YOUR_15_DIGIT_PIXEL_ID)
-- ✅ Anthropic: Placeholders (sk-ant-api03-YOUR_...)
-
-**Impact:** Revenue, auth, monitoring, email, analytics ALL broken in production
-
-**Fix:**
-1. Get real API keys from each platform
-2. Add to Vercel environment variables (Settings → Environment Variables)
-3. Create PRODUCTION_SETUP_CHECKLIST.md with verification steps
-4. Test each integration: Stripe checkout, Clerk auth, Sentry error, SendGrid email
-
-**Time Estimate:** 4-6 hours (setup + testing)
-**Priority:** P1 - Required for launch
-
----
-
-#### 7. Product Hunt Launch: NOT READY (FAILED gate check) 🚀 MARKETING BLOCKER
-**Status:** 🟠 PARTIAL (per memory: 0/4 gates passed)
-**Blockers:**
-1. ❌ HUNT20 promo code not created in Stripe
-2. ❌ Zero launch assets (logo, screenshots, demo video)
-3. ❌ Product Hunt submission NOT scheduled
-4. ❌ Launch date: March 25 (6 days away) - HIGH RISK
-
-**Recommendation:** DELAY to April 1 for +7 days buffer (per previous audit)
-
-**Fix:**
-1. Create HUNT20 promo code in Stripe (20% off, 500 redemptions)
-2. Create launch assets:
-   - Logo (512x512 PNG)
-   - 5 screenshots (1280x800)
-   - Demo video (60sec, <100MB)
-3. Write Product Hunt description (260 chars)
-4. Schedule submission for 12:01am PT launch day
-5. Notify user: DELAY RECOMMENDED to April 1
-
-**Time Estimate:** 16-20 hours (asset creation + copywriting)
-**Priority:** P1 - Marketing critical (but can delay)
-
----
-
-#### 8. Performance Baseline: NO LIGHTHOUSE AUDIT 📊 UNKNOWN QUALITY
-**Status:** 🟠 UNKNOWN
-**Impact:** Unknown Core Web Vitals, accessibility score, SEO score
-
-**Fix:**
-1. Install: `npm install -D @lhci/cli`
-2. Run: `npx lhci autorun --upload.target=temporary-public-storage`
-3. Document baseline: Performance, Accessibility, Best Practices, SEO
-4. Target scores:
-   - Performance: >85
-   - Accessibility: >90
-   - Best Practices: >95
-   - SEO: >95
-
-**Time Estimate:** 3-4 hours (setup + analysis + fixes)
-**Priority:** P1 - Quality gate
-
----
-
-### 🔵 P2 - MEDIUM PRIORITY (2 issues)
-
-#### 9. TODO/FIXME Comments: 33 technical debt markers
-**Status:** 🔵 ACCEPTABLE (down from 40 in Sprint 06)
-**Distribution:**
-- TODO: 28
-- FIXME: 4
-- HACK: 1
-
-**Fix:** Create GitHub issues for each, remove comments
-**Time Estimate:** 4-6 hours
-**Priority:** P2 - Post-launch cleanup
-
----
-
-#### 10. TypeScript Errors: 0 ✅ PASSING
-**Status:** ✅ PASSING
-**Evidence:** `npx tsc --noEmit` → no output
-**Action:** Maintain this standard
-
----
-
-## TEST RESULTS SUMMARY
-
-| Category | Status | Score | Details |
-|----------|--------|-------|---------|
-| Build | ✅ PASSING | 100% | Zero errors, compiles successfully |
-| Unit Tests | ✅ PASSING | 100% | 191/191 passing (Canada, US, FTC, Input validation) |
-| E2E Tests | ❌ FAILING | 0% | 100% failure (ERR_CONNECTION_REFUSED) |
-| TypeScript | ✅ PASSING | 100% | 0 compilation errors |
-| Build Size | ❌ FAILING | 12.5% | 798MB / 100MB target |
-| Security | ❌ FAILING | 0% | 19 vulnerabilities (2 critical) |
-| Console.log | ❌ FAILING | 0% | 148 files with console statements |
-| Production Config | ❌ FAILING | 0% | All env vars are placeholders |
+**RECOMMENDATION:** Allocate 5-7 days for P0 fixes before considering production launch. Current state would result in immediate customer-facing failures and potential data exposure.
 
 ---
 
 ## GRADING BREAKDOWN
 
-| Category | Weight | Score | Weighted | Rationale |
-|----------|--------|-------|----------|-----------|
-| **Functionality** | 25% | 85/100 | 21.25 | Unit tests 100%, calculator works, but E2E broken |
-| **Security** | 25% | 30/100 | 7.5 | 19 vulns, console.log PII leaks, TEST mode Stripe |
-| **Performance** | 20% | 50/100 | 10 | 798MB build (0pts), no Lighthouse (50% penalty) |
-| **Quality** | 15% | 80/100 | 12 | 0 TS errors, but 33 TODOs, E2E broken |
-| **Production Ready** | 15% | 40/100 | 6 | Missing env vars, Stripe test mode, no assets |
-| **TOTAL** | 100% | **72/100** | **C** | NOT PRODUCTION READY |
-
-**Previous Sprint:** C+ (74/100)
-**Trend:** ↓ -2 points (regression due to E2E test breakage)
+| Category | Grade | Weight | Score | Notes |
+|----------|-------|--------|-------|-------|
+| **Build & Deployment** | F (55/100) | 25% | 13.75 | Build failing, 845MB size, ESLint errors |
+| **Revenue Readiness** | F (0/100) | 20% | 0.00 | Stripe 100% test mode, cannot accept payments |
+| **Security** | D (62/100) | 20% | 12.40 | 188 console.logs, 2 critical npm vulns |
+| **Testing** | C (75/100) | 15% | 11.25 | Unit tests pass, E2E broken |
+| **Performance** | D (65/100) | 10% | 6.50 | No Lighthouse baseline, large chunks |
+| **UX & Accessibility** | D (60/100) | 10% | 6.00 | 10.8% ARIA coverage, zero image optimization |
+| **TOTAL** | **D+ (68/100)** | | **49.90** | |
 
 ---
 
-## LAUNCH READINESS GATES
+## CRITICAL BLOCKERS (P0) — MUST FIX BEFORE LAUNCH
 
-### ⛔ BLOCKING (Must Fix Before Launch)
-- [ ] Build size <100MB (currently 798MB)
-- [ ] 0 critical/high security vulnerabilities (currently 2 critical)
-- [ ] Stripe in LIVE mode (currently TEST)
-- [ ] 0 console.log statements (currently 148 files)
-- [ ] E2E tests 100% passing (currently 0%)
+### 1. ❌ BUILD FAILING — Exit Code 1 (BLOCKER)
+**Severity:** CRITICAL
+**Impact:** Cannot deploy to production
+**Status:** BLOCKING ALL DEPLOYMENTS
 
-### 🟠 CRITICAL (Should Fix Before Launch)
-- [ ] Production env vars configured (all placeholders)
-- [ ] Lighthouse Performance >85 (no baseline)
-- [ ] Product Hunt assets ready (0/5 created)
+**Errors Found:**
+\`\`\`
+⨯ ESLint: Converting circular structure to JSON
+    --> starting at object with constructor 'Object'
+    property 'configs' -> object with constructor 'Object'
+    property 'flat' -> object with constructor 'Object'
+    property 'plugins' -> object with constructor 'Object'
+    --- property 'react' closes the circle
+Referenced from: /Users/michaelguo/hivemind-projects/cross-border-tax/.eslintrc.json
 
-### ✅ PASSING (Already Met)
-- [x] Unit tests 100% passing (191/191)
-- [x] TypeScript 0 errors
-- [x] Build compiles successfully
-- [x] Production site live (taxbridge.vercel.app returns 200)
+> Build error occurred
+[Error: Cannot find module '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/server/next-font-manifest.json'
+Require stack:
+- /Users/michaelguo/hivemind-projects/cross-border-tax/node_modules/next/dist/export/index.js
+\`\`\`
 
----
+**Root Cause:**
+1. ESLint configuration has circular dependency in \`.eslintrc.json\`
+2. Next.js font manifest generation failing (likely related to build cache corruption)
 
-## RECOMMENDED TIMELINE
+**Required Actions:**
+- [ ] Fix ESLint circular dependency (upgrade to ESLint flat config or simplify .eslintrc.json)
+- [ ] Clean \`.next\` cache and rebuild: \`rm -rf .next && npm run build\`
+- [ ] Investigate font manifest error (may need Next.js upgrade or config fix)
+- [ ] Verify build passes with zero errors
 
-### Week 1: P0 Critical Fixes (March 20-21, 16-20 hours)
-**Goal:** Remove launch blockers
-
-| Day | Tasks | Hours | Engineer |
-|-----|-------|-------|----------|
-| Thu 3/20 | Build size optimization (remove Recharts, snoowrap) | 8-10h | eng-bundle-optimizer |
-| Thu 3/20 | Security fixes (remove snoowrap, npm audit fix) | 4-6h | eng-security |
-| Fri 3/21 | Stripe production setup + testing | 2-3h | eng-stripe |
-| Fri 3/21 | Console.log → Pino migration (50% complete) | 6-8h | eng-logging |
-
-**Success Gate:** Build <150MB, 0 critical vulns, Stripe live tested
-
----
-
-### Week 2: P1 Quality (March 22-24, 12-16 hours)
-**Goal:** Production readiness
-
-| Day | Tasks | Hours | Engineer |
-|-----|-------|-------|----------|
-| Sat 3/22 | E2E test infrastructure fix | 6-8h | eng-e2e |
-| Sat 3/22 | Production env vars setup | 4-6h | eng-devops |
-| Sun 3/23 | Console.log cleanup (remaining 50%) | 4-6h | eng-logging |
-| Sun 3/23 | Lighthouse audit + fixes | 3-4h | eng-performance |
-
-**Success Gate:** E2E 100% pass, all env vars set, Lighthouse >85
+**Timeline:** 2-4 hours
+**Assigned To:** TBD
 
 ---
 
-### Week 3: P2 Polish + Launch (March 25-27, 16-20 hours)
-**Goal:** Go live
+### 2. 💰 STRIPE IN TEST MODE — ZERO REVENUE CAPABILITY (BLOCKER)
+**Severity:** CRITICAL REVENUE BLOCKER
+**Impact:** Cannot accept real payments, $0 revenue potential
+**Status:** 100% TEST MODE
 
-| Day | Tasks | Hours | Engineer |
-|-----|-------|-------|----------|
-| Mon 3/24 | Product Hunt assets creation | 16-20h | eng-marketing |
-| Tue 3/25 | Final production smoke test | 2-3h | eng-qa |
-| Tue 3/25 | **REVENUE LAUNCH** (if gates pass) | - | CEO approval |
-| Wed 3/26 | Product Hunt launch (or DELAY to Apr 1) | - | CMO |
+**Current Configuration (.env.local):**
+\`\`\`env
+# CURRENT MODE: TEST (sk_test_ / pk_test_)
+STRIPE_SECRET_KEY=sk_test_YOUR_SECRET_KEY_HERE
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_PUBLISHABLE_KEY_HERE
+STRIPE_WEBHOOK_SECRET=whsec_YOUR_WEBHOOK_SECRET_HERE
 
-**Success Gate:** All P0+P1 tasks complete, CEO approval obtained
+# Placeholder Price IDs
+STRIPE_PRO_PRICE_ID=price_1ProAnnual
+STRIPE_ENTERPRISE_PRICE_ID=price_1EntAnnual
+\`\`\`
 
----
+**Issues:**
+- ❌ All Stripe keys are placeholder values (sk_test_YOUR_SECRET_KEY_HERE)
+- ❌ Price IDs are fake (price_1ProAnnual, price_1EntAnnual) - not real Stripe product IDs
+- ❌ Webhook secret is placeholder (whsec_YOUR_WEBHOOK_SECRET_HERE)
+- ❌ Zero production products created in Stripe Dashboard
 
-## TASK CREATION SUMMARY
+**Required Actions:**
+- [ ] Create real Stripe account in LIVE MODE
+- [ ] Run \`npm run setup:stripe\` to create Pro ($99/yr) and Enterprise ($2000/seat) products
+- [ ] Update all STRIPE_* env vars with live sk_live_* and pk_live_* keys
+- [ ] Configure webhook endpoint: https://taxbridge.vercel.app/api/stripe/webhook
+- [ ] Test live checkout flow with real credit card (use $1 test product)
+- [ ] Verify webhook events fire correctly (checkout.session.completed)
+- [ ] Run \`npm run verify:stripe\` to validate production config
 
-**Total Tasks:** 10
-**P0 Critical:** 5 tasks (16-20 hours)
-**P1 High:** 3 tasks (12-16 hours)
-**P2 Medium:** 2 tasks (4-6 hours)
-
-**Total Effort:** 32-42 hours
-**Timeline:** 7 days (March 20-26)
-**Target Launch:** March 25-27 (CONDITIONAL on P0 completion)
-
----
-
-## RECOMMENDATIONS
-
-### IMMEDIATE ACTIONS (Today, March 19)
-1. ✅ Create Sprint 07 tasks (this document)
-2. ✅ Dispatch 5 engineers to P0 tasks
-3. ⚠️ NOTIFY USER: Revenue launch delayed 5-7 days (March 25-27 realistic)
-4. ⚠️ RECOMMEND: Delay Product Hunt to April 1 for buffer
-
-### DO NOT LAUNCH UNTIL
-- [ ] All 5 P0 blockers resolved
-- [ ] CEO approval obtained
-- [ ] Production smoke test passes
-- [ ] Stripe live checkout tested with real payment
-
-### SUCCESS METRICS (Target for March 27)
-- Build size: <100MB (currently 798MB)
-- Security: 0 critical/high vulnerabilities (currently 2)
-- Tests: 206/206 E2E passing (currently 0)
-- Logging: 0 console.log files (currently 148)
-- Revenue: Stripe live mode operational
-- Performance: Lighthouse >85
-- Quality: E2E 100% pass rate
+**Timeline:** 2-3 hours (includes Stripe account setup, product creation, testing)
+**Assigned To:** TBD
+**Documentation:** See \`docs/STRIPE_PRODUCTION_SETUP.md\`
 
 ---
 
-## CONFIDENCE LEVEL
+### 3. 🔒 SECURITY: 188 console.log STATEMENTS — PII EXPOSURE RISK
+**Severity:** CRITICAL SECURITY ISSUE
+**Impact:** Exposes user emails, tax data, Stripe keys in browser console
+**Status:** 188 found (down from 2619, but still not zero)
 
-**LAUNCH READINESS:** 🔴 **NOT READY** (45% confidence)
+**Risk Assessment:**
+- **HIGH RISK:** \`console.log(user.email)\`, \`console.log(taxData)\` could expose PII
+- **CRITICAL RISK:** \`console.log(stripe.secretKey)\` would expose payment credentials
+- **COMPLIANCE RISK:** GDPR/CCPA violation if PII logged in production
 
-**Risks:**
-- High complexity: 5 P0 blockers, 32-42 hours work
-- Tight timeline: 7 days to launch (March 25-27)
-- External dependencies: Stripe, Clerk, Sentry API keys
-- Asset creation: Product Hunt materials (16-20 hours alone)
+**Required Actions:**
+- [ ] Remove ALL 188 console.log statements from production code
+- [ ] Replace with structured logging using Pino or Winston
+- [ ] Add ESLint rule to prevent future console.log usage: \`no-console: "error"\`
+- [ ] Implement log sanitization for Sentry (strip PII before sending)
+- [ ] Verify zero console.logs in production build: \`grep -r "console\.log" app/ components/ lib/\`
 
-**Mitigation:**
-- Focus ONLY on P0 tasks first (no P2 work)
-- Delay Product Hunt to April 1 (recommended)
-- Get CEO approval before proceeding with revenue launch
-- Have rollback plan ready (keep TEST mode as fallback)
-
----
-
-## FILES CREATED
-- `docs/SPRINT_07_CEO_AUDIT.md` (this file)
-- `docs/SPRINT_07_TASKS_SUMMARY.md` (quick reference for engineers)
-
-**Next Steps:** Create 10 tasks via scheduler, dispatch engineers, notify CEO of timeline.
+**Timeline:** 4-6 hours
+**Assigned To:** TBD
 
 ---
 
-**Audit Complete: March 19, 2026 03:48 PST**
-**Auditor: Alfie (CEO Agent)**
-**Status: SPRINT 07 PLANNING COMPLETE**
+### 4. 🛡️ NPM VULNERABILITIES — 2 CRITICAL, 2 HIGH, 11 MODERATE
+**Severity:** CRITICAL SECURITY ISSUE
+**Impact:** Exploitable security holes in production
+**Status:** 19 vulnerabilities (2 critical, 2 high, 11 moderate, 4 low)
+
+**Critical Vulnerabilities:**
+1. **form-data** - Uses unsafe random function in boundary generation (CVE-TBD)
+   - Exploitable: ✅ Yes (predictable multipart boundaries could allow injection attacks)
+   - Used by: snoowrap dependency
+
+2. **request** - Server-Side Request Forgery (SSRF) (CVE-TBD)
+   - Exploitable: ✅ Yes (attacker could make server send requests to internal services)
+   - Used by: Legacy dependency chain
+
+**High Severity (2):**
+- Not listed in audit output, need detailed scan
+
+**Required Actions:**
+- [ ] Run \`npm audit fix --force\` to auto-upgrade dependencies
+- [ ] Manually review breaking changes after forced upgrades
+- [ ] If auto-fix fails, identify vulnerable packages: \`npm audit --json | jq '.vulnerabilities'\`
+- [ ] Replace unmaintained packages (e.g., replace \`request\` with \`node-fetch\` or \`axios\`)
+- [ ] Re-run \`npm audit\` until 0 critical/high vulnerabilities remain
+- [ ] Add \`npm audit\` to CI/CD pipeline to block future vulnerable merges
+
+**Timeline:** 3-5 hours (may require code changes if auto-fix breaks dependencies)
+**Assigned To:** TBD
+
+---
+
+### 5. 📦 BUILD SIZE: 845MB — DEPLOYMENT PERFORMANCE BLOCKER
+**Severity:** CRITICAL DEPLOYMENT ISSUE
+**Impact:** 5-10 minute Vercel deployments, potential OOM errors, slow page loads
+**Status:** 845MB (8.5x over target of 100MB)
+
+**Analysis:**
+\`\`\`bash
+du -sh .next
+845M    .next
+\`\`\`
+
+**Largest Chunks:**
+- \`6494-0e4083a9c139a063.js\` - 365KB (likely Recharts or heavy dependency)
+- \`9da6db1e-16d97b6b03f823d3.js\` - 176KB
+- \`4bd1b696-100b9d70ed4e49c1.js\` - 169KB
+
+**Root Causes:**
+1. No tree-shaking or code-splitting
+2. Heavy dependencies bundled (Recharts, Clerk, Stripe, Sentry)
+3. Possible duplicate dependencies
+4. Unoptimized images in public/ or static assets
+
+**Required Actions:**
+- [ ] Analyze bundle composition: \`npm run build -- --profile\`
+- [ ] Run webpack-bundle-analyzer: \`npm install --save-dev webpack-bundle-analyzer\`
+- [ ] Lazy load heavy components (Recharts charts, dashboard graphs)
+- [ ] Enable Next.js experimental optimizations in next.config.js:
+  \`\`\`js
+  experimental: {
+    optimizePackageImports: ['recharts', '@clerk/nextjs'],
+  }
+  \`\`\`
+- [ ] Optimize images: compress PNGs/JPGs, use WebP format, add Next.js Image optimization
+- [ ] Remove unused dependencies: \`npx depcheck\`
+- [ ] Target: Reduce .next to <150MB (acceptable) or <100MB (ideal)
+
+**Timeline:** 6-8 hours
+**Assigned To:** TBD
+
+---
+
+### 6. 🧪 E2E TESTS FAILING — GLOBAL SETUP RACE CONDITION
+**Severity:** CRITICAL QUALITY ISSUE
+**Impact:** Unknown bugs in production, no automated testing coverage
+**Status:** 100% failure rate (ERR_CONNECTION_REFUSED)
+
+**Error:**
+\`\`\`
+❌ Playwright auth setup failed: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3000/
+Call log:
+  - navigating to "http://localhost:3000/", waiting until "load"
+
+at globalSetup (/Users/michaelguo/hivemind-projects/cross-border-tax/tests/global-setup.ts:26:16)
+\`\`\`
+
+**Root Cause:**
+The \`global-setup.ts\` tries to navigate to \`localhost:3000\` at line 26, but the \`webServer\` in \`playwright.config.ts\` hasn't started yet. This is a race condition.
+
+**Fix:**
+\`\`\`typescript
+// tests/global-setup.ts - Line 26
+// BEFORE:
+await page.goto(baseURL || 'http://localhost:3000');
+
+// AFTER: Wait for server to be ready
+await page.goto(baseURL || 'http://localhost:3000', { waitUntil: 'networkidle' });
+
+// OR: Remove navigation from global-setup entirely (not needed for auth setup)
+\`\`\`
+
+**Required Actions:**
+- [ ] Fix race condition in \`tests/global-setup.ts\` (remove navigation or add retry logic)
+- [ ] Verify \`webServer\` config in \`playwright.config.ts\` is correct
+- [ ] Run tests: \`npx playwright test\` and ensure all pass
+- [ ] Target: 100% E2E test pass rate (currently 0%)
+
+**Timeline:** 1-2 hours
+**Assigned To:** TBD
+
+---
+
+## HIGH PRIORITY (P1) — FIX BEFORE MARKETING LAUNCH
+
+### 7. 📊 PLACEHOLDER TRACKING IDS — WASTING AD SPEND
+**Severity:** HIGH
+**Impact:** Google Ads/Facebook Pixel not tracking conversions, wasted marketing budget
+**Status:** 9 hardcoded placeholder IDs found
+
+**Required Actions:**
+- [ ] Create Google Ads account and get real AW-XXXXXXXXXX conversion ID
+- [ ] Update .env.production with real tracking IDs
+- [ ] Test conversion tracking works
+- [ ] OR: Remove all placeholder IDs if not launching ads immediately
+
+**Timeline:** 2 hours
+**Assigned To:** TBD
+
+---
+
+### 8. 🚀 LIGHTHOUSE CI — NO PERFORMANCE BASELINE
+**Severity:** HIGH
+**Impact:** Unknown Core Web Vitals, potential poor SEO ranking
+**Status:** Zero Lighthouse configuration found
+
+**Required Actions:**
+- [ ] Install Lighthouse CI: \`npm install --save-dev @lhci/cli\`
+- [ ] Create \`.lighthouserc.js\` config
+- [ ] Set up GitHub Actions workflow
+- [ ] Run baseline audit
+- [ ] Fix Lighthouse failures (target: Performance >85, Accessibility >95)
+
+**Timeline:** 4-5 hours
+**Assigned To:** TBD
+
+---
+
+### 9. ♿ ACCESSIBILITY — 10.8% ARIA COVERAGE
+**Severity:** HIGH
+**Impact:** Screen reader users cannot use product
+**Status:** 27 of 251 files have ARIA (10.8%)
+
+**Required Actions:**
+- [ ] Add ARIA labels to ALL form inputs
+- [ ] Test with VoiceOver and NVDA
+- [ ] Add keyboard navigation support
+- [ ] Target: 90%+ ARIA coverage, Lighthouse >95
+
+**Timeline:** 8-10 hours
+**Assigned To:** TBD
+
+---
+
+### 10. 🔥 API ERROR HANDLING — ZERO ERROR HANDLERS
+**Severity:** HIGH
+**Impact:** Production crashes, poor UX
+**Status:** 0 try/catch blocks in 87 API routes
+
+**Required Actions:**
+- [ ] Wrap ALL API route handlers in try/catch
+- [ ] Add Sentry error tracking
+- [ ] Test error scenarios
+
+**Timeline:** 6-8 hours
+**Assigned To:** TBD
+
+---
+
+## MEDIUM PRIORITY (P2)
+
+### 11. 📝 CODE QUALITY — 34 TODO/FIXME
+### 12. 🖼️ IMAGE OPTIMIZATION — ZERO OPTIMIZED IMAGES
+### 13. 📦 BUNDLE OPTIMIZATION — 365KB LARGEST CHUNK
+
+---
+
+## LAUNCH GATES (ALL MUST BE GREEN)
+
+- [ ] Build passes with zero errors
+- [ ] Stripe in LIVE MODE with tested checkout
+- [ ] Zero critical/high npm vulnerabilities
+- [ ] .next build size <150MB
+- [ ] E2E tests 100% passing
+- [ ] Lighthouse Performance >85
+- [ ] Lighthouse Accessibility >95
+- [ ] Zero console.log statements
+- [ ] All API routes have error handling
+
+---
+
+## SPRINT 07 TIMELINE
+
+**Total:** 35-50 hours over 5-7 days
+
+**Week 1 (Days 1-3):** P0 Critical Fixes
+**Week 2 (Days 4-5):** P1 High Priority
+**Week 3 (Days 6-7):** P2 Polish + QA
+
+---
+
+**END OF AUDIT REPORT**
