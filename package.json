@@ -24,6 +24,7 @@
     "test:e2e:edge": "PLAYWRIGHT_TEST_MODE=true npx playwright test --project=edge",
     "test:e2e:mobile": "PLAYWRIGHT_TEST_MODE=true npx playwright test --project=mobile-chrome --project=mobile-safari",
     "test:rate-limiting": "tsx scripts/test-rate-limiting.ts",
+    "verify:posthog-funnel": "tsx scripts/verify-posthog-funnel-tracking.ts",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
     "db:migrate": "tsx scripts/run-migrations.ts",
