@@ -52,13 +52,13 @@ With Foreign Tax Credit claimed:
 
 3. **RSUs are taxed differently:** In the US, RSUs are taxed as ordinary income at vesting. In Canada, 50% is taxable capital gain IF held long enough, otherwise full income. This creates complex FTC calculations.
 
-4. **TurboTax/H&R Block won't catch this:** Generic tax software doesn't handle cross-border scenarios well. I used [TaxBridge](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form) calculator first to estimate, then filed with a CPA.
+4. **TurboTax/H&R Block won't catch this:** Generic tax software doesn't handle cross-border scenarios well. I used [TaxBridge](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form) calculator first to estimate, then filed with a CPA.
 
 5. **Provincial tax adds complexity:** Canada has federal + provincial tax (BC in my case = 53.5% top marginal rate). FTC calculation needs to separate federal vs provincial.
 
 ### Tools I Used
 
-- **TaxBridge Calculator:** Free cross-border tax calculator specifically for H-1B/TN workers with RSUs. Shows US tax, Canada tax, and FTC savings side-by-side. [Link here](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-calculator-cta)
+- **TaxBridge Calculator:** Free cross-border tax calculator specifically for H-1B/TN workers with RSUs. Shows US tax, Canada tax, and FTC savings side-by-side. [Link here](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-calculator-cta)
 
 - **IRS Form 1116:** Foreign Tax Credit form (there's a separate one for passive income vs general income - use general)
 
@@ -84,7 +84,7 @@ This is relevant if you:
 
 - [IRS Form 1116 Instructions](https://www.irs.gov/forms-pubs/about-form-1116)
 - [Canada-US Tax Treaty Article XXIV](https://www.treaty-accord.gc.ca/text-texte.aspx?id=102827)
-- [TaxBridge Calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form) (free tool I used)
+- [TaxBridge Calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form) (free tool I used)
 
 ---
 
@@ -129,7 +129,7 @@ Sorry to hear about your situation. Here's what you should prioritize in the nex
 2. **Review your severance tax withholding** - if you have RSUs vesting, you might be hit with surprise tax bills
 3. **Plan for cross-border taxes** if you're considering moving back home while job hunting (Canada, India, etc.)
 
-On #3 - I used [this cross-border tax calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply) when I was planning my move to Canada. It shows how Foreign Tax Credit works if you end up paying taxes in two countries.
+On #3 - I used [this cross-border tax calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply) when I was planning my move to Canada. It shows how Foreign Tax Credit works if you end up paying taxes in two countries.
 
 Good luck with your search. Network hard, update LinkedIn, and reach out to recruiters in your field. The 60-day window is tight but doable.
 ```
@@ -197,7 +197,7 @@ Effective rate: ~23% (way better than 46% if you were fully double-taxed!)
 
 ### Tools & Resources
 
-- **TaxBridge Calculator:** [Free calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=post) specifically for H-1B/TN workers with RSUs. Shows side-by-side comparison of US tax, Canada tax, and FTC savings.
+- **TaxBridge Calculator:** [Free calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=post) specifically for H-1B/TN workers with RSUs. Shows side-by-side comparison of US tax, Canada tax, and FTC savings.
 
 - **IRS Form 1116:** Foreign Tax Credit form (you file this with your US 1040)
 
@@ -248,7 +248,7 @@ Hope this helps! Happy to answer questions in the comments.
 ```markdown
 TN visa holders are Canadian tax residents, so you'll pay Canadian tax on worldwide income (including your US salary). The good news: you can claim Foreign Tax Credit for US taxes paid, so you avoid double taxation.
 
-Rough estimate: if you make $150K USD working in US, expect ~$35-40K in total tax (pay the higher of US vs Canada rate, which is usually Canada). Use [this calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-helpful-reply) to model your specific situation.
+Rough estimate: if you make $150K USD working in US, expect ~$35-40K in total tax (pay the higher of US vs Canada rate, which is usually Canada). Use [this calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-helpful-reply) to model your specific situation.
 
 Make sure you file both US (Form 1040 + Form 1116 for FTC) and Canada (T1 + Schedule 1). Don't skip either or you'll get penalties.
 ```
@@ -265,7 +265,7 @@ Big change: H-1B = US tax resident, TN = Canadian tax resident.
 
 You'll likely pay MORE total tax on TN because Canada has higher marginal rates (53% top rate in BC/ON vs 37% federal in US). Foreign Tax Credit helps but doesn't eliminate the gap.
 
-I used [this cross-border calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply) to compare before I made the switch. Helped me plan for the $8K difference in tax liability.
+I used [this cross-border calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply) to compare before I made the switch. Helped me plan for the $8K difference in tax liability.
 ```
 
 ### Scenario: "Got RSUs vesting next month, how are they taxed in Canada?"
@@ -286,7 +286,7 @@ RSUs are tricky for Canadian tax residents:
 
 **Foreign Tax Credit:** You can claim credit for US withholding on your Canadian return, but only in the same tax year.
 
-Run the numbers here: [TaxBridge calculator](https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-calculator-cta) - it shows US vs Canada tax side-by-side for RSU scenarios.
+Run the numbers here: [TaxBridge calculator](https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-calculator-cta) - it shows US vs Canada tax side-by-side for RSU scenarios.
 ```
 
 ---
@@ -357,16 +357,16 @@ Run the numbers here: [TaxBridge calculator](https://taxbridgecpa.com?utm_source
 Use these pre-built UTM links in your posts/comments:
 
 ### r/personalfinance
-- Main case study: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form`
-- Calculator CTA: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-calculator-cta`
+- Main case study: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-long-form`
+- Calculator CTA: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=personalfinance&utm_content=case-study-calculator-cta`
 
 ### r/h1b
-- Comment links: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply`
-- Post links: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=post`
+- Comment links: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=comment-helpful-reply`
+- Post links: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=h1b&utm_content=post`
 
 ### r/ImmigrationCanada
-- Comment links: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-helpful-reply`
-- Post links: `https://taxbridgecpa.com?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=post`
+- Comment links: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=comment-helpful-reply`
+- Post links: `https://taxbridge.app?utm_source=reddit&utm_medium=organic&utm_campaign=reddit-growth-q1-2026&utm_term=ImmigrationCanada&utm_content=post`
 
 ---
 

@@ -27,6 +27,7 @@
     "setup:posthog": "tsx scripts/setup-posthog.ts",
     "verify:posthog": "tsx scripts/verify-posthog-funnel-tracking.ts",
     "verify:posthog-funnel": "tsx scripts/verify-posthog-funnel-tracking.ts",
+    "revenue:check": "tsx scripts/revenue-reality-check.ts",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
     "db:migrate": "tsx scripts/run-migrations.ts",
@@ -134,7 +135,8 @@
     "implement:ab-winners:dry-run": "tsx scripts/implement-ab-winners.ts --dry-run",
     "implement:ab-winners:confirm": "tsx scripts/implement-ab-winners.ts --confirm",
     "conversion:baseline": "tsx scripts/pull-conversion-baseline.ts",
-    "analyze:funnel": "tsx scripts/diagnose-conversion-funnel.ts"
+    "analyze:funnel": "tsx scripts/diagnose-conversion-funnel.ts",
+    "test:mobile": "node scripts/mobile-test.mjs"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
