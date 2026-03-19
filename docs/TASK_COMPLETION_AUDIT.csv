@@ -1,0 +1,60 @@
+Task ID,Task Title,Sprint,Claimed Done Date,Evidence Provided,Evidence Type,Evidence Location,Actually Fixed,Status,Times Recurred,Revenue Impact
+P0-001,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 10,2026-03-19 08:56,No,None,None,No,Failed,1,$0 - Site inaccessible
+P0-002,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 11,2026-03-19 09:41,No,None,None,No,Failed,2,$0 - Site inaccessible
+P0-003,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 12,2026-03-19 10:51,No,None,None,No,Failed,3,$0 - Site inaccessible
+P0-004,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 13,2026-03-19 11:26,No,None,None,No,Failed,4,$0 - Site inaccessible
+P0-005,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 14,2026-03-19 12:27,No,None,None,No,Failed,5,$0 - Site inaccessible
+P0-006,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 15,2026-03-19 15:37,No,None,None,No,Failed,6,$0 - Site inaccessible
+P0-007,Fix Production Site - taxbridgecpa.com Returns 000,Sprint 16,2026-03-19 16:35,Yes,Screenshots + Script,docs/screenshots/2026-03-19T16-35-25/,Yes,✅ FIXED,7,Site now accessible
+P0-008,Move Stripe to Production Mode,Sprint 07,2026-03-19 07:49,No,None,None,No,Failed,1,$0 MRR - Cannot accept payments
+P0-009,Move Stripe to Production Mode,Sprint 08,2026-03-19 08:20,No,None,None,No,Failed,2,$0 MRR - Cannot accept payments
+P0-010,Move Stripe to Production Mode,Sprint 09,2026-03-19 08:56,No,None,None,No,Failed,3,$0 MRR - Cannot accept payments
+P0-011,Move Stripe to Production Mode,Sprint 10,2026-03-19 09:41,No,None,None,No,Failed,4,$0 MRR - Cannot accept payments
+P0-012,Move Stripe to Production Mode,Sprint 11,2026-03-19 11:26,No,None,None,No,Failed,5,$0 MRR - Cannot accept payments
+P0-013,Move Stripe to Production Mode,Sprint 12,2026-03-19 13:22,No,None,None,No,Failed,6,$0 MRR - Cannot accept payments
+P0-014,Move Stripe to Production Mode,Sprint 13,2026-03-19 14:12,No,None,None,No,Failed,7,$0 MRR - Cannot accept payments
+P0-015,Move Stripe to Production Mode,Sprint 14,2026-03-19 15:12,No,None,None,No,Failed,8,$0 MRR - Cannot accept payments
+P0-016,Move Stripe to Production Mode,Sprint 15,2026-03-19 16:07,No,None,None,No,Failed,9,$0 MRR - Cannot accept payments
+P0-017,Fix Build Configuration & TypeScript Errors,Sprint 08,2026-03-19 08:20,No,None,None,No,Failed,1,Deployment blocked
+P0-018,Fix Build Configuration & TypeScript Errors,Sprint 09,2026-03-19 08:56,No,None,None,No,Failed,2,Deployment blocked
+P0-019,Fix Build Configuration & TypeScript Errors,Sprint 10,2026-03-19 09:41,No,None,None,No,Failed,3,Deployment blocked
+P0-020,Fix Build Configuration & TypeScript Errors,Sprint 10,2026-03-19 09:41,Yes,Build logs (implicit),Later sprint builds pass,Yes,✅ FIXED,4,Builds now passing
+P0-021,Fix Failing Input Validation Unit Tests,Sprint 08,2026-03-19 08:20,No,None,None,No,Failed,1,Cannot verify form validation
+P0-022,Fix Failing Input Validation Unit Tests,Sprint 09,2026-03-19 08:56,Yes,Test output (implicit),191/191 tests passing in later sprints,Yes,✅ FIXED,2,Tests now passing
+P0-023,Fix Playwright Test Infrastructure,Sprint 08,2026-03-19 08:20,No,None,None,No,Failed,1,Cannot verify E2E flows
+P0-024,Fix Playwright Test Infrastructure,Sprint 09,2026-03-19 08:56,No,None,None,No,Failed,2,Cannot verify E2E flows
+P0-025,Fix Playwright Test Infrastructure,Sprint 10,2026-03-19 09:41,No,None,None,No,Failed,3,Cannot verify E2E flows
+P0-026,SQLite → PostgreSQL Migration,Sprint 08,2026-03-19 08:20,No,None,None,Unknown,Unknown,1,Unknown scalability impact
+P0-027,API Rate Limiting & DoS Protection,Sprint 08,2026-03-19 08:20,No,None,None,No,Failed,1,Vulnerable to DoS attacks
+P0-028,Security: Purge All console.log Exposing PII,Sprint 12,2026-03-19 14:12,Yes,Migration script,scripts/migrate-console-log.js,Partial,⚠️ PARTIAL,1,99.96% fixed (1 remains)
+P0-029,Fix npm Security Vulnerabilities,Sprint 12,2026-03-19 14:12,No,None,None,Yes,✅ FIXED,1,19→0 vulnerabilities
+P0-030,Add Error Handling to 87 API Routes,Sprint 12,2026-03-19 14:12,No,None,None,No,Failed,1,87 crash points
+P0-031,Fix Build Cache Bloat - 1.1GB .next Directory,Sprint 12,2026-03-19 14:12,No,None,None,Yes,✅ FIXED,1,845MB→137MB (84% reduction)
+P0-032,Fix PostHog Configuration,Sprint 13,2026-03-19 15:12,No,None,None,No,Failed,1,No funnel tracking
+P0-033,Fix PostHog Configuration,Sprint 14,2026-03-19 15:37,No,None,None,No,Failed,2,No funnel tracking
+P0-034,Increase Free Tier Limit from 1 to 10 RSU,Sprint 14,2026-03-19 16:07,No,None,None,No,Failed,1,Conversion blocker
+P0-035,Increase Free Tier Limit from 1 to 10 RSU,Sprint 15,2026-03-19 16:38,No,None,None,No,Failed,2,Conversion blocker
+P0-036,Increase Free Tier Limit from 1 to 10 RSU,Sprint 15,2026-03-19 17:03,No,None,None,No,Failed,3,Conversion blocker
+P0-037,Increase Free Tier Limit from 1 to 10 RSU,Sprint 16,2026-03-19 18:28,Yes,Code changes + audit,Sprint 14 audit confirmation,Yes,✅ FIXED,4,Now allows 10 entries
+P0-038,Production Deployment Verification,Sprint 11,2026-03-19 11:26,No,None,None,No,Failed,1,Unknown production state
+P0-039,Production Deployment Verification,Sprint 12,2026-03-19 13:22,No,None,None,No,Failed,2,Unknown production state
+P0-040,End-to-End Revenue Test,Sprint 10,2026-03-19 09:41,No,None,None,No,Failed,1,Cannot verify payment flow
+P0-041,End-to-End Revenue Test,Sprint 11,2026-03-19 11:26,No,None,None,No,Failed,2,Cannot verify payment flow
+P0-042,End-to-End Revenue Test,Sprint 12,2026-03-19 13:22,No,None,None,No,Failed,3,Cannot verify payment flow
+P0-043,End-to-End Revenue Test,Sprint 13,2026-03-19 14:42,No,None,None,No,Failed,4,Cannot verify payment flow
+P0-044,End-to-End Revenue Test,Sprint 14,2026-03-19 16:07,No,None,None,No,Failed,5,Cannot verify payment flow
+
+SUMMARY STATISTICS
+Total P0-CRITICAL Tasks,44
+Evidence Provided (Yes),5
+Evidence Provided (No),39
+Evidence Rate,11.4%
+Actually Fixed (Yes),7
+Actually Fixed (No),32
+Actually Fixed (Unknown),1
+Actually Fixed (Partial),1
+Fix Rate,15.9%
+Average Recurrence,2.4
+Most Recurring Task,Stripe Production Mode (9 times)
+Longest Unfixed,Stripe Production Mode (9 sprints)
+Revenue Impact,$0 MRR due to Stripe test mode
