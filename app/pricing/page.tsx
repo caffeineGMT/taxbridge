@@ -28,11 +28,8 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import { usePricingExperiment, isInProductHuntCohort } from '@/hooks/use-pricing-experiment';
 import { BillingIntervalToggle } from '@/components/BillingIntervalToggle';
 
-export default function PricingPage() {
-  const pricingExperiment = usePricingExperiment();
-
-  // Generate tiers dynamically based on pricing experiment
-  const getTiers = () => {
+// Generate tiers dynamically based on pricing experiment
+const getTiers = (pricingExperiment: ReturnType<typeof usePricingExperiment>) => {
     const isAnnual = pricingExperiment.selectedInterval === 'annual';
     const proPrice = isAnnual ? pricingExperiment.annualPrice : pricingExperiment.monthlyPrice;
     const proPriceId = pricingExperiment.getCurrentPriceId();
@@ -127,8 +124,6 @@ export default function PricingPage() {
       },
     ];
   };
-
-  const TIERS = getTiers();
 
 // FAQ data
 const FAQ_ITEMS = [
@@ -435,6 +430,9 @@ export default function PricingPage() {
     }
     return { amount: usdPrice, currency: 'USD', symbol: '$' };
   };
+
+  // Compute tiers based on experiment variant
+  const TIERS = getTiers(pricingExperiment);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-50">
