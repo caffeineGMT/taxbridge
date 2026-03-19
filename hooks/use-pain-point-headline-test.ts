@@ -41,7 +41,7 @@ export interface HeadlineCROTestConfig {
   subheadline: string;
   showSavingsBadge: boolean;
   savingsAmount: string;
-  ctaEmphasis: 'savings' | 'professional' | 'speed';
+  ctaEmphasis: 'pain' | 'feature' | 'urgency';
   trackHeadlineViewed: () => void;
   trackHeadlineCTAClicked: () => void;
 }
@@ -49,43 +49,43 @@ export interface HeadlineCROTestConfig {
 /**
  * Headline CRO A/B Test Hook
  *
- * Tests 3 different value proposition approaches:
- * A. Savings-focused: Emphasize dollar amount saved
- * B. Professional: Position as calculator tool for tech workers
- * C. Speed: Highlight fast, simple experience
+ * Tests 3 different value proposition approaches (EXACT as per task):
+ * A. Pain-focused: Emphasize financial loss ($5,000+ overpaid)
+ * B. Feature-focused: Position as professional calculator tool
+ * C. Urgency-focused: Action-oriented "Stop Overpaying" messaging
  */
 export function usePainPointHeadlineTest(): HeadlineCROTestConfig {
   const { variant, isLoading, trackEvent } = useABTest<HeadlineCROVariant>({
     experimentName: 'landing-headline-cro-march-2026',
     variants: {
-      'variant-a-savings': { id: 'variant-a-savings', weight: 33 },
-      'variant-b-professional': { id: 'variant-b-professional', weight: 33 },
-      'variant-c-speed': { id: 'variant-c-speed', weight: 34 },
+      'variant-a-pain': { id: 'variant-a-pain', weight: 33 },
+      'variant-b-feature': { id: 'variant-b-feature', weight: 33 },
+      'variant-c-urgency': { id: 'variant-c-urgency', weight: 34 },
     },
-    defaultVariant: 'variant-a-savings',
+    defaultVariant: 'variant-a-pain',
   });
 
   const VARIANTS = {
-    'variant-a-savings': {
-      headline: 'Save $5K+ on H1B RSU Taxes',
+    'variant-a-pain': {
+      headline: 'Save $5,000+ on H1B RSU Taxes',
       subheadline: 'H-1B and TN visa tech workers lose thousands to double taxation every year. Our CPA-verified calculator optimizes Foreign Tax Credits so you keep more of your RSU income.',
       showSavingsBadge: true,
       savingsAmount: '$5,000+',
-      ctaEmphasis: 'savings' as const,
+      ctaEmphasis: 'pain' as const,
     },
-    'variant-b-professional': {
+    'variant-b-feature': {
       headline: 'Cross-Border Tax Calculator for Tech Workers',
       subheadline: 'Accurate US-Canada tax calculations built specifically for H-1B/TN visa holders with RSU compensation. CPA-verified Foreign Tax Credit optimizer included.',
       showSavingsBadge: false,
       savingsAmount: '',
-      ctaEmphasis: 'professional' as const,
+      ctaEmphasis: 'feature' as const,
     },
-    'variant-c-speed': {
-      headline: 'Know Your RSU Tax Bill in 2 Minutes',
-      subheadline: 'Fast, accurate cross-border tax calculations for H-1B/TN workers. Enter your RSU details and get instant Foreign Tax Credit optimization—no tax expertise required.',
+    'variant-c-urgency': {
+      headline: 'Stop Overpaying on Stock Compensation Tax',
+      subheadline: 'Take action now—H-1B/TN workers overpay thousands annually on RSU taxes due to missed Foreign Tax Credits. Our calculator ensures you claim every dollar you deserve.',
       showSavingsBadge: true,
-      savingsAmount: '2 Min',
-      ctaEmphasis: 'speed' as const,
+      savingsAmount: 'Stop Overpaying',
+      ctaEmphasis: 'urgency' as const,
     },
   };
 
