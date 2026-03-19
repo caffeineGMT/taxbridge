@@ -5,15 +5,15 @@
  * Verifies that blog articles are indexed in Google Search Console
  *
  * PREREQUISITES:
- * 1. Production site must be live at https://taxbridgecpa.com
+ * 1. Production site must be live at https://taxbridge.vercel.app
  * 2. Google Search Console must be set up and verified
  * 3. Sitemap must be submitted to GSC
  *
  * MANUAL STEPS REQUIRED:
  * 1. Go to https://search.google.com/search-console
- * 2. Add property for https://taxbridgecpa.com
+ * 2. Add property for https://taxbridge.vercel.app
  * 3. Verify ownership (DNS TXT record or HTML file upload)
- * 4. Submit sitemap: https://taxbridgecpa.com/sitemap.xml
+ * 4. Submit sitemap: https://taxbridge.vercel.app/sitemap.xml
  * 5. Wait 3-7 days for initial indexing
  *
  * THIS SCRIPT CHECKS:
@@ -27,7 +27,7 @@ import { getAllArticleSlugs } from '../lib/blog/articles';
 import fs from 'fs';
 import path from 'path';
 
-const BASE_URL = 'https://taxbridgecpa.com';
+const BASE_URL = 'https://taxbridge.vercel.app';
 const SITEMAP_URL = `${BASE_URL}/sitemap.xml`;
 
 interface IndexingCheckResult {
@@ -213,11 +213,11 @@ function generateGSCInstructions(): string {
 STEP 1: Verify Site Ownership (15 minutes)
   1. Go to https://search.google.com/search-console
   2. Click "Add Property" → "URL prefix"
-  3. Enter: https://taxbridgecpa.com
+  3. Enter: https://taxbridge.vercel.app
   4. Choose verification method:
 
      RECOMMENDED: DNS Verification
-     - Add TXT record to taxbridgecpa.com DNS:
+     - Add TXT record to taxbridge.vercel.app DNS:
        Name: @ (or leave blank)
        Type: TXT
        Value: google-site-verification=XXXXXXXXXXXXXXXXXXXXXXX
@@ -231,7 +231,7 @@ STEP 1: Verify Site Ownership (15 minutes)
 
 STEP 2: Submit Sitemap (5 minutes)
   1. In GSC, go to Sitemaps (left sidebar)
-  2. Enter sitemap URL: https://taxbridgecpa.com/sitemap.xml
+  2. Enter sitemap URL: https://taxbridge.vercel.app/sitemap.xml
   3. Click "Submit"
   4. Wait 3-7 days for Google to process
 
@@ -243,7 +243,7 @@ STEP 3: Monitor Indexing Status (Daily for first 2 weeks)
 
 STEP 4: Request Indexing for High-Priority Articles (Optional)
   1. Go to "URL Inspection" in GSC
-  2. Enter article URL: https://taxbridgecpa.com/blog/h1b-rsu-tax-calculator-2026-guide
+  2. Enter article URL: https://taxbridge.vercel.app/blog/h1b-rsu-tax-calculator-2026-guide
   3. Click "Request Indexing"
   4. Repeat for top 10 articles
   5. Indexing typically completes within 1-3 days
@@ -355,14 +355,14 @@ ${siteStatus === 'ONLINE' ? `- **Accessible URLs:** ${accessibleArticles}/${repo
 ## Site Status
 
 ${siteStatus === 'ONLINE'
-  ? '✅ **ONLINE** - Site is accessible at https://taxbridgecpa.com'
+  ? '✅ **ONLINE** - Site is accessible at https://taxbridge.vercel.app'
   : '❌ **OFFLINE** - Site is not accessible. Production deployment required.'
 }
 
 ## Sitemap Status
 
 ${sitemapAccessible
-  ? '✅ **ACCESSIBLE** - Sitemap is live at https://taxbridgecpa.com/sitemap.xml'
+  ? '✅ **ACCESSIBLE** - Sitemap is live at https://taxbridge.vercel.app/sitemap.xml'
   : '❌ **NOT ACCESSIBLE** - Sitemap cannot be reached. Check deployment.'
 }
 
@@ -398,8 +398,8 @@ ${siteStatus === 'OFFLINE'
 The production site is currently DOWN. Before Google Search Console can index any articles, you must:
 
 1. **Diagnose deployment failure** - Check Vercel dashboard for errors
-2. **Fix DNS configuration** - Verify taxbridgecpa.com points to Vercel
-3. **Verify site is live** - Confirm https://taxbridgecpa.com returns 200 OK
+2. **Fix DNS configuration** - Verify taxbridge.vercel.app points to Vercel
+3. **Verify site is live** - Confirm https://taxbridge.vercel.app returns 200 OK
 4. **Re-run this script** - Verify sitemap and article URLs are accessible
 
 **THEN proceed with GSC setup.**
@@ -407,7 +407,7 @@ The production site is currently DOWN. Before Google Search Console can index an
   : `### ✅ Site is Live - Proceed with GSC Setup
 
 1. **Set up Google Search Console** (see instructions above)
-2. **Submit sitemap** to https://taxbridgecpa.com/sitemap.xml
+2. **Submit sitemap** to https://taxbridge.vercel.app/sitemap.xml
 3. **Request indexing** for top 10 high-priority articles
 4. **Complete remaining ${needsContent} articles** (expand from 100-300 words to 500+ words)
 5. **Monitor indexing progress** daily for first 2 weeks

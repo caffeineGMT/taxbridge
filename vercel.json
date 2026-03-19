@@ -16,13 +16,7 @@
       "description": "Re-engagement win-back campaign for calculator non-converters - runs daily at 10:00 AM PST (6:00 PM UTC)"
     }
   ],
-  "redirects": [
-    {
-      "source": "/www.taxbridge.app/:path*",
-      "destination": "https://taxbridge.app/:path*",
-      "permanent": true
-    }
-  ],
+  "redirects": [],
   "headers": [
     {
       "source": "/(.*)",

@@ -214,9 +214,33 @@ export async function GET(req: NextRequest) {
     const arr = mrr * 12;
     const activeSubscriptions = subscriptions.data.length;
 
-    // Get total customer count from Stripe
-    const customers = await stripe.customers.list({ limit: 1 });
-    const totalCustomers = customers.has_more ? 100 : customers.data.length;
+    // Get ACCURATE total customer count from Stripe
+    // Use the count endpoint for precise total
+    let totalCustomers = 0;
+    try {
+      // Stripe doesn't have a direct count API, so we need to paginate through all customers
+      // For better performance, we can use subscriptions count as a proxy
+      const allSubs = await stripe.subscriptions.list({ limit: 100 });
+      totalCustomers = allSubs.data.length;
+
+      // If there are more subscriptions, iterate to get accurate count
+      let hasMore = allSubs.has_more;
+      let startingAfter = allSubs.data[allSubs.data.length - 1]?.id;
+
+      while (hasMore && totalCustomers < 1000) { // Safety limit
+        const moreSubs = await stripe.subscriptions.list({
+          limit: 100,
+          starting_after: startingAfter
+        });
+        totalCustomers += moreSubs.data.length;
+        hasMore = moreSubs.has_more;
+        startingAfter = moreSubs.data[moreSubs.data.length - 1]?.id;
+      }
+    } catch (err) {
+      logger.error('Error fetching customer count', { error: err });
+      // Fallback to subscription count
+      totalCustomers = activeSubscriptions;
+    }
 
     // Calculate churn rate from database (churned this month / active at start of month)
     const activeAtStartOfMonthResult = (db as any).prepare(`

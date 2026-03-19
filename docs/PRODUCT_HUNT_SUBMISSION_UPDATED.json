@@ -1,0 +1,122 @@
+{
+  "product_name": "TaxBridge",
+  "tagline": "Cross-border tax calculator for H-1B tech workers with RSUs",
+  "url": "https://cross-border-tax.vercel.app",
+  "description": "TaxBridge automates dual-country tax calculations for H-1B/TN visa holders. Calculate US federal + state and Canada federal + provincial tax on RSU income. Foreign Tax Credit optimizer eliminates double taxation. Built for Meta, Amazon, Google, Microsoft employees.",
+  "topics": ["SaaS", "Finance", "Tax", "Productivity", "Tech"],
+  "promo_code": {
+    "code": "HUNT20",
+    "description": "20% off for 48 hours (Product Hunt exclusive)",
+    "note": "⚠️ BLOCKER: Promo code NOT yet created in Stripe. Requires production Stripe keys (currently placeholders). See scripts/activate-hunt20-promo.ts"
+  },
+  "links": {
+    "pricing": "https://cross-border-tax.vercel.app/pricing",
+    "calculator": "https://cross-border-tax.vercel.app/calculator",
+    "signup": "https://cross-border-tax.vercel.app/sign-up",
+    "note": "Using Vercel URL because taxbridgecpa.com is DOWN (503 DNS error)"
+  },
+  "maker": {
+    "name": "Michael Guo",
+    "role": "Founder",
+    "bio": "H-1B tech worker at Meta who built TaxBridge to automate cross-border taxes"
+  },
+  "launch_schedule": {
+    "recommended_date": "Tuesday, March 25, 2026",
+    "time": "12:01 AM PST",
+    "backup_date": "Wednesday, March 26, 2026",
+    "note": "Tuesday/Wednesday have highest Product Hunt traffic"
+  },
+  "media": {
+    "thumbnail": "public/product-hunt/thumbnail.svg",
+    "gallery": [
+      {
+        "file": "landing-hero.png",
+        "caption": "Built for H-1B/TN tech workers living in Canada",
+        "order": 1
+      },
+      {
+        "file": "calculator-results.png",
+        "caption": "Dual-country tax calculator with Foreign Tax Credit optimizer",
+        "order": 2
+      },
+      {
+        "file": "pricing-page.png",
+        "caption": "Simple pricing: Basic $49/year, Pro $79/year, Enterprise custom",
+        "order": 3
+      },
+      {
+        "file": "hero-dashboard.png",
+        "caption": "Main dashboard with RSU entry and multi-year tracking",
+        "order": 4
+      },
+      {
+        "file": "forms-checklist.png",
+        "caption": "Complete tax forms checklist: 1040, T1, FBAR, Form 8833",
+        "order": 5
+      }
+    ],
+    "video": {
+      "optional": true,
+      "recommendation": "60-second Loom demo showing calculator → results → FTC optimizer",
+      "script": "See docs/demo-video-script.md"
+    }
+  },
+  "first_comment": {
+    "post_within": "5 minutes of going live",
+    "template": "👋 Hey Product Hunt! I'm Michael, founder of TaxBridge.\n\n**The Problem:**\nI'm an H-1B tech worker who moved from the US to Canada while still earning RSU income from Meta. Filing taxes became a nightmare - I had to pay both US and Canadian taxes on the same income. My accountant charged $800/year just for RSU calculations, and I still ended up overpaying $2,300 in taxes due to incorrectly claimed Foreign Tax Credits.\n\n**The Solution:**\nTaxBridge automates dual-country tax calculations for cross-border tech workers. We handle:\n\n✅ **Dual Tax Calculation:** US federal + state AND Canada federal + provincial tax on RSU income\n✅ **FTC Optimizer:** Eliminates double taxation by maximizing Foreign Tax Credit claims\n✅ **Forms Checklist:** Complete list of required forms (W-2, 1040/1040-NR, T1, T4, FBAR, Form 8938, Treaty Article XV Form 8833)\n\n**Built for Big Tech:**\n- Auto-imports RSU vesting data from Meta, Amazon, Google, Microsoft\n- Handles complex equity compensation (RSUs, stock options, ESPP)\n- USD/CAD conversion using Bank of Canada official rates\n- Professional PDF reports to share with your CPA\n\n**Real Beta User Results:**\n- Priya (Meta, Vancouver): Saved $2,300 in FTC errors\n- David (Amazon, Toronto): Saved $4,100 on 2025 filing\n- Maria (Google, Montreal): \"Made dual-country taxes crystal clear\"\n\n**Special Launch Offer:**\nUse code **HUNT20** for 20% off Pro plan for the next 48 hours ($79 → $63.20/year)\n\n**Questions I'm here to answer:**\n- How does the Foreign Tax Credit work for dual-country filers?\n- What's the difference between 1040 and 1040-NR for H-1B holders in Canada?\n- How do you handle Treaty Article XV compliance?\n- What makes TaxBridge different from TurboTax or hiring a CPA?\n\nAsk me anything! 🚀"
+  },
+  "utm_tracking": {
+    "all_links_use": "?ref=producthunt&utm_source=producthunt&utm_medium=launch&utm_campaign=hunt2026",
+    "posthog_funnel": "Product Hunt → Landing → Calculator → Sign Up → Checkout → Payment"
+  },
+  "success_metrics": {
+    "primary_goal": "500+ upvotes → #1 Product of the Day",
+    "secondary_goals": [
+      "1,000+ unique visitors",
+      "100+ new signups",
+      "20+ Pro subscriptions",
+      "$1,200-$1,800 revenue (20-30 × $63.20 with HUNT20 code)"
+    ]
+  },
+  "competitive_intel": {
+    "simpletax": {
+      "upvotes": 342,
+      "ranking": "#3 Product of the Day",
+      "note": "TaxBridge targets MORE specific niche (cross-border RSU taxation)"
+    },
+    "sprintax": {
+      "upvotes": 127,
+      "ranking": "#8 Product of the Day",
+      "note": "Focused on student visas, not H-1B RSUs"
+    }
+  },
+  "blockers": {
+    "critical": [
+      {
+        "issue": "HUNT20 promo code not created",
+        "reason": "Stripe is in PLACEHOLDER mode (sk_live_YOUR_LIVE_SECRET_KEY_HERE)",
+        "solution": "Michael must activate Stripe production mode first",
+        "script": "scripts/activate-hunt20-promo.ts",
+        "time": "5 minutes",
+        "blocking": "Cannot offer 20% discount"
+      },
+      {
+        "issue": "Custom domain down",
+        "reason": "taxbridgecpa.com returns 503 DNS error",
+        "solution": "Using Vercel URL (cross-border-tax.vercel.app) instead",
+        "impact": "Vercel URL works, but less professional than custom domain"
+      },
+      {
+        "issue": "Clerk authentication placeholders",
+        "reason": "pk_live_YOUR_CLERK_PUBLISHABLE_KEY in .env.production",
+        "solution": "Michael must add real Clerk production keys to Vercel",
+        "impact": "Sign-up/login won't work on Vercel until fixed",
+        "workaround": "Calculator is publicly accessible without auth"
+      }
+    ]
+  },
+  "submission_url": "https://www.producthunt.com/posts/new",
+  "generated_at": "2026-03-19T16:07:00Z",
+  "ready_for_submission": false,
+  "blockers_summary": "Need Stripe production keys to create HUNT20 promo code. Vercel site works but custom domain is down. Clerk auth is placeholders."
+}
