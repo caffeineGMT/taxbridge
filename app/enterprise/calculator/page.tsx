@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { Calculator, TrendingUp, DollarSign, Clock, Users, CheckCircle2, Share2, Copy, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-export default function ROICalculatorPage() {
+export const dynamic = 'force-dynamic';
+
+function ROICalculatorContent() {
   const searchParams = useSearchParams();
 
   const [clientCount, setClientCount] = useState<number>(50);
@@ -398,5 +400,13 @@ export default function ROICalculatorPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ROICalculatorPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950" />}>
+      <ROICalculatorContent />
+    </Suspense>
   );
 }
