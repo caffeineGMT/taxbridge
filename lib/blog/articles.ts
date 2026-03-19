@@ -285,6 +285,86 @@ export const ARTICLE_TOPICS: ArticleMetadata[] = [
     keywords: ['83(b) election guide', '83(b) election H1B', 'restricted stock tax', 'startup equity tax', '83b election deadline', 'how to file 83(b) election', '83(b) vs RSU', 'early exercise stock options'],
     category: 'Stock Compensation',
     targetKeyword: '83(b) election guide for H1B'
+  },
+  {
+    slug: 'rsu-tax-h1b-reddit-questions-answered',
+    title: 'RSU Tax H1B Reddit: Top 15 Questions Answered by CPAs (2026 Edition)',
+    description: 'Comprehensive answers to the most common RSU tax questions from r/h1b and r/cscareerquestions. Learn withholding rates, double taxation, cross-border implications, and strategies that save H1B workers $5,000-$15,000 annually.',
+    keywords: ['RSU tax H1B Reddit', 'H1B RSU tax questions', 'RSU taxation H1B visa', 'cscareerquestions RSU tax', 'H1B stock compensation tax'],
+    category: 'RSU Taxation',
+    targetKeyword: 'RSU tax H1B Reddit'
+  },
+  {
+    slug: 'tn-visa-capital-gains-tax-complete-guide',
+    title: 'TN Visa Capital Gains Tax: Complete 2026 Guide for Canadian Tech Workers',
+    description: 'Comprehensive guide to capital gains tax for TN visa holders selling stocks, real estate, and cryptocurrency. Learn US vs Canada tax rates, treaty benefits, state tax obligations, and strategies to minimize double taxation on $100K+ investment gains.',
+    keywords: ['TN visa capital gains tax', 'TN visa stock sale tax', 'Canadian working in US capital gains', 'TN visa investment tax', 'long-term capital gains TN visa'],
+    category: 'TN Visa',
+    targetKeyword: 'TN visa capital gains tax'
+  },
+  {
+    slug: 'l1-visa-stock-options-tax-guide',
+    title: 'L1 Visa Stock Options Tax: Complete Guide for Intracompany Transferees (2026)',
+    description: 'Comprehensive tax guide for L1 visa holders with ISOs, NSOs, and RSUs. Learn withholding rates, AMT traps, dual taxation after returning home, and strategies that save multinational workers $10,000-$30,000 on stock compensation.',
+    keywords: ['L1 visa stock options tax', 'L1 visa ISOs', 'L1 visa NSOs', 'L1 visa RSU taxation', 'intracompany transfer stock compensation', 'L1 visa AMT'],
+    category: 'Stock Options',
+    targetKeyword: 'L1 visa stock options tax'
+  },
+  {
+    slug: 'h1b-amt-trap-rsus-complete-guide',
+    title: 'H1B AMT Trap with RSUs: Why High Earners Pay Extra Tax (Complete 2026 Guide)',
+    description: 'Complete guide to the Alternative Minimum Tax (AMT) trap for H1B visa holders with high RSU compensation. Learn how AMT is triggered, how to calculate your liability, and strategies to minimize $20,000-$50,000 in unexpected taxes.',
+    keywords: ['H1B AMT trap', 'AMT RSU tax', 'alternative minimum tax H1B', 'ISO AMT H1B', 'AMT calculation high earners', 'avoid AMT on stock options'],
+    category: 'Tax Planning',
+    targetKeyword: 'H1B AMT trap RSUs'
+  },
+  {
+    slug: 'tn-visa-espp-tax-complete-guide',
+    title: 'TN Visa ESPP Tax: Complete Guide to Employee Stock Purchase Plans (2026)',
+    description: 'Comprehensive guide to ESPP taxation for TN visa holders. Learn qualifying vs disqualifying dispositions, 15% discount tax treatment, cross-border implications when returning to Canada, and strategies to save $5,000-$15,000 annually.',
+    keywords: ['TN visa ESPP tax', 'employee stock purchase plan TN visa', 'ESPP qualifying disposition', 'ESPP disqualifying disposition', 'TN visa ESPP Canada'],
+    category: 'Stock Compensation',
+    targetKeyword: 'TN visa ESPP tax'
+  },
+  {
+    slug: 'rsu-double-taxation-canada-us-guide',
+    title: 'RSU Double Taxation Canada-US: Complete Guide to Dual Country Taxation (2026)',
+    description: 'Comprehensive guide to avoiding double taxation on RSUs when moving between Canada and the US. Learn foreign tax credit strategies, treaty benefits, and allocation formulas that save $10,000-$40,000 on unvested stock compensation.',
+    keywords: ['RSU double taxation Canada US', 'foreign tax credit RSUs', 'Canada US tax treaty RSUs', 'dual taxation stock compensation', 'RSU allocation formula'],
+    category: 'Cross-Border Tax',
+    targetKeyword: 'RSU double taxation Canada US'
+  },
+  {
+    slug: 'tn-visa-remote-work-tax-guide',
+    title: 'TN Visa Remote Work Tax: Complete Guide for Cross-Border Workers (2026)',
+    description: 'Complete guide to tax implications of remote work on TN visa. Learn state tax obligations when working from Canada for US employer, permanent establishment rules, treaty protection, and strategies to avoid $10,000-$30,000 in unexpected taxes.',
+    keywords: ['TN visa remote work tax', 'remote work Canada US tax', 'cross-border remote work', 'TN visa work from home tax', 'permanent establishment risk'],
+    category: 'Remote Work',
+    targetKeyword: 'TN visa remote work tax'
+  },
+  {
+    slug: 'h1b-return-india-rsu-tax-guide',
+    title: 'H1B Return to India with RSUs: Complete Tax Guide (Avoid $50K+ Penalties)',
+    description: 'Comprehensive guide to RSU taxation when returning to India from H1B. Learn US vs India tax rates, DTAA benefits, Form 67 filing, capital gains treatment, and strategies to minimize dual taxation on $100K+ unvested stock compensation.',
+    keywords: ['H1B return to India RSU tax', 'India US RSU double taxation', 'Form 67 foreign tax credit India', 'DTAA RSU taxation', 'returning to India with unvested RSUs'],
+    category: 'Cross-Border Tax',
+    targetKeyword: 'H1B return to India RSU tax'
+  },
+  {
+    slug: 'california-rsu-tax-nonresident-guide',
+    title: 'California RSU Tax for Non-Residents: Complete Sourcing Rules Guide (2026)',
+    description: 'Definitive guide to California\'s aggressive RSU sourcing rules for non-residents. Learn the allocation formula, Form 540NR filing requirements, and strategies that save $15,000-$50,000 annually on stock compensation after leaving California.',
+    keywords: ['California RSU tax non-resident', 'Form 540NR RSU', 'California RSU sourcing rules', 'CA non-resident stock compensation', 'California RSU allocation formula'],
+    category: 'State Taxes',
+    targetKeyword: 'California RSU tax non-resident'
+  },
+  {
+    slug: 'l1-visa-401k-withdrawal-tax-guide',
+    title: 'L1 Visa 401(k) Withdrawal Tax: Complete Guide for Returning Home (2026)',
+    description: 'Complete guide to 401(k) withdrawal tax for L1 visa holders returning to their home country. Learn US withholding rates, treaty benefits, early withdrawal penalties, rollover options, and strategies to minimize $20,000-$80,000 in taxes.',
+    keywords: ['L1 visa 401k withdrawal tax', 'non-resident alien 401k withdrawal', '401k early withdrawal penalty L1', 'L1 returning home 401k', 'tax treaty 401k withdrawal'],
+    category: 'Retirement Planning',
+    targetKeyword: 'L1 visa 401k withdrawal tax'
   }
 ];
 
