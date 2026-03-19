@@ -19,7 +19,7 @@ export interface UserProfile {
  */
 export const FEATURE_LIMITS = {
   free: {
-    maxRSUEntries: 1,
+    maxRSUEntries: 10,
     canExportPDF: false,
     canBulkUpload: false,
     canAccessAPI: false,

@@ -181,7 +181,7 @@ export function SubscriptionContent({ userProfile }: SubscriptionContentProps) {
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-slate-200 font-medium">1 RSU Entry</p>
+                  <p className="text-slate-200 font-medium">10 RSU Entries</p>
                   <p className="text-sm text-slate-400">Basic tax calculations</p>
                 </div>
               </div>
