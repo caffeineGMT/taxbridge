@@ -59,6 +59,8 @@
     "ab:check": "tsx scripts/analyze-headline-ab-test.ts",
     "ab:export": "tsx scripts/analyze-headline-ab-test.ts --export-csv",
     "ab:daily": "tsx scripts/analyze-headline-ab-test.ts --daily-summary",
+    "analyze:experiment": "tsx scripts/analyze-landing-page-experiment.ts",
+    "analyze:experiment:csv": "tsx scripts/analyze-landing-page-experiment.ts --export-csv",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
     "db:migrate": "tsx scripts/run-migrations.ts",
