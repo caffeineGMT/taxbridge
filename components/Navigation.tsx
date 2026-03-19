@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { Home, DollarSign, Calculator, FileText } from 'lucide-react';
+import { Home, DollarSign, Calculator, FileText, Menu } from 'lucide-react';
 
 export default function Navigation() {
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white shadow-sm" aria-label="Main navigation">
       <div className="container-custom">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -15,25 +15,27 @@ export default function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-1">
-            <NavLink href="/" icon={<Home className="w-4 h-4" />}>
+            <NavLink href="/" icon={<Home className="w-4 h-4" aria-hidden="true" />}>
               Home
             </NavLink>
-            <NavLink href="/rsu-entry" icon={<DollarSign className="w-4 h-4" />}>
+            <NavLink href="/rsu-entry" icon={<DollarSign className="w-4 h-4" aria-hidden="true" />}>
               RSU Entry
             </NavLink>
-            <NavLink href="/calculator" icon={<Calculator className="w-4 h-4" />}>
+            <NavLink href="/calculator" icon={<Calculator className="w-4 h-4" aria-hidden="true" />}>
               Calculator
             </NavLink>
-            <NavLink href="/forms-checklist" icon={<FileText className="w-4 h-4" />}>
+            <NavLink href="/forms-checklist" icon={<FileText className="w-4 h-4" aria-hidden="true" />}>
               Forms
             </NavLink>
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+          <button
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 min-h-[44px] min-w-[44px]"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+          >
+            <Menu className="w-6 h-6" aria-hidden="true" />
           </button>
         </div>
       </div>

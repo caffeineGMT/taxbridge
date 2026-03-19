@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -364,6 +365,21 @@ export function OnboardingWizard({ userName }: OnboardingWizardProps) {
                     ) : (
                       <p className="text-sm text-slate-500">Your US tax filing status</p>
                     )}
+                  </div>
+
+                  {/* Privacy Notice */}
+                  <div className="bg-slate-800/30 border border-slate-700 rounded-lg p-4">
+                    <p className="text-xs text-slate-400">
+                      <strong className="text-slate-300">Privacy Notice:</strong> By continuing, you consent to the collection and processing of your tax profile data as described in our{' '}
+                      <Link href="/privacy" target="_blank" className="text-emerald-400 hover:text-emerald-300 underline">
+                        Privacy Policy
+                      </Link>
+                      . We use this information solely to provide tax calculations and comply with applicable data protection laws (GDPR/CCPA). You can request data deletion at any time by contacting{' '}
+                      <a href="mailto:privacy@taxbridge.app" className="text-emerald-400 hover:text-emerald-300 underline">
+                        privacy@taxbridge.app
+                      </a>
+                      .
+                    </p>
                   </div>
 
                   {error && (

@@ -7,6 +7,7 @@ import Papa from 'papaparse';
 import { Upload, Download, CheckCircle, XCircle, FileText, AlertCircle, Loader2, ArrowLeft } from 'lucide-react';
 import { validateCSVRow, type CSVRow } from '@/lib/validation/csv';
 import { ImportFlowTracker, trackError, trackApiError } from '@/lib/analytics/tracking-utils';
+import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
 
 interface ParsedRow {
   data: any;
@@ -240,6 +241,9 @@ export default function ImportFlow() {
           <h1 className="text-3xl font-bold text-slate-100 mb-2">Bulk Import RSU Entries</h1>
           <p className="text-slate-400">Upload a CSV file to import multiple RSU vesting events at once</p>
         </div>
+
+        {/* Tax Disclaimer */}
+        <TaxDisclaimer variant="compact" />
 
         {/* Progress Stepper */}
         <div className="mb-12 flex items-center justify-center gap-4">

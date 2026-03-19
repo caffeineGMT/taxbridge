@@ -3,19 +3,52 @@ import { Calculator, TrendingUp, FileText, ArrowRight, Star } from 'lucide-react
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { Metadata } from 'next';
+import { presetSchemas } from '@/lib/seo/structured-data';
 
 export const metadata: Metadata = {
   title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
-  description: 'Free cross-border tax calculator built for H-1B and TN visa tech workers with US RSUs living in Canada. Calculate dual-country taxes, optimize Foreign Tax Credits, and get a complete filing checklist.',
+  description:
+    'Free cross-border tax calculator built for H-1B and TN visa tech workers with US RSUs living in Canada. Calculate dual-country taxes, optimize Foreign Tax Credits, and get a complete filing checklist. Save $2,000-$12,000 annually on taxes.',
   alternates: {
     canonical: 'https://taxbridge.app',
   },
   openGraph: {
     title: 'TaxBridge - Cross-Border Tax Calculator for H-1B/TN Workers',
-    description: 'Calculate your US-Canada cross-border tax on RSU income. Built for H-1B and TN visa tech workers at Meta, Amazon, Google, Microsoft.',
+    description:
+      'Calculate your US-Canada cross-border tax on RSU income. Built for H-1B and TN visa tech workers at Meta, Amazon, Google, Microsoft. Free Foreign Tax Credit optimizer saves $2K-$12K annually.',
     url: 'https://taxbridge.app',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'TaxBridge - US-Canada Cross-Border Tax Calculator',
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TaxBridge - US-Canada Cross-Border Tax Calculator for H-1B/TN Workers',
+    description:
+      'Free tax calculator for H-1B/TN visa tech workers. Calculate dual-country taxes, optimize Foreign Tax Credits. Save $2K-$12K annually.',
+    images: ['/og-image.png'],
+  },
+  keywords: [
+    'cross-border tax calculator',
+    'H-1B RSU tax calculator',
+    'TN visa tax calculator',
+    'US Canada tax calculator',
+    'foreign tax credit calculator',
+    'RSU taxation Canada',
+    'dual country tax filing',
+    'H1B tax guide',
+    'TN visa tax guide',
+    'Canada US tax treaty',
+    'Form 1040-NR',
+    'Canadian T1 filing',
+    'cross-border tax software',
+  ],
 };
 
 export default function Home() {
@@ -25,43 +58,34 @@ export default function Home() {
     name: 'TaxBridge',
     url: 'https://taxbridge.app',
     logo: 'https://taxbridge.app/logo.png',
-    description: 'US-Canada cross-border tax calculator for H-1B and TN visa tech workers with RSU income.',
+    description:
+      'US-Canada cross-border tax calculator for H-1B and TN visa tech workers with RSU income. CPA-verified Foreign Tax Credit optimizer.',
     sameAs: [],
-  };
-
-  const webAppSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'TaxBridge',
-    url: 'https://taxbridge.app',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    description: 'Free cross-border tax calculator for H-1B/TN visa tech workers with US RSUs living in Canada. Calculate US federal+state and Canada federal+provincial taxes with Foreign Tax Credit optimization.',
-    offers: {
-      '@type': 'AggregateOffer',
-      lowPrice: '0',
-      highPrice: '299',
-      priceCurrency: 'USD',
-      offerCount: '3',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5.0',
-      ratingCount: '3',
-      bestRating: '5',
-      worstRating: '1',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'Customer Support',
+      email: 'support@taxbridge.app',
     },
   };
 
   return (
     <>
+      {/* JSON-LD Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(presetSchemas.calculator) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(presetSchemas.homepageFAQ) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(presetSchemas.taxFilingHowTo) }}
       />
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Background Grid Pattern */}

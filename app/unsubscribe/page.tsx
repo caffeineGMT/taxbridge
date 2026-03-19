@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { AlertCircle, CheckCircle2, Mail } from 'lucide-react';
 
-export default function UnsubscribePage() {
+function UnsubscribeContent() {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -174,5 +174,24 @@ export default function UnsubscribePage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
+        <Card className="shadow-xl max-w-lg w-full">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+              <Mail className="w-8 h-8 text-blue-600" />
+            </div>
+            <CardTitle className="text-2xl font-bold">Loading...</CardTitle>
+          </CardHeader>
+        </Card>
+      </div>
+    }>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }

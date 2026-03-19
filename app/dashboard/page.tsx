@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { getRSUEntries, getUserProfileByClerkId } from '@/lib/db';
 import { DashboardContent } from '@/components/dashboard/dashboard-content';
 import Header from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import { calculateUSFederalTax, calculateUSStateTax } from '@/lib/tax/us-calculator';
 import { calculateCanadaFederalTax, calculateCanadaProvincialTax } from '@/lib/tax/canada-calculator';
 
@@ -93,13 +94,9 @@ export default async function DashboardPage() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-950/50 mt-16" role="contentinfo">
-        <div className="container mx-auto px-6 py-8">
-          <div className="text-center text-sm text-slate-500">
-            <p>&copy; {new Date().getFullYear()} TaxBridge. Built for tech workers navigating cross-border taxation.</p>
-          </div>
-        </div>
-      </footer>
+      <div className="mt-16">
+        <Footer />
+      </div>
     </div>
   );
 }

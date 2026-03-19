@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Calculator, TrendingUp, FileText, ArrowRight, CheckCircle2, DollarSign } from 'lucide-react';
@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { trackMetaViewContent, trackMetaLead } from '@/lib/analytics/meta-pixel';
 import { trackCustomEvent } from '@/lib/analytics/google-ads';
 
-export default function CalculatorLandingPage() {
+function CalculatorLandingPageContent() {
   const searchParams = useSearchParams();
   const [variant, setVariant] = useState<'A' | 'B'>('A');
   const [showCalculator, setShowCalculator] = useState(false);
@@ -347,5 +347,17 @@ export default function CalculatorLandingPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function CalculatorLandingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+        <div className="text-slate-400">Loading calculator...</div>
+      </div>
+    }>
+      <CalculatorLandingPageContent />
+    </Suspense>
   );
 }

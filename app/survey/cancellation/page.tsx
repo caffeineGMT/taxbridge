@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle2, MessageSquare } from 'lucide-react';
 
-export default function CancellationSurveyPage() {
+function CancellationSurveyContent() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
@@ -167,5 +167,21 @@ export default function CancellationSurveyPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function CancellationSurveyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+        <Card className="bg-slate-900 border-slate-800 max-w-md">
+          <CardContent className="pt-6">
+            <p className="text-slate-400 text-center">Loading survey...</p>
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <CancellationSurveyContent />
+    </Suspense>
   );
 }

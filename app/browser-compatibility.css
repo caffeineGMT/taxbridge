@@ -1,0 +1,484 @@
+/**
+ * Cross-Browser Compatibility CSS
+ *
+ * Vendor prefixes and browser-specific fixes for:
+ * - Safari/WebKit
+ * - Firefox
+ * - Edge
+ * - Chrome
+ *
+ * This file ensures consistent rendering across all browsers.
+ */
+
+@layer utilities {
+  /* ==============================================
+   * Gradient Text (bg-clip-text) - Safari Fix
+   * ============================================== */
+
+  .bg-clip-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Ensure gradient backgrounds work with text clipping */
+  .bg-gradient-to-r,
+  .bg-gradient-to-l,
+  .bg-gradient-to-t,
+  .bg-gradient-to-b,
+  .bg-gradient-to-br {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  /* ==============================================
+   * Backdrop Blur - WebKit Fix
+   * ============================================== */
+
+  .backdrop-blur-none {
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+  }
+
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .backdrop-blur-xl {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .backdrop-blur-2xl {
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+
+  .backdrop-blur-3xl {
+    backdrop-filter: blur(64px);
+    -webkit-backdrop-filter: blur(64px);
+  }
+
+  /* ==============================================
+   * Number Input - Prevent Scroll Wheel Changes
+   * ============================================== */
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox: hide spinner */
+    appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome/Safari: hide spinner */
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Prevent wheel scroll from changing value */
+  input[type="number"] {
+    pointer-events: auto;
+  }
+
+  /* ==============================================
+   * Sticky Positioning - Cross-Browser
+   * ============================================== */
+
+  .sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+  }
+
+  /* ==============================================
+   * Transform Animations - Hardware Acceleration
+   * ============================================== */
+
+  .transform {
+    -webkit-transform: translateZ(0); /* Force GPU acceleration */
+    transform: translateZ(0);
+  }
+
+  .transition-transform {
+    -webkit-transition: -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ==============================================
+   * Select Dropdown - Custom Arrow (Cross-Browser)
+   * ============================================== */
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M6 8L0 2 1.4 0 6 4.6 10.6 0 12 2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  /* Firefox: remove default focus outline on select */
+  select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 hsl(var(--foreground));
+  }
+
+  /* ==============================================
+   * Focus Visible - Cross-Browser Support
+   * ============================================== */
+
+  /* Firefox fallback for :focus-visible */
+  @supports not selector(:focus-visible) {
+    *:focus {
+      outline: 2px solid hsl(var(--ring));
+      outline-offset: 2px;
+    }
+  }
+
+  /* Modern browsers */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* ==============================================
+   * Flexbox - IE11 Fallback (if needed)
+   * ============================================== */
+
+  .flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+  .inline-flex {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+  }
+
+  /* ==============================================
+   * Grid - Cross-Browser
+   * ============================================== */
+
+  .grid {
+    display: -ms-grid;
+    display: grid;
+  }
+
+  /* ==============================================
+   * Smooth Scrolling - Safari Fix
+   * ============================================== */
+
+  .scroll-smooth {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-smooth {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* ==============================================
+   * Box Shadow - Consistent Rendering
+   * ============================================== */
+
+  /* Ensure box-shadow renders consistently across browsers */
+  .shadow {
+    -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-md {
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-lg {
+    -webkit-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .shadow-xl {
+    -webkit-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* ==============================================
+   * Date Input - Browser Consistency
+   * ============================================== */
+
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="time"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    min-height: 44px; /* Mobile touch target */
+  }
+
+  /* Safari: calendar icon styling */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+
+  /* Firefox: hide clear button */
+  input[type="date"]::-webkit-clear-button,
+  input[type="datetime-local"]::-webkit-clear-button {
+    display: none;
+  }
+
+  /* ==============================================
+   * Currency/Number Input Masking
+   * ============================================== */
+
+  .currency-input,
+  .number-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .currency-input::-webkit-outer-spin-button,
+  .currency-input::-webkit-inner-spin-button,
+  .number-input::-webkit-outer-spin-button,
+  .number-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  /* ==============================================
+   * Placeholder Styling - Cross-Browser
+   * ============================================== */
+
+  ::placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 1; /* Firefox */
+  }
+
+  ::-webkit-input-placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  ::-moz-placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 1;
+  }
+
+  :-ms-input-placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* ==============================================
+   * CSS Custom Properties (Variables) - IE11 Fallback
+   * ============================================== */
+
+  /* Modern browsers use CSS custom properties defined in globals.css */
+  /* IE11 would need static fallbacks, but we don't support IE11 */
+
+  /* ==============================================
+   * Print Styles - Cross-Browser
+   * ============================================== */
+
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      color-adjust: exact;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+  }
+
+  /* ==============================================
+   * Border Radius - Consistent Rendering
+   * ============================================== */
+
+  .rounded {
+    -webkit-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+  }
+
+  .rounded-lg {
+    -webkit-border-radius: var(--radius);
+    border-radius: var(--radius);
+  }
+
+  /* ==============================================
+   * Transition - Hardware Acceleration
+   * ============================================== */
+
+  .transition-all {
+    -webkit-transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ==============================================
+   * Object Fit - Cross-Browser
+   * ============================================== */
+
+  .object-cover {
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .object-contain {
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+
+  /* ==============================================
+   * User Select - Cross-Browser
+   * ============================================== */
+
+  .select-none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .select-text {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+}
+
+/* ==============================================
+ * Safari-Specific Fixes
+ * ============================================== */
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari: prevent zoom on input focus */
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1rem);
+  }
+
+  /* iOS Safari: fix 100vh */
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+
+  /* iOS Safari: momentum scrolling */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ==============================================
+ * Firefox-Specific Fixes
+ * ============================================== */
+
+@-moz-document url-prefix() {
+  /* Firefox: prevent scrollbar from overlapping content */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted)) hsl(var(--background));
+  }
+}
+
+/* ==============================================
+ * Edge-Specific Fixes
+ * ============================================== */
+
+@supports (-ms-ime-align: auto) {
+  /* Legacy Edge: flexbox fixes */
+  .flex {
+    -ms-flex-align: start;
+  }
+}
+
+/* ==============================================
+ * Mobile Chrome Address Bar Fix
+ * ============================================== */
+
+@media screen and (max-width: 768px) {
+  .full-height {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* ==============================================
+ * Accessibility - High Contrast Mode
+ * ============================================== */
+
+@media (prefers-contrast: high) {
+  * {
+    border-color: currentColor !important;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+/* ==============================================
+ * Dark Mode - Cross-Browser
+ * ============================================== */
+
+@media (prefers-color-scheme: dark) {
+  /* Ensure dark mode works in all browsers */
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* ==============================================
+ * Performance Optimization - Will Change
+ * ============================================== */
+
+/* Only use will-change during actual animation */
+.hover\:scale-105:hover,
+.hover\:translate-x-1:hover,
+.hover\:-translate-y-2:hover {
+  will-change: transform;
+}
+
+/* Remove will-change after interaction */
+.hover\:scale-105,
+.hover\:translate-x-1,
+.hover\:-translate-y-2 {
+  will-change: auto;
+}

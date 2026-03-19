@@ -31,10 +31,10 @@ export const CSVRowSchema = z.object({
   shares: z.number()
     .positive('Shares must be positive')
     .int('Shares must be a whole number')
-    .max(1000000, 'Shares cannot exceed 1,000,000'),
+    .max(10_000_000, 'Shares cannot exceed 10,000,000 (if you have more, please split into multiple rows)'),
   fmv_usd: z.number()
     .positive('FMV must be positive')
-    .max(100000, 'FMV cannot exceed $100,000'),
+    .max(10_000, 'FMV cannot exceed $10,000 per share (if higher, please verify the value)'),
   us_state: z.enum(US_STATES, {
     errorMap: () => ({ message: `US State must be one of: ${US_STATES.join(', ')}` })
   }),

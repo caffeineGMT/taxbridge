@@ -4,7 +4,12 @@ import { getUserProfileByClerkId } from '@/lib/db';
 import { formCompletionQueries } from '@/lib/queries';
 import { TAX_FORMS } from '@/lib/forms/forms-data';
 import { FormsChecklistClient } from './forms-checklist-client';
+import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
 import Header from '@/components/Header';
+import { presetMetadata } from '@/lib/seo/metadata';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = presetMetadata.formsChecklist;
 
 export default async function FormsChecklistPage() {
   const { userId: clerkUserId } = await auth();
@@ -44,6 +49,9 @@ export default async function FormsChecklistPage() {
             Track your required tax forms for US-Canada cross-border filing
           </p>
         </div>
+
+        {/* Tax Disclaimer */}
+        <TaxDisclaimer variant="compact" />
 
         {/* Progress Bar */}
         <div className="mb-8 bg-surface rounded-lg p-6 border border-border">

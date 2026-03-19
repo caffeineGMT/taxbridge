@@ -1,8 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react';
 import { sanitizeIntegerInput, parseIntegerInput, sanitizeCurrencyInput, parseCurrencyInput } from '@/lib/input-validation';
+import { InfoTooltip, TooltipProvider } from '@/components/ui/tooltip';
+import { Spinner } from '@/components/ui/spinner';
+import { CalculatorTracker } from '@/lib/analytics/tracking-utils';
+import { trackEvent } from '@/lib/analytics/posthog';
 
 interface ROIInputs {
   firmName: string;
@@ -30,6 +34,23 @@ export function ROICalculator() {
   });
 
   const [showResults, setShowResults] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof ROIInputs, string>>>({});
+
+  // Analytics tracker
+  const calculatorTrackerRef = useRef<CalculatorTracker | null>(null);
+
+  // Initialize tracker on mount
+  useEffect(() => {
+    calculatorTrackerRef.current = new CalculatorTracker('roi-calculator-enterprise');
+
+    // Track drop-off on unmount if calculation not performed
+    return () => {
+      if (!showResults && calculatorTrackerRef.current) {
+        calculatorTrackerRef.current.trackDropOff('abandoned_before_calculation');
+      }
+    };
+  }, [showResults]);
 
   const calculateROI = (): ROIResults => {
     // Time saved: assume 95% reduction in tax questions
@@ -56,12 +77,74 @@ export function ROICalculator() {
 
   const results = calculateROI();
 
-  const handleCalculate = () => {
+  // Inline validation
+  const validateInputs = (): boolean => {
+    const newErrors: Partial<Record<keyof ROIInputs, string>> = {};
+
+    if (inputs.attorneyCount < 1) {
+      newErrors.attorneyCount = 'Must have at least 1 attorney';
+    } else if (inputs.attorneyCount > 100000) {
+      newErrors.attorneyCount = 'Maximum 100,000 attorneys';
+    }
+
+    if (inputs.clientsPerYear < 1) {
+      newErrors.clientsPerYear = 'Must have at least 1 client per year';
+    } else if (inputs.clientsPerYear > 100000) {
+      newErrors.clientsPerYear = 'Maximum 100,000 clients/year';
+    }
+
+    if (inputs.hoursPerWeek < 0) {
+      newErrors.hoursPerWeek = 'Hours cannot be negative';
+    } else if (inputs.hoursPerWeek > 168) {
+      newErrors.hoursPerWeek = 'Maximum 168 hours per week';
+    }
+
+    if (inputs.billableRate < 1) {
+      newErrors.billableRate = 'Billable rate must be at least $1';
+    } else if (inputs.billableRate > 10000) {
+      newErrors.billableRate = 'Maximum $10,000/hour';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleCalculate = async () => {
+    if (!validateInputs()) {
+      return;
+    }
+
+    setIsCalculating(true);
+    // Simulate async calculation for UX polish (real calculation is instant)
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    const calculationResults = calculateROI();
+
+    // Track calculation completion with inputs and results
+    calculatorTrackerRef.current?.trackCalculation(
+      {
+        firmName: inputs.firmName || 'unnamed_firm',
+        attorneyCount: inputs.attorneyCount,
+        clientsPerYear: inputs.clientsPerYear,
+        hoursPerWeek: inputs.hoursPerWeek,
+        billableRate: inputs.billableRate,
+      },
+      {
+        hoursSaved: calculationResults.hoursSaved,
+        valueSaved: calculationResults.valueSaved,
+        roi: calculationResults.roi,
+        netSavings: calculationResults.valueSaved - 100000,
+        isPositiveROI: calculationResults.roi > 0,
+      }
+    );
+
     setShowResults(true);
+    setIsCalculating(false);
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <TooltipProvider>
+      <div className="w-full max-w-3xl mx-auto">
       <div className="bg-surface border border-border rounded-xl p-8 shadow-lg">
         {/* Header */}
         <div className="text-center mb-8">
@@ -86,7 +169,10 @@ export function ROICalculator() {
               type="text"
               placeholder="e.g., Berry Appleman & Leiden LLP"
               value={inputs.firmName}
-              onChange={(e) => setInputs({ ...inputs, firmName: e.target.value })}
+              onChange={(e) => {
+                setInputs({ ...inputs, firmName: e.target.value });
+                calculatorTrackerRef.current?.trackInputChange('firmName', e.target.value);
+              }}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary transition-all"
             />
           </div>
@@ -95,6 +181,7 @@ export function ROICalculator() {
           <div>
             <label htmlFor="attorneyCount" className="block text-sm font-semibold text-text mb-2">
               Number of Attorneys
+              <InfoTooltip content="Total number of immigration attorneys at your firm who handle H-1B and TN visa cases." />
             </label>
             <input
               id="attorneyCount"
@@ -109,15 +196,24 @@ export function ROICalculator() {
                 });
                 const numValue = parseIntegerInput(sanitized, 0);
                 setInputs({ ...inputs, attorneyCount: numValue });
+                calculatorTrackerRef.current?.trackInputChange('attorneyCount', numValue);
+                // Clear error on change
+                if (errors.attorneyCount) {
+                  setErrors({ ...errors, attorneyCount: undefined });
+                }
               }}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className={`w-full px-4 py-3 bg-background border ${errors.attorneyCount ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
             />
+            {errors.attorneyCount && (
+              <p className="mt-1.5 text-sm text-error" role="alert">{errors.attorneyCount}</p>
+            )}
           </div>
 
           {/* H-1B/TN Clients per Year */}
           <div>
             <label htmlFor="clientsPerYear" className="block text-sm font-semibold text-text mb-2">
               H-1B/TN Clients per Year
+              <InfoTooltip content="H-1B and TN visa holders working in the US while residing in Canada. These are your cross-border tax clients." />
             </label>
             <input
               id="clientsPerYear"
@@ -132,15 +228,24 @@ export function ROICalculator() {
                 });
                 const numValue = parseIntegerInput(sanitized, 0);
                 setInputs({ ...inputs, clientsPerYear: numValue });
+                calculatorTrackerRef.current?.trackInputChange('clientsPerYear', numValue);
+                // Clear error on change
+                if (errors.clientsPerYear) {
+                  setErrors({ ...errors, clientsPerYear: undefined });
+                }
               }}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className={`w-full px-4 py-3 bg-background border ${errors.clientsPerYear ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
             />
+            {errors.clientsPerYear && (
+              <p className="mt-1.5 text-sm text-error" role="alert">{errors.clientsPerYear}</p>
+            )}
           </div>
 
           {/* Hours Spent on Tax Questions per Week */}
           <div>
             <label htmlFor="hoursPerWeek" className="block text-sm font-semibold text-text mb-2">
               Hours Spent on Tax Questions per Week
+              <InfoTooltip content="Combined time your attorneys and paralegals spend answering client questions about cross-border tax filing, deadlines, and obligations." />
             </label>
             <input
               id="hoursPerWeek"
@@ -156,9 +261,17 @@ export function ROICalculator() {
                 });
                 const numValue = parseCurrencyInput(sanitized, 0);
                 setInputs({ ...inputs, hoursPerWeek: numValue });
+                calculatorTrackerRef.current?.trackInputChange('hoursPerWeek', numValue);
+                // Clear error on change
+                if (errors.hoursPerWeek) {
+                  setErrors({ ...errors, hoursPerWeek: undefined });
+                }
               }}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className={`w-full px-4 py-3 bg-background border ${errors.hoursPerWeek ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
             />
+            {errors.hoursPerWeek && (
+              <p className="mt-1.5 text-sm text-error" role="alert">{errors.hoursPerWeek}</p>
+            )}
             <p className="text-sm text-textMuted mt-1">
               Include paralegal + attorney time answering client questions about cross-border tax
             </p>
@@ -168,6 +281,7 @@ export function ROICalculator() {
           <div>
             <label htmlFor="billableRate" className="block text-sm font-semibold text-text mb-2">
               Average Billable Rate ($/hour)
+              <InfoTooltip content="Your blended hourly rate for attorney and paralegal time. Used to calculate the value of time saved when clients self-serve." />
             </label>
             <input
               id="billableRate"
@@ -183,18 +297,34 @@ export function ROICalculator() {
                 });
                 const numValue = parseCurrencyInput(sanitized, 0);
                 setInputs({ ...inputs, billableRate: numValue });
+                calculatorTrackerRef.current?.trackInputChange('billableRate', numValue);
+                // Clear error on change
+                if (errors.billableRate) {
+                  setErrors({ ...errors, billableRate: undefined });
+                }
               }}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className={`w-full px-4 py-3 bg-background border ${errors.billableRate ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
             />
+            {errors.billableRate && (
+              <p className="mt-1.5 text-sm text-error" role="alert">{errors.billableRate}</p>
+            )}
           </div>
         </div>
 
         {/* Calculate Button */}
         <button
           onClick={handleCalculate}
-          className="w-full px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+          disabled={isCalculating}
+          className="w-full px-8 py-4 bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
         >
-          Calculate Your ROI
+          {isCalculating ? (
+            <>
+              <Spinner size="sm" className="text-white" />
+              Calculating...
+            </>
+          ) : (
+            'Calculate Your ROI'
+          )}
         </button>
 
         {/* Results */}
@@ -319,7 +449,16 @@ export function ROICalculator() {
             <div className="text-center pt-4">
               <a
                 href="mailto:enterprise@taxbridge.app?subject=30-Day Free Trial Request&body=Firm Name: {inputs.firmName}%0D%0AAttorneys: {inputs.attorneyCount}%0D%0AClients/year: {inputs.clientsPerYear}%0D%0A%0D%0AEstimated savings: ${Math.round(results.valueSaved).toLocaleString()}/year%0D%0A%0D%0AI'd like to start a 30-day free trial."
-                className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-colors shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] text-lg"
+                onClick={() => {
+                  trackEvent('demo_request_submitted', {
+                    source: 'roi_calculator',
+                    firmName: inputs.firmName || 'unnamed',
+                    attorneyCount: inputs.attorneyCount,
+                    estimatedSavings: Math.round(results.valueSaved),
+                    roi: Math.round(results.roi),
+                  });
+                }}
               >
                 Start 30-Day Free Trial
               </a>
@@ -331,5 +470,6 @@ export function ROICalculator() {
         )}
       </div>
     </div>
+    </TooltipProvider>
   );
 }
