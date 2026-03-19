@@ -139,7 +139,10 @@ export async function POST(req: NextRequest) {
 
         await sendEmail({
           to: user.email,
-          from: 'michael@taxbridge.app',
+          from: {
+            email: 'michael@taxbridge.app',
+            name: 'Michael from TaxBridge',
+          },
           subject: emailData.subject,
           templateId: 'd-interview-invite', // SendGrid template
           dynamicTemplateData: emailData,

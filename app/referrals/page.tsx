@@ -1,6 +1,6 @@
 /**
  * User Referral Program Dashboard
- * Viral loop mechanics: earn free months by referring friends
+ * Viral loop mechanics: earn $10 credits by referring friends
  */
 
 import { auth } from '@clerk/nextjs/server';
@@ -13,11 +13,13 @@ import {
   getCurrentMonthLeaderboard,
   getUserLeaderboardPosition,
 } from '@/lib/db/queries/referrals';
+import { getCreditSummary, getCreditTransactions } from '@/lib/db/queries/credits';
 import { generateSocialMessages } from '@/lib/stripe/referral-tracking';
 import { TrendingUp, Users, DollarSign, Gift, Crown, Award, Medal, Twitter, Linkedin } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ReferralLinkCopy, SocialShareButton, EmailShareButton, StatusBadge } from '@/components/referral-components';
 import { InviteFriendsModal } from '@/components/referral/InviteFriendsModal';
+import { CreditsDashboard } from '@/components/CreditsDashboard';
 
 export const dynamic = 'force-dynamic';
 
@@ -44,6 +46,10 @@ export default async function ReferralsPage() {
   const leaderboard = getCurrentMonthLeaderboard(10);
   const userPosition = getUserLeaderboardPosition(user.id);
 
+  // Get credits summary and transactions
+  const creditsSummary = getCreditSummary(user.id);
+  const creditTransactions = getCreditTransactions(user.id, 20);
+
   // Generate social messages
   const socialMessages = generateSocialMessages(referralCode);
 
@@ -57,12 +63,15 @@ export default async function ReferralsPage() {
             Referral Program
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white">
-            Earn Free Months
+            Earn $10 Credits
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Share TaxBridge with colleagues and get <span className="text-emerald-400 font-semibold">2 months free</span> for every friend who subscribes to Pro. They get <span className="text-emerald-400 font-semibold">20% off</span> their first year!
+            Share TaxBridge with colleagues and get <span className="text-emerald-400 font-semibold">$10 credit</span> for every friend who subscribes to Pro. They get <span className="text-emerald-400 font-semibold">20% off</span> their first year!
           </p>
         </div>
+
+        {/* Credits Dashboard */}
+        <CreditsDashboard summary={creditsSummary} transactions={creditTransactions} />
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -108,7 +117,7 @@ export default async function ReferralsPage() {
                 ${stats.rewards_earned.toFixed(2)}
               </div>
               <p className="text-xs text-slate-400 mt-1">
-                {Math.floor(stats.rewards_earned / 50)} free months
+                {Math.floor(stats.rewards_earned / 10)} referrals @ $10 each
               </p>
             </CardContent>
           </Card>
@@ -135,7 +144,7 @@ export default async function ReferralsPage() {
               <CardHeader>
                 <CardTitle className="text-white">Your Referral Link</CardTitle>
                 <CardDescription className="text-slate-400">
-                  Share this link to earn free months
+                  Share this link to earn $10 credits
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -148,7 +157,7 @@ export default async function ReferralsPage() {
                     <li>• Share with H-1B/TN visa colleagues dealing with cross-border taxes</li>
                     <li>• Post in company Slack channels or LinkedIn</li>
                     <li>• Referrals get 20% off ($60 savings on Pro)</li>
-                    <li>• You get 2 months free ($50 value) when they subscribe</li>
+                    <li>• You get $10 credit when they subscribe</li>
                   </ul>
                 </div>
 
@@ -370,7 +379,7 @@ export default async function ReferralsPage() {
                 </div>
                 <h4 className="font-semibold text-white">You Get Rewarded</h4>
                 <p className="text-sm text-slate-400">
-                  Receive 2 months free Pro ($50 value) automatically added to your subscription
+                  Receive $10 credit automatically added to your account balance
                 </p>
               </div>
             </div>
