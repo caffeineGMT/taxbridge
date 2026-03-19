@@ -77,5 +77,5 @@ Currently using mock data. To pull real data:
 
 ---
 
-**Generated:** 2026-03-19T12:56:32.073Z
+**Generated:** 2026-03-19T13:49:03.982Z
 **Script:** `scripts/diagnose-conversion-funnel.ts`
