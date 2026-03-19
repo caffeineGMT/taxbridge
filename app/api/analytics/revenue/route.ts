@@ -15,6 +15,7 @@ import { getDatabase } from '@/lib/db';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
+import type { Database } from 'better-sqlite3';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,7 +74,7 @@ export async function GET(req: NextRequest) {
           amount = amount / 12;
         }
 
-        return total + (amount * item.quantity);
+        return total + (amount * (item.quantity || 1));
       }, 0) / 100; // Convert cents to dollars
 
       mrr += monthlyAmount;
@@ -97,32 +98,22 @@ export async function GET(req: NextRequest) {
     const totalCustomers = customers.has_more ? 100 : customers.data.length;
 
     // Calculate churn rate from database (churned this month / active at start of month)
-    const activeAtStartOfMonth = Array.isArray(db.prepare(`
+    const activeAtStartOfMonthResult = (db as any).prepare(`
       SELECT COUNT(*) as count FROM user_profiles
       WHERE subscription_status = 'active'
       AND created_at < ?
-    `).all([firstDayOfMonth.getTime()]))
-      ? (db.prepare(`
-          SELECT COUNT(*) as count FROM user_profiles
-          WHERE subscription_status = 'active'
-          AND created_at < ?
-        `).all([firstDayOfMonth.getTime()]) as Array<{ count: number }>)[0]?.count || 0
-      : 0;
+    `).get(firstDayOfMonth.getTime()) as { count: number } | undefined;
+    const activeAtStartOfMonth = activeAtStartOfMonthResult?.count || 0;
 
-    const churnedThisMonth = Array.isArray(db.prepare(`
+    const churnedThisMonthResult = (db as any).prepare(`
       SELECT COUNT(*) as count FROM user_profiles
       WHERE subscription_status = 'canceled'
       AND updated_at >= ?
-    `).all([firstDayOfMonth.getTime()]))
-      ? (db.prepare(`
-          SELECT COUNT(*) as count FROM user_profiles
-          WHERE subscription_status = 'canceled'
-          AND updated_at >= ?
-        `).all([firstDayOfMonth.getTime()]) as Array<{ count: number }>)[0]?.count || 0
-      : 0;
+    `).get(firstDayOfMonth.getTime()) as { count: number } | undefined;
+    const churnedCustomersThisMonth = churnedThisMonthResult?.count || 0;
 
     const churnRate = activeAtStartOfMonth > 0
-      ? (churnedThisMonth / activeAtStartOfMonth) * 100
+      ? (churnedCustomersThisMonth / activeAtStartOfMonth) * 100
       : 0;
 
     // Calculate new customers this month
