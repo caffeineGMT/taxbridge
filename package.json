@@ -34,6 +34,7 @@
     "verify:blog": "tsx scripts/verify-blog-publication.ts",
     "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
     "revenue:check": "tsx scripts/revenue-reality-check.ts",
+    "verify:revenue": "tsx scripts/verify-revenue-api.ts",
     "db:init": "tsx scripts/init-db.ts",
     "db:schema": "sqlite3 data/taxbridge.db < lib/db/schema.sql && echo 'Database schema created successfully'",
     "db:migrate": "tsx scripts/run-migrations.ts",
