@@ -3,7 +3,12 @@
     {
       "path": "/api/cron/email-drip",
       "schedule": "0 17 * * *",
-      "description": "7-day email drip campaign - runs daily at 9:00 AM PST (5:00 PM UTC)"
+      "description": "7-day email drip campaign - runs daily at 9:00 AM PST (5:00 PM UTC) - LEGACY"
+    },
+    {
+      "path": "/api/cron/email-drip-optimized",
+      "schedule": "0 17 * * *",
+      "description": "OPTIMIZED 7-day email drip with A/B testing - runs daily at 9:00 AM PST (5:00 PM UTC)"
     }
   ],
   "redirects": [

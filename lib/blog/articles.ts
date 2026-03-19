@@ -261,6 +261,30 @@ export const ARTICLE_TOPICS: ArticleMetadata[] = [
     keywords: ['RRSP vs 401k', 'Canadian RRSP US tax', '401k in Canada', 'cross-border retirement', 'RRSP treaty protection', 'retirement account comparison', 'H-1B 401k', 'TN visa RRSP'],
     category: 'Retirement Planning',
     targetKeyword: 'RRSP vs 401k comparison'
+  },
+  {
+    slug: 'tn-visa-vs-h1b-rsu-tax-comparison',
+    title: 'TN Visa vs H1B RSU Tax Comparison: Which Saves You More in 2026?',
+    description: 'Complete tax comparison of TN vs H1B visa for RSU compensation. Discover which visa status saves $8,000+ annually on stock taxation, withholding rates, and cross-border implications for Canadian tech workers.',
+    keywords: ['TN visa vs H1B RSU tax', 'TN visa RSU taxation', 'H1B RSU tax comparison', 'Canadian working in US stock compensation', 'TN vs H1B tax differences', 'cross-border RSU tax planning', 'TN visa tax advantages', 'H1B green card tax implications'],
+    category: 'Cross-Border Tax',
+    targetKeyword: 'TN visa vs H1B RSU tax comparison'
+  },
+  {
+    slug: 'how-to-report-rsus-canadian-tax-return',
+    title: 'How to Report RSUs on Canadian Tax Return: Complete T1 Filing Guide 2026',
+    description: 'Step-by-step guide to reporting RSU income on Canadian tax returns. Learn T4 slip reporting, foreign tax credits, capital gains calculation, and how to avoid $5,000+ in tax penalties when returning from the US.',
+    keywords: ['report RSUs Canadian tax return', 'RSU T1 reporting Canada', 'foreign employment income Canada', 'Form T2209 foreign tax credit', 'Schedule 3 capital gains RSU', 'Canadian tax return RSU stock', 'T4 slip RSU reporting', 'US W-2 Canadian tax return'],
+    category: 'Tax Filing',
+    targetKeyword: 'how to report RSUs on Canadian tax return'
+  },
+  {
+    slug: '83b-election-guide-h1b-workers',
+    title: '83(b) Election Guide for H1B Workers: Save $50,000+ on Startup Equity Tax',
+    description: 'Complete 83(b) election guide for H1B visa holders joining startups. Learn the 30-day deadline, tax savings strategies, cross-border implications, and how to file correctly to avoid $50,000+ in unnecessary taxes on restricted stock.',
+    keywords: ['83(b) election guide', '83(b) election H1B', 'restricted stock tax', 'startup equity tax', '83b election deadline', 'how to file 83(b) election', '83(b) vs RSU', 'early exercise stock options'],
+    category: 'Stock Compensation',
+    targetKeyword: '83(b) election guide for H1B'
   }
 ];
 

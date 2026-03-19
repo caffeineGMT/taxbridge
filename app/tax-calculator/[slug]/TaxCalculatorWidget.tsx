@@ -49,6 +49,28 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
   // Progress tracking (1: Input, 2: Results, 3: Email/Completion)
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Calculation results - store full structured data (moved before useEffect that uses it)
+  const [calculationResults, setCalculationResults] = useState<{
+    usTax: {
+      federal: any;
+      state: any;
+      total: number;
+    };
+    canadaTax: {
+      federal: any;
+      provincial: any;
+      ftc: {
+        amount: number;
+        explanation: string;
+      };
+      totalBeforeFTC: number;
+      netTotal: number;
+    };
+    rsuValueCad: number;
+    exchangeRate: number;
+  } | null>(null);
+  const [showResults, setShowResults] = useState(false);
+
   // Sync state changes to saved state
   useEffect(() => {
     if (isLoaded) {
@@ -103,28 +125,6 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
     setCalculationResults(null);
     setCurrentStep(1);
   };
-
-  // Calculation results - store full structured data
-  const [calculationResults, setCalculationResults] = useState<{
-    usTax: {
-      federal: any;
-      state: any;
-      total: number;
-    };
-    canadaTax: {
-      federal: any;
-      provincial: any;
-      ftc: {
-        amount: number;
-        explanation: string;
-      };
-      totalBeforeFTC: number;
-      netTotal: number;
-    };
-    rsuValueCad: number;
-    exchangeRate: number;
-  } | null>(null);
-  const [showResults, setShowResults] = useState(false);
 
   // Initialize calculator tracker
   useEffect(() => {

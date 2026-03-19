@@ -10,12 +10,14 @@ export interface AffiliatePartner {
   partner_name: string;
   firm_name: string;
   email: string;
+  partner_type: string;
   referral_code: string;
   commission_rate: number;
   status: 'pending' | 'approved' | 'rejected';
   total_referrals: number;
   total_revenue: number;
   stripe_connect_id: string | null;
+  co_branded_slug: string | null;
   created_at: string;
   approved_at: string | null;
   rejected_at: string | null;

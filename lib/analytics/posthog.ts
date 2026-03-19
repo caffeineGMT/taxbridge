@@ -294,3 +294,104 @@ export function trackExperiment(
     ...metadata,
   });
 }
+
+/**
+ * Extract UTM parameters from URL
+ */
+export function extractUTMParams(url?: string): Record<string, string> | null {
+  try {
+    const urlObj = new URL(url || window.location.href);
+    const utmSource = urlObj.searchParams.get('utm_source');
+    const utmMedium = urlObj.searchParams.get('utm_medium');
+    const utmCampaign = urlObj.searchParams.get('utm_campaign');
+
+    if (!utmSource || !utmMedium || !utmCampaign) {
+      return null;
+    }
+
+    return {
+      utm_source: utmSource,
+      utm_medium: utmMedium,
+      utm_campaign: utmCampaign,
+      utm_term: urlObj.searchParams.get('utm_term') || '',
+      utm_content: urlObj.searchParams.get('utm_content') || '',
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Track UTM parameters and set user properties for attribution
+ * Call this on app initialization to capture marketing source
+ */
+export function trackUTMAttribution(url?: string) {
+  const utmParams = extractUTMParams(url);
+
+  if (utmParams && typeof window !== 'undefined' && posthog.__loaded) {
+    // Track the UTM landing event
+    posthog.capture('utm_source_tracked', {
+      ...utmParams,
+      landing_page: url || window.location.href,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Set user properties for first-touch attribution (only if not already set)
+    const existingAttribution = posthog.get_property('initial_utm_source');
+    if (!existingAttribution) {
+      posthog.people.set({
+        initial_utm_source: utmParams.utm_source,
+        initial_utm_medium: utmParams.utm_medium,
+        initial_utm_campaign: utmParams.utm_campaign,
+        initial_utm_term: utmParams.utm_term,
+        initial_utm_content: utmParams.utm_content,
+        initial_landing_page: url || window.location.href,
+        first_seen: new Date().toISOString(),
+      });
+    }
+
+    // Always set last-touch attribution
+    posthog.people.set({
+      last_utm_source: utmParams.utm_source,
+      last_utm_medium: utmParams.utm_medium,
+      last_utm_campaign: utmParams.utm_campaign,
+      last_utm_term: utmParams.utm_term,
+      last_utm_content: utmParams.utm_content,
+      last_landing_page: url || window.location.href,
+      last_seen: new Date().toISOString(),
+    });
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[PostHog] UTM Attribution tracked:', utmParams);
+    }
+  }
+}
+
+/**
+ * Track Reddit-specific events with automatic UTM enrichment
+ * Use this for Reddit campaign conversion tracking
+ */
+export function trackRedditConversion(
+  eventType: 'calculator_viewed' | 'calculator_completed' | 'signup_started' | 'subscription_activated',
+  metadata?: Record<string, any>
+) {
+  const utmParams = extractUTMParams();
+
+  // Only track if coming from Reddit
+  if (utmParams?.utm_source === 'reddit') {
+    trackEvent(eventType as PostHogEvent, {
+      ...metadata,
+      conversion_source: 'reddit',
+      subreddit: utmParams.utm_term, // utm_term contains subreddit name
+      content_type: utmParams.utm_content, // utm_content contains post/comment type
+      campaign: utmParams.utm_campaign,
+    });
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[PostHog] Reddit conversion tracked:', eventType, {
+        subreddit: utmParams.utm_term,
+        content_type: utmParams.utm_content,
+      });
+    }
+  }
+}
