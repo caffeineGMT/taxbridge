@@ -20,3 +20,7 @@ next-env.d.ts
 /data/*.db-shm
 /data/*.db-wal
 .vercel
+# Playwright artifacts
+.playwright/
+playwright-report/
+test-results/

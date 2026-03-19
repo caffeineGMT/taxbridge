@@ -7,10 +7,16 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
+
+  // Run auth setup before all tests
+  globalSetup: require.resolve('./tests/global-setup.ts'),
+
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    // Use authenticated state for all tests
+    storageState: '.playwright/.auth/user.json',
   },
 
   // Auto-start dev server for E2E tests

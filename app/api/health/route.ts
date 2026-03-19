@@ -36,15 +36,23 @@ export async function GET(request: NextRequest) {
     if (dbConnected) {
       return NextResponse.json({
         status: 'ok',
+        application: 'TaxBridge US-Canada Cross-Border Tax Calculator',
+        description: 'Tax calculation tool for H-1B/TN visa workers with RSUs',
+        framework: 'Next.js 15',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
         database: {
           connected: true,
           responseTime: `${dbResponseTime}ms`,
         },
+        deployment: {
+          environment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'production',
+          region: process.env.VERCEL_REGION || 'local',
+          deploymentId: process.env.VERCEL_DEPLOYMENT_ID || 'local',
+          gitCommit: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'unknown',
+        },
         responseTime: `${totalResponseTime}ms`,
         version: process.env.npm_package_version || '1.0.0',
-        environment: process.env.NODE_ENV || 'production',
       });
     } else {
       // Database connection failed - return 503 Service Unavailable
