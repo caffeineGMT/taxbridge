@@ -58,7 +58,7 @@ export default function UpgradeModal({
 
           {currentCount !== undefined && limit !== undefined ? (
             <p className="text-gray-600 mb-6">
-              You've reached the limit of <strong>{limit} RSU entry</strong> on the Free plan.
+              You've reached the limit of <strong>{limit} RSU {limit === 1 ? 'entry' : 'entries'}</strong> on the Free plan.
               Upgrade to Pro for unlimited RSU entries and more powerful features.
             </p>
           ) : (
