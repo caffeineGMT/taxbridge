@@ -56,7 +56,7 @@ npx tsx scripts/end-to-end-revenue-smoke-test.ts
 | Variable | Current Value | Required Value | Status |
 |----------|---------------|----------------|--------|
 | `STRIPE_SECRET_KEY` | `sk_live_YOUR_LIVE_SECRET_KEY_HERE` | `sk_live_51...` (real) | ❌ PLACEHOLDER |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_YOUR_LIVE_PUBLISHABLE_KEY_HERE` | `pk_live_51...` (real) | ❌ PLACEHOLDER |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_YOUR_LIVE_PUBLISHABLE_KEY_HERE` | `pk_live_[REDACTED_FOR_SECURITY]...` (real) | ❌ PLACEHOLDER |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_YOUR_LIVE_WEBHOOK_SECRET_HERE` | `whsec_...` (real) | ❌ PLACEHOLDER |
 | `STRIPE_BASIC_PRICE_ID` | `price_YOUR_LIVE_BASIC_PRICE_ID` | `price_1...` (real) | ❌ PLACEHOLDER |
 | `STRIPE_PRO_PRICE_ID` | `price_YOUR_LIVE_PRO_PRICE_ID` | `price_1...` (real) | ❌ PLACEHOLDER |
@@ -132,7 +132,7 @@ Follow the existing activation guide at `docs/STRIPE_PRODUCTION_CTO_CHECKLIST.md
 ### Step 1: Get Stripe Live Keys (3 min)
 1. Go to https://dashboard.stripe.com/apikeys
 2. Toggle to **"Production"** mode (top-left)
-3. Copy `pk_live_51...` and `sk_live_51...` keys
+3. Copy `pk_live_[REDACTED_FOR_SECURITY]...` and `sk_live_51...` keys
 4. Store securely
 
 ### Step 2: Run Setup Script (5 min)
@@ -167,7 +167,7 @@ Go to: Vercel Dashboard → Settings → Environment Variables → Production
 Add these 9 variables (copy from Step 2 output):
 ```bash
 STRIPE_SECRET_KEY=sk_live_51...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_51...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_[REDACTED_FOR_SECURITY]...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_BASIC_PRICE_ID=price_1...
 NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID=price_1...
