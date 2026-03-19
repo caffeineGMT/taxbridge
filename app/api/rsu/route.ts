@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     // Check subscription limits (free tier: 10 RSU entries)
     const { getRSUEntries } = await import('@/lib/db');
-    const existingEntries = getRSUEntries(userProfile.id);
+    const existingEntries = await getRSUEntries(userProfile.id);
 
     if (userProfile.subscription_tier === 'free' && existingEntries.length >= 10) {
       return NextResponse.json(
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert RSU entry
-    const rsuEntryId = insertRSUEntry({
+    const rsuEntryId = await insertRSUEntry({
       user_id: userProfile.id,
       vest_date: data.vestingDate,
       fmv_usd: data.fmvUsd,
@@ -88,7 +88,7 @@ export async function GET() {
     }
 
     const { getRSUEntries } = await import('@/lib/db');
-    const entries = getRSUEntries(userProfile.id);
+    const entries = await getRSUEntries(userProfile.id);
 
     return NextResponse.json({ entries });
   } catch (error) {

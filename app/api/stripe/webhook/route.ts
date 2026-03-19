@@ -123,7 +123,8 @@ export async function POST(req: NextRequest) {
         await trackUserReferral(session, parseInt(userId));
 
         // Track email drip campaign conversion
-        const discountCode = session.metadata?.discount_code || session.discount?.coupon?.id;
+        const coupon = session.discounts?.[0]?.coupon;
+        const discountCode = session.metadata?.discount_code || (typeof coupon === 'string' ? coupon : coupon?.id);
         const revenueAmount = session.amount_total ? session.amount_total / 100 : 20; // Convert cents to dollars
 
         trackEmailConversion({
