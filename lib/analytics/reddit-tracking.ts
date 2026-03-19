@@ -81,8 +81,6 @@ export function trackRedditLanding(utmParams: any): void {
 
   // Store in localStorage for 30-day attribution window
   storeRedditAttribution(attribution);
-
-  console.log('✅ Reddit landing tracked:', attribution);
 }
 
 /**
@@ -97,8 +95,6 @@ export function trackRedditCalculatorCompletion(calculatorResult: any): void {
     calculator_result: calculatorResult,
     time_to_completion: getTimeSinceLanding(attribution.timestamp)
   });
-
-  console.log('✅ Reddit calculator completion tracked');
 }
 
 /**
@@ -121,8 +117,6 @@ export function trackRedditSignup(userId: string, email: string): void {
     reddit_subreddit: attribution.utm_term,
     reddit_content_type: attribution.utm_content
   });
-
-  console.log('✅ Reddit signup tracked');
 }
 
 /**
@@ -145,8 +139,6 @@ export function trackRedditPayment(amount: number, plan: string): void {
     reddit_paid: true,
     reddit_plan: plan
   });
-
-  console.log('✅ Reddit payment tracked:', { amount, plan });
 }
 
 /**
@@ -202,7 +194,6 @@ function getTimeSinceLanding(landingTime: string): number {
  */
 export function clearRedditAttribution(): void {
   localStorage.removeItem('reddit_attribution');
-  console.log('✅ Reddit attribution cleared');
 }
 
 /**
