@@ -10,9 +10,8 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false, // FIXED: Enable TypeScript checking during builds
   },
-  eslint: {
-    ignoreDuringBuilds: true, // TEMPORARY: Disable ESLint during builds due to circular structure error in ESLint 9
-  },
+  // REMOVED: eslint config not supported in Next.js 16+
+  // Use .eslintrc.json or run `next lint` separately
 
   // Image optimization
   images: {

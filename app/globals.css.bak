@@ -292,3 +292,5 @@
   color: #8b9bb5;
 }
 
+/* Import mobile responsiveness enhancements */
+@import './mobile-enhancements.css';

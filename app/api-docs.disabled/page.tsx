@@ -10,9 +10,9 @@ import dynamic from 'next/dynamic';
 // Dynamically import SwaggerUI with its CSS to avoid loading ~1MB of CSS on other pages
 const SwaggerUI = dynamic(
   async () => {
-    // Import CSS alongside component so it only loads when this page is visited
+    // Import CSS from dist directory (Next.js 16/Turbopack compatible path)
     // @ts-ignore - CSS imports don't have type declarations
-    await import('swagger-ui-react/swagger-ui.css');
+    await import('swagger-ui-react/dist/swagger-ui.css');
     return import('swagger-ui-react');
   },
   {
