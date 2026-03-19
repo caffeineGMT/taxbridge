@@ -273,7 +273,7 @@ export function ROICalculator() {
             <input
               id="firmName"
               type="text"
-              placeholder="e.g., Berry Appleman & Leiden LLP"
+              placeholder="e.g., Your Law Firm"
               value={inputs.firmName}
               onChange={(e) => {
                 setInputs({ ...inputs, firmName: e.target.value });
@@ -449,7 +449,7 @@ export function ROICalculator() {
                     <Clock className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-text">{Math.round(results.hoursSaved)}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-text">{Math.round(results.hoursSaved)}</div>
                     <div className="text-sm text-textMuted">hours saved per year</div>
                   </div>
                 </div>
@@ -459,7 +459,7 @@ export function ROICalculator() {
                     <DollarSign className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-3xl font-bold text-text">
+                    <div className="text-2xl sm:text-3xl font-bold text-text">
                       ${Math.round(results.valueSaved).toLocaleString()}
                     </div>
                     <div className="text-sm text-textMuted">value recovered annually</div>

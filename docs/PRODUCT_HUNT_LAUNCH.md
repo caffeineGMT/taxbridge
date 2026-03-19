@@ -154,7 +154,7 @@ It automatically applies the US-Canada tax treaty Article XV to calculate your F
 ### Pricing/CTA (45-60 seconds)
 "Free tier for basic calculations. Pro is $299/year for unlimited RSUs, multi-year tracking, and PDF exports.
 
-If you're a Canadian tech worker with US stock grants, try TaxBridge at taxbridge.app and stop overpaying taxes."
+If you're a Canadian tech worker with US stock grants, try TaxBridge at taxbridgecpa.com and stop overpaying taxes."
 
 ### Recording Instructions
 
@@ -214,7 +214,7 @@ I'm Michael, building TaxBridge - a cross-border tax calculator for Canadian tec
 
 I built this after overpaying $12K in taxes on my Meta stock when I moved to Canada. Turns out, 50K+ tech workers face this same problem every year.
 
-TaxBridge calculates dual-country taxes, optimizes Foreign Tax Credits under the US-Canada tax treaty, and generates filing checklists. We're live at taxbridge.app with paying customers.
+TaxBridge calculates dual-country taxes, optimizes Foreign Tax Credits under the US-Canada tax treaty, and generates filing checklists. We're live at taxbridgecpa.com with paying customers.
 
 I'm planning a Product Hunt launch on [DATE] and would be honored if you'd consider hunting us. Here's why I think it'd resonate:
 
@@ -234,8 +234,8 @@ Would you be open to hunting TaxBridge? Happy to share more details or jump on a
 Thanks for considering!
 
 Michael
-https://taxbridge.app
-michael@taxbridge.app
+https://taxbridgecpa.com
+michael@taxbridgecpa.com
 ```
 
 **Send 3-5 days before launch date** to give hunter time to review.
@@ -349,7 +349,7 @@ We hit [X] upvotes on @ProductHunt! 🎉
 
 Humbled by the support from the tech community.
 
-If you're a Canadian tech worker with US RSUs, TaxBridge is now live at https://taxbridge.app
+If you're a Canadian tech worker with US RSUs, TaxBridge is now live at https://taxbridgecpa.com
 
 Save $5K-$15K/year on your taxes. Free tier available.
 
@@ -374,7 +374,7 @@ Built with Next.js, TypeScript, Stripe. Revenue-generating SaaS.
 
 Would love your support on Product Hunt: [Link]
 
-Or try it directly: https://taxbridge.app
+Or try it directly: https://taxbridgecpa.com
 
 #TaxTech #CrossBorderTax #SaaS #ProductHunt
 ```
@@ -449,7 +449,7 @@ I built it after overpaying $12K on my Meta RSUs.
 
 On Product Hunt today: [Link]
 
-Free tier available at https://taxbridge.app
+Free tier available at https://taxbridgecpa.com
 ```
 
 ---
@@ -659,7 +659,7 @@ A: Pro plan ($299/year) for unlimited RSUs, multi-year tracking, and PDF exports
 **Hunter**: [TBD]
 **Product Hunt URL**: [Will be generated on launch]
 
-**Questions?** michael@taxbridge.app
+**Questions?** michael@taxbridgecpa.com
 
 ---
 

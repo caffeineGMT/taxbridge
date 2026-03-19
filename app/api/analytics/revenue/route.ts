@@ -19,6 +19,113 @@ import type { Database } from 'better-sqlite3';
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * Extract channel from signup event metadata
+ */
+function getChannelFromMetadata(metadata: string | null): string {
+  if (!metadata) return 'direct';
+
+  try {
+    const parsed = JSON.parse(metadata);
+
+    // Check for explicit source
+    if (parsed.source === 'product_hunt' || parsed.source === 'producthunt') return 'productHunt';
+    if (parsed.source === 'organic' || parsed.utm_source === 'organic') return 'organic';
+    if (parsed.source === 'google' || parsed.utm_source === 'google') return 'paidAds';
+    if (parsed.source === 'referral' || parsed.utm_source === 'referral') return 'referral';
+
+    // Check UTM parameters
+    if (parsed.utm_source === 'product-hunt' || parsed.utm_source === 'producthunt') return 'productHunt';
+    if (parsed.utm_source === 'google-ads' || parsed.utm_campaign?.includes('google')) return 'paidAds';
+    if (parsed.utm_medium === 'organic' || parsed.utm_medium === 'seo') return 'organic';
+
+    // Check referrer
+    if (parsed.referrer?.includes('producthunt.com')) return 'productHunt';
+    if (parsed.referrer?.includes('google.com')) return 'organic';
+
+    return 'direct';
+  } catch {
+    return 'direct';
+  }
+}
+
+/**
+ * Get channel attribution for paid customers
+ */
+function getChannelAttribution(
+  db: any,
+  avgRevenuePerCustomer: number
+): {
+  revenueByChannel: Record<string, number>;
+  customersByChannel: Record<string, number>;
+} {
+  try {
+    // Query signup events for paid users to determine acquisition channel
+    const channelQuery = (db as Database).prepare(`
+      SELECT
+        up.id,
+        up.subscription_tier,
+        ae.metadata
+      FROM user_profiles up
+      LEFT JOIN analytics_events ae ON ae.user_id = up.id AND ae.event_name = 'user_signed_up'
+      WHERE up.subscription_tier IN ('pro', 'enterprise')
+        AND up.subscription_status = 'active'
+    `);
+
+    const results = channelQuery.all() as Array<{
+      id: number;
+      subscription_tier: string;
+      metadata: string | null;
+    }>;
+
+    const revenueByChannel: Record<string, number> = {
+      organic: 0,
+      productHunt: 0,
+      paidAds: 0,
+      referral: 0,
+      direct: 0,
+    };
+
+    const customersByChannel: Record<string, number> = {
+      organic: 0,
+      productHunt: 0,
+      paidAds: 0,
+      referral: 0,
+      direct: 0,
+    };
+
+    results.forEach((row) => {
+      const channel = getChannelFromMetadata(row.metadata);
+
+      // Add customer to channel count
+      customersByChannel[channel] = (customersByChannel[channel] || 0) + 1;
+
+      // Add revenue based on tier (simplified - using average)
+      // Pro tier: ~$49/year = $4.08/month
+      // Enterprise tier: ~$299/year = $24.92/month
+      const tierRevenue = row.subscription_tier === 'enterprise' ? 24.92 : 4.08;
+      revenueByChannel[channel] = (revenueByChannel[channel] || 0) + tierRevenue;
+    });
+
+    return {
+      revenueByChannel: {
+        organic: Math.round(revenueByChannel.organic * 100) / 100,
+        productHunt: Math.round(revenueByChannel.productHunt * 100) / 100,
+        paidAds: Math.round(revenueByChannel.paidAds * 100) / 100,
+        referral: Math.round(revenueByChannel.referral * 100) / 100,
+        direct: Math.round(revenueByChannel.direct * 100) / 100,
+      },
+      customersByChannel,
+    };
+  } catch (error) {
+    logger.error('Error fetching channel attribution', { error });
+    return {
+      revenueByChannel: { organic: 0, productHunt: 0, paidAds: 0, referral: 0, direct: 0 },
+      customersByChannel: { organic: 0, productHunt: 0, paidAds: 0, referral: 0, direct: 0 },
+    };
+  }
+}
+
 interface RevenueMetrics {
   mrr: number;
   arr: number;
@@ -39,6 +146,20 @@ interface RevenueMetrics {
   lifetimeValue: number;
   customerAcquisitionCost: number;
   ltvcacRatio: number;
+  revenueByChannel: {
+    organic: number;
+    productHunt: number;
+    paidAds: number;
+    referral: number;
+    direct: number;
+  };
+  customersByChannel: {
+    organic: number;
+    productHunt: number;
+    paidAds: number;
+    referral: number;
+    direct: number;
+  };
 }
 
 export async function GET(req: NextRequest) {
@@ -164,6 +285,9 @@ export async function GET(req: NextRequest) {
     // Calculate LTV:CAC ratio (should be > 3 for healthy SaaS)
     const ltvcacRatio = customerAcquisitionCost > 0 ? lifetimeValue / customerAcquisitionCost : 0;
 
+    // Get channel attribution data
+    const channelAttribution = getChannelAttribution(db, avgMonthlyRevenuePerUser);
+
     const metrics: RevenueMetrics = {
       mrr,
       arr,
@@ -178,6 +302,8 @@ export async function GET(req: NextRequest) {
       lifetimeValue,
       customerAcquisitionCost,
       ltvcacRatio,
+      revenueByChannel: channelAttribution.revenueByChannel,
+      customersByChannel: channelAttribution.customersByChannel,
     };
 
     logger.info('Revenue metrics fetched', {

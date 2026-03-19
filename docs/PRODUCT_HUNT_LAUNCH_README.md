@@ -554,7 +554,7 @@ If traffic crashes site, that's a GOOD problem. Fix it and celebrate.
 ## Support
 
 **Questions?**
-- Email: michael@taxbridge.app
+- Email: michael@taxbridgecpa.com
 - Twitter: @taxbridge
 - Product Hunt: (profile link)
 

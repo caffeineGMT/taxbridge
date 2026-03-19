@@ -341,7 +341,7 @@ CPAs are great for complex cases! But for straightforward RSU income, they charg
 
 **For "Does this work for [other country]?" comments:**
 ```
-Currently TaxBridge focuses on US-Canada cross-border because that's where we have the most expertise (and where the Canada-US Tax Treaty applies). We're exploring UK, Australia, and India for future versions. If you're interested in [country], drop your email at taxbridge.app and we'll notify you when we expand!
+Currently TaxBridge focuses on US-Canada cross-border because that's where we have the most expertise (and where the Canada-US Tax Treaty applies). We're exploring UK, Australia, and India for future versions. If you're interested in [country], drop your email at taxbridgecpa.com and we'll notify you when we expand!
 ```
 
 **For pricing questions:**

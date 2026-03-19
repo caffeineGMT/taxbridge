@@ -21,7 +21,7 @@ Cross-border tax calculator for H-1B tech workers with RSUs
 
 **Website URL:**
 ```
-https://taxbridge.app
+https://taxbridgecpa.com
 ```
 
 **Pricing:**
@@ -158,7 +158,7 @@ I built TaxBridge to solve this problem for the thousands of H-1B/TN tech worker
 
 ## 🔗 Get Started
 
-Try our free calculator at taxbridge.app
+Try our free calculator at taxbridgecpa.com
 No credit card required.
 ```
 

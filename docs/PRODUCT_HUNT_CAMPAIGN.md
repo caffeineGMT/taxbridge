@@ -199,7 +199,7 @@ Execute in this order within 48 hours:
 
 2. Verify sender authentication:
    - Go to: https://app.sendgrid.com/settings/sender_auth
-   - Ensure `taxbridge.app` domain is verified
+   - Ensure `taxbridgecpa.com` domain is verified
 
 3. Check email template exists:
    - Template ID should be in `.env.local` as `SENDGRID_TEMPLATE_PH_VOTER`
@@ -274,7 +274,7 @@ If you encounter issues:
 1. Check the troubleshooting section above
 2. Review SendGrid logs: https://app.sendgrid.com/activity
 3. Check Stripe logs: https://dashboard.stripe.com/logs
-4. Email: michael@taxbridge.app
+4. Email: michael@taxbridgecpa.com
 
 ---
 
