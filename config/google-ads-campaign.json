@@ -1,0 +1,308 @@
+{
+  "campaignName": "H1B RSU Tax Calculator - High Intent Search",
+  "budget": {
+    "daily": 50,
+    "monthly": 1500,
+    "currency": "USD"
+  },
+  "targeting": {
+    "targetCPA": 20,
+    "bidStrategy": "TARGET_CPA",
+    "maxCPC": 15,
+    "network": ["SEARCH"],
+    "locations": ["United States", "Canada"],
+    "languages": ["en"]
+  },
+  "adGroups": [
+    {
+      "name": "H1B RSU Tax Calculator",
+      "keywords": [
+        {
+          "text": "H1B RSU tax calculator",
+          "matchType": "EXACT",
+          "maxCPC": 12,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=h1b_rsu_search&utm_term=h1b_rsu_tax_calculator&utm_content=exact"
+        },
+        {
+          "text": "H1B RSU tax calculator",
+          "matchType": "PHRASE",
+          "maxCPC": 10,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=h1b_rsu_search&utm_term=h1b_rsu_tax_calculator&utm_content=phrase"
+        },
+        {
+          "text": "H1B stock options tax",
+          "matchType": "PHRASE",
+          "maxCPC": 8,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=h1b_rsu_search&utm_term=h1b_stock_options_tax&utm_content=phrase"
+        },
+        {
+          "text": "H1B equity compensation tax",
+          "matchType": "PHRASE",
+          "maxCPC": 8,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=h1b_rsu_search&utm_term=h1b_equity_compensation_tax&utm_content=phrase"
+        }
+      ],
+      "ads": [
+        {
+          "type": "RESPONSIVE_SEARCH_AD",
+          "headlines": [
+            "Free H1B RSU Tax Calculator",
+            "Calculate Your RSU Tax Savings",
+            "US-Canada Tax Expert Tool",
+            "Foreign Tax Credit Calculator",
+            "Maximize Your RSU Returns",
+            "H1B Tax Planning Made Easy",
+            "Instant RSU Tax Estimate",
+            "Free Cross-Border Tax Tool",
+            "Save on H1B Stock Taxes",
+            "Professional Tax Calculator",
+            "Calculate FTC Savings Now",
+            "H1B Equity Tax Solutions",
+            "Expert Cross-Border Tax Help",
+            "Optimize Your RSU Taxes",
+            "Free Tax Calculation in 2 Min"
+          ],
+          "descriptions": [
+            "Calculate exact US & Canada tax on RSUs. Free tool with instant results. Foreign Tax Credit optimization included.",
+            "Get accurate cross-border tax estimates for H1B workers. Includes FTC calculations. Free forever.",
+            "Professional tax calculator for H1B workers with RSUs. Fast, accurate, free. Used by 5000+ professionals.",
+            "Maximize your RSU value with our free calculator. Instant tax estimates for US-Canada filings. Start now."
+          ],
+          "path1": "H1B-Calculator",
+          "path2": "Free-Tool"
+        }
+      ]
+    },
+    {
+      "name": "TN Visa Stock Tax",
+      "keywords": [
+        {
+          "text": "TN visa stock tax",
+          "matchType": "EXACT",
+          "maxCPC": 10,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=tn_visa_search&utm_term=tn_visa_stock_tax&utm_content=exact"
+        },
+        {
+          "text": "TN visa stock tax",
+          "matchType": "PHRASE",
+          "maxCPC": 8,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=tn_visa_search&utm_term=tn_visa_stock_tax&utm_content=phrase"
+        },
+        {
+          "text": "TN visa RSU taxation",
+          "matchType": "PHRASE",
+          "maxCPC": 8,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=tn_visa_search&utm_term=tn_visa_rsu_taxation&utm_content=phrase"
+        },
+        {
+          "text": "TN visa equity compensation",
+          "matchType": "PHRASE",
+          "maxCPC": 7,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=tn_visa_search&utm_term=tn_visa_equity_compensation&utm_content=phrase"
+        }
+      ],
+      "ads": [
+        {
+          "type": "RESPONSIVE_SEARCH_AD",
+          "headlines": [
+            "TN Visa Stock Tax Calculator",
+            "Free RSU Tax Tool for TN Visa",
+            "Calculate Your Stock Taxes",
+            "TN Visa Tax Planning Tool",
+            "US-Canada Tax Calculator",
+            "Optimize Your Stock Taxes",
+            "Free TN Visa Tax Estimate",
+            "Cross-Border Tax Expert",
+            "TN Visa RSU Tax Help",
+            "Calculate FTC Savings Now",
+            "Professional Tax Calculator",
+            "TN Visa Equity Tax Tool",
+            "Save on Stock Compensation",
+            "Instant Tax Calculation",
+            "Free 2-Minute Estimate"
+          ],
+          "descriptions": [
+            "Free tax calculator for TN visa holders with stock compensation. Instant US-Canada tax estimates. FTC optimization.",
+            "Calculate exact taxes on your RSUs and stock options. Free tool for TN visa holders. Get results in 2 minutes.",
+            "Professional cross-border tax calculator for TN visa workers. Free forever. Includes Foreign Tax Credit analysis.",
+            "Maximize your stock value with accurate tax planning. Free calculator for TN visa holders. Start now."
+          ],
+          "path1": "TN-Calculator",
+          "path2": "Free-Tool"
+        }
+      ]
+    },
+    {
+      "name": "Cross Border Tax Tool",
+      "keywords": [
+        {
+          "text": "cross border tax tool",
+          "matchType": "EXACT",
+          "maxCPC": 8,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=cross_border_search&utm_term=cross_border_tax_tool&utm_content=exact"
+        },
+        {
+          "text": "cross border tax calculator",
+          "matchType": "PHRASE",
+          "maxCPC": 7,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=cross_border_search&utm_term=cross_border_tax_calculator&utm_content=phrase"
+        },
+        {
+          "text": "US Canada tax calculator",
+          "matchType": "PHRASE",
+          "maxCPC": 7,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=cross_border_search&utm_term=us_canada_tax_calculator&utm_content=phrase"
+        },
+        {
+          "text": "foreign tax credit calculator",
+          "matchType": "PHRASE",
+          "maxCPC": 6,
+          "landingPage": "https://taxbridgecpa.com/us-canada-tax-calculator?utm_source=google&utm_medium=cpc&utm_campaign=cross_border_search&utm_term=foreign_tax_credit_calculator&utm_content=phrase"
+        }
+      ],
+      "ads": [
+        {
+          "type": "RESPONSIVE_SEARCH_AD",
+          "headlines": [
+            "Free Cross-Border Tax Tool",
+            "US-Canada Tax Calculator",
+            "Calculate Foreign Tax Credits",
+            "Professional Tax Calculator",
+            "Optimize Your Tax Filings",
+            "Free Tax Estimation Tool",
+            "Cross-Border Tax Expert",
+            "Maximize Your Tax Savings",
+            "Instant Tax Calculation",
+            "US-Canada Dual Filing Help",
+            "Foreign Tax Credit Tool",
+            "Free 2-Minute Estimate",
+            "Professional Tax Solutions",
+            "Calculate Your Tax Burden",
+            "Expert Cross-Border Tool"
+          ],
+          "descriptions": [
+            "Free cross-border tax calculator for US-Canada filers. Instant FTC estimates. Professional-grade accuracy.",
+            "Calculate your US and Canada tax obligations in 2 minutes. Free tool with Foreign Tax Credit optimization.",
+            "Professional tax calculator for cross-border workers. Free forever. Used by 5000+ H1B and TN visa holders.",
+            "Maximize tax savings with our free calculator. Instant estimates for dual filers. Expert cross-border help."
+          ],
+          "path1": "Tax-Calculator",
+          "path2": "Free-Tool"
+        }
+      ]
+    }
+  ],
+  "negativeKeywords": [
+    "free tax software",
+    "turbotax",
+    "h&r block",
+    "tax accountant near me",
+    "cpa services",
+    "tax preparation",
+    "file taxes online",
+    "tax filing service",
+    "cheap tax help",
+    "india",
+    "mexico",
+    "uk tax",
+    "australia tax"
+  ],
+  "conversionActions": [
+    {
+      "name": "Calculator Page View",
+      "category": "PAGE_VIEW",
+      "value": 0,
+      "countType": "ONE_PER_SESSION",
+      "conversionWindow": 7,
+      "postHogEvent": "calculator_page_viewed"
+    },
+    {
+      "name": "Calculator Started",
+      "category": "OTHER",
+      "value": 0,
+      "countType": "ONE_PER_SESSION",
+      "conversionWindow": 7,
+      "postHogEvent": "first_rsu_entry_started"
+    },
+    {
+      "name": "Calculator Completed",
+      "category": "OTHER",
+      "value": 5,
+      "countType": "ONE_PER_SESSION",
+      "conversionWindow": 30,
+      "postHogEvent": "tax_calculation_viewed",
+      "primaryConversion": false
+    },
+    {
+      "name": "Signup Completed",
+      "category": "SUBMIT_LEAD_FORM",
+      "value": 10,
+      "countType": "ONE",
+      "conversionWindow": 30,
+      "postHogEvent": "signup_completed",
+      "primaryConversion": true
+    },
+    {
+      "name": "Subscription Purchase",
+      "category": "PURCHASE",
+      "value": "TRANSACTION_SPECIFIC",
+      "countType": "ONE",
+      "conversionWindow": 90,
+      "postHogEvent": "subscription_activated",
+      "primaryConversion": true
+    }
+  ],
+  "scheduleSettings": {
+    "timezone": "America/Los_Angeles",
+    "adSchedule": [
+      {
+        "days": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"],
+        "startHour": 6,
+        "endHour": 22,
+        "bidModifier": 1.0
+      },
+      {
+        "days": ["SATURDAY", "SUNDAY"],
+        "startHour": 8,
+        "endHour": 20,
+        "bidModifier": 0.9
+      }
+    ]
+  },
+  "tracking": {
+    "utmSource": "google",
+    "utmMedium": "cpc",
+    "utmCampaigns": ["h1b_rsu_search", "tn_visa_search", "cross_border_search"],
+    "postHogTracking": true,
+    "googleAdsConversionTracking": true
+  },
+  "performanceTargets": {
+    "targetCTR": 0.05,
+    "targetConversionRate": 0.03,
+    "targetCPA": 20,
+    "maxCPA": 40,
+    "targetROAS": 5.0
+  },
+  "alertRules": [
+    {
+      "name": "High Daily Spend",
+      "condition": "daily_spend > 60",
+      "action": "EMAIL_ALERT"
+    },
+    {
+      "name": "Low Conversion Rate",
+      "condition": "clicks > 50 AND conversions = 0",
+      "action": "PAUSE_CAMPAIGN"
+    },
+    {
+      "name": "High CPA",
+      "condition": "cost_per_conversion > 40",
+      "action": "EMAIL_ALERT"
+    },
+    {
+      "name": "Low Quality Score",
+      "condition": "quality_score < 5",
+      "action": "EMAIL_ALERT"
+    }
+  ]
+}
