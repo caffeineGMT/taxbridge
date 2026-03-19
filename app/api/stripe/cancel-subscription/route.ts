@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
 
     const cancelDate = immediate
       ? new Date()
-      : new Date((canceledSubscription.current_period_end || 0) * 1000);
+      : new Date(((canceledSubscription as any).current_period_end || 0) * 1000);
 
     // Update database
     if (immediate) {
@@ -270,7 +270,7 @@ export async function GET(req: NextRequest) {
       userProfile.stripe_subscription_id
     );
 
-    const currentPeriodEnd = new Date(canceledSubscription.current_period_end * 1000);
+    const currentPeriodEnd = new Date(subscription.current_period_end * 1000);
     const daysRemaining = Math.ceil(
       (currentPeriodEnd.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
     );
