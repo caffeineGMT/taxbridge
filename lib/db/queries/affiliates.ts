@@ -10,6 +10,8 @@ export interface AffiliatePartner {
   partner_name: string;
   firm_name: string;
   email: string;
+  phone: string | null;
+  website: string | null;
   partner_type: string;
   referral_code: string;
   commission_rate: number;
@@ -17,8 +19,13 @@ export interface AffiliatePartner {
   total_referrals: number;
   total_revenue: number;
   stripe_connect_id: string | null;
+  payment_method: string | null;
+  payment_details: string | null;
   co_branded_slug: string | null;
+  custom_logo_url: string | null;
+  custom_message: string | null;
   created_at: string;
+  updated_at: string;
   approved_at: string | null;
   rejected_at: string | null;
   rejection_reason: string | null;
