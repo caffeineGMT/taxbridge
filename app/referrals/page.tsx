@@ -166,7 +166,7 @@ export default async function ReferralsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <ReferralLinkCopy link={referralLink} />
+                <ReferralLinkCopyTracked link={referralLink} />
 
                 {/* Quick Tips */}
                 <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-4">
@@ -183,19 +183,19 @@ export default async function ReferralsPage() {
                 <div className="space-y-3">
                   <h4 className="text-sm font-semibold text-white">Share on social media</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <SocialShareButton
+                    <SocialShareButtonTracked
                       platform="Twitter"
                       icon={Twitter}
                       message={socialMessages.twitter}
                       color="bg-blue-500 hover:bg-blue-600"
                     />
-                    <SocialShareButton
+                    <SocialShareButtonTracked
                       platform="LinkedIn"
                       icon={Linkedin}
                       message={socialMessages.linkedin}
                       color="bg-blue-700 hover:bg-blue-800"
                     />
-                    <EmailShareButton
+                    <EmailShareButtonTracked
                       subject="Save on US-Canada cross-border taxes"
                       body={`I recently used TaxBridge to manage my cross-border tax situation and it saved me thousands!\n\nIf you're dealing with RSU taxation across US and Canada, this tool makes it much easier.\n\nGet 20% off your first year: ${referralLink}`}
                     />

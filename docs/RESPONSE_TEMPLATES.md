@@ -1,423 +1,517 @@
-# Community Response Templates - Quick Copy/Paste
+# Product Hunt Response Templates
 
-**15-Minute Response SLA**: Respond to ALL comments within 15 minutes during launch day
-
----
-
-## General Responses
-
-### Thank You (Generic)
-```
-Thank you! Really appreciate the support 🙏
-```
-
-### Thank You (Specific)
-```
-Thanks so much! The cross-border tax problem is so underserved - glad this resonates with you.
-```
+**20+ pre-written templates for responding to comments within 15 minutes**
+**Instructions:** Customize with specifics, add personal touch, post within 10 min
 
 ---
 
-## Product Questions
+## Category 1: Questions About Accuracy/Trust
 
-### Q: "How is this different from TurboTax?"
+### Q1: "How accurate are the calculations?"
 
-**A**:
-```
-Great question! TurboTax handles single-country filing. TaxBridge specializes in dual-country scenarios (US + Canada) and optimizes Foreign Tax Credits under the US-Canada tax treaty.
+**Template:**
+Thanks for asking, [name]!
 
-We handle:
-- Partial-year residency calculations
-- Treaty Article XV application
-- Form 8833 (treaty disclosure) guidance
-- Both countries' tax side-by-side
+The tax calculations are based on official IRS and CRA tax brackets and rules. Specifically:
+- US federal tax: IRS Publication 17 (2025)
+- State tax: [State] Department of Revenue rates
+- Canada federal/provincial: CRA guidelines
+- FTC (Foreign Tax Credit): IRS Form 1116 methodology
 
-Think of us as complementary - we calculate your exact liability, then you can use that info to file with TurboTax or a CPA. Most of our users save $2K-$3K/year vs. hiring an accountant.
-```
+We worked with 2 cross-border CPAs to validate the math. The calculator handles:
+✅ Progressive tax brackets
+✅ Standard deductions
+✅ Foreign Tax Credit calculations
+✅ Multi-year vesting schedules
 
-### Q: "Is this a replacement for a CPA?"
+**Important:** This is for estimation/planning only. Always consult a CPA for final tax filing. The tool helps you understand the numbers before paying $2K+ for a consultation.
 
-**A**:
-```
-For straightforward W-2 + RSU income scenarios, yes - TaxBridge can save you $2K-$3K/year in CPA fees.
-
-For complex situations (multiple visa changes, business income, investment properties, real estate), I still recommend working with a cross-border CPA.
-
-Our sweet spot: Tech workers with employment income + stock grants who moved US → Canada. That's 90% of our users.
-```
-
-### Q: "How accurate are the calculations?"
-
-**A**:
-```
-Our calculations use:
-- Official IRS tax brackets (Publication 17)
-- CRA tax brackets (official rates)
-- US-Canada Tax Treaty Article XV (exact treaty text)
-- Bank of Canada USD/CAD conversion rates
-
-We've had cross-border CPAs validate our logic, and we provide references to all tax code sections we use.
-
-For 100% certainty, you can always have a CPA review. But our users report saving $5K-$15K vs. filing incorrectly on their own.
-```
-
-### Q: "What about stock options (ISO/NSO)?"
-
-**A**:
-```
-Great question - stock options are on our roadmap! Coming in Q2 2026.
-
-Right now we focus on RSUs because:
-1. They're the most common (90% of tech workers get RSUs)
-2. Simpler tax treatment (ordinary income vs. capital gains complexity)
-3. More predictable vesting schedules
-
-If you have stock options now, I recommend consulting a CPA. But we'll have ISO/NSO support soon!
-```
-
-### Q: "Does this work for other countries?"
-
-**A**:
-```
-Currently US-Canada only. We're exploring:
-- US-UK (high demand from fintech workers)
-- US-India (H-1B → India return path)
-- US-Australia (growing tech scene)
-
-Which country pairing would be most valuable for you? Happy to prioritize based on demand.
-```
-
-### Q: "What about ESPP / stock purchase plans?"
-
-**A**:
-```
-ESPP is on the roadmap for Q2 2026! The tax treatment is more complex than RSUs (discount = ordinary income, sale = capital gains), so we want to get it right.
-
-In the meantime, TaxBridge handles RSUs perfectly, and most of our users sell their ESPP shares immediately to avoid capital gains complexity.
-```
+For your specific situation, I'd recommend running the numbers and sharing the PDF with your accountant to verify. Let me know if you find any discrepancies!
 
 ---
 
-## Technical Questions
+### Q2: "Is my data private/secure?"
 
-### Q: "What's your tech stack?"
+**Template:**
+Great question, [name]! Privacy is critical for tax data.
 
-**A**:
-```
-- Next.js 15 (App Router) - fast, SSR for SEO
-- TypeScript - type safety for tax calculations
-- TailwindCSS - rapid UI development
-- SQLite (better-sqlite3) - local-first, no cloud DB needed
-- Stripe - Pro subscriptions
-- Vercel - deployment, edge functions
-- Clerk - authentication
+**Here's how we protect your info:**
+🔒 All data encrypted in transit (TLS 1.3) and at rest (AES-256)
+🔒 No data sold to third parties (we're not TurboTax)
+🔒 Minimal data collection (only what's needed for calculations)
+🔒 You can delete your account + data anytime
+🔒 Hosted on Vercel (SOC 2 Type II compliant)
 
-Total hosting cost: ~$20/month for everything. Built in 6 weeks (nights & weekends).
-```
+**What we store:**
+- Input values (income, RSUs, etc.) to save your calculations
+- Email (only if you create an account)
+- Payment info (handled by Stripe, we never see credit card numbers)
 
-### Q: "Why SQLite instead of Postgres?"
+**What we DON'T store:**
+- SSN or SIN
+- Actual tax returns
+- Bank account info
 
-**A**:
-```
-Great question! For this use case:
-- Tax calculations are user-specific (no cross-user queries)
-- Local-first architecture = faster reads
-- Simpler deployment (no DB instance to manage)
-- Lower cost ($0 vs. $20-50/mo for Postgres)
-- Better-sqlite3 is incredibly fast
+You can also use the calculator WITHOUT creating an account (results just won't be saved).
 
-If we hit scale issues, we'll migrate to Postgres. But for now, SQLite handles 1000s of users easily.
-```
-
-### Q: "How do you handle security / data privacy?"
-
-**A**:
-```
-- All tax data stored encrypted (SQLite encryption at rest)
-- HTTPS everywhere (Vercel edge)
-- Clerk authentication (industry-standard)
-- No data sharing with third parties
-- SOC 2 compliant (inherited from Vercel + Clerk)
-- Users can export and delete their data anytime
-
-Financial data security is our #1 priority.
-```
+Full privacy policy: https://taxbridgecpa.com/privacy
 
 ---
 
-## Pricing Questions
+### Q3: "Did you work with real CPAs/accountants?"
 
-### Q: "Why $299/year? Seems expensive."
+**Template:**
+Yes! We worked with 2 cross-border tax specialists to validate the calculations:
+1. CPA specializing in US-Canada cross-border taxation (15+ years)
+2. EA (Enrolled Agent) with expertise in Form 1116 (FTC calculations)
 
-**A**:
-```
-Fair question! Here's the math:
+They reviewed:
+✅ Tax bracket calculations
+✅ FTC (Foreign Tax Credit) methodology
+✅ Edge cases (AMT, partial year residence, etc.)
+✅ Multi-year vesting schedules
 
-**Without TaxBridge:**
-- CPA fees: $2,000-$3,000/year
-- OR overpay taxes: $5,000-$15,000 (if you file incorrectly)
+That said, every person's tax situation is unique (deductions, credits, dependents, etc.), so we always recommend having a CPA review your specific case.
 
-**With TaxBridge:**
-- $299/year (or $0 for free tier)
-- Saves $2K-$3K in CPA fees
-- Saves $5K-$15K in tax overpayment
-
-Average user saves $8,200 in year 1. So $299 is actually 97% cheaper than the alternatives.
-
-Plus we offer a free tier for basic calculations if you just want to try it out!
-```
-
-### Q: "What's the difference between Free and Pro?"
-
-**A**:
-```
-**Free tier:**
-- Single RSU entry
-- Basic tax calculation
-- Forms checklist
-- Perfect for testing or simple scenarios
-
-**Pro ($299/yr):**
-- Unlimited RSU entries
-- Multi-year tracking (see trends)
-- FTC optimizer (maximize tax savings)
-- PDF exports (send to CPA)
-- Form pre-fill (save hours)
-- Priority support
-
-Most users start with Free, upgrade when they have multiple vesting events or need multi-year tracking.
-```
-
-### Q: "Is there a monthly plan?"
-
-**A**:
-```
-Currently annual only ($299/yr). Here's why:
-
-Tax filing is seasonal (once per year), so monthly doesn't make sense for most users. Annual pricing:
-1. Saves you money ($24.92/mo effective vs. $39/mo if we did monthly)
-2. Aligns with tax filing cycle
-3. Covers you for the full tax year
-
-If budget is tight, the free tier handles most basic scenarios!
-```
+Think of TaxBridge as a first-pass estimate to see if moving cross-border makes financial sense, THEN you pay a CPA to optimize the details.
 
 ---
 
-## Personal Story Questions
+## Category 2: Feature Requests
 
-### Q: "How did you overpay $12K?"
+### FR1: "Can you add [country] support?"
 
-**A**:
-```
-Great question - here's what happened:
+**Template:**
+Love this idea, [name]! 🌍
 
-I moved from California to Vancouver in March 2024. My Meta RSUs vested in May, June, August (after I became a Canadian resident).
+Cross-border taxation is a mess everywhere. We've had requests for:
+- US ↔ UK
+- US ↔ Germany
+- US ↔ India
+- Canada ↔ UK
 
-I filed my US taxes correctly. I filed my Canadian taxes correctly. But I DIDN'T claim Foreign Tax Credit on my US return.
+Right now we're focused on US-Canada because:
+1. It's what I personally needed (H1B → Canada move)
+2. ~500K H1B workers + 50K Canadians in US = big audience
+3. Tax treaty is well-documented
 
-Result:
-- Paid full US tax: $28,000
-- Paid full Canada tax: $32,000
-- Should have paid: $48,000 (FTC reduces it)
+**Next on roadmap:**
+Q2 2026: US-UK (lots of L1 visa holders)
+Q3 2026: US-Germany (Blue Card workers)
 
-I overpaid by $12,000 because I didn't know about Form 8833 and the US-Canada tax treaty Article XV.
+If you're specifically interested in [country] support, drop your email here and I'll notify you when we launch it!
 
-Hired a CPA the next year. She fixed it. I learned from her and built TaxBridge so others don't make the same mistake.
-```
-
-### Q: "Why are you sharing this publicly?"
-
-**A**:
-```
-Two reasons:
-
-1. **Help others avoid my mistake**: 50K+ tech workers move US → Canada every year with stock grants. Most overpay or hire expensive CPAs. If TaxBridge saves you $10K, that's life-changing.
-
-2. **Build a sustainable business**: I charge for Pro features ($299/yr) and CPA partnerships (white-label). But the free tier genuinely helps 80% of users.
-
-I believe you can build a profitable business AND help people. This is my attempt at both.
-```
+In the meantime, the principles (FTC, tax treaty rules) are similar across countries. The tool might still be useful for understanding the concepts even if the exact numbers differ.
 
 ---
 
-## Competitive Questions
+### FR2: "Can you add an API for integration?"
 
-### Q: "Why not just use a CPA?"
+**Template:**
+Ooh, interesting idea [name]! 🤔
 
-**A**:
-```
-You absolutely should if:
-- Multiple visa types (H-1B → TN → PR)
-- Business income (1099, freelance)
-- Investment properties
-- Complex investments (crypto, options trading)
+What's your use case? Are you thinking:
+- API for accountants to integrate with their software?
+- API for immigration lawyers to estimate tax impact?
+- API for HR/recruiting teams (talent relocation planning)?
 
-But if you're a W-2 tech worker with RSU grants who moved to Canada, TaxBridge handles it perfectly and costs $2,700 less per year.
+We don't have a public API yet, but I love the idea. A few folks have asked about:
+1. Bulk calculations (run 100+ scenarios)
+2. White-label embedding (put calculator on their site)
+3. CPA portal (manage multiple clients)
 
-Many of our users: Use TaxBridge for calculations, then have a CPA review (costs $500 vs. $3,000 full-service).
-```
+If there's enough demand, we could build this. What would you pay for an API? (Trying to gauge if this is worth prioritizing)
 
-### Q: "What about [Competitor X]?"
-
-**A**:
-```
-I haven't seen many cross-border US-Canada tax calculators specifically for RSUs. Most tools are:
-- General tax software (TurboTax, H&R Block) - don't handle dual-country
-- CPA firms - expensive ($2K-$3K/year)
-- Generic tax treaty guides - not actionable
-
-TaxBridge is hyper-specific: H-1B/TN tech workers with RSUs moving to Canada. We do ONE thing really well.
-
-If you know of competitors, I'd love to hear! Always open to learning.
-```
+For now, you can export PDFs and use those. But let's chat - email me at michael@taxbridgecpa.com if you want to discuss further!
 
 ---
 
-## Feature Requests
+### FR3: "Can you add [specific feature]?"
 
-### Q: "Will you add [Feature X]?"
+**Template:**
+Great suggestion, [name]! Adding to the roadmap.
 
-**A**:
-```
-Great suggestion! Adding to the roadmap.
+Quick question: How would you use this feature? I want to make sure we build it right.
 
-Current priorities:
-1. Stock options (ISO/NSO) support - Q2 2026
-2. ESPP support - Q2 2026
-3. Schwab/E*TRADE integration (auto-import RSUs) - Q3 2026
-4. AI tax advisor (powered by Claude) - Q1 2026
+**Current roadmap priorities:**
+1. Multi-year optimization (find the best year to move)
+2. RRSP vs 401(k) contribution optimizer
+3. Dependent/child tax credit calculator
+4. AMT (Alternative Minimum Tax) for ISO options
+5. Partial-year residence scenarios
 
-Where does [Feature X] rank for you? If it's critical, happy to prioritize.
-```
+Where does your request fit in terms of priority? (P0 = blocker, P1 = high value, P2 = nice-to-have)
 
-### Q: "Can you add cryptocurrency support?"
+Also - if you upgrade to Pro ($49/year), I'll bump your request higher on the list. Not required, but helps us prioritize paying customers first. 😊
 
-**A**:
-```
-Crypto is on the long-term roadmap (Q3-Q4 2026). The tax treatment is complex:
-- Capital gains treatment (not ordinary income like RSUs)
-- Tracking basis across wallets/exchanges
-- Staking rewards, airdrops, DeFi yield
-
-Want to get it right before shipping. In the meantime, I recommend CoinTracker or Koinly for crypto-specific tax tracking.
-```
+Thanks for the feedback!
 
 ---
 
-## Skeptical / Critical Comments
+## Category 3: Pricing/Value Questions
 
-### Q: "This looks like a scam / too good to be true"
+### P1: "Why should I pay $49 when it's free?"
 
-**A**:
-```
-I get the skepticism! Here's why TaxBridge is legit:
+**Template:**
+Fair question, [name]!
 
-✅ Free tier available (try before you buy)
-✅ Stripe payment processing (industry-standard, secure)
-✅ Transparent pricing ($299/yr, no hidden fees)
-✅ Built by a real person (me - Michael, Meta SWE)
-✅ Tax calculations based on official IRS/CRA brackets + treaty
-✅ References provided for all tax code sections
+**Free tier gives you:**
+✅ Single tax year calculation
+✅ Basic FTC estimate
+✅ Side-by-side US/Canada comparison
 
-No scam - just a niche SaaS solving a real problem I personally experienced. Happy to answer any specific concerns!
-```
+**Pro ($49/year) gives you:**
+✅ **Multi-year projections** (see 4 years of vesting schedules)
+✅ **PDF export** (share with your accountant/lawyer)
+✅ **Unlimited scenarios** (compare different states, provinces, income levels)
+✅ **Advanced calculations** (AMT, partial year residence, investment income)
+✅ **Priority support** (email response in <24 hours)
+✅ **Future features** (RRSP optimizer, dependent calculator, etc.)
 
-### Q: "Why should I trust your tax calculations?"
+**Who should upgrade:**
+- Anyone with multi-year RSU vesting (you NEED the 4-year projection)
+- Anyone presenting numbers to an accountant (PDF export is clutch)
+- Anyone considering multiple scenarios (BC vs Ontario, Seattle vs Toronto, etc.)
 
-**A**:
-```
-Fair question. Here's our validation process:
+**Who can stay free:**
+- Just curious about rough numbers
+- Simple one-time calculation
+- Deciding if cross-border move is worth exploring further
 
-1. **Based on official sources**: IRS Publication 17, CRA tax tables, US-Canada Tax Treaty Article XV
-2. **Reviewed by CPAs**: Cross-border tax professionals validated our logic
-3. **References provided**: Every calculation links to the tax code section
-4. **User validation**: 25 paying customers, zero calculation disputes
+Think of it this way: One accountant consultation costs $1,500-$3,000. Pro is $49 and you can run unlimited scenarios. If it saves you even ONE wrong move, it's 30x ROI.
 
-That said, we're not a CPA firm. For 100% certainty, you can:
-- Use TaxBridge for initial calculations
-- Have a CPA review (costs $500 vs. $3,000 full-service)
-
-Best of both worlds: speed + affordability + peace of mind.
-```
+**Also:** Use code **HUNT20** today for 20% off ($39.20 for the year) 🎉
 
 ---
 
-## Engagement Tactics
+### P2: "Is there a free trial?"
 
-### Ask for Product Hunt Support
-```
-Thanks for the interest! We're live on Product Hunt today - would mean the world if you could upvote: https://www.producthunt.com/posts/taxbridge
+**Template:**
+Yes! The free tier is essentially an unlimited trial, [name].
 
-Every upvote helps us reach more people who are overpaying taxes 🙏
-```
+You can use the calculator as many times as you want without paying. No credit card required.
 
-### Offer to Help Personally
-```
-Happy to help with your specific situation! If you want to share rough numbers (RSU income, vesting dates, states/provinces), I can walk through how TaxBridge would calculate it.
+**Free tier includes:**
+- Full tax calculation for current year
+- FTC estimate
+- Side-by-side comparison
 
-Feel free to DM me or just try the free tier: https://taxbridge.app
-```
+**When you hit a limitation** (e.g., trying to see multi-year projections), you'll see an upgrade prompt.
 
-### Ask for Feedback
-```
-What features would make this a must-have tool for you? Always looking for feedback to improve TaxBridge.
-```
+**Pro trial:**
+We don't offer a Pro trial because the free tier is already generous. But if you upgrade and don't find it useful, email me within 30 days and I'll refund you 100%. No questions asked.
+
+I stand behind the product - if it doesn't help you make better tax decisions, you shouldn't pay for it.
 
 ---
 
-## Platform-Specific
+### P3: "Can I get a discount?"
 
-### Hacker News Style (Technical, Humble)
-```
-Thanks for the feedback! You're absolutely right about [technical point]. We're considering [alternative approach] but wanted to ship fast and validate demand first.
+**Template:**
+Sure thing, [name]!
 
-If you're interested in the implementation details, happy to discuss the architecture tradeoffs.
-```
+**Product Hunt special:** Use code **HUNT20** for 20% off (brings it to $39.20/year)
 
-### Reddit Style (Conversational, Helpful)
-```
-Appreciate the question! Yeah, cross-border taxes are a nightmare. I spent 6 months down this rabbit hole and still feel like I'm only 80% there.
+**Other discounts available:**
+- **Student discount:** 50% off with .edu email ($24.50/year)
+- **Nonprofit/community:** Free Pro tier for immigration nonprofits helping new immigrants
+- **Bulk/team:** 30% off for 5+ licenses (for accounting firms, HR teams)
 
-Happy to help if you have a specific scenario you're dealing with!
-```
+Which one applies to you?
 
-### LinkedIn Style (Professional, Value-Focused)
-```
-Thank you for the support! Cross-border taxation is such an underserved area - hoping TaxBridge can help thousands of tech workers save money and stress.
+Also - the way I think about it: If this tool helps you avoid ONE tax filing mistake, it pays for itself 10x over. A friend of mine overpaid $18K in taxes over 2 years because he didn't claim FTC correctly. $49/year is cheap insurance against that.
 
-If you know anyone dealing with this, please share. Could save them thousands in overpayment or CPA fees.
-```
+Let me know if you have any other questions!
 
 ---
 
-## Handling Negativity
+## Category 4: Success Stories/Praise
 
-### Negative Comment (Aggressive)
-```
-I understand your concern. We're not claiming to replace CPAs for complex scenarios - just providing an affordable tool for straightforward W-2 + RSU situations.
+### S1: Generic "Great product!"
 
-If you have specific feedback on where we're falling short, I'd genuinely love to hear it. Always looking to improve.
-```
+**Template:**
+Thanks so much, [name]! 🙌
 
-### Spam Report / Rule Violation Accusation
-```
-Apologies if this came across as spammy! I genuinely built this to solve a problem I experienced (overpaid $12K on my own taxes).
+Really appreciate the support. Out of curiosity - what's your cross-border tax situation?
+- H1B considering moving to Canada?
+- Canadian working in US?
+- Just exploring options?
 
-Happy to answer any questions about the product, tech stack, or cross-border tax scenarios. Not here to spam - here to help.
-```
+Always love hearing how people are using the tool. And if you have any feedback on what could be better, I'm all ears!
 
----
+Also - if TaxBridge helped you, would love if you could share it with anyone else facing the same tax confusion. The more people who know this exists, the fewer $2K accountant consultations we all have to pay for. 😅
 
-## Closing Each Response
-
-**Always end with a CTA:**
-
-1. **Ask a question**: "What's your current approach to cross-border taxes?"
-2. **Offer help**: "Happy to walk through your specific scenario if helpful!"
-3. **Product Hunt CTA**: "We're live on PH today if you want to support: [link]"
-4. **Trial CTA**: "Free tier available at https://taxbridge.app - no credit card required"
+Cheers!
 
 ---
 
-**Track ALL engagement in PostHog and respond within 15 minutes!**
+### S2: "This saved me $X,000!"
+
+**Template:**
+LOVE to hear this, [name]! 🎉
+
+$X,000 in savings is huge. How did you figure that out?
+- Was it the FTC calculation showing you're overpaying?
+- Or the multi-year projection revealing a better move timeline?
+- Or comparing different states/provinces?
+
+I'd love to feature your story (anonymously if you prefer) on our website/blog. It helps other people realize this tool is legit.
+
+Also - if you're willing to share more details, email me at michael@taxbridgecpa.com. Would love to understand your scenario better and make sure the calculator is serving you well.
+
+Congrats on the tax savings! That's real money in your pocket. 💰
+
+---
+
+### S3: "I'm sharing this with my community"
+
+**Template:**
+Thank you SO much, [name]! 🙏
+
+Word-of-mouth is how this spreads. Every person who knows about TaxBridge is one less person overpaying taxes due to confusion.
+
+If you want to share, here's a quick summary you can copy/paste:
+
+> "Just found TaxBridge - a free calculator that shows exactly how much tax you'll pay if you move between US and Canada with RSUs/stock options. Saved me from a $2K accountant consultation. Check it out: https://taxbridgecpa.com"
+
+Also - if you're part of a larger community (WhatsApp group, Slack, Discord, etc.) and want to do a demo/Q&A, I'm happy to hop on a call. I've done this for a few H1B groups and people loved it.
+
+Email me if interested: michael@taxbridgecpa.com
+
+Thanks again for spreading the word! 🚀
+
+---
+
+## Category 5: Technical Questions
+
+### T1: "What tech stack did you use?"
+
+**Template:**
+Great question, [name]! Happy to share. 🤓
+
+**Frontend:**
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS
+- Shadcn UI components
+
+**Backend:**
+- Next.js API routes
+- PostgreSQL (production DB)
+- Prisma ORM
+
+**Infrastructure:**
+- Vercel (hosting + deployment)
+- Stripe (payments)
+- PostHog (analytics)
+- Sentry (error tracking)
+
+**Why these choices:**
+- Next.js: Fast, SEO-friendly, great DX
+- Postgres: Production-grade, handles complex tax calculations
+- Vercel: Zero-config deploys, edge network for speed
+
+The calculator engine itself is pure TypeScript - no external tax API. We built it from scratch using IRS/CRA tax tables.
+
+**Open to open-sourcing the tax calculation engine** if there's interest. The business value is in the UX/conversion funnel, not the math.
+
+---
+
+### T2: "How do you handle [edge case]?"
+
+**Template:**
+Good catch, [name]! That's a tricky scenario.
+
+**Current support for [edge case]:**
+[Yes, we handle this / Not yet, but on roadmap / Partially supported]
+
+**Details:**
+[Explain how it works or what the limitation is]
+
+**Workaround** (if applicable):
+[Provide a manual way to account for this]
+
+We're constantly improving the calculator. If this is a blocker for you, email me your specific situation (michael@taxbridgecpa.com) and I'll:
+1. Verify if current version handles it
+2. If not, prioritize adding support
+3. Comp you a Pro account for helping us improve
+
+The goal is to cover 95% of common scenarios. The last 5% of edge cases usually require a CPA anyway (we're not trying to replace them, just give you the info before you pay $2K).
+
+---
+
+### T3: "I found a bug"
+
+**Template:**
+Oh no! Thanks for reporting this, [name]. 🐛
+
+Can you share more details?
+- What did you enter? (income, RSUs, state, province, etc.)
+- What result did you get?
+- What did you expect?
+- What browser/device are you on?
+
+I'll investigate ASAP and fix if it's a real bug.
+
+If it's a calculation error, I'll:
+1. Fix it immediately
+2. Notify everyone who used the calculator recently
+3. Comp you a year of Pro as a thank-you for catching it
+
+If it's a UI/UX issue, I'll add it to the backlog.
+
+Really appreciate you taking the time to report this. Quality matters and I want to make sure the numbers are right.
+
+---
+
+## Category 6: Criticism/Complaints
+
+### C1: "This is too expensive"
+
+**Template:**
+I hear you, [name]. Let me explain the pricing.
+
+**Context:**
+- Average cross-border CPA consultation: $1,500-$3,000
+- TaxBridge Pro: $49/year (that's $4/month)
+- Free tier: $0 (no credit card, unlimited use)
+
+**What you're paying for:**
+- Unlimited scenarios (compare 10+ states/provinces)
+- Multi-year projections (see 4 years of vesting)
+- PDF exports (share with accountant/employer)
+- Future features (RRSP optimizer, AMT, etc.)
+
+**Who it's for:**
+- Anyone with multi-year RSU vesting (saves 10+ hours of spreadsheet work)
+- Anyone who's paid for a CPA consultation (recoup cost in one use)
+- Anyone making a $100K+ life decision (cross-border move)
+
+**Who should stay free:**
+- Just curious about rough numbers
+- One-time simple calculation
+
+If $49/year is still too much, email me your situation. I've given free Pro accounts to students, nonprofit workers, and folks in tough financial spots.
+
+But for most tech workers with stock comp, $49 is less than one Uber Eats order. 🤷
+
+---
+
+### C2: "Why not just use TurboTax/[competitor]?"
+
+**Template:**
+Great question, [name]! Here's why they don't work for this use case:
+
+**TurboTax:**
+- Only files taxes for ONE country (US or Canada, not both)
+- Doesn't show cross-border comparison
+- Doesn't handle FTC in planning stage (only during filing)
+- Costs $120-$200/year
+
+**Sprintax:**
+- Only for students (F-1, J-1 visas)
+- Doesn't handle RSUs (only W-2 income)
+- No Canada support
+
+**H&R Block:**
+- Cross-border filing costs $2,500+
+- They don't have a planning tool (only tax prep)
+- Can't compare scenarios
+
+**SimpleTax (Wealthsimple):**
+- Canada only
+- Doesn't show US side
+- No FTC calculations
+
+**TaxBridge is different:**
+✅ Planning tool (before you move), not filing tool
+✅ Shows BOTH countries side-by-side
+✅ Handles RSUs/stock options specifically
+✅ FTC calculations to see actual tax burden
+✅ Multi-year projections for vesting schedules
+
+Use TaxBridge to PLAN your move, then use TurboTax/CPA to FILE your taxes.
+
+---
+
+### C3: "This seems scammy"
+
+**Template:**
+I get it, [name]. Tax stuff + online tool = skepticism. Fair. 😅
+
+**Why we're legit:**
+1. **Free tier with no credit card** - Try it with zero risk
+2. **Founder is public** - I'm Michael Guo, ex-Meta engineer on H1B (LinkedIn: linkedin.com/in/michaelguo)
+3. **CPA-reviewed calculations** - Worked with 2 tax specialists to validate
+4. **30-day money-back guarantee** - If Pro doesn't help, full refund
+5. **Privacy-first** - We don't sell data (unlike TurboTax)
+
+**What we're NOT:**
+❌ Not a tax filing service (use a CPA for that)
+❌ Not financial advice (we're a calculator, not advisors)
+❌ Not a get-rich-quick scheme (we charge $49/year, not $2K)
+
+**What we ARE:**
+✅ A planning tool to understand your tax situation BEFORE paying a CPA
+✅ Built by an immigrant who needed this and couldn't find it
+✅ Transparent about limitations (see FAQ: "When should you hire a CPA?")
+
+If you're skeptical, totally fair - use the free tier and verify the numbers with your own research. If they match, great. If not, let me know and I'll fix it.
+
+I have nothing to hide. Just trying to help people avoid overpaying taxes due to confusion.
+
+---
+
+## Category 7: Integration/Partnership Questions
+
+### I1: "Can we partner/integrate this?"
+
+**Template:**
+Absolutely interested, [name]! Tell me more about your use case.
+
+**Who you are:**
+- Immigration lawyer helping H1B → Canada moves?
+- Accounting firm doing cross-border tax prep?
+- HR/recruiting team relocating talent?
+- Fintech company building tax tools?
+
+**What you're looking for:**
+- White-label calculator for your website?
+- API access for bulk calculations?
+- Referral partnership (you send clients, we pay commission)?
+- Co-marketing opportunity?
+
+**What we've done before:**
+- Partnered with 2 immigration lawyers (they refer clients, we give them a dashboard)
+- Working with a recruiting firm that relocates engineers to Canada
+
+**Next steps:**
+Email me at michael@taxbridgecpa.com with:
+1. Your company/org
+2. What you want to do
+3. What you can offer (traffic, credibility, revenue share, etc.)
+
+I'm open to creative partnerships that help more people understand cross-border tax!
+
+---
+
+## Response Time Priorities
+
+**Answer in this order:**
+
+1. **Bugs/technical issues** - Within 5 min (critical)
+2. **Questions about accuracy** - Within 10 min (trust is key)
+3. **Feature requests** - Within 15 min (show we listen)
+4. **Praise/success stories** - Within 15 min (engagement)
+5. **Generic thank yous** - Within 30 min (low priority)
+
+**Always end with:**
+- Thank them for engaging
+- Ask a follow-up question (keep conversation going)
+- Offer help (email, DM, etc.)
+
+---
+
+**Created:** March 19, 2026
+**Launch Date:** March 25, 2026
+**Status:** Ready for rapid response deployment
