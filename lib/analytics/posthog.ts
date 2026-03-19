@@ -106,6 +106,10 @@ export type PostHogEvent =
   | 'dashboard_viewed'
   | 'feature_discovered'
 
+  // Experiments
+  | 'pricing_experiment_exposed'
+  | 'pricing_interval_toggled'
+
   // Support & Feedback
   | 'help_article_viewed'
   | 'support_ticket_created'
