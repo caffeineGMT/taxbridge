@@ -5,6 +5,7 @@
  */
 
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { getAffiliatePartnerByReferralCode } from '@/lib/db/queries/affiliates';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, TrendingUp, DollarSign, FileCheck, Calculator } from 'lucide-react';
@@ -53,10 +54,13 @@ export default function PartnerLandingPage({ params, searchParams }: Props) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               {partner.custom_logo_url && (
-                <img
+                <Image
                   src={partner.custom_logo_url}
                   alt={partner.firm_name}
+                  width={96}
+                  height={48}
                   className="h-12 w-auto"
+                  loading="lazy"
                 />
               )}
               <div>

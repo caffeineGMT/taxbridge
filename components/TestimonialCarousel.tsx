@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardHeader, CardDescription } from '@/components/ui/card';
 
@@ -95,10 +96,13 @@ export default function TestimonialCarousel({
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             {current.avatar_url ? (
-              <img
+              <Image
                 src={current.avatar_url}
                 alt={current.name}
+                width={80}
+                height={80}
                 className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-emerald-500"
+                loading="lazy"
               />
             ) : (
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-2xl">
@@ -173,10 +177,13 @@ export default function TestimonialCarousel({
         <CardHeader className="px-4 sm:px-6">
           <div className="flex items-center gap-3 mb-3">
             {current.avatar_url ? (
-              <img
+              <Image
                 src={current.avatar_url}
                 alt={current.name}
+                width={48}
+                height={48}
                 className="w-12 h-12 rounded-full object-cover border-2 border-emerald-500 flex-shrink-0"
+                loading="lazy"
               />
             ) : (
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
@@ -219,10 +226,13 @@ export default function TestimonialCarousel({
           <CardHeader className="px-4 sm:px-6">
             <div className="flex items-center gap-3 mb-3">
               {testimonial.avatar_url ? (
-                <img
+                <Image
                   src={testimonial.avatar_url}
                   alt={testimonial.name}
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full object-cover border-2 border-emerald-500 flex-shrink-0"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-slate-950 font-bold text-lg flex-shrink-0">
