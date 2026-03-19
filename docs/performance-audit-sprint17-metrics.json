@@ -1,0 +1,337 @@
+{
+  "auditDate": "2026-03-19",
+  "sprint": "Sprint 17",
+  "url": "https://taxbridge.vercel.app",
+  "tool": "Lighthouse 13.0.3",
+  "comparison": {
+    "baseline": {
+      "date": "2026-03-19 (Earlier)",
+      "desktop": {
+        "performance": 80,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 1900,
+        "fid": 20,
+        "cls": 0.001,
+        "fcp": 1900,
+        "tti": 1900,
+        "speedIndex": 2500
+      },
+      "mobile": {
+        "performance": 91,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 2800,
+        "fid": 20,
+        "cls": 0,
+        "fcp": 2800,
+        "tti": 2800,
+        "speedIndex": 2800
+      },
+      "resources": {
+        "total": 189,
+        "script": null,
+        "stylesheet": null,
+        "image": null
+      }
+    },
+    "current": {
+      "date": "2026-03-19 (Sprint 17)",
+      "desktop": {
+        "performance": 99,
+        "accessibility": 94,
+        "bestPractices": 96,
+        "seo": 100,
+        "lcp": 748,
+        "fid": 0,
+        "cls": 0.054,
+        "fcp": 237,
+        "tti": 748,
+        "speedIndex": 795
+      },
+      "mobile": {
+        "performance": 66,
+        "accessibility": 93,
+        "bestPractices": 96,
+        "seo": 100,
+        "lcp": 2753,
+        "fid": 53,
+        "cls": 0.921,
+        "fcp": 804,
+        "tti": 2753,
+        "speedIndex": 6238
+      },
+      "resources": {
+        "total": 526,
+        "script": 471,
+        "stylesheet": 9,
+        "image": 1,
+        "other": 41
+      }
+    },
+    "changes": {
+      "desktop": {
+        "performance": {
+          "absolute": 19,
+          "percent": 23.75
+        },
+        "lcp": {
+          "absolute": -1152,
+          "percent": -60.63
+        },
+        "cls": {
+          "absolute": 0.053,
+          "percent": 5300
+        },
+        "fcp": {
+          "absolute": -1663,
+          "percent": -87.53
+        }
+      },
+      "mobile": {
+        "performance": {
+          "absolute": -25,
+          "percent": -27.47
+        },
+        "lcp": {
+          "absolute": -47,
+          "percent": -1.68
+        },
+        "cls": {
+          "absolute": 0.921,
+          "percent": null,
+          "note": "Infinite increase from 0"
+        },
+        "speedIndex": {
+          "absolute": 3438,
+          "percent": 122.79
+        }
+      },
+      "resources": {
+        "total": {
+          "absolute": 337,
+          "percent": 178.31
+        }
+      }
+    }
+  },
+  "criticalIssues": [
+    {
+      "id": "mobile-cls-failure",
+      "severity": "P0",
+      "title": "Mobile CLS Failure (0.921 > 0.1)",
+      "impact": "CRITICAL - 9.2x over acceptable threshold",
+      "revenueImpact": {
+        "type": "loss",
+        "monthly": {
+          "min": 450,
+          "max": 900
+        },
+        "annual": {
+          "min": 5400,
+          "max": 10800
+        }
+      },
+      "estimatedEffort": {
+        "hours": {
+          "min": 4,
+          "max": 6
+        }
+      },
+      "target": {
+        "metric": "cls",
+        "current": 0.921,
+        "threshold": 0.1,
+        "goal": 0.05
+      }
+    },
+    {
+      "id": "javascript-bundle-bloat",
+      "severity": "P0",
+      "title": "JavaScript Bundle Over Budget (471 KB vs 150 KB)",
+      "impact": "CRITICAL - 3.1x over budget",
+      "performanceImpact": "+750ms mobile load time, -27% mobile performance score",
+      "estimatedEffort": {
+        "hours": {
+          "min": 6,
+          "max": 8
+        }
+      },
+      "target": {
+        "metric": "javascript-size",
+        "current": 471,
+        "budget": 150,
+        "reduction": 321
+      },
+      "wasteIdentified": {
+        "unusedJs": {
+          "min": 206,
+          "max": 247
+        },
+        "percentWaste": {
+          "min": 44,
+          "max": 52
+        }
+      }
+    }
+  ],
+  "budgets": {
+    "total": {
+      "budget": 200,
+      "actual": 526,
+      "status": "FAIL",
+      "violation": 326,
+      "violationPercent": 163
+    },
+    "javascript": {
+      "budget": 150,
+      "actual": 471,
+      "status": "FAIL",
+      "violation": 321,
+      "violationPercent": 214
+    },
+    "stylesheet": {
+      "budget": 30,
+      "actual": 9,
+      "status": "PASS"
+    },
+    "image": {
+      "budget": 100,
+      "actual": 1,
+      "status": "PASS"
+    }
+  },
+  "coreWebVitalsThresholds": {
+    "lcp": {
+      "threshold": 2500,
+      "desktop": {
+        "value": 748,
+        "status": "PASS"
+      },
+      "mobile": {
+        "value": 2753,
+        "status": "FAIL"
+      }
+    },
+    "tbt": {
+      "threshold": 200,
+      "desktop": {
+        "value": 0,
+        "status": "PASS"
+      },
+      "mobile": {
+        "value": 53,
+        "status": "PASS"
+      }
+    },
+    "cls": {
+      "threshold": 0.1,
+      "desktop": {
+        "value": 0.054,
+        "status": "PASS"
+      },
+      "mobile": {
+        "value": 0.921,
+        "status": "FAIL"
+      }
+    },
+    "fcp": {
+      "threshold": 1800,
+      "desktop": {
+        "value": 237,
+        "status": "PASS"
+      },
+      "mobile": {
+        "value": 804,
+        "status": "PASS"
+      }
+    }
+  },
+  "optimizationOpportunities": {
+    "desktop": {
+      "unusedJavascript": {
+        "timeSavings": 150,
+        "sizeSavings": 247
+      }
+    },
+    "mobile": {
+      "unusedJavascript": {
+        "timeSavings": 750,
+        "sizeSavings": 206
+      }
+    }
+  },
+  "actionPlan": {
+    "week1": {
+      "timeline": "2026-03-20 to 2026-03-21",
+      "effort": {
+        "min": 10,
+        "max": 14
+      },
+      "tasks": [
+        {
+          "task": "Fix Mobile CLS",
+          "effort": {
+            "min": 4,
+            "max": 6
+          },
+          "target": "CLS < 0.05"
+        },
+        {
+          "task": "Reduce JavaScript Bundle",
+          "effort": {
+            "min": 6,
+            "max": 8
+          },
+          "target": "JS < 150 KB"
+        }
+      ]
+    },
+    "week2": {
+      "timeline": "2026-03-22 to 2026-03-23",
+      "effort": {
+        "min": 4,
+        "max": 5
+      },
+      "tasks": [
+        {
+          "task": "Optimize Mobile LCP",
+          "effort": {
+            "min": 2,
+            "max": 3
+          },
+          "target": "LCP < 2.5s"
+        },
+        {
+          "task": "Improve Speed Index",
+          "effort": 2,
+          "target": "Speed Index < 3.4s"
+        }
+      ]
+    }
+  },
+  "launchReadiness": {
+    "status": "NOT_READY",
+    "blockers": [
+      "Mobile CLS failing (0.921 > 0.1)",
+      "JavaScript bundle 3.1x over budget",
+      "Mobile performance dropped 27%"
+    ],
+    "readyWhen": [
+      "Mobile CLS < 0.05",
+      "JavaScript < 150 KB",
+      "Mobile Performance > 85"
+    ]
+  },
+  "nextAudit": "2026-03-21 or 2026-03-22 (after P0 fixes)",
+  "files": {
+    "fullReport": "docs/PERFORMANCE_AUDIT_SPRINT_17.md",
+    "executiveSummary": "docs/PERFORMANCE_AUDIT_SPRINT_17_EXECUTIVE_SUMMARY.md",
+    "metricsData": "docs/performance-audit-sprint17-metrics.json",
+    "desktopLighthouse": "docs/lighthouse/audit-2026-03-19-sprint17.report.html",
+    "mobileLighthouse": "docs/lighthouse/audit-2026-03-19-sprint17-mobile.report.html",
+    "baselineReport": "docs/LIGHTHOUSE_BASELINE_REPORT.md"
+  }
+}
