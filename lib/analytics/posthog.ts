@@ -67,6 +67,12 @@ export type PostHogEvent =
   | 'csv_import_started'
   | 'csv_import_completed'
 
+  // Lead Generation & Conversion
+  | 'email_captured'
+  | 'roi_calculator_viewed'
+  | 'roi_calculation_viewed'
+  | 'calculator_dropoff'
+
   // Monetization Funnel
   | 'paywall_shown'
   | 'upgrade_button_clicked'

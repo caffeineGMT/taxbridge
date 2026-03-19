@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { calculateUSFederalTax, calculateUSStateTax } from '@/lib/tax/us-calculator';
 import { calculateCanadaFederalTax, calculateCanadaProvincialTax } from '@/lib/tax/canada-calculator';
 import { calculateFTC } from '@/lib/tax/ftc-calculator';
-import { presetSchemas } from '@/lib/seo/structured-data';
+import { presetSchemas, generateBreadcrumbSchema } from '@/lib/seo/structured-data';
 import {
   trackCalculatorPageView,
   trackCalculatorStart,
@@ -19,6 +19,8 @@ import {
   isGoogleAdsTraffic,
   initGoogleAds,
 } from '@/lib/google-ads/conversion-tracking';
+import { trackEvent, identifyUser } from '@/lib/analytics/posthog';
+import { CalculatorTracker, getDeviceInfo } from '@/lib/analytics/tracking-utils';
 
 export default function TaxCalculatorPage() {
   // Form state
@@ -37,12 +39,30 @@ export default function TaxCalculatorPage() {
   const [canadaTax, setCanadaTax] = useState(0);
   const [ftcResult, setFtcResult] = useState<any>(null);
 
+  // Analytics tracker (PostHog)
+  const calculatorTrackerRef = useRef<CalculatorTracker | null>(null);
+
+  useEffect(() => {
+    calculatorTrackerRef.current = new CalculatorTracker('marketing-tax-calculator');
+  }, []);
+
   // Track page view on mount (Google Ads landing)
   useEffect(() => {
     initGoogleAds();
     const utmParams = getUTMParams();
+
+    // Google Ads tracking
     trackCalculatorPageView(utmParams);
     setRemarketingAudience('calculator_viewers');
+
+    // PostHog tracking - parallel event
+    trackEvent('calculator_page_viewed', {
+      source: utmParams.utm_source || 'direct',
+      medium: utmParams.utm_medium || 'organic',
+      campaign: utmParams.utm_campaign || 'none',
+      calculator_type: 'marketing_page',
+      ...getDeviceInfo(),
+    });
 
     // Store UTM params for lead attribution
     if (typeof window !== 'undefined') {
@@ -52,10 +72,17 @@ export default function TaxCalculatorPage() {
     // Track abandonment on page leave
     const handleBeforeUnload = () => {
       if (!emailSubmitted) {
+        // Google Ads abandonment tracking
         if (hasSeenResults) {
           trackCalculatorAbandonment('results');
         } else if (hasStartedCalculator) {
           trackCalculatorAbandonment('input');
+        }
+
+        // PostHog abandonment tracking
+        if (calculatorTrackerRef.current) {
+          const dropOffPoint = hasSeenResults ? 'results_no_email' : hasStartedCalculator ? 'input_started' : 'no_interaction';
+          calculatorTrackerRef.current.trackDropOff(dropOffPoint);
         }
       }
     };
@@ -70,7 +97,24 @@ export default function TaxCalculatorPage() {
 
     if (!hasStartedCalculator && parseFloat(value) > 0) {
       setHasStartedCalculator(true);
+
+      // Google Ads tracking
       trackCalculatorStart(parseFloat(value));
+
+      // PostHog tracking - first interaction
+      trackEvent('page_viewed', {
+        event_type: 'calculator_input_first_change',
+        calculator_id: 'marketing-tax-calculator',
+        field: 'rsuIncome',
+        value: parseFloat(value),
+        first_interaction: true,
+        ...getDeviceInfo(),
+      });
+    }
+
+    // Track subsequent changes
+    if (calculatorTrackerRef.current) {
+      calculatorTrackerRef.current.trackInputChange('rsuIncome', parseFloat(value) || 0);
     }
   };
 
@@ -100,6 +144,8 @@ export default function TaxCalculatorPage() {
     // Track calculation completion
     if (!hasSeenResults && income > 0) {
       setHasSeenResults(true);
+
+      // Google Ads conversion tracking
       trackCalculatorComplete({
         rsuAmount: income,
         usTax: totalUSTax,
@@ -108,6 +154,33 @@ export default function TaxCalculatorPage() {
         totalTax: ftc?.totalTaxWithFTC || 0,
       });
       setRemarketingAudience('calculator_completers');
+
+      // PostHog event tracking
+      trackEvent('tax_calculation_viewed', {
+        calculator_id: 'marketing-tax-calculator',
+        rsuAmount: income,
+        usState,
+        province,
+        usTax: totalUSTax,
+        canadaTax: totalCanadaTax,
+        ftcSavings: ftc?.savings || 0,
+        totalTax: ftc?.totalTaxWithFTC || 0,
+        effectiveTaxRate: ((ftc?.totalTaxWithFTC || 0) / income) * 100,
+        ...getDeviceInfo(),
+      });
+
+      // Also track with CalculatorTracker
+      if (calculatorTrackerRef.current) {
+        calculatorTrackerRef.current.trackCalculation(
+          { income, usState, province },
+          {
+            usTax: totalUSTax,
+            canadaTax: totalCanadaTax,
+            ftcSavings: ftc?.savings || 0,
+            totalTax: ftc?.totalTaxWithFTC || 0,
+          }
+        );
+      }
     }
   }, [rsuIncome, usState, province, hasSeenResults]);
 
@@ -138,11 +211,38 @@ export default function TaxCalculatorPage() {
       });
 
       setEmailSubmitted(true);
+
+      // Google Ads lead capture tracking
       trackLeadCapture(email, {
         rsuAmount: parseFloat(rsuIncome),
         ftcSavings: ftcResult?.savings,
       });
       setRemarketingAudience('email_captured');
+
+      // PostHog lead capture event
+      const emailHash = email.split('@')[1]; // Domain only for privacy
+      trackEvent('email_captured', {
+        source: 'marketing_calculator',
+        calculator_id: 'marketing-tax-calculator',
+        email_domain: emailHash,
+        rsuAmount: parseFloat(rsuIncome),
+        usTax,
+        canadaTax,
+        ftcSavings: ftcResult?.savings || 0,
+        totalTax: ftcResult?.totalTaxWithFTC || 0,
+        utm_source: utmParams.utm_source,
+        utm_medium: utmParams.utm_medium,
+        utm_campaign: utmParams.utm_campaign,
+        ...getDeviceInfo(),
+      });
+
+      // Track with CalculatorTracker
+      if (calculatorTrackerRef.current) {
+        calculatorTrackerRef.current.trackCompletion(emailHash, {
+          rsuAmount: parseFloat(rsuIncome),
+          ftcSavings: ftcResult?.savings,
+        });
+      }
     } catch (error) {
       console.error('Failed to submit email:', error);
     }
@@ -152,12 +252,22 @@ export default function TaxCalculatorPage() {
   const cpaSavings = 3000;
   const taxSavings = ftcResult?.savings || 12000;
 
+  // Breadcrumb schema for SEO
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://taxbridge.app' },
+    { name: 'US-Canada Tax Calculator', url: 'https://taxbridge.app/us-canada-tax-calculator' },
+  ]);
+
   return (
     <>
-      {/* JSON-LD Structured Data */}
+      {/* JSON-LD Structured Data for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(presetSchemas.calculator) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <div className="container mx-auto px-6 py-16">

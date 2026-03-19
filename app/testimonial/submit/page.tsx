@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Star, Check, Upload } from 'lucide-react';
 
-export default function TestimonialSubmitPage() {
+// Force dynamic rendering since this page uses searchParams
+export const dynamic = 'force-dynamic';
+
+function TestimonialSubmitForm() {
   const searchParams = useSearchParams();
   const requestId = searchParams.get('request_id');
 
@@ -267,5 +270,13 @@ export default function TestimonialSubmitPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function TestimonialSubmitPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-6 py-16 text-center">Loading...</div>}>
+      <TestimonialSubmitForm />
+    </Suspense>
   );
 }

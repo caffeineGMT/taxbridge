@@ -10,8 +10,12 @@ import Header from '@/components/Header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
+import { presetMetadata } from '@/lib/seo/metadata';
+import type { Metadata } from 'next';
 // Chart components dynamically imported only when used (recharts is ~300KB)
 // import { IncomeLineChart, CumulativeTaxAreaChart, YearSelector, FTCCarryforwardBanner } from './components';
+
+export const metadata: Metadata = presetMetadata.multiYear;
 
 interface YearlyData {
   year: number;
