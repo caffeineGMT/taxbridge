@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 
-export default function UserFeedbackSurveyPage() {
+function UserFeedbackSurveyContent() {
   const searchParams = useSearchParams();
 
   const userType = (searchParams.get('user_type') || 'free') as 'paid' | 'free';
@@ -512,5 +512,13 @@ export default function UserFeedbackSurveyPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function UserFeedbackSurveyPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <UserFeedbackSurveyContent />
+    </Suspense>
   );
 }

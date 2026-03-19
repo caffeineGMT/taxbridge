@@ -16,6 +16,7 @@ import { EnhancedCalculatorResults } from '@/components/tax/enhanced-calculator-
 import { CalculatorProgress } from '@/components/ui/calculator-progress';
 import { useCalculatorState } from '@/hooks/use-calculator-state';
 import { TAX_CALCULATOR_DEMO } from '@/lib/calculator-demo-values';
+import { useAutoScrollOnFocus } from '@/hooks/use-mobile-keyboard';
 
 interface TaxCalculatorWidgetProps {
   defaultState: 'WA' | 'CA' | 'NY' | 'TX' | 'MA';
@@ -23,6 +24,9 @@ interface TaxCalculatorWidgetProps {
 }
 
 export default function TaxCalculatorWidget({ defaultState, defaultProvince }: TaxCalculatorWidgetProps) {
+  // Mobile keyboard handling - auto-scroll to focused inputs
+  useAutoScrollOnFocus();
+
   // Analytics tracker
   const trackerRef = useRef<CalculatorTracker | null>(null);
 
@@ -288,27 +292,28 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
         className="mb-8"
       />
 
-      {/* Save Notification */}
+      {/* Save Notification - mobile-optimized positioning */}
       {showSaveNotification && isLoaded && (
-        <div className="fixed top-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2 z-50">
+        <div className="mobile-notification bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
           <Save className="w-4 h-4" />
           <span className="text-sm font-medium">Progress saved</span>
         </div>
       )}
 
-      <Card className="border-slate-800 bg-slate-900/50">
+      <Card className="border-slate-800 bg-slate-900/50 mobile-card keyboard-aware-form">
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <Calculator className="h-6 w-6 text-emerald-400" />
-            <CardTitle className="text-2xl text-slate-100">Calculate Your Exact Tax</CardTitle>
+            <Calculator className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-400" />
+            <CardTitle className="text-xl sm:text-2xl text-slate-100 mobile-heading-2">Calculate Your Exact Tax</CardTitle>
           </div>
           <div className="flex items-center gap-2">
             {/* Demo Values Button */}
             <button
               onClick={loadDemoValues}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-md transition-all"
+              className="mobile-button flex items-center gap-1.5 px-3 py-2 text-sm bg-purple-500/20 hover:bg-purple-500/30 active:bg-purple-500/40 text-purple-300 rounded-md transition-all touch-manipulation"
               title="Load example values"
+              aria-label="Load demo values"
             >
               <Sparkles className="w-4 h-4" />
               <span className="hidden sm:inline">Try Demo</span>
@@ -317,8 +322,9 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
             {hasSavedState && (
               <button
                 onClick={handleClearSaved}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 text-slate-300 rounded-md transition-all"
+                className="mobile-button flex items-center gap-1.5 px-3 py-2 text-sm bg-slate-700/50 hover:bg-slate-700 active:bg-slate-700/80 text-slate-300 rounded-md transition-all touch-manipulation"
                 title="Clear saved data"
+                aria-label="Clear saved data"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span className="hidden sm:inline">Reset</span>
@@ -326,11 +332,11 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
             )}
           </div>
         </div>
-        <CardDescription>Instant estimate with Foreign Tax Credit optimization</CardDescription>
+        <CardDescription className="mobile-body">Instant estimate with Foreign Tax Credit optimization</CardDescription>
       </CardHeader>
       <CardContent>
         <TaxDisclaimer variant="compact" />
-        <div className="space-y-6">
+        <div className="space-y-5 sm:space-y-6">
             {/* RSU Income */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -363,7 +369,7 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
                   }
                 }}
                 onFocus={() => trackerRef.current?.trackInputChange('rsu_income_focus', rsuIncome)}
-                className={`w-full px-4 py-3 rounded-lg bg-slate-800 border ${rsuError ? 'border-red-500 focus:ring-red-500' : 'border-slate-700 focus:ring-emerald-500'} text-slate-100 text-lg focus:outline-none focus:ring-2 transition-all`}
+                className={`w-full px-4 py-3 rounded-lg bg-slate-800 border ${rsuError ? 'border-red-500 focus:ring-red-500' : 'border-slate-700 focus:ring-emerald-500'} text-slate-100 text-base sm:text-lg focus:outline-none focus:ring-2 transition-all mobile-input touch-manipulation`}
                 placeholder="100000"
               />
               {rsuError && (

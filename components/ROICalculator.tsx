@@ -11,6 +11,7 @@ import { CalculatorProgress } from '@/components/ui/calculator-progress';
 import { useCalculatorState } from '@/hooks/use-calculator-state';
 import { ROI_CALCULATOR_DEMO } from '@/lib/calculator-demo-values';
 import { ReferralShareButtons } from '@/components/ReferralShareButtons';
+import { useAutoScrollOnFocus } from '@/hooks/use-mobile-keyboard';
 
 interface ROIInputs {
   firmName: string;
@@ -29,6 +30,9 @@ interface ROIResults {
 }
 
 export function ROICalculator() {
+  // Mobile keyboard handling - auto-scroll to focused inputs
+  useAutoScrollOnFocus();
+
   // Save/Resume state with localStorage
   const { state: savedInputs, setState: setSavedInputs, isLoaded, clearSavedState, hasSavedState } = useCalculatorState(
     'roi-calculator-enterprise',
@@ -212,28 +216,29 @@ export function ROICalculator() {
         className="mb-8"
       />
 
-      {/* Save Notification */}
+      {/* Save Notification - mobile-optimized positioning */}
       {showSaveNotification && isLoaded && (
-        <div className="fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2 z-50">
+        <div className="mobile-notification bg-primary text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
           <Save className="w-4 h-4" />
           <span className="text-sm font-medium">Progress saved</span>
         </div>
       )}
 
-      <div className="bg-surface border border-border rounded-xl p-8 shadow-lg">
+      <div className="bg-surface border border-border rounded-xl mobile-card shadow-lg keyboard-aware-form">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex-1" /> {/* Spacer */}
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
-              <TrendingUp className="w-8 h-8 text-primary" />
+            <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full">
+              <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
             </div>
             <div className="flex-1 flex justify-end gap-2">
               {/* Demo Values Button */}
               <button
                 onClick={loadDemoValues}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-500/20 hover:bg-purple-500/30 text-purple-600 dark:text-purple-300 rounded-md transition-all"
+                className="mobile-button flex items-center gap-1.5 px-3 py-2 text-sm bg-purple-500/20 hover:bg-purple-500/30 active:bg-purple-500/40 text-purple-600 dark:text-purple-300 rounded-md transition-all touch-manipulation"
                 title="Load example values"
+                aria-label="Load demo values"
               >
                 <Sparkles className="w-4 h-4" />
                 <span className="hidden sm:inline">Demo</span>
@@ -242,8 +247,9 @@ export function ROICalculator() {
               {hasSavedState && (
                 <button
                   onClick={handleClearSaved}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-border hover:bg-border/80 text-textMuted rounded-md transition-all"
+                  className="mobile-button flex items-center gap-1.5 px-3 py-2 text-sm bg-border hover:bg-border/80 active:bg-border/70 text-textMuted rounded-md transition-all touch-manipulation"
                   title="Clear saved data"
+                  aria-label="Clear saved data"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span className="hidden sm:inline">Reset</span>
@@ -251,14 +257,14 @@ export function ROICalculator() {
               )}
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-text mb-2">ROI Calculator</h2>
-          <p className="text-textMuted">
+          <h2 className="text-xl sm:text-2xl font-bold text-text mb-2 mobile-heading-2">ROI Calculator</h2>
+          <p className="text-sm sm:text-base text-textMuted mobile-body">
             Calculate how much your firm could save with TaxBridge Enterprise
           </p>
         </div>
 
         {/* Input Form */}
-        <div className="space-y-6 mb-8">
+        <div className="space-y-5 sm:space-y-6 mb-8">
           {/* Firm Name */}
           <div>
             <label htmlFor="firmName" className="block text-sm font-semibold text-text mb-2">
@@ -273,7 +279,7 @@ export function ROICalculator() {
                 setInputs({ ...inputs, firmName: e.target.value });
                 calculatorTrackerRef.current?.trackInputChange('firmName', e.target.value);
               }}
-              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+              className="w-full px-4 py-3 bg-background border border-border rounded-lg text-text placeholder:text-textMuted focus:outline-none focus:ring-2 focus:ring-primary transition-all mobile-input touch-manipulation"
             />
           </div>
 
@@ -302,7 +308,7 @@ export function ROICalculator() {
                   setErrors({ ...errors, attorneyCount: undefined });
                 }
               }}
-              className={`w-full px-4 py-3 bg-background border ${errors.attorneyCount ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
+              className={`w-full px-4 py-3 bg-background border ${errors.attorneyCount ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all mobile-input touch-manipulation`}
             />
             {errors.attorneyCount && (
               <p className="mt-1.5 text-sm text-error" role="alert">{errors.attorneyCount}</p>
@@ -334,7 +340,7 @@ export function ROICalculator() {
                   setErrors({ ...errors, clientsPerYear: undefined });
                 }
               }}
-              className={`w-full px-4 py-3 bg-background border ${errors.clientsPerYear ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
+              className={`w-full px-4 py-3 bg-background border ${errors.clientsPerYear ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all mobile-input touch-manipulation`}
             />
             {errors.clientsPerYear && (
               <p className="mt-1.5 text-sm text-error" role="alert">{errors.clientsPerYear}</p>
@@ -367,7 +373,7 @@ export function ROICalculator() {
                   setErrors({ ...errors, hoursPerWeek: undefined });
                 }
               }}
-              className={`w-full px-4 py-3 bg-background border ${errors.hoursPerWeek ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
+              className={`w-full px-4 py-3 bg-background border ${errors.hoursPerWeek ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all mobile-input touch-manipulation`}
             />
             {errors.hoursPerWeek && (
               <p className="mt-1.5 text-sm text-error" role="alert">{errors.hoursPerWeek}</p>
@@ -403,7 +409,7 @@ export function ROICalculator() {
                   setErrors({ ...errors, billableRate: undefined });
                 }
               }}
-              className={`w-full px-4 py-3 bg-background border ${errors.billableRate ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all`}
+              className={`w-full px-4 py-3 bg-background border ${errors.billableRate ? 'border-error focus:ring-error' : 'border-border focus:ring-primary'} rounded-lg text-text focus:outline-none focus:ring-2 transition-all mobile-input touch-manipulation`}
             />
             {errors.billableRate && (
               <p className="mt-1.5 text-sm text-error" role="alert">{errors.billableRate}</p>
@@ -415,7 +421,8 @@ export function ROICalculator() {
         <button
           onClick={handleCalculate}
           disabled={isCalculating}
-          className="w-full px-8 py-4 bg-primary hover:bg-primary/90 disabled:bg-primary/50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+          className="w-full px-8 py-4 bg-primary hover:bg-primary/90 active:bg-primary/80 disabled:bg-primary/50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 mobile-button touch-target-lg"
+          aria-label="Calculate your ROI"
         >
           {isCalculating ? (
             <>
