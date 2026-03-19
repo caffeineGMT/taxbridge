@@ -109,10 +109,15 @@ export function sanitizeCurrencyInput(
   }
 
   // Step 12: Enforce decimal precision (only if decimal point exists)
-  if (parts.length === 2 && parts[1].length > decimalPlaces) {
-    const integerPart = parts[0];
-    const decimalPart = parts[1].slice(0, decimalPlaces);
-    cleaned = integerPart + '.' + decimalPart;
+  if (parts.length === 2) {
+    if (decimalPlaces === 0) {
+      // Strip decimal point entirely when precision is 0
+      cleaned = parts[0];
+    } else if (parts[1].length > decimalPlaces) {
+      const integerPart = parts[0];
+      const decimalPart = parts[1].slice(0, decimalPlaces);
+      cleaned = integerPart + '.' + decimalPart;
+    }
   }
 
   return cleaned;

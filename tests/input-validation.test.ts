@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import {
   sanitizeCurrencyInput,
   parseCurrencyInput,
@@ -171,7 +171,7 @@ describe('sanitizeIntegerInput', () => {
 
   it('should handle comma-separated integers', () => {
     expect(sanitizeIntegerInput('1,234')).toBe('1234');
-    expect(sanitizeIntegerInput('1,234,567')).toBe('1234567');
+    expect(sanitizeIntegerInput('1,234,567', { maxValue: 2_000_000 })).toBe('1234567');
   });
 
   it('should enforce max value (default 1M)', () => {
