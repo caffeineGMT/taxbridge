@@ -1,0 +1,120 @@
+{
+  "timestamp": "2026-03-19T19:56:44.270Z",
+  "reportDate": "March 19, 2026",
+  "correctAppDeployed": false,
+  "deploymentIssue": "WRONG APPLICATION DEPLOYED - Nigerian tax e-invoicing app is live instead of US-Canada RSU tax calculator. All blog articles are inaccessible.",
+  "totalArticlesInCodebase": 42,
+  "totalArticlesPublished": 53,
+  "totalArticlesIndexed": 0,
+  "indexingRate": 0,
+  "totalImpressions": 0,
+  "totalClicks": 0,
+  "averageCTR": 0,
+  "averagePosition": 0,
+  "topArticlesByTraffic": [],
+  "topSearchQueries": [],
+  "baseline": {
+    "date": "N/A",
+    "clicks": 0,
+    "impressions": 0
+  },
+  "current": {
+    "date": "March 19, 2026",
+    "clicks": 0,
+    "impressions": 0
+  },
+  "growth": {
+    "clicksChange": 0,
+    "clicksChangePercent": 0,
+    "impressionsChange": 0,
+    "impressionsChangePercent": 0
+  },
+  "articles": [
+    {
+      "slug": "h1b-rsu-tax-calculator-2026-guide",
+      "title": "H1B RSU Tax Calculator 2026: Free Tool & Complete Tax Guide",
+      "targetKeyword": "H1B RSU tax calculator 2026",
+      "category": "RSU Taxation",
+      "url": "https://taxbridge.vercel.app/blog/h1b-rsu-tax-calculator-2026-guide",
+      "fileExists": true,
+      "siteAccessible": false,
+      "indexed": false,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 0,
+      "topQueries": []
+    },
+    {
+      "slug": "tn-visa-stock-options-tax-complete-guide",
+      "title": "TN Visa Stock Options Tax: Complete 2026 Guide for Canadian Tech Workers",
+      "targetKeyword": "TN visa stock options tax",
+      "category": "Stock Options",
+      "url": "https://taxbridge.vercel.app/blog/tn-visa-stock-options-tax-complete-guide",
+      "fileExists": true,
+      "siteAccessible": false,
+      "indexed": false,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 0,
+      "topQueries": []
+    },
+    {
+      "slug": "cross-border-tax-guide-canada-us-2026",
+      "title": "Cross-Border Tax Guide: Canada-US Workers Complete 2026 Handbook",
+      "targetKeyword": "cross-border tax guide Canada US",
+      "category": "Cross-Border Tax",
+      "url": "https://taxbridge.vercel.app/blog/cross-border-tax-guide-canada-us-2026",
+      "fileExists": true,
+      "siteAccessible": false,
+      "indexed": false,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 0,
+      "topQueries": []
+    },
+    {
+      "slug": "h1b-to-canada-rsu-tax-guide-2026",
+      "title": "H1B to Canada RSU Tax Guide: Navigate Stock Vesting After Returning Home",
+      "targetKeyword": "H1B to Canada RSU tax",
+      "category": "Cross-Border RSU",
+      "url": "https://taxbridge.vercel.app/blog/h1b-to-canada-rsu-tax-guide-2026",
+      "fileExists": true,
+      "siteAccessible": false,
+      "indexed": false,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 0,
+      "topQueries": []
+    },
+    {
+      "slug": "tn-visa-estimated-tax-payments-guide-2026",
+      "title": "TN Visa Estimated Tax Payments: Avoid $5,000+ Penalties on Stock Income",
+      "targetKeyword": "TN visa estimated tax payments",
+      "category": "Tax Payments",
+      "url": "https://taxbridge.vercel.app/blog/tn-visa-estimated-tax-payments-guide-2026",
+      "fileExists": true,
+      "siteAccessible": false,
+      "indexed": false,
+      "impressions": 0,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 0,
+      "topQueries": []
+    }
+  ],
+  "recommendations": [
+    "🚨 CRITICAL: Deploy correct application to production (US-Canada tax calculator, not Nigerian e-invoicing app)",
+    "After deployment fix, verify all 42 blog articles are accessible",
+    "Fix sitemap 404 error - blog articles cannot be discovered by Google",
+    "Set up Google Search Console API for automated traffic monitoring",
+    "Submit sitemap to Google Search Console after deployment fix",
+    "Wait 7-14 days after deployment for Google to crawl and index articles",
+    "Monitor indexing progress in GSC > Pages > Indexed"
+  ],
+  "gscSetupComplete": false,
+  "gscSetupInstructions": "\n📊 MANUAL GOOGLE SEARCH CONSOLE DATA COLLECTION\n\nSince GSC API is not set up, please collect data manually:\n\nSTEP 1: Access Google Search Console\n→ Go to: https://search.google.com/search-console\n→ Select property: https://taxbridge.vercel.app\n→ If not verified, verify ownership first (see setup instructions)\n\nSTEP 2: Check Indexing Status\n→ Left menu → \"Pages\"\n→ Look for \"Indexed\" count\n→ Record number of indexed pages containing \"/blog/\"\n→ Click \"View indexed pages\" to see list\n\nSTEP 3: Collect Traffic Data (Last 28 days)\n→ Left menu → \"Performance\" → \"Search results\"\n→ Date range: Last 28 days\n→ Record these metrics:\n  - Total clicks\n  - Total impressions\n  - Average CTR\n  - Average position\n\nSTEP 4: Top Performing Blog Articles\n→ In Performance view:\n→ Click \"+ NEW\" → Filter → Page → URL contains \"/blog/\"\n→ Scroll down to \"PAGES\" table\n→ Export top 20 pages by clicks as CSV\n\nSTEP 5: Top Search Queries\n→ In Performance view (same filter)\n→ Click \"QUERIES\" tab\n→ Export top 50 queries as CSV\n\nSTEP 6: Historical Baseline (Optional)\n→ Change date range to: Jan 1, 2026 - Jan 31, 2026\n→ Record same metrics for comparison\n\nAUTOMATED SETUP (Recommended for future):\n1. Enable GSC API in Google Cloud Console\n2. Create service account credentials\n3. Download JSON key file\n4. Set environment: GSC_CREDENTIALS_PATH=/path/to/key.json\n5. Add service account email to GSC property users\n6. Re-run this script (will auto-fetch data)\n"
+}

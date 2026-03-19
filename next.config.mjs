@@ -131,9 +131,9 @@ const nextConfig = {
   },
 
   // Enable production optimizations
-  swcMinify: true,
   compress: true,
   productionBrowserSourceMaps: false, // Disable source maps in production for smaller bundles
+  // Note: swcMinify is now enabled by default in Next.js 15+
 
   // Experimental features for performance
   experimental: {
