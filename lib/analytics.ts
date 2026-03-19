@@ -16,7 +16,8 @@ export type AnalyticsEvent =
   | 'downgraded_to_free'
   | 'notification_clicked'
   | 'cancellation_survey_email_sent'
-  | 'cancellation_survey_submitted';
+  | 'cancellation_survey_submitted'
+  | 'subscription_canceled';
 
 /**
  * Track an analytics event for a user
