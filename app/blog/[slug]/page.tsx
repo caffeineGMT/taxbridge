@@ -11,6 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { Article, WithContext } from 'schema-dts';
 import EmailCapturePopup from '@/components/blog/EmailCapturePopup';
+import RelatedArticlesSection from '@/components/blog/RelatedArticlesSection';
 
 interface BlogArticle {
   slug: string;
@@ -249,20 +250,7 @@ export default async function BlogArticlePage({
         </section>
 
         {/* Related Articles */}
-        <section className="container mx-auto px-4 max-w-4xl py-12">
-          <h2 className="text-2xl font-bold mb-6">Related Articles</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <Link
-              href="/blog"
-              className="block bg-gray-50 rounded-lg p-6 hover:shadow-lg transition"
-            >
-              <h3 className="font-bold mb-2 text-primary">View All Articles →</h3>
-              <p className="text-sm text-gray-600">
-                Browse our complete library of cross-border tax guides
-              </p>
-            </Link>
-          </div>
-        </section>
+        <RelatedArticlesSection currentSlug={article.slug} />
       </div>
 
       {/* Email Capture Popup */}
