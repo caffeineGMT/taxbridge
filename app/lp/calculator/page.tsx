@@ -95,41 +95,41 @@ export default function CalculatorLandingPage() {
         </div>
       </header>
 
-      <main className="relative container mx-auto px-6 py-12">
+      <main className="relative container mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Hero Section */}
-        <div className="max-w-4xl mx-auto text-center space-y-6 mb-12">
+        <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6 mb-8 sm:mb-12">
           <div className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-4">
             Free H-1B RSU Tax Calculator
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-100 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-100 leading-tight px-4">
             Calculate Your
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">
               Cross-Border RSU Tax in Seconds
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto px-4">
             Instant dual-country tax calculation with Foreign Tax Credit optimization.
             Built for H-1B/TN visa holders with US RSUs now living in Canada.
           </p>
         </div>
 
         {/* Calculator Section */}
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto px-2 sm:px-0">
           {variant === 'B' && !showCalculator ? (
             // Variant B: Email gate before calculator
             <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-slate-100">
+              <CardHeader className="text-center px-4 sm:px-6">
+                <CardTitle className="text-xl sm:text-2xl text-slate-100">
                   Get Instant Access to Your Tax Estimate
                 </CardTitle>
-                <CardDescription className="text-base text-slate-400">
+                <CardDescription className="text-sm sm:text-base text-slate-400">
                   Enter your email to unlock the free calculator
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4 sm:px-6">
                 <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto space-y-4">
                   <div>
-                    <Label htmlFor="email" className="text-slate-300">Email Address</Label>
+                    <Label htmlFor="email" className="text-slate-300 text-base">Email Address</Label>
                     <Input
                       id="email"
                       type="email"
@@ -156,28 +156,28 @@ export default function CalculatorLandingPage() {
             </Card>
           ) : (
             // Calculator Interface
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {/* Input Card */}
               <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
                       <Calculator className="h-5 w-5 text-slate-950" />
                     </div>
-                    <CardTitle className="text-xl text-slate-100">RSU Details</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl text-slate-100">RSU Details</CardTitle>
                   </div>
-                  <CardDescription className="text-slate-400">
+                  <CardDescription className="text-sm sm:text-base text-slate-400">
                     Enter your vesting information
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 px-4 sm:px-6">
                   <div>
-                    <Label htmlFor="employer" className="text-slate-300">Employer</Label>
+                    <Label htmlFor="employer" className="text-slate-300 text-base">Employer</Label>
                     <select
                       id="employer"
                       value={rsuData.employer}
                       onChange={(e) => setRsuData({ ...rsuData, employer: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-md text-slate-100"
+                      className="w-full h-11 min-h-[44px] px-3 py-2 bg-slate-800 border border-slate-700 rounded-md text-slate-100 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     >
                       <option value="Meta">Meta</option>
                       <option value="Amazon">Amazon</option>
@@ -187,10 +187,11 @@ export default function CalculatorLandingPage() {
                     </select>
                   </div>
                   <div>
-                    <Label htmlFor="shares" className="text-slate-300">Number of Shares</Label>
+                    <Label htmlFor="shares" className="text-slate-300 text-base">Number of Shares</Label>
                     <Input
                       id="shares"
                       type="number"
+                      inputMode="numeric"
                       placeholder="100"
                       value={rsuData.shares}
                       onChange={(e) => setRsuData({ ...rsuData, shares: e.target.value })}
@@ -198,10 +199,11 @@ export default function CalculatorLandingPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="fmv" className="text-slate-300">Fair Market Value (USD)</Label>
+                    <Label htmlFor="fmv" className="text-slate-300 text-base">Fair Market Value (USD)</Label>
                     <Input
                       id="fmv"
                       type="number"
+                      inputMode="decimal"
                       step="0.01"
                       placeholder="450.00"
                       value={rsuData.fmv}
@@ -214,47 +216,47 @@ export default function CalculatorLandingPage() {
 
               {/* Results Card */}
               <Card className="border-slate-800 bg-slate-900/50 backdrop-blur-sm">
-                <CardHeader>
+                <CardHeader className="px-4 sm:px-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                       <DollarSign className="h-5 w-5 text-slate-950" />
                     </div>
-                    <CardTitle className="text-xl text-slate-100">Tax Estimate</CardTitle>
+                    <CardTitle className="text-lg sm:text-xl text-slate-100">Tax Estimate</CardTitle>
                   </div>
-                  <CardDescription className="text-slate-400">
+                  <CardDescription className="text-sm sm:text-base text-slate-400">
                     Your cross-border tax breakdown
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-4 sm:px-6">
                   {taxResult ? (
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2 border-b border-slate-800">
-                        <span className="text-slate-400">Total RSU Value</span>
-                        <span className="text-lg font-semibold text-slate-100">
+                      <div className="flex justify-between items-center py-2 border-b border-slate-800 gap-4">
+                        <span className="text-slate-400 text-sm sm:text-base">Total RSU Value</span>
+                        <span className="text-base sm:text-lg font-semibold text-slate-100 whitespace-nowrap">
                           ${taxResult.totalValue.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-slate-400">US Federal Tax (24%)</span>
-                        <span className="text-slate-100">
+                      <div className="flex justify-between items-center py-2 gap-4">
+                        <span className="text-slate-400 text-sm sm:text-base">US Federal Tax (24%)</span>
+                        <span className="text-slate-100 text-sm sm:text-base whitespace-nowrap">
                           ${taxResult.usFederalTax.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-slate-400">Canada Federal Tax (26%)</span>
-                        <span className="text-slate-100">
+                      <div className="flex justify-between items-center py-2 gap-4">
+                        <span className="text-slate-400 text-sm sm:text-base">Canada Federal Tax (26%)</span>
+                        <span className="text-slate-100 text-sm sm:text-base whitespace-nowrap">
                           ${taxResult.canadaFederalTax.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-t border-slate-800">
-                        <span className="text-emerald-400 font-medium">Foreign Tax Credit</span>
-                        <span className="text-emerald-400 font-medium">
+                      <div className="flex justify-between items-center py-2 border-t border-slate-800 gap-4">
+                        <span className="text-emerald-400 font-medium text-sm sm:text-base">Foreign Tax Credit</span>
+                        <span className="text-emerald-400 font-medium text-sm sm:text-base whitespace-nowrap">
                           -${taxResult.ftcreditEstimate.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                         </span>
                       </div>
-                      <div className="flex justify-between items-center py-3 bg-emerald-500/10 rounded-lg px-4 border border-emerald-500/20">
-                        <span className="text-emerald-400 font-semibold">Net Tax Owed</span>
-                        <span className="text-2xl font-bold text-emerald-400">
+                      <div className="flex justify-between items-center py-3 bg-emerald-500/10 rounded-lg px-3 sm:px-4 border border-emerald-500/20 gap-4">
+                        <span className="text-emerald-400 font-semibold text-sm sm:text-base">Net Tax Owed</span>
+                        <span className="text-xl sm:text-2xl font-bold text-emerald-400 whitespace-nowrap">
                           ${taxResult.netTax.toLocaleString('en-US', { maximumFractionDigits: 0 })}
                         </span>
                       </div>
@@ -263,7 +265,7 @@ export default function CalculatorLandingPage() {
                       </p>
                     </div>
                   ) : (
-                    <div className="text-center py-8 text-slate-500">
+                    <div className="text-center py-8 text-slate-500 text-sm sm:text-base">
                       Enter RSU details to see your tax estimate
                     </div>
                   )}
@@ -274,19 +276,19 @@ export default function CalculatorLandingPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="max-w-4xl mx-auto mt-16">
+        <div className="max-w-4xl mx-auto mt-12 sm:mt-16 px-2 sm:px-0">
           <Card className="border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 backdrop-blur-sm">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-slate-100 mb-4">
+            <CardContent className="p-6 sm:p-8 text-center">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-100 mb-4">
                 Ready for Complete Tax Management?
               </h2>
-              <p className="text-slate-400 mb-6 max-w-2xl mx-auto">
+              <p className="text-sm sm:text-base text-slate-400 mb-6 max-w-2xl mx-auto">
                 Track all your RSU vestings, generate tax reports, and get CPA-reviewed filing checklists.
               </p>
               <Link href="/sign-up">
                 <Button
                   size="lg"
-                  className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-lg px-8 py-6"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 w-full sm:w-auto"
                 >
                   Create Free Account
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -300,34 +302,34 @@ export default function CalculatorLandingPage() {
         </div>
 
         {/* Features Grid */}
-        <div className="max-w-6xl mx-auto mt-16">
-          <h2 className="text-2xl font-bold text-slate-100 text-center mb-8">
+        <div className="max-w-6xl mx-auto mt-12 sm:mt-16">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-100 text-center mb-6 sm:mb-8 px-4">
             Everything You Need for Cross-Border Tax Filing
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-0">
             <Card className="border-slate-800 bg-slate-900/50">
-              <CardHeader>
+              <CardHeader className="px-4 sm:px-6">
                 <CheckCircle2 className="h-8 w-8 text-emerald-500 mb-2" />
-                <CardTitle className="text-lg text-slate-100">Multi-Year Tracking</CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardTitle className="text-base sm:text-lg text-slate-100">Multi-Year Tracking</CardTitle>
+                <CardDescription className="text-sm text-slate-400">
                   Track unlimited RSU vestings across multiple years
                 </CardDescription>
               </CardHeader>
             </Card>
             <Card className="border-slate-800 bg-slate-900/50">
-              <CardHeader>
+              <CardHeader className="px-4 sm:px-6">
                 <CheckCircle2 className="h-8 w-8 text-emerald-500 mb-2" />
-                <CardTitle className="text-lg text-slate-100">Treaty Article XV</CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardTitle className="text-base sm:text-lg text-slate-100">Treaty Article XV</CardTitle>
+                <CardDescription className="text-sm text-slate-400">
                   Automatic FTC calculation using US-Canada tax treaty
                 </CardDescription>
               </CardHeader>
             </Card>
             <Card className="border-slate-800 bg-slate-900/50">
-              <CardHeader>
+              <CardHeader className="px-4 sm:px-6">
                 <CheckCircle2 className="h-8 w-8 text-emerald-500 mb-2" />
-                <CardTitle className="text-lg text-slate-100">Forms Checklist</CardTitle>
-                <CardDescription className="text-slate-400">
+                <CardTitle className="text-base sm:text-lg text-slate-100">Forms Checklist</CardTitle>
+                <CardDescription className="text-sm text-slate-400">
                   Complete list: W-2, 1040, T1, T4, FBAR, 8938, 8833
                 </CardDescription>
               </CardHeader>

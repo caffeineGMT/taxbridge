@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { getRSUEntries, getUserProfileByClerkId } from '@/lib/db';
 import { DashboardContent } from '@/components/dashboard/dashboard-content';
 import Header from '@/components/Header';
+import { calculateUSFederalTax, calculateUSStateTax } from '@/lib/tax/us-calculator';
+import { calculateCanadaFederalTax, calculateCanadaProvincialTax } from '@/lib/tax/canada-calculator';
 
 // Server Component - fetches data at request time
 export default async function DashboardPage() {
@@ -46,9 +48,22 @@ export default async function DashboardPage() {
       ? 'In Progress'
       : 'Complete';
 
-  // Placeholder tax values (will be calculated by tax engine in future)
-  const estimatedUSTax = ytdTotal * 0.24; // Approximate 24% federal rate
-  const estimatedCanadaTax = ytdTotal * 0.26; // Approximate 26% combined rate
+  // Calculate REAL tax estimates using actual tax engine
+  let estimatedUSTax = 0;
+  let estimatedCanadaTax = 0;
+
+  if (ytdTotal > 0 && userProfile.us_state && userProfile.canada_province) {
+    // US tax calculation (in USD)
+    const usFederal = calculateUSFederalTax(ytdTotal, userProfile.filing_status as 'single' | 'married');
+    const usState = calculateUSStateTax(ytdTotal, userProfile.us_state as 'WA' | 'CA' | 'NY' | 'TX');
+    estimatedUSTax = usFederal.tax + usState.tax;
+
+    // Canada tax calculation (assume 1.35 USD to CAD conversion)
+    const ytdTotalCAD = ytdTotal * 1.35;
+    const canadaFederal = calculateCanadaFederalTax(ytdTotalCAD);
+    const canadaProvincial = calculateCanadaProvincialTax(ytdTotalCAD, userProfile.canada_province as 'BC' | 'ON' | 'AB');
+    estimatedCanadaTax = canadaFederal.tax + canadaProvincial.tax;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
