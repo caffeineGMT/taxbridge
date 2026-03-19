@@ -7,17 +7,14 @@ import {
   PartnerInput,
 } from '@/lib/db/queries/partners';
 import { logger } from '@/lib/logger';
-import { applyRateLimiting } from '@/lib/apply-rate-limiting';
+import { applyAuthRateLimit } from '@/lib/apply-rate-limiting';
 
 /**
  * GET /api/partners
  * Get all partners, optionally filtered by type or status
  */
 export async function GET(request: NextRequest) {
-  const rateLimitResult = await applyRateLimiting(request, {
-    id: 'partners-list',
-    limit: 100,
-  });
+  const rateLimitResult = await applyAuthRateLimit(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {
@@ -61,10 +58,7 @@ export async function GET(request: NextRequest) {
  * Create a new partner
  */
 export async function POST(request: NextRequest) {
-  const rateLimitResult = await applyRateLimiting(request, {
-    id: 'partners-create',
-    limit: 10,
-  });
+  const rateLimitResult = await applyAuthRateLimit(request);
   if (rateLimitResult) return rateLimitResult;
 
   try {

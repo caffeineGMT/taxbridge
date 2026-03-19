@@ -25,7 +25,20 @@ export type AnalyticsEvent =
   | 'payment_succeeded'
   | 'payment_failed'
   | 'invoice_created'
-  | 'reengagement_email_sent';
+  | 'reengagement_email_sent'
+  // Partnership events
+  | 'partner_outreach_sent'
+  | 'partner_outreach_opened'
+  | 'partner_outreach_clicked'
+  | 'partner_responded'
+  | 'partner_intro_call_scheduled'
+  | 'partner_intro_call_completed'
+  | 'partnership_activated'
+  | 'partner_referral_click'
+  | 'partner_referral_signup'
+  | 'partner_referral_converted'
+  | 'partner_commission_calculated'
+  | 'partner_commission_paid';
 
 /**
  * Track an analytics event for a user

@@ -6,7 +6,7 @@ import {
   PartnerOutreachInput,
 } from '@/lib/db/queries/partners';
 import { logger } from '@/lib/logger';
-import { applyRateLimiting } from '@/lib/apply-rate-limiting';
+import { applyAuthRateLimit } from '@/lib/apply-rate-limiting';
 
 /**
  * GET /api/partners/[id]/outreach
@@ -16,7 +16,7 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const rateLimitResult = await applyRateLimiting(request, {
+  const rateLimitResult = await applyAuthRateLimit(request, {
     id: 'partner-outreach-list',
     limit: 100,
   });
@@ -50,7 +50,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const rateLimitResult = await applyRateLimiting(request, {
+  const rateLimitResult = await applyAuthRateLimit(request, {
     id: 'partner-outreach-create',
     limit: 10,
   });

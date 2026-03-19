@@ -4,14 +4,14 @@ import {
   getTopPerformingPartners,
 } from '@/lib/db/queries/partners';
 import { logger } from '@/lib/logger';
-import { applyRateLimiting } from '@/lib/apply-rate-limiting';
+import { applyAuthRateLimit } from '@/lib/apply-rate-limiting';
 
 /**
  * GET /api/partners/metrics
  * Get overall partnership program metrics
  */
 export async function GET(request: NextRequest) {
-  const rateLimitResult = await applyRateLimiting(request, {
+  const rateLimitResult = await applyAuthRateLimit(request, {
     id: 'partner-metrics',
     limit: 50,
   });

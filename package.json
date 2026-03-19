@@ -85,6 +85,7 @@
     "blog:generate": "tsx scripts/generate-blog-content.ts",
     "blog:verify": "tsx scripts/verify-blog-content.ts",
     "setup:google-ads": "tsx scripts/setup-google-ads.ts",
+    "track-ads-spend": "tsx scripts/track-google-ads-spend.ts",
     "db:migrate:reddit": "tsx scripts/migrate-reddit-schema.ts",
     "reddit:monitor": "tsx scripts/reddit-monitor.ts",
     "reddit:review-drafts": "tsx scripts/reddit-review-drafts.ts",

@@ -119,7 +119,8 @@ export function CheckoutFlow({
               </div>
               <Button
                 onClick={() => router.push('/dashboard')}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                size="lg"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white touch-manipulation"
               >
                 Go to Dashboard
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -162,14 +163,16 @@ export function CheckoutFlow({
             <div className="flex gap-3">
               <Button
                 onClick={handleRetry}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                className="bg-emerald-500 hover:bg-emerald-600 text-white touch-manipulation"
+                size="lg"
               >
                 Try Again
               </Button>
               <Button
                 onClick={() => router.push('/pricing')}
                 variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-800"
+                size="lg"
+                className="border-slate-600 text-slate-300 hover:bg-slate-800 touch-manipulation"
               >
                 Back to Pricing
               </Button>
@@ -230,7 +233,7 @@ export function CheckoutFlowInline({
             <Button
               onClick={onRetry}
               size="sm"
-              className="ml-4 bg-red-500 hover:bg-red-600"
+              className="ml-4 bg-red-500 hover:bg-red-600 touch-manipulation"
             >
               Retry
             </Button>

@@ -190,7 +190,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   onClick={() => trackCTAClick('/dashboard')}
-                  className={`w-full sm:w-auto group ${cta.primaryColor} text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20`}
+                  className={`w-full sm:w-auto group touch-manipulation ${cta.primaryColor} text-slate-950 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/20`}
                 >
                   {cta.primaryText}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -200,7 +200,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto border-slate-700 hover:border-emerald-500 hover:bg-slate-800 text-slate-100 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all"
+                  className="w-full sm:w-auto touch-manipulation border-slate-700 hover:border-emerald-500 hover:bg-slate-800 text-slate-100 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transition-all"
                 >
                   Learn More
                 </Button>
