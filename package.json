@@ -97,6 +97,8 @@
     "pricing:setup-39": "tsx scripts/setup-stripe-price-39.ts",
     "pricing:analyze": "tsx scripts/analyze-pricing-experiment.ts",
     "verify:pricing-experiment": "node scripts/verify-pricing-experiment.js",
+    "stripe:create-experiment-prices": "tsx scripts/create-stripe-experiment-prices.ts",
+    "test:hypothesis": "tsx scripts/test-hypothesis.ts",
     "immigration:followups:dry-run": "tsx scripts/immigration-lawyer-followups.ts --dry-run",
     "interview:check-customers": "tsx scripts/check-paid-customers.ts",
     "interview:send-emails": "tsx scripts/send-user-interview-emails.ts",
