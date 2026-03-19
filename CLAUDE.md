@@ -55,3 +55,58 @@ This auto-captures: screenshots, deployment status, build results, test results,
 - ❌ NEVER skip the build verification step
 
 All production deployments are handled manually. Your job is to get working, error-free code onto GitHub.
+
+---
+
+## BUILD QUALITY GATE [AUTOMATIC ENFORCEMENT]
+
+**Pre-commit hook automatically enforces build quality.**
+
+### How It Works:
+Every time you attempt to commit, a pre-commit hook automatically runs:
+```bash
+npm run build
+```
+
+If the build fails with ANY errors, **your commit will be blocked**.
+
+### What This Prevents:
+- ❌ Committing code with TypeScript errors
+- ❌ Committing code with ESLint errors
+- ❌ Committing code that breaks the Next.js build
+- ❌ Pushing broken code to GitHub
+- ❌ Recurring build issues across sprints
+
+### What You'll See:
+When you commit, you'll see:
+```
+🔨 Running build verification before commit...
+⚠️  This is a build quality gate - your commit will be blocked if build fails.
+
+> npm run build
+[Build output...]
+
+✅ Build passed - proceeding with commit
+```
+
+If build fails:
+```
+❌ BUILD FAILED - Commit blocked!
+
+Fix the build errors above before committing.
+This enforcement is required per CLAUDE.md - see 'BUILD QUALITY GATE' section.
+```
+
+### Bypassing (NOT RECOMMENDED):
+If you absolutely must bypass the check (emergency hotfix only):
+```bash
+git commit --no-verify -m "message"
+```
+
+**WARNING**: Only use `--no-verify` in emergencies. Bypassing the gate defeats its purpose.
+
+### Implementation Details:
+- Hook location: `.husky/pre-commit`
+- Managed by: [husky](https://typicode.github.io/husky/)
+- Installed automatically via `npm install` (prepare script)
+- Exit code: Build must return 0 (success) or commit is rejected

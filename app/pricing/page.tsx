@@ -33,7 +33,18 @@ import { SocialProofSection } from '@/components/SocialProofSection';
 // Generate tiers dynamically based on pricing experiment and conversion experiments
 const getTiers = (
   pricingExperiment: ReturnType<typeof usePricingExperiment>,
-  freeTierConfig: { calculationsAllowed: number | 'unlimited'; label: string; urgencyMessage?: string }
+  freeTierConfig: {
+    maxRSUEntries: number | 'unlimited';
+    label: string;
+    urgencyMessage?: string;
+    gatedFeatures?: {
+      pdfExport: boolean;
+      aiAdvisor: boolean;
+      csvImport: boolean;
+      multiYear: boolean;
+      prioritySupport: boolean;
+    };
+  }
 ) => {
     const isAnnual = pricingExperiment.selectedInterval === 'annual';
     const proPrice = isAnnual ? pricingExperiment.annualPrice : pricingExperiment.monthlyPrice;

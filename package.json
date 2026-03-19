@@ -77,6 +77,8 @@
     "pricing:analyze": "tsx scripts/analyze-pricing-experiment.ts",
     "verify:pricing-experiment": "node scripts/verify-pricing-experiment.js",
     "immigration:followups:dry-run": "tsx scripts/immigration-lawyer-followups.ts --dry-run",
+    "interview:check-customers": "tsx scripts/check-paid-customers.ts",
+    "interview:send-emails": "tsx scripts/send-user-interview-emails.ts",
     "cron:notifications": "tsx lib/cron/notifications.ts",
     "test:email-drip": "tsx scripts/test-email-drip.ts",
     "test:ab-email": "tsx scripts/test-ab-email-drip.ts",

@@ -1,1 +1,21 @@
-npm test
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔨 Running build verification before commit..."
+echo "⚠️  This is a build quality gate - your commit will be blocked if build fails."
+echo ""
+
+npm run build
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ BUILD FAILED - Commit blocked!"
+  echo ""
+  echo "Fix the build errors above before committing."
+  echo "This enforcement is required per CLAUDE.md - see 'BUILD QUALITY GATE' section."
+  exit 1
+fi
+
+echo ""
+echo "✅ Build passed - proceeding with commit"
+echo ""
