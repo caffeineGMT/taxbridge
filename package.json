@@ -37,6 +37,7 @@
     "verify:gsc": "tsx scripts/verify-gsc-indexing.ts",
     "analyze:seo:traffic": "tsx scripts/analyze-seo-traffic.ts",
     "verify:production": "tsx scripts/verify-production-site.ts",
+    "verify:deployment": "tsx scripts/verify-deployment.ts",
     "verify:task": "tsx scripts/verify-task.ts",
     "check:evidence": "tsx scripts/check-task-evidence.ts",
     "check:precommit": "tsx scripts/check-evidence-precommit.ts",
@@ -193,7 +194,9 @@
     "revenue:test": "tsx scripts/execute-revenue-test.ts",
     "revenue:test:full": "tsx scripts/execute-revenue-test.ts",
     "verify:stripe:final": "tsx scripts/verify-stripe-final.ts",
-    "verify:stripe:revenue": "tsx scripts/verify-stripe-revenue.ts"
+    "verify:stripe:revenue": "tsx scripts/verify-stripe-revenue.ts",
+    "validate:env": "tsx scripts/validate-env-production.ts",
+    "analyze:recurrence": "tsx scripts/analyze-task-recurrence.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
