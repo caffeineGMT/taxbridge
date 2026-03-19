@@ -44,6 +44,7 @@
     "test:payment-flow": "tsx scripts/test-payment-flow.ts",
     "validate:stripe": "tsx scripts/validate-stripe-integration.ts",
     "setup:stripe": "tsx scripts/setup-stripe-products.ts",
+    "stripe:setup-live": "node scripts/setup-stripe-live.js",
     "verify:stripe": "tsx scripts/verify-stripe-production.ts",
     "stripe:quickstart": "tsx scripts/stripe-production-quickstart.ts",
     "seo:generate": "tsx scripts/generate-seo-content.ts",

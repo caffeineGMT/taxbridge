@@ -50,14 +50,14 @@ const TIERS = [
   },
   {
     name: 'Pro',
-    price: 299,
-    regularPrice: 499,
-    monthlyEquivalent: 24.92,
+    price: 49, // REVENUE ACTIVATION: $49/year launch pricing
+    regularPrice: 99, // Original price before launch discount
+    monthlyEquivalent: 4.08, // $49/12 months
     annual: true,
     priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || 'price_1ProAnnual',
     tier: 'pro',
-    tagline: 'For H-1B/TN professionals with RSU income',
-    badge: 'Most Popular',
+    tagline: '🔥 Launch Special: 50% OFF ($99 → $49/year)',
+    badge: '⭐ Recommended',
     features: {
       rsuEntries: 'Unlimited RSU entries',
       taxCalculation: true,
@@ -72,9 +72,9 @@ const TIERS = [
       clientDashboard: false,
       whiteLabel: false,
     },
-    cta: 'Start 7-Day Free Trial',
+    cta: 'Start 14-Day Free Trial',
     highlighted: true,
-    savings: 'Save $200 vs regular price',
+    savings: 'Save $50 — Launch pricing ends March 31',
   },
   {
     name: 'Enterprise',
