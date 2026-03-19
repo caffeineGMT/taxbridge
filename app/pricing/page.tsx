@@ -25,88 +25,107 @@ import { trackEvent } from '@/lib/analytics/posthog';
 import { useCTAVariant, useTrackCTAClick } from '@/hooks/use-ab-testing';
 import { UrgencyMessage, StickyUrgencyBanner } from '@/components/UrgencyMessage';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
+import { usePricingExperiment, isInProductHuntCohort } from '@/hooks/use-pricing-experiment';
+import { BillingIntervalToggle } from '@/components/BillingIntervalToggle';
 
-// Pricing tiers with A/B testing variants
-const TIERS = [
-  {
-    name: 'Free',
-    price: 0,
-    priceId: null,
-    tier: 'free',
-    tagline: 'Perfect for getting started',
-    features: {
-      rsuEntries: '1 RSU entry',
-      taxCalculation: true,
-      formsChecklist: true,
-      usdCadConversion: true,
-      ftcOptimizer: false,
-      pdfExport: false,
-      aiAdvisor: false,
-      prioritySupport: false,
-      csvImport: false,
-      apiAccess: false,
-      clientDashboard: false,
-      whiteLabel: false,
-    },
-    cta: 'Get Started Free',
-    highlighted: false,
-  },
-  {
-    name: 'Pro',
-    price: 49, // REVENUE ACTIVATION: $49/year launch pricing
-    regularPrice: 99, // Original price before launch discount
-    monthlyEquivalent: 4.08, // $49/12 months
-    annual: true,
-    priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID || 'price_1ProAnnual',
-    tier: 'pro',
-    tagline: '🔥 Launch Special: 50% OFF ($99 → $49/year)',
-    badge: '⭐ Recommended',
-    features: {
-      rsuEntries: 'Unlimited RSU entries',
-      taxCalculation: true,
-      formsChecklist: true,
-      usdCadConversion: true,
-      ftcOptimizer: true,
-      pdfExport: true,
-      aiAdvisor: true,
-      prioritySupport: true,
-      csvImport: true,
-      apiAccess: false,
-      clientDashboard: false,
-      whiteLabel: false,
-    },
-    cta: 'Start 14-Day Free Trial',
-    highlighted: true,
-    savings: 'Save $50 — Launch pricing ends March 31',
-  },
-  {
-    name: 'Enterprise',
-    price: 2000,
-    monthlyEquivalent: 166.67,
-    annual: true,
-    priceId: process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PRICE_ID || 'price_1EntAnnual',
-    tier: 'enterprise',
-    tagline: 'For CPAs and accounting firms',
-    urgencyBadge: 'Only 3 spots left at this price',
-    features: {
-      rsuEntries: 'Unlimited RSU entries',
-      taxCalculation: true,
-      formsChecklist: true,
-      usdCadConversion: true,
-      ftcOptimizer: true,
-      pdfExport: true,
-      aiAdvisor: true,
-      prioritySupport: true,
-      csvImport: true,
-      apiAccess: true,
-      clientDashboard: true,
-      whiteLabel: true,
-    },
-    cta: 'Contact Sales',
-    highlighted: false,
-    customFeatures: ['Dedicated account manager', 'White-label reports', 'API access'],
-  },
-];
+  // Generate tiers dynamically based on pricing experiment
+  const getTiers = () => {
+    const isAnnual = pricingExperiment.selectedInterval === 'annual';
+    const proPrice = isAnnual ? pricingExperiment.annualPrice : pricingExperiment.monthlyPrice;
+    const proPriceId = pricingExperiment.getCurrentPriceId();
+    const monthlyEquivalent = isAnnual ? proPrice / 12 : null;
+
+    return [
+      {
+        name: 'Free',
+        price: 0,
+        priceId: null,
+        tier: 'free',
+        tagline: 'Perfect for getting started',
+        features: {
+          rsuEntries: '1 RSU entry',
+          taxCalculation: true,
+          formsChecklist: true,
+          usdCadConversion: true,
+          ftcOptimizer: false,
+          pdfExport: false,
+          aiAdvisor: false,
+          prioritySupport: false,
+          csvImport: false,
+          apiAccess: false,
+          clientDashboard: false,
+          whiteLabel: false,
+        },
+        cta: 'Get Started Free',
+        highlighted: false,
+      },
+      {
+        name: 'Pro',
+        price: proPrice,
+        regularPrice: isAnnual && pricingExperiment.variant === 'annual_49' ? 99 : undefined,
+        monthlyEquivalent,
+        annual: isAnnual,
+        priceId: proPriceId,
+        tier: 'pro',
+        tagline: isAnnual && pricingExperiment.variant === 'annual_49'
+          ? '🔥 Launch Special: 50% OFF ($99 → $49/year)'
+          : isAnnual
+          ? 'Best value for serious tax planning'
+          : 'Flexible month-to-month billing',
+        badge: '⭐ Recommended',
+        features: {
+          rsuEntries: 'Unlimited RSU entries',
+          taxCalculation: true,
+          formsChecklist: true,
+          usdCadConversion: true,
+          ftcOptimizer: true,
+          pdfExport: true,
+          aiAdvisor: true,
+          prioritySupport: true,
+          csvImport: true,
+          apiAccess: false,
+          clientDashboard: false,
+          whiteLabel: false,
+        },
+        cta: 'Start 14-Day Free Trial',
+        highlighted: true,
+        savings: isAnnual && pricingExperiment.variant === 'annual_49'
+          ? 'Save $50 — Launch pricing ends March 31'
+          : isAnnual
+          ? `Save $${(pricingExperiment.monthlyPrice * 12) - proPrice} vs monthly`
+          : null,
+      },
+      {
+        name: 'Enterprise',
+        price: 2000,
+        monthlyEquivalent: 166.67,
+        annual: true,
+        priceId: process.env.NEXT_PUBLIC_STRIPE_ENTERPRISE_PRICE_ID || 'price_1EntAnnual',
+        tier: 'enterprise',
+        tagline: 'For CPAs and accounting firms',
+        urgencyBadge: 'Only 3 spots left at this price',
+        features: {
+          rsuEntries: 'Unlimited RSU entries',
+          taxCalculation: true,
+          formsChecklist: true,
+          usdCadConversion: true,
+          ftcOptimizer: true,
+          pdfExport: true,
+          aiAdvisor: true,
+          prioritySupport: true,
+          csvImport: true,
+          apiAccess: true,
+          clientDashboard: true,
+          whiteLabel: true,
+        },
+        cta: 'Contact Sales',
+        highlighted: false,
+        customFeatures: ['Dedicated account manager', 'White-label reports', 'API access'],
+      },
+    ];
+  };
+
+  const TIERS = getTiers();
 
 // FAQ data
 const FAQ_ITEMS = [
@@ -168,14 +187,24 @@ export default function PricingPage() {
   const ctaVariant = useCTAVariant();
   const trackCTAClick = useTrackCTAClick(ctaVariant);
 
-  // Track pricing page view with PostHog
+  // Pricing Experiment: Get pricing variant and billing interval
+  const pricingExperiment = usePricingExperiment();
+  const isProductHunt = isInProductHuntCohort();
+
+  // Track pricing page view with PostHog and experiment exposure
   useEffect(() => {
     trackEvent('pricing_page_viewed', {
       page: '/pricing',
       funnelStep: 'Pricing',
       funnelStepNumber: 2,
+      pricingVariant: pricingExperiment.variant,
+      annualPrice: pricingExperiment.annualPrice,
+      isProductHunt,
     });
-  }, []);
+
+    // Track experiment exposure
+    pricingExperiment.trackVariantExposure();
+  }, [pricingExperiment, isProductHunt]);
 
   // Fetch user count for social proof
   useEffect(() => {
@@ -296,15 +325,30 @@ export default function PricingPage() {
   }, [searchParams, router]);
 
   const handleUpgrade = async (tier: string, priceId: string | null) => {
-    // Track tier selection with A/B test variant
+    // Track tier selection with A/B test variant and pricing experiment
     trackCTAClick(tier);
-    trackEvent('pricing_tier_selected', {
+
+    const trackingData = {
       plan: tier,
       funnelStep: 'Tier Selection',
       funnelStepNumber: 3,
       ctaVariant: ctaVariant.variant,
       ctaText: ctaVariant.text,
-    });
+      pricingVariant: pricingExperiment.variant,
+      billingInterval: pricingExperiment.selectedInterval,
+      price: tier === 'pro' ? pricingExperiment.getCurrentPrice() : undefined,
+      isProductHunt,
+    };
+
+    trackEvent('pricing_tier_selected', trackingData);
+
+    // Track price selection for experiment
+    if (tier === 'pro') {
+      pricingExperiment.trackPriceSelected(
+        pricingExperiment.selectedInterval,
+        pricingExperiment.getCurrentPrice()
+      );
+    }
 
     if (!priceId) {
       if (tier === 'free') {
@@ -484,6 +528,24 @@ export default function PricingPage() {
             Choose the plan that fits your cross-border tax needs. All plans include our core tax calculation engine,
             USD/CAD conversion, and Treaty Article XV compliance.
           </p>
+
+          {/* Billing Interval Toggle */}
+          {!pricingExperiment.isLoading && (
+            <BillingIntervalToggle
+              selected={pricingExperiment.selectedInterval}
+              onSelect={pricingExperiment.setSelectedInterval}
+              annualPrice={pricingExperiment.annualPrice}
+              monthlyPrice={pricingExperiment.monthlyPrice}
+              className="mb-8"
+            />
+          )}
+
+          {/* Product Hunt Badge */}
+          {isProductHunt && (
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-600 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg mb-4">
+              🚀 Product Hunt Special: 20% OFF with code HUNT20
+            </div>
+          )}
         </div>
 
         {/* Social Proof */}

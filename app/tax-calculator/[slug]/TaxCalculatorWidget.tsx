@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, CheckCircle, Calculator } from 'lucide-react';
+import { ArrowRight, CheckCircle, Calculator, Sparkles, RotateCcw, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { calculateUSFederalTax, calculateUSStateTax } from '@/lib/tax/us-calculator';
@@ -13,6 +13,9 @@ import { TaxDisclaimer } from '@/components/legal/tax-disclaimer';
 import { InfoTooltip, TooltipProvider } from '@/components/ui/tooltip';
 import { Spinner } from '@/components/ui/spinner';
 import { EnhancedCalculatorResults } from '@/components/tax/enhanced-calculator-results';
+import { CalculatorProgress } from '@/components/ui/calculator-progress';
+import { useCalculatorState } from '@/hooks/use-calculator-state';
+import { TAX_CALCULATOR_DEMO } from '@/lib/calculator-demo-values';
 
 interface TaxCalculatorWidgetProps {
   defaultState: 'WA' | 'CA' | 'NY' | 'TX' | 'MA';
@@ -23,14 +26,83 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
   // Analytics tracker
   const trackerRef = useRef<CalculatorTracker | null>(null);
 
-  // Form state
-  const [rsuIncome, setRsuIncome] = useState('100000');
-  const [usState, setUsState] = useState<'WA' | 'CA' | 'NY' | 'TX' | 'MA'>(defaultState);
-  const [province, setProvince] = useState<'BC' | 'ON' | 'AB' | 'QC'>(defaultProvince);
+  // Save/Resume state with localStorage
+  const { state: savedInputs, setState: setSavedInputs, isLoaded, clearSavedState, hasSavedState } = useCalculatorState(
+    `tax-calculator-${defaultState}-${defaultProvince}`,
+    {
+      rsuIncome: '100000',
+      usState: defaultState,
+      province: defaultProvince,
+    }
+  );
+
+  // Form state (use saved state when loaded)
+  const [rsuIncome, setRsuIncome] = useState(savedInputs.rsuIncome);
+  const [usState, setUsState] = useState<'WA' | 'CA' | 'NY' | 'TX' | 'MA'>(savedInputs.usState || defaultState);
+  const [province, setProvince] = useState<'BC' | 'ON' | 'AB' | 'QC'>(savedInputs.province || defaultProvince);
   const [email, setEmail] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [rsuError, setRsuError] = useState<string>('');
+  const [showSaveNotification, setShowSaveNotification] = useState(false);
+
+  // Progress tracking (1: Input, 2: Results, 3: Email/Completion)
+  const [currentStep, setCurrentStep] = useState(1);
+
+  // Sync state changes to saved state
+  useEffect(() => {
+    if (isLoaded) {
+      setSavedInputs({
+        rsuIncome,
+        usState,
+        province,
+      });
+
+      // Show save notification briefly
+      setShowSaveNotification(true);
+      const timer = setTimeout(() => setShowSaveNotification(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [rsuIncome, usState, province, isLoaded]);
+
+  // Load saved state when component mounts
+  useEffect(() => {
+    if (isLoaded && hasSavedState) {
+      setRsuIncome(savedInputs.rsuIncome);
+      setUsState(savedInputs.usState || defaultState);
+      setProvince(savedInputs.province || defaultProvince);
+    }
+  }, [isLoaded]);
+
+  // Update progress step based on state
+  useEffect(() => {
+    if (emailSubmitted) {
+      setCurrentStep(3);
+    } else if (showResults) {
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(1);
+    }
+  }, [showResults, emailSubmitted]);
+
+  // Demo values functionality
+  const loadDemoValues = () => {
+    setRsuIncome(TAX_CALCULATOR_DEMO.rsuIncome);
+    setUsState(TAX_CALCULATOR_DEMO.usState);
+    setProvince(TAX_CALCULATOR_DEMO.province);
+    trackerRef.current?.trackInputChange('demo_values_loaded', 'true');
+  };
+
+  // Clear saved data
+  const handleClearSaved = () => {
+    clearSavedState();
+    setRsuIncome('100000');
+    setUsState(defaultState);
+    setProvince(defaultProvince);
+    setShowResults(false);
+    setCalculationResults(null);
+    setCurrentStep(1);
+  };
 
   // Calculation results - store full structured data
   const [calculationResults, setCalculationResults] = useState<{
@@ -205,12 +277,55 @@ export default function TaxCalculatorWidget({ defaultState, defaultProvince }: T
   return (
     <TooltipProvider>
       <div className="space-y-8">
+      {/* Progress Indicator */}
+      <CalculatorProgress
+        steps={[
+          { label: 'Enter Details', description: 'RSU income & location' },
+          { label: 'View Results', description: 'Tax calculation' },
+          { label: 'Get Report', description: 'Email confirmation' },
+        ]}
+        currentStep={currentStep}
+        className="mb-8"
+      />
+
+      {/* Save Notification */}
+      {showSaveNotification && isLoaded && (
+        <div className="fixed top-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2 z-50">
+          <Save className="w-4 h-4" />
+          <span className="text-sm font-medium">Progress saved</span>
+        </div>
+      )}
+
       <Card className="border-slate-800 bg-slate-900/50">
       <CardHeader>
-        <CardTitle className="text-2xl text-slate-100 flex items-center gap-2">
-          <Calculator className="h-6 w-6 text-emerald-400" />
-          Calculate Your Exact Tax
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calculator className="h-6 w-6 text-emerald-400" />
+            <CardTitle className="text-2xl text-slate-100">Calculate Your Exact Tax</CardTitle>
+          </div>
+          <div className="flex items-center gap-2">
+            {/* Demo Values Button */}
+            <button
+              onClick={loadDemoValues}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-md transition-all"
+              title="Load example values"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span className="hidden sm:inline">Try Demo</span>
+            </button>
+            {/* Clear Button */}
+            {hasSavedState && (
+              <button
+                onClick={handleClearSaved}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 text-slate-300 rounded-md transition-all"
+                title="Clear saved data"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span className="hidden sm:inline">Reset</span>
+              </button>
+            )}
+          </div>
+        </div>
         <CardDescription>Instant estimate with Foreign Tax Credit optimization</CardDescription>
       </CardHeader>
       <CardContent>
