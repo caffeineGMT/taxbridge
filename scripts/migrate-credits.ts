@@ -9,7 +9,7 @@ import Database from 'better-sqlite3';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
-const DB_PATH = resolve(__dirname, '../lib/db/taxbridge.db');
+const DB_PATH = resolve(__dirname, '../data/taxbridge.db');
 const MIGRATION_PATH = resolve(__dirname, '../lib/db/migrations/018_referral_credits.sql');
 
 async function runMigration() {
