@@ -154,6 +154,71 @@ export default async function ReferralsPage() {
           </Card>
         </div>
 
+        {/* Viral Growth Metrics */}
+        <Card className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 border-purple-500/30 backdrop-blur">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-purple-400" />
+              Viral Growth Metrics
+            </CardTitle>
+            <CardDescription className="text-slate-400">
+              Track your referral link performance
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="space-y-2">
+                <div className="text-sm text-slate-400">Total Shares</div>
+                <div className="text-3xl font-bold text-white">{shareStats.total_shares}</div>
+                <div className="text-xs text-slate-500">
+                  {shareStats.shares_last_7_days} in last 7 days
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm text-slate-400">Total Clicks</div>
+                <div className="text-3xl font-bold text-white">{clickStats.total_clicks}</div>
+                <div className="text-xs text-slate-500">
+                  {clickStats.clicks_last_7_days} in last 7 days
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="text-sm text-slate-400">Conversion Rate</div>
+                <div className="text-3xl font-bold text-emerald-400">
+                  {viralMetrics.conversion_rate.toFixed(1)}%
+                </div>
+                <div className="text-xs text-slate-500">
+                  {viralMetrics.conversions} conversions from {viralMetrics.clicks} clicks
+                </div>
+              </div>
+            </div>
+
+            {/* Share platforms breakdown */}
+            {shareStats.shares_by_platform.length > 0 && (
+              <div className="mt-4 p-4 bg-slate-900/50 border border-slate-700 rounded-lg">
+                <h4 className="text-sm font-semibold text-white mb-3">Shares by Platform</h4>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {shareStats.shares_by_platform.map((item) => (
+                    <div key={item.platform} className="flex items-center justify-between text-sm">
+                      <span className="text-slate-300 capitalize">{item.platform.replace('_', ' ')}</span>
+                      <span className="text-white font-semibold">{item.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Global share rate progress */}
+            <div className="mt-4 p-4 bg-slate-900/50 border border-slate-700 rounded-lg">
+              <h4 className="text-sm font-semibold text-white mb-3">Community Share Rate</h4>
+              <ShareRateProgress
+                totalUsers={globalShareRate.total_users}
+                usersWhoShared={globalShareRate.users_who_shared}
+                targetPercent={globalShareRate.target_percent}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column: Referral Link & Social Sharing */}
           <div className="lg:col-span-2 space-y-6">
