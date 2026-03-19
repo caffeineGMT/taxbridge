@@ -48,27 +48,69 @@ const HEADLINE_VARIANTS: Record<HeadlineVariant, HeadlineConfig> = {
 // ============================================================================
 // EXPERIMENT 2: FREE TIER LIMIT TEST
 // ============================================================================
+// Testing 3 variants to optimize conversion rate:
+// 1. limited_5: 5 RSU entries max (creates urgency)
+// 2. limited_10: 10 RSU entries max (current production baseline)
+// 3. unlimited_gated: Unlimited RSU entries but gates premium features (PDF, AI, CSV)
+//
+// Hypothesis: limited_10 will have highest conversion as it provides enough value
+// to test the product thoroughly without overwhelming free tier abuse
 
-export type FreeTierVariant = 'limited_5' | 'unlimited';
+export type FreeTierVariant = 'limited_5' | 'limited_10' | 'unlimited_gated';
 
 interface FreeTierConfig {
   variant: FreeTierVariant;
-  calculationsAllowed: number | 'unlimited';
+  maxRSUEntries: number | 'unlimited';
   label: string;
   urgencyMessage?: string;
+  gatedFeatures?: {
+    pdfExport: boolean;
+    aiAdvisor: boolean;
+    csvImport: boolean;
+    multiYear: boolean;
+    prioritySupport: boolean;
+  };
 }
 
 const FREE_TIER_VARIANTS: Record<FreeTierVariant, FreeTierConfig> = {
   limited_5: {
     variant: 'limited_5',
-    calculationsAllowed: 5,
-    label: '5 calculations/year',
-    urgencyMessage: '⚠️ Limited to 5 calculations—upgrade for unlimited access',
+    maxRSUEntries: 5,
+    label: '5 RSU entries',
+    urgencyMessage: '⚠️ Limited to 5 RSU entries—upgrade for unlimited access',
+    gatedFeatures: {
+      pdfExport: false,
+      aiAdvisor: false,
+      csvImport: false,
+      multiYear: false,
+      prioritySupport: false,
+    },
   },
-  unlimited: {
-    variant: 'unlimited',
-    calculationsAllowed: 'unlimited',
-    label: 'Unlimited calculations',
+  limited_10: {
+    variant: 'limited_10',
+    maxRSUEntries: 10,
+    label: '10 RSU entries',
+    urgencyMessage: '⏱️ 10 free entries—upgrade anytime for unlimited',
+    gatedFeatures: {
+      pdfExport: false,
+      aiAdvisor: false,
+      csvImport: false,
+      multiYear: false,
+      prioritySupport: false,
+    },
+  },
+  unlimited_gated: {
+    variant: 'unlimited_gated',
+    maxRSUEntries: 'unlimited',
+    label: 'Unlimited RSU entries',
+    urgencyMessage: '💡 Try unlimited entries—upgrade for PDF export & AI advisor',
+    gatedFeatures: {
+      pdfExport: false,
+      aiAdvisor: false,
+      csvImport: false,
+      multiYear: false,
+      prioritySupport: false,
+    },
   },
 };
 
@@ -192,10 +234,10 @@ export function useConversionExperiments(): ConversionExperimentsConfig {
     );
     setHeadlineVariant(headline);
 
-    // Experiment 2: Free tier limit (equal split)
+    // Experiment 2: Free tier limit (equal 3-way split)
     const freeTier = getVariantAssignment<FreeTierVariant>(
       'experiment_free_tier_limit',
-      ['limited_5', 'unlimited']
+      ['limited_5', 'limited_10', 'unlimited_gated']
     );
     setFreeTierVariant(freeTier);
 
@@ -316,14 +358,14 @@ export function getUserExperimentVariants() {
   if (typeof window === 'undefined') {
     return {
       headline: 'control',
-      freeTier: 'unlimited',
+      freeTier: 'limited_10', // Default to current production baseline
       socialProof: 'above_fold',
     };
   }
 
   return {
     headline: localStorage.getItem('experiment_pricing_headline') || 'control',
-    freeTier: localStorage.getItem('experiment_free_tier_limit') || 'unlimited',
+    freeTier: localStorage.getItem('experiment_free_tier_limit') || 'limited_10',
     socialProof: localStorage.getItem('experiment_social_proof_placement') || 'above_fold',
   };
 }

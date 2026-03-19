@@ -1,0 +1,109 @@
+{
+  "timestamp": "2026-03-19T17:57:31.505Z",
+  "productionUrl": "https://taxbridge.vercel.app",
+  "checks": {
+    "siteAccessibility": {
+      "status": "PASS",
+      "message": "Production site is accessible (HTTP 200)",
+      "details": {
+        "url": "https://taxbridge.vercel.app",
+        "status": 200
+      }
+    },
+    "calculatorAvailability": {
+      "status": "FAIL",
+      "message": "Calculator page returned HTTP 404",
+      "details": {
+        "url": "https://taxbridge.vercel.app/us-canada-tax-calculator",
+        "status": 404
+      }
+    },
+    "stripeConfiguration": {
+      "status": "FAIL",
+      "message": "Stripe keys are placeholders - cannot accept payments",
+      "details": {
+        "mode": "PLACEHOLDER",
+        "canAcceptPayments": false
+      }
+    },
+    "environmentVariables": {
+      "status": "FAIL",
+      "message": "Found 13 issues with environment variables",
+      "variables": [
+        {
+          "name": "STRIPE_SECRET_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "sk_l...HERE (33 chars)"
+        },
+        {
+          "name": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "pk_l...HERE (38 chars)"
+        },
+        {
+          "name": "STRIPE_WEBHOOK_SECRET",
+          "status": "PLACEHOLDER",
+          "maskedValue": "whse...HERE (35 chars)"
+        },
+        {
+          "name": "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "pk_l..._KEY (34 chars)"
+        },
+        {
+          "name": "CLERK_SECRET_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "sk_l..._KEY (29 chars)"
+        },
+        {
+          "name": "NEXT_PUBLIC_POSTHOG_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "phc_..._KEY (24 chars)"
+        },
+        {
+          "name": "NEXT_PUBLIC_POSTHOG_HOST",
+          "status": "SET",
+          "maskedValue": "http....com (23 chars)"
+        },
+        {
+          "name": "SENTRY_AUTH_TOKEN",
+          "status": "PLACEHOLDER",
+          "maskedValue": "YOUR...OKEN (22 chars)"
+        },
+        {
+          "name": "NEXT_PUBLIC_SENTRY_DSN",
+          "status": "PLACEHOLDER",
+          "maskedValue": "http...0000 (57 chars)"
+        },
+        {
+          "name": "DATABASE_URL",
+          "status": "MISSING",
+          "maskedValue": "[NOT SET]"
+        },
+        {
+          "name": "POSTGRES_URL",
+          "status": "MISSING",
+          "maskedValue": "[NOT SET]"
+        },
+        {
+          "name": "POSTGRES_PRISMA_URL",
+          "status": "MISSING",
+          "maskedValue": "[NOT SET]"
+        },
+        {
+          "name": "RESEND_API_KEY",
+          "status": "PLACEHOLDER",
+          "maskedValue": "re_p..._key (18 chars)"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "status": "MISSING",
+          "maskedValue": "[NOT SET]"
+        }
+      ]
+    }
+  },
+  "evidence": {
+    "screenshotPath": "/Users/michaelguo/hivemind-projects/cross-border-tax/docs/evidence/health-baseline-2026-03-19/homepage-screenshot.png"
+  }
+}

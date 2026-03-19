@@ -1,0 +1,30 @@
+{
+  "sla_hours": 6,
+  "launch_date": "2026-03-19",
+  "tracking_start": null,
+  "comments": [],
+  "response_stats": {
+    "total_comments": 0,
+    "responded_within_sla": 0,
+    "missed_sla": 0,
+    "average_response_time_minutes": 0
+  },
+  "instructions": {
+    "how_to_use": "Update this file manually or via script when responding to Product Hunt comments",
+    "add_comment": "Add each new comment to the 'comments' array with timestamp",
+    "record_response": "When you respond, update 'responded_at' field",
+    "auto_calculate": "Stats are calculated automatically based on timestamp differences"
+  },
+  "comment_template": {
+    "comment_id": "unique_id",
+    "author": "username",
+    "comment_text": "their comment text",
+    "comment_url": "https://producthunt.com/...",
+    "received_at": "2026-03-19T12:30:00Z",
+    "responded_at": null,
+    "response_time_minutes": null,
+    "within_sla": null,
+    "response_text": "your response",
+    "tags": ["question", "feedback", "bug_report", "feature_request"]
+  }
+}

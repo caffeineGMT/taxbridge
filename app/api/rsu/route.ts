@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getUserProfileByClerkId, insertRSUEntry } from '@/lib/db';
 import { RSUEventSchema } from '@/lib/types';
 import { handleApiError } from '@/lib/api-error-handler';
+import { getFreeTierLimit, hasExceededLimit, getUpgradeMessage } from '@/lib/free-tier-limits';
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,17 +34,24 @@ export async function POST(request: NextRequest) {
 
     const data = validationResult.data;
 
-    // Check subscription limits (free tier: 10 RSU entries)
+    // Dynamic free tier limit enforcement based on A/B test variant
+    // Get variant from request header (set by client-side experiment)
+    const freeTierVariant = request.headers.get('x-free-tier-variant');
+    const limitConfig = getFreeTierLimit(freeTierVariant);
+
+    // Check subscription limits based on user's A/B test variant
     const { getRSUEntries } = await import('@/lib/db');
     const existingEntries = await getRSUEntries(userProfile.id);
 
-    if (userProfile.subscription_tier === 'free' && existingEntries.length >= 10) {
+    if (userProfile.subscription_tier === 'free' && hasExceededLimit(existingEntries.length, limitConfig)) {
       return NextResponse.json(
         {
           error: 'Free tier limit reached',
           upgradeRequired: true,
           currentCount: existingEntries.length,
-          limit: 10,
+          limit: limitConfig.maxRSUEntries === 'unlimited' ? 'unlimited' : limitConfig.maxRSUEntries,
+          variant: limitConfig.variant,
+          message: getUpgradeMessage(limitConfig),
         },
         { status: 403 }
       );
