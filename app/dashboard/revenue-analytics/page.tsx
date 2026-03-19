@@ -47,6 +47,24 @@ interface StripeMetrics {
   expansionMRR: number;
 }
 
+interface DailyRevenueData {
+  date: string;
+  revenue: number;
+  transactions: number;
+  newCustomers: number;
+  cumulativeRevenue: number;
+  cumulativeCustomers: number;
+}
+
+interface MRRTrendData {
+  date: string;
+  mrr: number;
+  activeSubscriptions: number;
+  newMRR: number;
+  churnedMRR: number;
+  netMRRGrowth: number;
+}
+
 interface RevenueMetrics {
   ltv: number;
   cac: number;
@@ -76,6 +94,8 @@ interface RevenueMetrics {
 export default function RevenueAnalyticsDashboard() {
   const [stripeMetrics, setStripeMetrics] = useState<StripeMetrics | null>(null);
   const [revenueMetrics, setRevenueMetrics] = useState<RevenueMetrics | null>(null);
+  const [dailyRevenue, setDailyRevenue] = useState<DailyRevenueData[]>([]);
+  const [mrrTrend, setMRRTrend] = useState<MRRTrendData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,25 +105,39 @@ export default function RevenueAnalyticsDashboard() {
         setLoading(true);
         setError(null);
 
-        // Fetch Stripe metrics
-        const stripeResponse = await fetch('/api/analytics/stripe-metrics');
-        const stripeData = await stripeResponse.json();
+        // Fetch all metrics in parallel
+        const [stripeResponse, revenueResponse, dailyRevenueResponse, mrrTrendResponse] = await Promise.all([
+          fetch('/api/analytics/stripe-metrics'),
+          fetch('/api/analytics/revenue-metrics'),
+          fetch('/api/analytics/daily-revenue?days=90'),
+          fetch('/api/analytics/mrr-trend?days=90'),
+        ]);
 
+        // Process Stripe metrics
+        const stripeData = await stripeResponse.json();
         if (!stripeData.success) {
           throw new Error(stripeData.error || 'Failed to fetch Stripe metrics');
         }
-
         setStripeMetrics(stripeData.data);
 
-        // Fetch revenue analytics
-        const revenueResponse = await fetch('/api/analytics/revenue-metrics');
+        // Process revenue metrics
         const revenueData = await revenueResponse.json();
-
         if (!revenueData.success) {
           throw new Error(revenueData.error || 'Failed to fetch revenue metrics');
         }
-
         setRevenueMetrics(revenueData.data);
+
+        // Process daily revenue
+        const dailyRevenueData = await dailyRevenueResponse.json();
+        if (dailyRevenueData.success) {
+          setDailyRevenue(dailyRevenueData.data.dailyRevenue || []);
+        }
+
+        // Process MRR trend
+        const mrrTrendData = await mrrTrendResponse.json();
+        if (mrrTrendData.success) {
+          setMRRTrend(mrrTrendData.data.mrrTrend || []);
+        }
       } catch (err: any) {
         console.error('Error fetching analytics:', err);
         setError(err.message || 'Failed to load analytics data');
@@ -406,6 +440,137 @@ export default function RevenueAnalyticsDashboard() {
               <Line yAxisId="left" type="monotone" dataKey="signups" stroke="#3b82f6" strokeWidth={2} name="Signups" />
               <Line yAxisId="left" type="monotone" dataKey="conversions" stroke="#10b981" strokeWidth={2} name="Conversions" />
               <Line yAxisId="right" type="monotone" dataKey="conversionRate" stroke="#f59e0b" strokeWidth={2} name="Conversion Rate (%)" />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* Daily Revenue Trend */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Daily Revenue (Last 90 Days)</CardTitle>
+          <CardDescription>Track daily revenue and transaction volume</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={dailyRevenue}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return `${date.getMonth() + 1}/${date.getDate()}`;
+                }}
+              />
+              <YAxis yAxisId="left" tickFormatter={(value) => `$${value}`} />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip
+                formatter={(value, name) => {
+                  if (name === 'revenue' || name === 'cumulativeRevenue') {
+                    return [formatCurrency(Number(value)), name];
+                  }
+                  return [value, name];
+                }}
+                labelFormatter={(label) => new Date(label).toLocaleDateString()}
+              />
+              <Legend />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="revenue"
+                stroke="#10b981"
+                strokeWidth={2}
+                name="Daily Revenue"
+                dot={false}
+              />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="cumulativeRevenue"
+                stroke="#3b82f6"
+                strokeWidth={2}
+                name="Cumulative Revenue"
+                dot={false}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="transactions"
+                stroke="#f59e0b"
+                strokeWidth={2}
+                name="Transactions"
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+
+      {/* MRR Trend */}
+      <Card>
+        <CardHeader>
+          <CardTitle>MRR Trend (Last 90 Days)</CardTitle>
+          <CardDescription>Monthly recurring revenue growth over time</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={mrrTrend}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return `${date.getMonth() + 1}/${date.getDate()}`;
+                }}
+              />
+              <YAxis yAxisId="left" tickFormatter={(value) => `$${value}`} />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip
+                formatter={(value, name) => {
+                  if (name === 'mrr' || name === 'newMRR' || name === 'churnedMRR' || name === 'netMRRGrowth') {
+                    return [formatCurrency(Number(value)), name];
+                  }
+                  return [value, name];
+                }}
+                labelFormatter={(label) => new Date(label).toLocaleDateString()}
+              />
+              <Legend />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="mrr"
+                stroke="#8b5cf6"
+                strokeWidth={3}
+                name="MRR"
+                dot={false}
+              />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="newMRR"
+                stroke="#10b981"
+                strokeWidth={2}
+                name="New MRR"
+                dot={false}
+              />
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="churnedMRR"
+                stroke="#ef4444"
+                strokeWidth={2}
+                name="Churned MRR"
+                dot={false}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="activeSubscriptions"
+                stroke="#f59e0b"
+                strokeWidth={2}
+                name="Active Subs"
+                dot={false}
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>

@@ -91,7 +91,7 @@ export function getEnhancedWelcomeEmailData(params: {
   ctaText: string;
 }): EnhancedEmailData {
   const taxData = getUserTaxData(params.userId);
-  const urls = generateEmailUrls('drip_welcome', params.variant, params.email);
+  const urls = generateEmailUrls('drip_day1', params.variant, params.email);
 
   return {
     subject_line: params.subjectLine,
@@ -243,7 +243,7 @@ export function getEnhancedEmailDataGenerator(eventType: EmailEventType) {
       discountCode?: string;
     }) => EnhancedEmailData
   > = {
-    drip_welcome: getEnhancedWelcomeEmailData,
+    drip_day1: getEnhancedWelcomeEmailData,
     drip_day3: getEnhancedDay3EmailData,
     drip_day7: getEnhancedDay7EmailData,
     drip_day14: getEnhancedDay14EmailData,

@@ -73,6 +73,7 @@
     "launch:check-responses": "tsx scripts/community-posting/check-responses.ts",
     "create:hunt20": "tsx scripts/create-hunt20-promo.ts",
     "test:hunt20": "tsx scripts/test-hunt20-code.ts",
+    "test:ph-campaign": "tsx scripts/test-ph-campaign.ts",
     "enterprise:pdf": "tsx scripts/generate-enterprise-pdf.ts",
     "blog:generate": "tsx scripts/generate-blog-content.ts",
     "blog:verify": "tsx scripts/verify-blog-content.ts",

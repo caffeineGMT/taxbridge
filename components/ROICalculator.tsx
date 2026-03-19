@@ -10,6 +10,7 @@ import { trackEvent } from '@/lib/analytics/posthog';
 import { CalculatorProgress } from '@/components/ui/calculator-progress';
 import { useCalculatorState } from '@/hooks/use-calculator-state';
 import { ROI_CALCULATOR_DEMO } from '@/lib/calculator-demo-values';
+import { ReferralShareButtons } from '@/components/ReferralShareButtons';
 
 interface ROIInputs {
   firmName: string;
@@ -564,6 +565,15 @@ export function ROICalculator() {
               <p className="text-sm text-textMuted mt-3">
                 No credit card required • Full access • Personal onboarding call included
               </p>
+            </div>
+
+            {/* Referral Share Buttons */}
+            <div className="mt-6">
+              <ReferralShareButtons
+                context="calculator"
+                title="Share with colleagues"
+                description="Know other immigration attorneys who could benefit? Earn $10 credit for each referral!"
+              />
             </div>
           </div>
         )}

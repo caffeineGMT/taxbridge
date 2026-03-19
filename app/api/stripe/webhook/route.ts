@@ -10,6 +10,7 @@ import { trackEvent } from '@/lib/analytics';
 import { trackAffiliateReferral } from '@/lib/stripe/affiliate-tracking';
 import { trackUserReferral } from '@/lib/stripe/referral-tracking';
 import { trackEmailConversion } from '@/lib/email/conversion-tracking';
+import { trackPaidUpgrade } from '@/lib/analytics/attribution-middleware';
 import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
@@ -238,6 +239,13 @@ export async function POST(req: NextRequest) {
             tier,
           },
         });
+
+        // Track paid upgrade for channel attribution
+        await trackPaidUpgrade(
+          parseInt(userId),
+          tier as 'pro' | 'enterprise',
+          revenueAmount
+        );
 
         logger.info('User upgraded', {
           userId,

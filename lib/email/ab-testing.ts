@@ -6,7 +6,7 @@
 
 import { getDatabase } from '@/lib/db';
 
-export type EmailEventType = 'drip_welcome' | 'drip_day3' | 'drip_day7' | 'drip_day14';
+export type EmailEventType = 'drip_day1' | 'drip_day3' | 'drip_day7' | 'drip_day14';
 export type ABVariant = 'A' | 'B';
 
 export interface ABTestVariant {

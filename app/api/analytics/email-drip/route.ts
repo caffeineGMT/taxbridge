@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     // Get query parameters
     const searchParams = request.nextUrl.searchParams;
     const eventType = searchParams.get('event_type') as
-      | 'drip_welcome'
+      | 'drip_day1'
       | 'drip_day3'
       | 'drip_day7'
       | 'drip_day14'
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
 
       // Winning variants
       winning_variants: {
-        welcome: getWinningVariant('drip_welcome'),
+        day1: getWinningVariant('drip_day1'),
         day3: getWinningVariant('drip_day3'),
         day7: getWinningVariant('drip_day7'),
         day14: getWinningVariant('drip_day14'),

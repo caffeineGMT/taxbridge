@@ -135,7 +135,7 @@ export function getConversionStats(
   const totalEmailsStmt = db.prepare(`
     SELECT COUNT(*) as total_emails
     FROM email_events
-    WHERE event_type IN ('drip_welcome', 'drip_day3', 'drip_day7', 'drip_day14')
+    WHERE event_type IN ('drip_day1', 'drip_day3', 'drip_day7', 'drip_day14')
   `);
 
   const totalEmailsResult = totalEmailsStmt.get() as any;
@@ -173,7 +173,7 @@ export function getConversionsByEmailType(): ConversionByEmailType[] {
       ROUND(CAST(COUNT(ec.id) AS FLOAT) / COUNT(ee.id) * 100, 2) as conversion_rate
     FROM email_events ee
     LEFT JOIN email_conversions ec ON ee.id = ec.email_event_id
-    WHERE ee.event_type IN ('drip_welcome', 'drip_day3', 'drip_day7', 'drip_day14')
+    WHERE ee.event_type IN ('drip_day1', 'drip_day3', 'drip_day7', 'drip_day14')
     GROUP BY ee.event_type
     ORDER BY ee.event_type
   `);

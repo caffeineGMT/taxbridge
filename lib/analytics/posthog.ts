@@ -96,6 +96,8 @@ export type PostHogEvent =
   // Referrals & Growth
   | 'referral_link_generated'
   | 'referral_link_clicked'
+  | 'referral_share_clicked'
+  | 'referral_page_link_clicked'
   | 'referral_signup_completed'
   | 'referral_reward_earned'
 

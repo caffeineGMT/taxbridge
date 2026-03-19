@@ -27,9 +27,14 @@ import { UrgencyMessage, StickyUrgencyBanner } from '@/components/UrgencyMessage
 import TestimonialCarousel from '@/components/TestimonialCarousel';
 import { usePricingExperiment, isInProductHuntCohort } from '@/hooks/use-pricing-experiment';
 import { BillingIntervalToggle } from '@/components/BillingIntervalToggle';
+import { useConversionExperiments } from '@/hooks/use-conversion-experiments';
+import { SocialProofSection } from '@/components/SocialProofSection';
 
-// Generate tiers dynamically based on pricing experiment
-const getTiers = (pricingExperiment: ReturnType<typeof usePricingExperiment>) => {
+// Generate tiers dynamically based on pricing experiment and conversion experiments
+const getTiers = (
+  pricingExperiment: ReturnType<typeof usePricingExperiment>,
+  freeTierConfig: { calculationsAllowed: number | 'unlimited'; label: string; urgencyMessage?: string }
+) => {
     const isAnnual = pricingExperiment.selectedInterval === 'annual';
     const proPrice = isAnnual ? pricingExperiment.annualPrice : pricingExperiment.monthlyPrice;
     const proPriceId = pricingExperiment.getCurrentPriceId();
@@ -41,9 +46,9 @@ const getTiers = (pricingExperiment: ReturnType<typeof usePricingExperiment>) =>
         price: 0,
         priceId: null,
         tier: 'free',
-        tagline: 'Perfect for getting started',
+        tagline: freeTierConfig.urgencyMessage || 'Perfect for getting started',
         features: {
-          rsuEntries: '1 RSU entry',
+          rsuEntries: freeTierConfig.label,
           taxCalculation: true,
           formsChecklist: true,
           usdCadConversion: true,
@@ -189,6 +194,9 @@ export default function PricingPage() {
   const pricingExperiment = usePricingExperiment();
   const isProductHunt = isInProductHuntCohort();
 
+  // Conversion Experiments: Get headline, free tier, and social proof variants
+  const conversionExperiments = useConversionExperiments();
+
   // Track pricing page view with PostHog and experiment exposure
   useEffect(() => {
     trackEvent('pricing_page_viewed', {
@@ -198,11 +206,16 @@ export default function PricingPage() {
       pricingVariant: pricingExperiment.variant,
       annualPrice: pricingExperiment.annualPrice,
       isProductHunt,
+      // Conversion experiments
+      headline_variant: conversionExperiments.headline.variant,
+      free_tier_variant: conversionExperiments.freeTier.variant,
+      social_proof_variant: conversionExperiments.socialProof.variant,
     });
 
     // Track experiment exposure
     pricingExperiment.trackVariantExposure();
-  }, [pricingExperiment, isProductHunt]);
+    conversionExperiments.trackExperimentExposure();
+  }, [pricingExperiment, isProductHunt, conversionExperiments]);
 
   // Fetch user count for social proof
   useEffect(() => {
@@ -336,6 +349,10 @@ export default function PricingPage() {
       billingInterval: pricingExperiment.selectedInterval,
       price: tier === 'pro' ? pricingExperiment.getCurrentPrice() : undefined,
       isProductHunt,
+      // Conversion experiments
+      headline_variant: conversionExperiments.headline.variant,
+      free_tier_variant: conversionExperiments.freeTier.variant,
+      social_proof_variant: conversionExperiments.socialProof.variant,
     };
 
     trackEvent('pricing_tier_selected', trackingData);
@@ -350,6 +367,8 @@ export default function PricingPage() {
 
     if (!priceId) {
       if (tier === 'free') {
+        // Track signup conversion for experiments
+        conversionExperiments.trackConversion('signup');
         router.push('/sign-up');
       } else if (tier === 'enterprise') {
         window.location.href = 'mailto:sales@taxbridge.com?subject=Enterprise Plan Inquiry';
@@ -394,12 +413,15 @@ export default function PricingPage() {
       const { url } = await response.json();
 
       if (url) {
-        // Track checkout started
+        // Track checkout started AND conversion for experiments
         trackEvent('checkout_started', {
           plan: tier,
           funnelStep: 'Checkout',
           funnelStepNumber: 6,
         });
+
+        // Track checkout conversion for experiments
+        conversionExperiments.trackConversion('checkout');
 
         toast({
           title: 'Redirecting to checkout...',
@@ -431,8 +453,8 @@ export default function PricingPage() {
     return { amount: usdPrice, currency: 'USD', symbol: '$' };
   };
 
-  // Compute tiers based on experiment variant
-  const TIERS = getTiers(pricingExperiment);
+  // Compute tiers based on experiment variants
+  const TIERS = getTiers(pricingExperiment, conversionExperiments.freeTier);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-50">
@@ -523,11 +545,10 @@ export default function PricingPage() {
 
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 text-transparent bg-clip-text">
-            Simple, Transparent Pricing
+            {conversionExperiments.headline.title}
           </h1>
           <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
-            Choose the plan that fits your cross-border tax needs. All plans include our core tax calculation engine,
-            USD/CAD conversion, and Treaty Article XV compliance.
+            {conversionExperiments.headline.subtitle}
           </p>
 
           {/* Billing Interval Toggle */}
@@ -549,30 +570,18 @@ export default function PricingPage() {
           )}
         </div>
 
-        {/* Social Proof */}
-        <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-2xl p-8 max-w-5xl mx-auto mb-16">
-          <div className="flex items-center justify-center gap-12 flex-wrap">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-emerald-400 mb-2">{userCount.toLocaleString()}+</div>
-              <div className="text-slate-400">H-1B professionals trust TaxBridge</div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-8 h-8 text-emerald-500" />
-              <span className="text-slate-300">256-bit SSL Encryption</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Award className="w-8 h-8 text-blue-500" />
-              <span className="text-slate-300">SOC 2 Type II Compliant</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-8 h-8 text-amber-500" />
-              <span className="text-slate-300">CPA-Reviewed Calculations</span>
-            </div>
-          </div>
-        </div>
+        {/* Social Proof: Above Fold (A/B Test Variant) */}
+        {conversionExperiments.socialProof.layout === 'above_fold' && (
+          <SocialProofSection
+            variant="above_fold"
+            showTestimonials={conversionExperiments.socialProof.showTestimonials}
+            showTrustBadges={conversionExperiments.socialProof.showTrustBadges}
+            showUserCount={conversionExperiments.socialProof.showUserCount}
+          />
+        )}
 
         {/* Pricing Cards */}
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-20">
+        <div className={`grid ${conversionExperiments.socialProof.layout === 'sidebar' ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-8 max-w-7xl mx-auto mb-20`}>
           {TIERS.map((tier) => {
             const pricing = formatPrice(tier.price);
             const regularPricing = tier.regularPrice ? formatPrice(tier.regularPrice) : null;
@@ -760,15 +769,39 @@ export default function PricingPage() {
               </div>
             );
           })}
+
+          {/* Social Proof: Sidebar (A/B Test Variant) */}
+          {conversionExperiments.socialProof.layout === 'sidebar' && (
+            <div className="lg:row-span-3">
+              <SocialProofSection
+                variant="sidebar"
+                showTestimonials={conversionExperiments.socialProof.showTestimonials}
+                showTrustBadges={conversionExperiments.socialProof.showTrustBadges}
+                showUserCount={conversionExperiments.socialProof.showUserCount}
+              />
+            </div>
+          )}
         </div>
 
-        {/* Testimonials */}
-        <div className="max-w-6xl mx-auto mb-20">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">
-            Real Results from Beta Users
-          </h2>
-          <TestimonialCarousel variant="default" limit={5} autoRotate={false} />
-        </div>
+        {/* Social Proof: Below Pricing (A/B Test Variant) */}
+        {conversionExperiments.socialProof.layout === 'below_pricing' && (
+          <SocialProofSection
+            variant="below_pricing"
+            showTestimonials={conversionExperiments.socialProof.showTestimonials}
+            showTrustBadges={conversionExperiments.socialProof.showTrustBadges}
+            showUserCount={conversionExperiments.socialProof.showUserCount}
+          />
+        )}
+
+        {/* Testimonials (shown for all non-sidebar variants) */}
+        {conversionExperiments.socialProof.layout !== 'sidebar' && conversionExperiments.socialProof.layout !== 'below_pricing' && (
+          <div className="max-w-6xl mx-auto mb-20">
+            <h2 className="text-3xl font-bold text-center mb-12 text-white">
+              Real Results from Beta Users
+            </h2>
+            <TestimonialCarousel variant="default" limit={5} autoRotate={false} />
+          </div>
+        )}
 
         {/* FAQ Section */}
         <div className="mt-24 max-w-4xl mx-auto">

@@ -13,6 +13,7 @@ import {
   updateLeaderboardEntry,
   getUserReferralStats,
 } from '../db/queries/referrals';
+import { addCredits } from '../db/queries/credits';
 import { getDatabase } from '../db';
 import { getReferralRewardEmailData, EMAIL_TEMPLATES } from '../email/templates';
 import Stripe from 'stripe';
@@ -24,8 +25,7 @@ if (SENDGRID_API_KEY) {
   sgMail.setApiKey(SENDGRID_API_KEY);
 }
 
-const REFERRER_REWARD_MONTHS = 2; // Free months to give referrer
-const REFERRER_REWARD_VALUE = 50.00; // $50 value (2 months Pro @ $24.92/mo)
+const REFERRER_REWARD_AMOUNT = 10.00; // $10 credit per referral
 const REFERRED_DISCOUNT_PERCENT = 20; // 20% off first year for referred user
 
 /**
@@ -77,7 +77,7 @@ export async function trackUserReferral(
   // Mark referral as completed
   completeReferral(referralId);
 
-  // Grant reward to referrer (extend subscription by 1 month)
+  // Grant $10 credit reward to referrer
   await grantReferrerReward(referrer.id, referralId);
 
   // Update leaderboard
@@ -88,19 +88,17 @@ export async function trackUserReferral(
 }
 
 /**
- * Grant reward to referrer (extend subscription by free months)
+ * Grant $10 credit reward to referrer
  */
 async function grantReferrerReward(referrerId: number, referralId: number): Promise<void> {
   const db = getDatabase();
 
-  // Get referrer's subscription
+  // Get referrer info
   const referrer = db.prepare(`
-    SELECT stripe_subscription_id, subscription_tier, email, first_name, last_name
+    SELECT email, first_name, last_name
     FROM user_profiles
     WHERE id = ?
   `).get(referrerId) as {
-    stripe_subscription_id: string | null;
-    subscription_tier: string;
     email: string;
     first_name: string | null;
     last_name: string | null;
@@ -111,42 +109,23 @@ async function grantReferrerReward(referrerId: number, referralId: number): Prom
     return;
   }
 
-  // If referrer has an active subscription, extend it by 1 month
-  if (referrer.stripe_subscription_id) {
-    try {
-      const subscription = await stripe.subscriptions.retrieve(referrer.stripe_subscription_id);
+  // Add $10 credit to referrer's account
+  addCredits(
+    referrerId,
+    REFERRER_REWARD_AMOUNT,
+    'referral_reward',
+    'Referral reward: Friend subscribed to TaxBridge Pro',
+    referralId
+  );
 
-      // Extend subscription period by 60 days (2 months)
-      const currentPeriodEnd = (subscription as any).current_period_end as number;
-      const newPeriodEnd = currentPeriodEnd + (60 * 24 * 60 * 60); // +60 days in seconds
-
-      await stripe.subscriptions.update(referrer.stripe_subscription_id, {
-        trial_end: newPeriodEnd,
-        proration_behavior: 'none',
-        metadata: {
-          ...(subscription as any).metadata,
-          referral_reward: 'true',
-          referral_id: referralId.toString(),
-        },
-      });
-
-      console.log('✓ Extended subscription for referrer:', {
-        referrerId,
-        subscriptionId: referrer.stripe_subscription_id,
-        extensionDays: 60,
-      });
-    } catch (error) {
-      console.error('Failed to extend subscription:', error);
-      // Don't throw - still mark reward as granted in DB
-    }
-  } else {
-    // If referrer is on free tier, store credit for future subscription
-    console.log('Referrer on free tier - credit stored for future use:', referrerId);
-    // TODO: Implement credit system for free tier users
-  }
+  console.log('✓ Added $10 credit to referrer account:', {
+    referrerId,
+    amount: REFERRER_REWARD_AMOUNT,
+    referralId,
+  });
 
   // Mark reward as granted in database
-  grantReferralReward(referralId, 'free_month', REFERRER_REWARD_VALUE);
+  grantReferralReward(referralId, 'credit', REFERRER_REWARD_AMOUNT);
 
   // Send reward notification email
   await sendReferralRewardEmail(referrerId, referrer.email, referrer.first_name || 'there');
@@ -176,8 +155,7 @@ async function sendReferralRewardEmail(
     const emailData = getReferralRewardEmailData({
       firstName,
       email,
-      rewardMonths: REFERRER_REWARD_MONTHS,
-      rewardValue: REFERRER_REWARD_VALUE,
+      rewardAmount: REFERRER_REWARD_AMOUNT,
       totalReferrals: stats.total_referrals,
     });
 

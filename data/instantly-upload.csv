@@ -1,0 +1,11 @@
+email,firstName,lastName,companyName,website,firmName,city,state,attorneyCount
+"smartinez@bal.com","Sarah","Martinez","Berry Appleman & Leiden LLP","https://www.bal.com","Berry Appleman & Leiden LLP","San Francisco","CA","500"
+"mchen@fragomen.com","Michael","Chen","Fragomen Del Rey Bernsen & Loewy","https://www.fragomen.com","Fragomen Del Rey Bernsen & Loewy","San Jose","CA","450"
+"rkim@littler.com","Robert","Kim","Littler Mendelson Immigration","https://www.littler.com","Littler Mendelson Immigration","San Francisco","CA","320"
+"lnguyen@jacksonlewis.com","Lisa","Nguyen","Jackson Lewis P.C. Immigration","https://www.jacksonlewis.com","Jackson Lewis P.C. Immigration","New York","NY","250"
+"patricia.hughes@ogletree.com","Patricia","Hughes","Ogletree Deakins Immigration","https://www.ogletree.com","Ogletree Deakins Immigration","Boston","MA","200"
+"ethompson@foster.com","Emily","Thompson","Foster LLP","https://www.foster.com","Foster LLP","Washington","DC","180"
+"acollins@envoyglobal.com","Amanda","Collins","Envoy Global (formerly Visa HQ)","https://www.envoyglobal.com","Envoy Global (formerly Visa HQ)","San Francisco","CA","85"
+"jennifer.wang@gmlaw.com","Jennifer","Wang","Greenspoon Marder Immigration","https://www.gmlaw.com","Greenspoon Marder Immigration","Seattle","WA","35"
+"drodriguez@klaskolaw.com","David","Rodriguez","Klasko Immigration Law Partners","https://www.klaskolaw.com","Klasko Immigration Law Partners","Philadelphia","PA","28"
+"tanderson@berryimmigration.com","Thomas","Anderson","Berry Immigration Law","https://www.berryimmigration.com","Berry Immigration Law","Austin","TX","12"

@@ -24,7 +24,8 @@ export type AnalyticsEvent =
   | 'charge_refunded'
   | 'payment_succeeded'
   | 'payment_failed'
-  | 'invoice_created';
+  | 'invoice_created'
+  | 'reengagement_email_sent';
 
 /**
  * Track an analytics event for a user
@@ -32,12 +33,20 @@ export type AnalyticsEvent =
  * @param eventName - The event name
  * @param metadata - Optional metadata as a key-value object
  */
-export function trackEvent(
+export async function trackEvent(
   userId: number,
   eventName: AnalyticsEvent,
   metadata?: Record<string, any>
-): void {
+): Promise<void> {
+  // Only track server-side to avoid "Module not found: Can't resolve 'fs'" error in client bundles
+  if (typeof window !== 'undefined') {
+    console.log('[Analytics] Client-side event tracked (no DB):', eventName, { userId, metadata });
+    return;
+  }
+
   try {
+    // Dynamic import to avoid bundling database code in client bundle
+    const { getDatabase } = await import('./db');
     const db = getDatabase();
 
     const stmt = db.prepare(`

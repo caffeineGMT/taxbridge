@@ -51,7 +51,7 @@ export function getEmailUTMParams(
 ): UTMParams {
   // Campaign mapping
   const campaignMap: Record<EmailEventType, string> = {
-    drip_welcome: 'welcome-email',
+    drip_day1: 'welcome-email',
     drip_day3: 'education-email',
     drip_day7: 'features-email',
     drip_day14: 'conversion-email',
