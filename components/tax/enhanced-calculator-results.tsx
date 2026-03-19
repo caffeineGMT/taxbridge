@@ -9,6 +9,7 @@ import { InfoTooltip, TooltipProvider } from '@/components/ui/tooltip';
 import { Spinner } from '@/components/ui/spinner';
 import { trackEvent } from '@/lib/analytics/posthog';
 import TestimonialCarousel from '@/components/TestimonialCarousel';
+import { HelpfulnessRating } from '@/components/feedback/HelpfulnessRating';
 
 interface EnhancedCalculatorResultsProps {
   // Calculation inputs
@@ -335,6 +336,12 @@ export function EnhancedCalculatorResults({
           </h2>
           <TestimonialCarousel variant="default" limit={3} autoRotate={false} />
         </div>
+
+        {/* Helpfulness Rating - "Was this helpful?" */}
+        <HelpfulnessRating
+          calculationAmount={rsuIncome}
+          variant="card"
+        />
 
         {/* Bottom CTA - Sticky urgency message */}
         {!emailSubmitted && (

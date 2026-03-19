@@ -17,6 +17,14 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  href="/us-canada-tax-calculator"
+                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                >
+                  Tax Calculator
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/dashboard"
                   className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
                 >
@@ -29,6 +37,44 @@ export function Footer() {
                   className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
                 >
                   Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/enterprise"
+                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                >
+                  Enterprise
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold text-slate-100 mb-4">Resources</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="/h1b-rsu-tax-guide"
+                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                >
+                  Tax Guide
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/canada-tax-filing-checklist"
+                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                >
+                  Filing Checklist
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
+                >
+                  Blog
                 </Link>
               </li>
             </ul>
@@ -52,28 +98,6 @@ export function Footer() {
                 >
                   Terms of Service
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-slate-100 mb-4">Support</h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="mailto:support@taxbridge.app"
-                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
-                >
-                  Contact Us
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:privacy@taxbridge.app"
-                  className="text-sm text-slate-400 hover:text-emerald-400 transition-colors"
-                >
-                  Privacy Inquiries
-                </a>
               </li>
             </ul>
           </div>

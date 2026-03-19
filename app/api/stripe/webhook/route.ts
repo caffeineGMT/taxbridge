@@ -14,6 +14,12 @@ import Stripe from 'stripe';
 import { logger } from '@/lib/logger';
 import * as Sentry from '@sentry/nextjs';
 import { rateLimit, RateLimitPresets } from '@/lib/rate-limit';
+import {
+  isEventProcessed,
+  markEventProcessed,
+  incrementRetryCount,
+  initWebhookEventsTable,
+} from '@/lib/stripe/webhook-deduplication';
 
 export async function POST(req: NextRequest) {
   // Rate limiting: generous for webhooks (signature-verified), but still protect against abuse
@@ -60,6 +66,34 @@ export async function POST(req: NextRequest) {
   }
 
   const db = getDatabase();
+
+  // Initialize webhook events table if needed
+  try {
+    initWebhookEventsTable();
+  } catch (error) {
+    logger.warn('Webhook events table already exists', {
+      error: error instanceof Error ? error : new Error(String(error)),
+    });
+  }
+
+  // Check for duplicate event (idempotency)
+  if (isEventProcessed(event.id)) {
+    const retryCount = incrementRetryCount(event.id);
+
+    logger.info('Duplicate webhook event received (already processed)', {
+      endpoint: '/api/stripe/webhook',
+      eventType: event.type,
+      eventId: event.id,
+      retryCount,
+    });
+
+    // Return success to prevent Stripe from retrying
+    return NextResponse.json({
+      received: true,
+      duplicate: true,
+      message: 'Event already processed',
+    });
+  }
 
   // Add event type to transaction
   // TODO: Update to new Sentry SDK API
@@ -234,7 +268,7 @@ export async function POST(req: NextRequest) {
       }
 
       case 'invoice.payment_failed': {
-        const invoice = event.data.object as any;
+        const invoice = event.data.object as Stripe.Invoice;
 
         // Mark subscription as past due
         if (invoice.subscription) {
@@ -245,7 +279,155 @@ export async function POST(req: NextRequest) {
             WHERE stripe_subscription_id = ?
           `).run(invoice.subscription);
 
-          console.log(`✓ Payment failed for subscription ${invoice.subscription}`);
+          logger.warn('Payment failed for subscription', {
+            subscriptionId: invoice.subscription,
+            invoiceId: invoice.id,
+            amountDue: invoice.amount_due,
+            attemptCount: invoice.attempt_count,
+          });
+
+          // Get user info for notification
+          const user = db.prepare(`
+            SELECT id, email, first_name FROM user_profiles WHERE stripe_subscription_id = ?
+          `).get(invoice.subscription) as { id: number; email?: string; first_name?: string } | undefined;
+
+          if (user?.email) {
+            try {
+              // Send payment failure notification email
+              await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/email/payment-failed`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: user.email,
+                  firstName: user.first_name || 'there',
+                  userId: user.id,
+                  invoiceUrl: invoice.hosted_invoice_url,
+                  amountDue: (invoice.amount_due / 100).toFixed(2),
+                  attemptCount: invoice.attempt_count,
+                }),
+              });
+
+              logger.info('Payment failure email sent', {
+                userId: String(user.id),
+                email: user.email,
+              });
+            } catch (emailError) {
+              logger.error('Failed to send payment failure email', {
+                error: emailError instanceof Error ? emailError : new Error(String(emailError)),
+                userId: String(user.id),
+              });
+              // Don't fail the webhook if email fails
+            }
+          }
+
+          // Track analytics
+          if (user) {
+            trackEvent(user.id, 'payment_failed', {
+              stripe_subscription_id: invoice.subscription,
+              amount_due: invoice.amount_due,
+              attempt_count: invoice.attempt_count,
+            });
+          }
+        }
+        break;
+      }
+
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object as Stripe.Invoice;
+
+        logger.info('Invoice payment succeeded', {
+          invoiceId: invoice.id,
+          subscriptionId: invoice.subscription,
+          amountPaid: invoice.amount_paid,
+        });
+
+        // Track successful payment
+        if (invoice.subscription) {
+          const user = db.prepare(`
+            SELECT id FROM user_profiles WHERE stripe_subscription_id = ?
+          `).get(invoice.subscription) as { id: number } | undefined;
+
+          if (user) {
+            trackEvent(user.id, 'payment_succeeded', {
+              stripe_subscription_id: invoice.subscription,
+              amount_paid: invoice.amount_paid,
+              invoice_id: invoice.id,
+            });
+          }
+        }
+        break;
+      }
+
+      case 'invoice.finalized': {
+        const invoice = event.data.object as Stripe.Invoice;
+
+        logger.info('Invoice finalized', {
+          invoiceId: invoice.id,
+          subscriptionId: invoice.subscription,
+          hostedInvoiceUrl: invoice.hosted_invoice_url,
+        });
+
+        // Track invoice creation/finalization
+        if (invoice.subscription) {
+          const user = db.prepare(`
+            SELECT id, email FROM user_profiles WHERE stripe_subscription_id = ?
+          `).get(invoice.subscription) as { id: number; email?: string } | undefined;
+
+          if (user) {
+            // Store invoice details for tracking
+            db.prepare(`
+              INSERT OR REPLACE INTO invoices (
+                stripe_invoice_id,
+                user_id,
+                subscription_id,
+                amount_due,
+                status,
+                hosted_url,
+                created_at
+              ) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            `).run(
+              invoice.id,
+              user.id,
+              invoice.subscription,
+              invoice.amount_due,
+              invoice.status,
+              invoice.hosted_invoice_url
+            );
+
+            trackEvent(user.id, 'invoice_created', {
+              stripe_subscription_id: invoice.subscription,
+              invoice_id: invoice.id,
+              amount_due: invoice.amount_due,
+            });
+          }
+        }
+        break;
+      }
+
+      case 'charge.refunded': {
+        const charge = event.data.object as Stripe.Charge;
+
+        logger.info('Charge refunded', {
+          chargeId: charge.id,
+          amountRefunded: charge.amount_refunded,
+          refunded: charge.refunded,
+        });
+
+        // Track refund
+        const paymentIntent = charge.payment_intent;
+        if (paymentIntent) {
+          // Find user by payment intent (stored in checkout session)
+          const user = db.prepare(`
+            SELECT id FROM user_profiles WHERE stripe_customer_id = ?
+          `).get(charge.customer) as { id: number } | undefined;
+
+          if (user) {
+            trackEvent(user.id, 'charge_refunded', {
+              charge_id: charge.id,
+              amount_refunded: charge.amount_refunded,
+              refund_reason: charge.refunds?.data[0]?.reason || 'unknown',
+            });
+          }
         }
         break;
       }
@@ -262,6 +444,11 @@ export async function POST(req: NextRequest) {
       duration,
     });
 
+    // Mark event as processed for deduplication
+    markEventProcessed(event.id, event.type, {
+      processed_at: new Date().toISOString(),
+      duration,
+    });
 
     return NextResponse.json({ received: true });
   } catch (error) {

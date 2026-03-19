@@ -181,3 +181,45 @@ CREATE INDEX IF NOT EXISTS idx_events_user_created ON analytics_events(user_id, 
 CREATE INDEX IF NOT EXISTS idx_events_name_created ON analytics_events(event_name, created_at);
 CREATE INDEX IF NOT EXISTS idx_testimonials_status ON testimonials(status, featured, display_order);
 CREATE INDEX IF NOT EXISTS idx_outreach_status ON testimonial_outreach(status, outreach_date);
+
+-- Invoices table for tracking Stripe invoices
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stripe_invoice_id TEXT UNIQUE NOT NULL,
+  user_id INTEGER NOT NULL,
+  subscription_id TEXT,
+  amount_due INTEGER NOT NULL,
+  amount_paid INTEGER DEFAULT 0,
+  status TEXT CHECK(status IN ('draft', 'open', 'paid', 'void', 'uncollectible')),
+  hosted_url TEXT,
+  invoice_pdf TEXT,
+  created_at INTEGER DEFAULT (unixepoch()),
+  updated_at INTEGER DEFAULT (unixepoch()),
+  FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_invoices_user_id ON invoices(user_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_subscription_id ON invoices(subscription_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_status ON invoices(status);
+CREATE INDEX IF NOT EXISTS idx_invoices_created ON invoices(created_at);
+
+-- Refunds table for tracking Stripe refunds
+CREATE TABLE IF NOT EXISTS refunds (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stripe_refund_id TEXT UNIQUE NOT NULL,
+  stripe_charge_id TEXT NOT NULL,
+  user_id INTEGER NOT NULL,
+  amount INTEGER NOT NULL,
+  reason TEXT,
+  status TEXT CHECK(status IN ('pending', 'succeeded', 'failed', 'canceled')),
+  metadata TEXT,
+  created_at INTEGER DEFAULT (unixepoch()),
+  FOREIGN KEY (user_id) REFERENCES user_profiles(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_refunds_user_id ON refunds(user_id);
+CREATE INDEX IF NOT EXISTS idx_refunds_charge_id ON refunds(stripe_charge_id);
+CREATE INDEX IF NOT EXISTS idx_refunds_status ON refunds(status);
+CREATE INDEX IF NOT EXISTS idx_refunds_created ON refunds(created_at);
+
+

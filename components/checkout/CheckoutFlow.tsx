@@ -12,6 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
+import { NPSSurvey } from '@/components/feedback/NPSSurvey';
 
 type CheckoutState = 'idle' | 'loading' | 'success' | 'error';
 
@@ -98,33 +99,42 @@ export function CheckoutFlow({
   // Success State
   if (state === 'success') {
     return (
-      <Card className="bg-slate-900 border-slate-800 max-w-md mx-auto">
-        <CardContent className="pt-12 pb-12">
-          <div className="flex flex-col items-center justify-center space-y-6">
-            <div className="rounded-full bg-emerald-500/20 p-4">
-              <CheckCircle2 className="w-16 h-16 text-emerald-500" />
+      <>
+        <Card className="bg-slate-900 border-slate-800 max-w-md mx-auto">
+          <CardContent className="pt-12 pb-12">
+            <div className="flex flex-col items-center justify-center space-y-6">
+              <div className="rounded-full bg-emerald-500/20 p-4">
+                <CheckCircle2 className="w-16 h-16 text-emerald-500" />
+              </div>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-slate-100 mb-2">
+                  Subscription activated!
+                </h3>
+                <p className="text-slate-400 mb-4">
+                  Your account has been successfully upgraded
+                </p>
+                <p className="text-sm text-slate-500">
+                  Redirecting to dashboard in {countdown}s...
+                </p>
+              </div>
+              <Button
+                onClick={() => router.push('/dashboard')}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white"
+              >
+                Go to Dashboard
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-bold text-slate-100 mb-2">
-                Subscription activated!
-              </h3>
-              <p className="text-slate-400 mb-4">
-                Your account has been successfully upgraded
-              </p>
-              <p className="text-sm text-slate-500">
-                Redirecting to dashboard in {countdown}s...
-              </p>
-            </div>
-            <Button
-              onClick={() => router.push('/dashboard')}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white"
-            >
-              Go to Dashboard
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+
+        {/* NPS Survey - appears after successful checkout */}
+        <NPSSurvey
+          trigger="checkout"
+          autoShow={true}
+          delayMs={3000}
+        />
+      </>
     );
   }
 

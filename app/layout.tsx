@@ -23,6 +23,7 @@ const PostHogProvider = dynamic(() => import('@/components/PostHogProvider'));
 const ReferralTracker = dynamic(() => import('@/components/ReferralTracker'));
 const WebVitalsTracker = dynamic(() => import('@/components/WebVitalsTracker'));
 const CookieConsent = dynamic(() => import('@/components/legal/cookie-consent').then(mod => ({ default: mod.CookieConsent })));
+const ExitIntentSurvey = dynamic(() => import('@/components/feedback/ExitIntentSurvey').then(mod => ({ default: mod.ExitIntentSurvey })));
 
 // Separate viewport export (Next.js 14+ best practice — avoids console warning)
 export const viewport: Viewport = {
@@ -169,6 +170,11 @@ export default function RootLayout({
             <PostHogProvider />
             <ReferralTracker />
             <WebVitalsTracker />
+            <ExitIntentSurvey
+              enabled={true}
+              sensitivityMs={10000}
+              excludePaths={['/dashboard', '/settings', '/sign-in', '/sign-up']}
+            />
           </Suspense>
           {children}
           <Toaster />
