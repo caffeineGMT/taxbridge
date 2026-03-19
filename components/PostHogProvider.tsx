@@ -43,6 +43,11 @@ export default function PostHogProvider() {
       const campaign = searchParams?.get('utm_campaign') || undefined;
       const referrer = document.referrer || undefined;
 
+      // Type-safe subscription tier extraction
+      const rawTier = user?.publicMetadata?.subscriptionTier as string;
+      const userTier: 'free' | 'pro' | 'enterprise' | undefined =
+        rawTier === 'pro' || rawTier === 'enterprise' ? rawTier : 'free';
+
       trackPageView(pathname, {
         page: url,
         source,
@@ -50,7 +55,7 @@ export default function PostHogProvider() {
         campaign,
         referrer,
         userId: user?.id,
-        userTier: (user?.publicMetadata?.subscriptionTier as string) || 'free',
+        userTier,
       });
     }
   }, [pathname, searchParams, user]);

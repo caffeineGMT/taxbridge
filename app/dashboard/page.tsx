@@ -16,7 +16,7 @@ export default async function DashboardPage() {
   }
 
   // Get user profile from database
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     // User exists in Clerk but not in our database - redirect to onboarding
@@ -32,7 +32,7 @@ export default async function DashboardPage() {
   const currentYear = new Date().getFullYear();
 
   // Fetch all RSU events for the user
-  const rsuEvents = getRSUEntries(userId);
+  const rsuEvents = await getRSUEntries(userId);
 
   // Calculate YTD total RSU income
   const ytdTotal = rsuEvents

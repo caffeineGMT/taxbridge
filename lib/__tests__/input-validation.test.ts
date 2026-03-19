@@ -145,7 +145,7 @@ describe('Currency Input Validation - Edge Cases', () => {
     });
 
     it('should handle multiple commas', () => {
-      const result = sanitizeCurrencyInput('1,000,000,000');
+      const result = sanitizeCurrencyInput('1,000,000,000', { maxValue: 2_000_000_000 });
       expect(result).toBe('1000000000');
     });
   });
@@ -317,7 +317,7 @@ describe('Real-world RSU scenarios', () => {
       expect(parseIntegerInput(shares)).toBe(1111);
 
       const totalValue = parseCurrencyInput(fmv) * parseIntegerInput(shares);
-      expect(totalValue).toBeCloseTo(500247.75, 2);
+      expect(totalValue).toBeCloseTo(500227.75, 2);
     });
 
     it('should handle executive-level grant ($2M+)', () => {

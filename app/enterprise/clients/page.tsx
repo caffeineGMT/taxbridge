@@ -13,7 +13,7 @@ export default async function EnterpriseClientsPage() {
     redirect('/sign-in');
   }
 
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     redirect('/onboarding');

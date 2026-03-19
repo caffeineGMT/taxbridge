@@ -72,6 +72,7 @@ export type PostHogEvent =
   | 'roi_calculator_viewed'
   | 'roi_calculation_viewed'
   | 'calculator_dropoff'
+  | 'sticky_cta_clicked'
 
   // Monetization Funnel
   | 'paywall_shown'

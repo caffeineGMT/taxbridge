@@ -28,7 +28,7 @@ export default async function ReferralsPage() {
     redirect('/sign-in?redirect_url=/referrals');
   }
 
-  const user = getUserProfileByClerkId(clerkUserId);
+  const user = await getUserProfileByClerkId(clerkUserId);
 
   if (!user) {
     return <div>User not found</div>;

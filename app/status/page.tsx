@@ -200,15 +200,6 @@ export default async function StatusPage() {
   );
 }
 
-interface Incident {
-  title: string;
-  description: string;
-  date: string;
-  severity: 'critical' | 'major' | 'minor';
-  resolved: boolean;
-  duration?: string;
-}
-
 /**
  * Fetch status data from monitoring service
  * In production, integrate with UptimeRobot API

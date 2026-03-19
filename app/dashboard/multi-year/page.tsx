@@ -41,7 +41,7 @@ export default async function MultiYearDashboard({
   }
 
   // Get user profile from database
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     redirect('/onboarding');

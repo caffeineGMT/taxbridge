@@ -19,7 +19,7 @@ export default async function ImportPage() {
   }
 
   // Get user profile from database
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     // User exists in Clerk but not in our database - redirect to onboarding

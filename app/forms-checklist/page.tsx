@@ -19,7 +19,7 @@ export default async function FormsChecklistPage() {
   }
 
   // Get user profile from database
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     redirect('/onboarding');

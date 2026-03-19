@@ -70,8 +70,8 @@ describe('sanitizeCurrencyInput', () => {
 
   describe('Edge cases - multiple decimal points', () => {
     it('should handle multiple decimal points', () => {
-      expect(sanitizeCurrencyInput('12.34.56')).toBe('12.3456');
-      expect(sanitizeCurrencyInput('1.2.3.4')).toBe('1.234');
+      expect(sanitizeCurrencyInput('12.34.56')).toBe('12.34');
+      expect(sanitizeCurrencyInput('1.2.3.4')).toBe('1.2');
     });
   });
 
@@ -120,8 +120,8 @@ describe('sanitizeCurrencyInput', () => {
   });
 
   describe('Edge cases - partial input', () => {
-    it('should allow partial decimal input', () => {
-      expect(sanitizeCurrencyInput('123.')).toBe('123.');
+    it('should reject partial decimal input ending with decimal point', () => {
+      expect(sanitizeCurrencyInput('123.')).toBe('');
       expect(sanitizeCurrencyInput('.')).toBe('');
       expect(sanitizeCurrencyInput('-')).toBe('');
     });

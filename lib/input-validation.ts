@@ -57,8 +57,9 @@ export function sanitizeCurrencyInput(
     .replace(/USD|CAD|usd|cad/gi, '') // Currency codes
     .replace(/,/g, ''); // Thousands separators
 
-  // Step 3: Block scientific notation (e, E)
-  if (/[eE]/.test(cleaned)) {
+  // Step 3: Block scientific notation - check BEFORE removing letters
+  // Match valid scientific notation: number followed by e/E followed by optional sign and number
+  if (/^-?\d*\.?\d+[eE][+-]?\d+$/.test(cleaned)) {
     return '';
   }
 
@@ -79,8 +80,8 @@ export function sanitizeCurrencyInput(
   // Step 7: Ensure only one decimal point
   const parts = cleaned.split('.');
   if (parts.length > 2) {
-    // Multiple decimal points - keep first one
-    cleaned = parts[0] + '.' + parts.slice(1).join('');
+    // Multiple decimal points - keep first decimal point and only first decimal part
+    cleaned = parts[0] + '.' + parts[1];
   }
 
   // Step 8: Ensure only one minus sign at the start
@@ -88,7 +89,12 @@ export function sanitizeCurrencyInput(
     cleaned = '-' + cleaned.replace(/-/g, '');
   }
 
-  // Step 9: Validate it's a valid number
+  // Step 9: Reject trailing decimal point without digits
+  if (cleaned.endsWith('.')) {
+    return '';
+  }
+
+  // Step 10: Validate it's a valid number
   if (cleaned === '' || cleaned === '-' || cleaned === '.') {
     return '';
   }
@@ -98,17 +104,17 @@ export function sanitizeCurrencyInput(
     return '';
   }
 
-  // Step 10: Check zero allowance
+  // Step 11: Check zero allowance
   if (!allowZero && numValue === 0) {
     return '';
   }
 
-  // Step 11: Enforce min/max bounds
+  // Step 12: Enforce min/max bounds
   if (numValue < minValue || numValue > maxValue) {
     return '';
   }
 
-  // Step 12: Enforce decimal precision (only if decimal point exists)
+  // Step 13: Enforce decimal precision (only if decimal point exists)
   if (parts.length === 2) {
     if (decimalPlaces === 0) {
       // Strip decimal point entirely when precision is 0

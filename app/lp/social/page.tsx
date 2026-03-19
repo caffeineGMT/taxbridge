@@ -20,8 +20,8 @@ function SocialLandingContent() {
     setSource(utmSource);
 
     // Track the visit
-    if (typeof window !== 'undefined' && (window as Record<string, unknown>).posthog) {
-      (window as Record<string, unknown> & { posthog: { capture: (event: string, props: Record<string, string>) => void } }).posthog.capture('social_bio_link_click', {
+    if (typeof window !== 'undefined' && (window as unknown as Record<string, unknown>).posthog) {
+      (window as unknown as Record<string, unknown> & { posthog: { capture: (event: string, props: Record<string, string>) => void } }).posthog.capture('social_bio_link_click', {
         utm_source: utmSource,
         utm_medium: utmMedium,
         utm_campaign: utmCampaign,
@@ -30,8 +30,8 @@ function SocialLandingContent() {
     }
 
     // Google Analytics event
-    if (typeof window !== 'undefined' && typeof (window as Record<string, unknown>).gtag === 'function') {
-      (window as Record<string, unknown> & { gtag: (...args: unknown[]) => void }).gtag('event', 'social_bio_click', {
+    if (typeof window !== 'undefined' && typeof (window as unknown as Record<string, unknown>).gtag === 'function') {
+      (window as unknown as Record<string, unknown> & { gtag: (...args: unknown[]) => void }).gtag('event', 'social_bio_click', {
         event_category: 'social_media',
         event_label: utmSource,
         utm_source: utmSource,

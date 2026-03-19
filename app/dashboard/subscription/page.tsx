@@ -16,7 +16,7 @@ export default async function SubscriptionPage() {
     redirect('/sign-in');
   }
 
-  const userProfile = getUserProfileByClerkId(clerkUserId);
+  const userProfile = await getUserProfileByClerkId(clerkUserId);
 
   if (!userProfile) {
     redirect('/onboarding');

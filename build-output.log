@@ -1,0 +1,30 @@
+
+> cross-border-tax@0.1.0 build
+> next build
+
+[@sentry/nextjs] DEPRECATION WARNING: disableLogger is deprecated and will be removed in a future version. Use webpack.treeshake.removeDebugLogging instead.
+   ▲ Next.js 15.5.13
+   - Environments: .env.local, .env.production
+   - Experiments (use with caution):
+     · clientTraceMetadata
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+[@sentry/nextjs] Could not find `onRequestError` hook in instrumentation file. This indicates outdated configuration of the Sentry SDK. Use `Sentry.captureRequestError` to instrument the `onRequestError` hook: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#errors-from-nested-react-server-components
+[@sentry/nextjs] DEPRECATION WARNING: It is recommended renaming your `sentry.client.config.ts` file, or moving its content to `instrumentation-client.ts`. When using Turbopack `sentry.client.config.ts` will no longer work. Read more about the `instrumentation-client.ts` file: https://nextjs.org/docs/app/api-reference/file-conventions/instrumentation-client
+ ✓ Compiled successfully in 20.3s
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./components/PostHogProvider.tsx:53:9
+Type error: Type 'string' is not assignable to type '"pro" | "enterprise" | "free" | undefined'.
+
+[0m [90m 51 |[39m         referrer[33m,[39m
+ [90m 52 |[39m         userId[33m:[39m user[33m?[39m[33m.[39mid[33m,[39m
+[31m[1m>[22m[39m[90m 53 |[39m         userTier[33m:[39m (user[33m?[39m[33m.[39mpublicMetadata[33m?[39m[33m.[39msubscriptionTier [36mas[39m string) [33m||[39m [32m'free'[39m[33m,[39m
+ [90m    |[39m         [31m[1m^[22m[39m
+ [90m 54 |[39m       })[33m;[39m
+ [90m 55 |[39m     }
+ [90m 56 |[39m   }[33m,[39m [pathname[33m,[39m searchParams[33m,[39m user])[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

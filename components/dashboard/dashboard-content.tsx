@@ -82,7 +82,7 @@ export function DashboardContent({
     trackEvent('dashboard_viewed', {
       page: '/dashboard',
       userId: user?.id,
-      userTier: (user?.publicMetadata?.subscriptionTier as string) || 'free',
+      userTier: (user?.publicMetadata?.subscriptionTier as 'pro' | 'enterprise' | 'free') || 'free',
       rsuCount: rsuEvents.length,
     });
   }, [user, rsuEvents.length]);

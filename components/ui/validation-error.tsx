@@ -50,7 +50,7 @@ export function ValidationFieldWrapper({
   tooltip,
   children,
 }: ValidationFieldWrapperProps) {
-  const hasError = showError && error;
+  const hasError = Boolean(showError && error);
 
   return (
     <div>
