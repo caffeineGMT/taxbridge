@@ -1,0 +1,17 @@
+{
+  "totalCustomers": 0,
+  "activeSubscriptions": 0,
+  "mrr": 0,
+  "arr": 0,
+  "totalRevenue": 0,
+  "avgRevenuePerCustomer": 0,
+  "churnRate": 0,
+  "subscriptionsByPlan": {
+    "basic": 0,
+    "pro": 0,
+    "enterprise": 0
+  },
+  "recentPayments": [],
+  "mode": "test",
+  "timestamp": "2026-03-19T20:23:00.615Z"
+}

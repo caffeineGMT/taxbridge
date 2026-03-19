@@ -1,346 +1,255 @@
-# Product Hunt Launch - Blocker Resolution Checklist
+# Product Hunt Launch - Pre-Flight Checklist
 
-**Date Created:** March 19, 2026
-**Target Launch Date:** TBD (after all P0s resolved)
-**Estimated Time:** 10-14 hours
+**Use this checklist to verify launch readiness. ALL items must be ✅ before submitting to Product Hunt.**
 
 ---
 
-## Phase 1: Deploy Correct Application (CRITICAL)
+## ⚠️ LAUNCH STATUS: BLOCKED
 
-**Duration:** 2-4 hours
-**Status:** ⏳ PENDING
-
-- [ ] **Investigate deployment issue**
-  - [ ] Check Vercel deployment logs
-  - [ ] Verify local codebase has correct application
-  - [ ] Check git branch being deployed
-  - [ ] Check Vercel project settings (repo, branch, build command)
-  - **Time:** 1 hour
-
-- [ ] **Deploy correct US-Canada RSU tax calculator**
-  - [ ] Verify correct Next.js application in local codebase
-  - [ ] Build locally: `npm run build`
-  - [ ] Commit and push to GitHub
-  - [ ] Wait for Vercel deployment
-  - **Time:** 1 hour
-
-- [ ] **Verify deployment successful**
-  - [ ] Visit https://taxbridge.vercel.app - shows correct app
-  - [ ] Title: "TaxBridge - US-Canada RSU Tax Calculator" (not Nigerian e-invoicing)
-  - [ ] Description: H-1B/TN visa workers with RSUs (not Nigerian SMEs)
-  - [ ] GET /us-canada-tax-calculator → HTTP 200
-  - [ ] GET /pricing → HTTP 200
-  - [ ] GET /sign-up → HTTP 200
-  - **Time:** 30 min
+**Current Status**: ❌ Cannot launch - P0 blockers active
+**Blockers**: 4 critical infrastructure items (Stripe, Clerk, PostHog, Sentry)
+**Time to Resolve**: 4.25 hours
+**Earliest Launch**: March 22, 2026
 
 ---
 
-## Phase 2: Activate Production Keys
+## Phase 1: Infrastructure (CRITICAL - DO NOT SKIP)
 
-**Duration:** 3-4 hours (can run in parallel)
-**Status:** ⏳ PENDING
+### 1. Stripe Production Mode ⏱️ 2 hours
+**Status**: ❌ BLOCKING LAUNCH
+**Impact**: Cannot process payments → $0 revenue → negative reviews
 
-### 2.1: Stripe Production (P0-CRITICAL)
-
-**Time:** 2 hours
-**Status:** ⏳ PENDING
-
-- [ ] **Get LIVE Stripe keys**
-  - [ ] Login to https://dashboard.stripe.com
-  - [ ] Toggle to "Production" mode (NOT test)
-  - [ ] Copy publishable key: pk_live_...
-  - [ ] Copy secret key: sk_live_...
-  - **Time:** 15 min
-
-- [ ] **Create LIVE price IDs**
-  - [ ] Set STRIPE_SECRET_KEY env var: `export STRIPE_SECRET_KEY=sk_live_YOUR_KEY`
-  - [ ] Run: `npx tsx scripts/activate-stripe-production-annual.ts`
-  - [ ] Copy Basic price ID: price_...
-  - [ ] Copy Pro price ID: price_...
-  - **Time:** 30 min
-
-- [ ] **Create webhook**
-  - [ ] Go to https://dashboard.stripe.com/webhooks
-  - [ ] Add endpoint: https://taxbridge.vercel.app/api/stripe/webhook
-  - [ ] Select events: checkout.session.completed, customer.subscription.*
-  - [ ] Copy webhook secret: whsec_...
-  - **Time:** 15 min
-
-- [ ] **Update Vercel environment variables**
-  - [ ] Go to https://vercel.com/caffeineGMT/taxbridge/settings/environment-variables
-  - [ ] Set STRIPE_SECRET_KEY (production scope)
-  - [ ] Set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (production scope)
-  - [ ] Set STRIPE_WEBHOOK_SECRET (production scope)
-  - [ ] Set STRIPE_BASIC_PRICE_ID (production scope)
-  - [ ] Set NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID (production scope)
-  - [ ] Set STRIPE_PRO_PRICE_ID (production scope)
-  - [ ] Set NEXT_PUBLIC_STRIPE_PRO_PRICE_ID (production scope)
-  - [ ] Redeploy: `git commit --allow-empty -m "Trigger redeploy" && git push`
-  - **Time:** 30 min
-
-- [ ] **Test payment flow**
-  - [ ] Visit https://taxbridge.vercel.app/pricing
-  - [ ] Click "Subscribe" on Pro plan
-  - [ ] Enter test card: 4242 4242 4242 4242, exp: 12/34, CVC: 123
-  - [ ] Complete payment
-  - [ ] Verify success in Stripe dashboard
-  - [ ] REFUND the test payment immediately
-  - **Time:** 30 min
-
-### 2.2: Clerk Production (P0-CRITICAL)
-
-**Time:** 30 minutes
-**Status:** ⏳ PENDING
-
-- [ ] **Get LIVE Clerk keys**
-  - [ ] Login to https://dashboard.clerk.com
-  - [ ] Go to API Keys → Production
-  - [ ] Copy publishable key: pk_live_...
-  - [ ] Copy secret key: sk_live_...
-  - **Time:** 10 min
-
-- [ ] **Update Vercel environment variables**
-  - [ ] Set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (production)
-  - [ ] Set CLERK_SECRET_KEY (production)
-  - [ ] Redeploy
-  - **Time:** 10 min
-
-- [ ] **Test signup flow**
-  - [ ] Visit https://taxbridge.vercel.app/sign-up
-  - [ ] Verify Clerk widget loads
-  - [ ] Create test account
-  - [ ] Verify successful signup
-  - **Time:** 10 min
-
-### 2.3: PostHog Analytics (P0-CRITICAL)
-
-**Time:** 30 minutes
-**Status:** ⏳ PENDING
-
-- [ ] **Get PostHog keys**
-  - [ ] Login to https://app.posthog.com
-  - [ ] Go to Settings → Project API Key
-  - [ ] Copy API key: phc_...
-  - [ ] Copy project ID: numeric_id
-  - **Time:** 10 min
-
-- [ ] **Update Vercel environment variables**
-  - [ ] Set NEXT_PUBLIC_POSTHOG_KEY (production)
-  - [ ] Set POSTHOG_PROJECT_ID (production)
-  - [ ] Redeploy
-  - **Time:** 10 min
-
-- [ ] **Verify tracking**
-  - [ ] Run: `npm run verify:posthog`
-  - [ ] Visit https://taxbridge.vercel.app/us-canada-tax-calculator
-  - [ ] Check PostHog dashboard for live events (<30 sec)
-  - [ ] Screenshot PostHog dashboard
-  - **Time:** 10 min
-
-### 2.4: Sentry Monitoring (P0-CRITICAL)
-
-**Time:** 15 minutes
-**Status:** ⏳ PENDING
-
-- [ ] **Get Sentry keys**
-  - [ ] Login to https://sentry.io
-  - [ ] Get DSN: https://YOUR_KEY@o0000000.ingest.sentry.io/0000000
-  - [ ] Get auth token from Settings → Auth Tokens
-  - **Time:** 5 min
-
-- [ ] **Update Vercel environment variables**
-  - [ ] Set NEXT_PUBLIC_SENTRY_DSN (production)
-  - [ ] Set SENTRY_AUTH_TOKEN (production)
-  - [ ] Redeploy
-  - **Time:** 5 min
-
-- [ ] **Verify error capture**
-  - [ ] Visit production site
-  - [ ] Check Sentry dashboard for events
-  - **Time:** 5 min
+**Checklist**:
+- [ ] Login to https://dashboard.stripe.com
+- [ ] Switch to "Production" mode (NOT test)
+- [ ] Copy live keys: `sk_live_...` and `pk_live_...`
+- [ ] Run activation script with real keys
+- [ ] Create webhook for production
+- [ ] Update all 9 Vercel environment variables
+- [ ] Test payment with 4242 4242 4242 4242
+- [ ] Screenshot: Successful payment
+- [ ] Screenshot: Payment in Stripe dashboard
+- [ ] Refund test payment
+- [ ] Evidence saved to: `docs/screenshots/stripe-production/`
 
 ---
 
-## Phase 3: Product Hunt Assets
+### 2. Clerk Authentication ⏱️ 30 min
+**Status**: ❌ BLOCKING LAUNCH
+**Impact**: Users cannot sign up → zero conversions
 
-**Duration:** 3-4 hours
-**Status:** ⏳ PENDING
-
-### 3.1: Demo Video
-
-**Time:** 2 hours
-**Status:** ⏳ PENDING
-
-- [ ] **Script demo (15 min)**
-  - [ ] 0-10s: Problem statement (H-1B/TN workers overpay taxes)
-  - [ ] 10-20s: Calculator demo (enter RSU details)
-  - [ ] 20-40s: Results walkthrough (tax breakdown, FTC savings)
-  - [ ] 40-50s: Pricing/call to action
-  - [ ] 50-60s: Closing (HUNT20 promo code)
-
-- [ ] **Record demo (1 hour)**
-  - [ ] Use Loom, ScreenFlow, or OBS Studio
-  - [ ] Record 1080p, 60fps
-  - [ ] Show calculator in action
-  - [ ] Highlight key features
-
-- [ ] **Edit and upload (45 min)**
-  - [ ] Edit to 60 seconds max
-  - [ ] Add captions/text overlays
-  - [ ] Upload to YouTube (unlisted) or Vimeo
-  - [ ] Get embed URL
-
-### 3.2: Screenshots
-
-**Time:** 30 minutes
-**Status:** ⏳ PENDING
-
-- [ ] **Capture production screenshots**
-  - [ ] Homepage (full page screenshot)
-  - [ ] Calculator initial state
-  - [ ] Calculator with results
-  - [ ] Pricing page
-  - [ ] Dashboard (if applicable)
-  - [ ] Minimum 5 screenshots, 1920x1080 or higher
-  - [ ] Save to docs/screenshots/product-hunt-launch/
-
-### 3.3: HUNT20 Promo Code
-
-**Time:** 30 minutes
-**Status:** ⏳ PENDING
-
-- [ ] **Create Stripe promo code**
-  - [ ] Login to Stripe dashboard
-  - [ ] Go to Products → Coupons
-  - [ ] Create coupon: 20% off, code "HUNT20"
-  - [ ] Apply to Basic and Pro plans
-  - [ ] Set expiration: 7 days from launch
-
-- [ ] **Test promo code**
-  - [ ] Visit pricing page
-  - [ ] Enter HUNT20 at checkout
-  - [ ] Verify 20% discount applied
-
-### 3.4: Product Hunt Description
-
-**Time:** 1 hour
-**Status:** ⏳ PENDING
-
-- [ ] **Write description (100-300 words)**
-  - [ ] Problem: H-1B/TN workers with RSUs face complex cross-border tax
-  - [ ] Solution: TaxBridge calculates US/Canada taxes, FTC optimization
-  - [ ] Value: Save $5K-$20K/year in overpaid taxes
-  - [ ] CTA: Try free calculator, use HUNT20 for 20% off
-  - **Time:** 45 min
-
-- [ ] **Prepare launch details**
-  - [ ] Tagline (60 chars max)
-  - [ ] Topics/tags (5-10 relevant tags)
-  - [ ] First comment (expand on problem/solution)
-  - **Time:** 15 min
+**Checklist**:
+- [ ] Login to https://dashboard.clerk.com
+- [ ] Get production keys (pk_live, sk_live)
+- [ ] Create production webhook
+- [ ] Update 3 Vercel environment variables
+- [ ] Test: Sign up as new user
+- [ ] Screenshot: Successful signup
+- [ ] Evidence saved to: `docs/screenshots/clerk-production/`
 
 ---
 
-## Phase 4: Final Verification
+### 3. PostHog Analytics ⏱️ 30 min
+**Status**: ❌ BLOCKING LAUNCH
+**Impact**: No tracking → cannot measure Product Hunt ROI
 
-**Duration:** 2 hours
-**Status:** ⏳ PENDING
-
-- [ ] **Full smoke test**
-  - [ ] Run: `npx tsx scripts/production-smoke-test.ts`
-  - [ ] Result: 6/6 tests passing (100%)
-  - [ ] Screenshot results
-  - **Time:** 30 min
-
-- [ ] **Real payment test**
-  - [ ] Complete full payment flow with real card
-  - [ ] Verify payment in Stripe dashboard
-  - [ ] Refund immediately
-  - **Time:** 30 min
-
-- [ ] **Signup flow end-to-end**
-  - [ ] Sign up new account
-  - [ ] Verify email confirmation works
-  - [ ] Complete onboarding
-  - [ ] Test calculator as logged-in user
-  - **Time:** 30 min
-
-- [ ] **Analytics verification**
-  - [ ] Check PostHog dashboard for events
-  - [ ] Verify funnel tracking working
-  - [ ] Screenshot analytics
-  - **Time:** 15 min
-
-- [ ] **Error monitoring verification**
-  - [ ] Check Sentry dashboard
-  - [ ] Trigger test error
-  - [ ] Verify error captured
-  - **Time:** 15 min
+**Checklist**:
+- [ ] Login to https://app.posthog.com
+- [ ] Get project API key (phc_...)
+- [ ] Update 3 Vercel environment variables
+- [ ] Run verification script
+- [ ] Test: Complete calculator flow
+- [ ] Screenshot: Live events in PostHog dashboard
+- [ ] Evidence saved to: `docs/screenshots/posthog-live/`
 
 ---
 
-## Phase 5: Schedule Product Hunt Launch
+### 4. Sentry Error Monitoring ⏱️ 15 min
+**Status**: ❌ BLOCKING LAUNCH
+**Impact**: Production errors invisible
 
-**Duration:** 1 hour
-**Status:** ⏳ PENDING
-
-- [ ] **Submit to Product Hunt**
-  - [ ] Go to https://www.producthunt.com/posts/new
-  - [ ] Name: TaxBridge
-  - [ ] Tagline: (from Phase 3.4)
-  - [ ] Description: (from Phase 3.4)
-  - [ ] Demo video: (embed URL from Phase 3.1)
-  - [ ] Screenshots: (upload 5+ from Phase 3.2)
-  - [ ] Topics/tags: (from Phase 3.4)
-  - [ ] Launch date: **Tuesday 12:01am PT**
-  - **Time:** 30 min
-
-- [ ] **Prepare monitoring plan**
-  - [ ] Set up hourly monitoring schedule
-  - [ ] Prepare response templates for comments
-  - [ ] Create tracking spreadsheet for metrics
-  - **Time:** 30 min
+**Checklist**:
+- [ ] Login to https://sentry.io
+- [ ] Create auth token
+- [ ] Get project DSN
+- [ ] Update 4 Vercel environment variables
+- [ ] Trigger test error
+- [ ] Screenshot: Error in Sentry dashboard
+- [ ] Evidence saved to: `docs/screenshots/sentry-production/`
 
 ---
 
-## Launch Day Monitoring
+## Phase 2: Verification (REQUIRED)
 
-**Day of Launch:**
-- [ ] **Hour 1-6:** Check every hour
-  - [ ] PostHog: signups, calculator completions, payments
-  - [ ] Sentry: any critical errors
-  - [ ] Product Hunt: respond to comments within 30 min
+### 5. End-to-End Revenue Test ⏱️ 1 hour
+**Status**: ⏳ PENDING (blocked by Phase 1)
+**Impact**: Final validation before launch
 
-- [ ] **Hour 6-24:** Check every 2 hours
-  - [ ] Monitor metrics
-  - [ ] Respond to questions
-  - [ ] Share on social media
-
----
-
-## Success Metrics (Day 1)
-
-**Minimum:**
-- 50+ upvotes on Product Hunt
-- 10+ signups
-- 1+ paid conversion
-- 0 critical errors in Sentry
-
-**Target:**
-- 100+ upvotes
-- 50+ signups
-- 5+ paid conversions
-- Top 5 product of the day
-
-**Stretch:**
-- 200+ upvotes
-- 100+ signups
-- 10+ paid conversions
-- #1 product of the day
+**Checklist**:
+- [ ] Complete full user journey in incognito
+- [ ] Screenshot: Each step (8 minimum)
+- [ ] Verify: Payment successful
+- [ ] Verify: PostHog tracked events
+- [ ] Verify: Stripe received payment
+- [ ] Refund test payment
+- [ ] Evidence saved to: `docs/screenshots/e2e-test/`
 
 ---
 
-**Last Updated:** March 19, 2026
-**Status:** All phases pending - Start with Phase 1
-**Next Action:** Investigate deployment issue (wrong app deployed)
+### 6. Cross-Browser Quick Check ⏱️ 30 min
+**Status**: ⏳ OPTIONAL (recommended)
+
+**Checklist**:
+- [ ] Chrome desktop
+- [ ] Safari desktop
+- [ ] Chrome mobile
+- [ ] Safari iOS
+- [ ] Screenshots saved
+
+---
+
+### 7. Performance Audit ⏱️ 30 min
+**Status**: ⏳ OPTIONAL (recommended)
+
+**Checklist**:
+- [ ] Build passes (0 errors)
+- [ ] Build size < 150MB
+- [ ] Lighthouse: Performance >85
+- [ ] Lighthouse: Accessibility >90
+- [ ] Lighthouse: SEO >95
+- [ ] Screenshot saved
+
+---
+
+## Phase 3: Product Hunt Submission
+
+### 8. Pre-Launch Assets ⏱️ 2 hours
+**Status**: ✅ READY (assets exist from previous sprints)
+
+**Available**:
+- ✅ Product name: TaxBridge
+- ✅ Tagline: "US-Canada cross-border tax calculator for H-1B/TN workers with RSUs"
+- ✅ Screenshots: 45+ from cross-browser testing
+- ✅ Logo: Available
+- ✅ Description: Landing page copy
+- ⏳ Video: Optional (can add later)
+
+---
+
+### 9. Launch Day (12:01am PT) ⏱️ 8 hours
+**Status**: ⏳ BLOCKED (waiting for Phase 1-2)
+
+**Checklist**:
+- [ ] Submit at exactly 12:01am PT
+- [ ] Post first comment within 5 min
+- [ ] Share on Twitter
+- [ ] Email beta users
+- [ ] Monitor comments every 30 min
+- [ ] Respond to ALL comments <1 hour
+- [ ] Track ranking hourly
+- [ ] Screenshots at launch + end of day
+
+---
+
+## Timeline to Launch
+
+### Fast Path (48 hours from start)
+
+**Day 0 (Start Now)**: Infrastructure Setup
+- Hours 0-2: Stripe production
+- Hours 2-2.5: Clerk setup
+- Hours 2.5-3: PostHog setup
+- Hours 3-3.25: Sentry setup
+- Hours 3.25-4.25: Update Vercel, redeploy
+
+**Day 1 (Tomorrow)**: Verification
+- Hours 0-1: End-to-end revenue test
+- Hours 1-1.5: Cross-browser check
+- Hours 1.5-2: Performance audit
+- Hours 2-4: Final QA + screenshot collection
+
+**Day 2 (March 22)**: LAUNCH
+- 12:01am PT: Submit to Product Hunt
+- 12:05am PT: First comment
+- Hours 1-12: Active monitoring
+- Target: Top 5 Product of the Day
+
+---
+
+## Go/No-Go Decision Matrix
+
+### ✅ LAUNCH if ALL true:
+1. Stripe processes real payments
+2. Users can sign up via Clerk
+3. PostHog tracks conversion events
+4. Sentry captures errors
+5. End-to-end test passed with evidence
+6. All screenshots collected
+
+### ❌ DO NOT LAUNCH if ANY true:
+1. Stripe still in test mode
+2. Signup flow broken
+3. No analytics tracking
+4. No error monitoring
+5. End-to-end test failed
+6. Missing evidence
+
+---
+
+## Risk Assessment
+
+### Launching NOW (with blockers):
+**Success Probability**: <5%
+**Consequences**:
+- Negative reviews ("doesn't work")
+- Zero revenue despite traffic
+- Wasted Product Hunt opportunity
+- Reputation damage
+
+### Launching AFTER fixes:
+**Success Probability**: 40-60% (Top 5)
+**Benefits**:
+- Working payments → revenue Day 1
+- Positive reviews → boost ranking
+- Full analytics → optimize funnel
+- Professional experience
+
+---
+
+## Current Blocker Summary
+
+| Item | Status | Time | Blocker? |
+|------|--------|------|----------|
+| Stripe | ❌ Placeholder keys | 2h | YES |
+| Clerk | ❌ Placeholder keys | 30m | YES |
+| PostHog | ❌ Placeholder keys | 30m | YES |
+| Sentry | ❌ Placeholder token | 15m | YES |
+| E2E Test | ⏳ Blocked | 1h | YES |
+| Browser Test | ⏳ Optional | 30m | NO |
+| Performance | ⏳ Optional | 30m | NO |
+| Assets | ✅ Ready | - | NO |
+
+**Total Blocking Time**: 4.25 hours
+
+---
+
+## Next Actions (Priority Order)
+
+1. **START NOW**: Fix Stripe production mode (2 hours)
+2. **THEN**: Fix Clerk authentication (30 min)
+3. **THEN**: Fix PostHog analytics (30 min)
+4. **THEN**: Fix Sentry monitoring (15 min)
+5. **WAIT**: Vercel redeploy (2 min)
+6. **THEN**: Run end-to-end revenue test (1 hour)
+7. **THEN**: Collect all screenshot evidence (30 min)
+8. **DECISION**: Go/No-Go based on evidence
+9. **IF GO**: Submit to Product Hunt (March 22, 12:01am PT)
+
+---
+
+**Checklist Version**: 1.0
+**Last Updated**: 2026-03-19T20:18:00Z
+**Owner**: CTO
+**Approver**: CEO
+
+**CRITICAL**: DO NOT SKIP PHASE 1. Launching with placeholder keys = guaranteed failure.
