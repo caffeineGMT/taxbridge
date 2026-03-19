@@ -1,0 +1,152 @@
+────────────────────────────────────────────────────────────
+  PRODUCT HUNT LAUNCH - QUICK REFERENCE CHECKLIST
+  TaxBridge | Tuesday, March 25, 2026 at 12:01 AM PST
+────────────────────────────────────────────────────────────
+
+PRE-LAUNCH (Complete by Monday March 24, 11:00 PM)
+───────────────────────────────────────────────────
+
+⏱ 5 MIN  □ Create HUNT20 in Stripe Production
+           docs/STRIPE_HUNT20_PROMO_CODE.md
+           stripe.com/dashboard → Products → Coupons
+           ID: HUNT20, 20% off, expires March 21 11:59 PM
+
+⏱ 3 MIN  □ Capture Screenshots
+           npm run dev (if not running)
+           npm run capture:screenshots
+           Verify: public/product-hunt/screenshots/*.png
+
+⏱ 7 MIN  □ Submit to Product Hunt
+           producthunt.com/posts/new
+           Use: docs/PRODUCT_HUNT_SUBMISSION.json
+           Upload: thumbnail.svg + 5 screenshots
+           Schedule: Tuesday March 25, 12:01 AM PST
+
+────────────────────────────────────────────────────────────
+LAUNCH DAY - HOUR BY HOUR
+────────────────────────────────────────────────────────────
+
+12:01 AM  □ Product Hunt goes live (auto-published)
+          □ Refresh producthunt.com/posts/taxbridge
+
+12:05 AM  □ Post first comment (copy from SUBMISSION.json)
+          □ Pin comment to top
+
+12:10 AM  □ Email beta users (template: launchDay)
+          □ Subject: "We're live on Product Hunt! 🚀"
+          □ Include PH link with UTM
+
+12:15 AM  □ Set phone alerts for PH comments
+          □ Install Product Hunt mobile app
+          □ Enable push notifications
+
+1:00 AM   □ Post on LinkedIn (personal profile)
+          □ Post on Twitter
+          □ Share in relevant Facebook groups
+
+8:00 AM   □ Post in Reddit:
+          □ r/h1b: "Built a dual-country tax tool..."
+          □ r/ImmigrationCanada: "Cross-border tax..."
+          □ r/PersonalFinanceCanada: "New tool for..."
+
+12:00 PM  □ Lunch break (keep phone alerts on)
+          □ Check ranking, respond to comments
+
+3:00 PM   □ Post in Blind (Meta, Amazon, Google, Microsoft)
+          □ Share in Levels.fyi Discord #side-projects
+
+6:00 PM   □ Post in tech Slack communities
+          □ Final comment sweep
+
+11:59 PM  □ Final comment response before day ends
+          □ Pull metrics for analysis
+
+────────────────────────────────────────────────────────────
+COMMENT RESPONSE TEMPLATES
+────────────────────────────────────────────────────────────
+
+GENERAL THANKS:
+"Thanks for the support! 🙏 Let me know if you have any
+questions about cross-border taxes!"
+
+FEATURE QUESTION:
+"Great question! [Answer]. Would love to hear if this solves
+your use case. Any other questions?"
+
+PRICING QUESTION:
+"Pro plan is $299/year - about 10x cheaper than hiring a
+cross-border CPA ($800-$1,500/year). Use code HUNT20 for
+20% off (48 hours only)!"
+
+COMPETITOR COMPARISON:
+"Unlike TurboTax/Sprintax, we're the ONLY tool that handles
+dual-country RSU taxation with Foreign Tax Credit
+optimization. Specifically: [feature]"
+
+TECHNICAL QUESTION:
+"We use [technical detail]. Here's why: [benefit]. Does this
+answer your question?"
+
+────────────────────────────────────────────────────────────
+EMERGENCY CONTACTS
+────────────────────────────────────────────────────────────
+
+Product Hunt Support:
+  Twitter: @ProductHunt
+  Email: hello@producthunt.com
+
+Site Issues:
+  Vercel: vercel.com/dashboard
+  Backup URL: cross-border-tax.vercel.app
+
+────────────────────────────────────────────────────────────
+SUCCESS METRICS (Track Live)
+────────────────────────────────────────────────────────────
+
+□ Upvotes: _____ / 500 target
+□ Comments: _____ / 50 target
+□ Current ranking: #_____
+□ Website visitors: _____ / 1,000 target
+□ Signups: _____ / 100 target
+□ Paid conversions: _____ / 20 target
+□ Revenue: $_____ / $5,980 target
+
+────────────────────────────────────────────────────────────
+RULES FOR SUCCESS
+────────────────────────────────────────────────────────────
+
+✓ Respond to EVERY comment within 15 minutes
+✓ Be genuine, helpful, not salesy
+✓ Ask questions back to engage
+✓ Thank everyone for upvotes/support
+✓ Share your personal story (H-1B worker, $2,300 mistake)
+✓ Keep phone nearby for 12 hours straight
+
+────────────────────────────────────────────────────────────
+POST-LAUNCH (March 27)
+────────────────────────────────────────────────────────────
+
+□ Pull final metrics (upvotes, ranking, revenue)
+□ Thank top 10-20 upvoters via DM
+□ Send follow-up email to non-converters
+□ Write recap blog post
+□ Share results on Indie Hackers, Hacker News
+
+────────────────────────────────────────────────────────────
+NOTES
+────────────────────────────────────────────────────────────
+
+Product Hunt URL: _________________________________
+
+Total Upvotes: ______  Final Ranking: #______
+
+Total Revenue: $______  Conversion Rate: ______%
+
+Key Learnings:
+________________________________________________
+________________________________________________
+________________________________________________
+
+────────────────────────────────────────────────────────────
+🚀 SHIP IT. NO MORE DELAYS.
+────────────────────────────────────────────────────────────

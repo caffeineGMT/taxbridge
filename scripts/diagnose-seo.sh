@@ -55,12 +55,12 @@ else
 fi
 echo ""
 
-echo "6. Checking alternate domain..."
+echo "6. Checking alternate domain (legacy)..."
 TAXBRIDGECPA_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://taxbridgecpa.com 2>/dev/null || echo "ERROR")
 if [ "$TAXBRIDGECPA_STATUS" = "200" ] || [ "$TAXBRIDGECPA_STATUS" = "301" ]; then
   echo "   ✅ taxbridgecpa.com accessible (HTTP $TAXBRIDGECPA_STATUS)"
 else
-  echo "   ⚠️  taxbridgecpa.com returns HTTP $TAXBRIDGECPA_STATUS (dead domain)"
+  echo "   ⚠️  taxbridgecpa.com returns HTTP $TAXBRIDGECPA_STATUS (legacy domain not configured)"
 fi
 echo ""
 

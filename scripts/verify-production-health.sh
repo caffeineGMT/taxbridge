@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Production Site Health Check Script
-# Verifies taxbridgecpa.com is fully operational
+# Verifies taxbridge.app is fully operational
 
 echo "🔍 TaxBridge Production Health Check"
 echo "====================================="
 echo ""
 
-DOMAIN="${1:-taxbridgecpa.com}"
+DOMAIN="${1:-taxbridge.app}"
 FAIL_COUNT=0
 
 # Color codes
