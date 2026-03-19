@@ -1,0 +1,38 @@
+[Unit]
+Description=TaxBridge Production Health Monitor
+Documentation=https://github.com/yourusername/cross-border-tax/blob/main/docs/PRODUCTION_HEALTH_MONITORING_SETUP.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# Environment variables
+Environment="NODE_ENV=production"
+Environment="PRODUCTION_URL=https://taxbridge.vercel.app"
+# IMPORTANT: Replace with your actual Slack webhook URL
+Environment="SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+# Working directory - CHANGE THIS to your project path
+WorkingDirectory=/path/to/cross-border-tax
+
+# Execute health check in watch mode (continuous monitoring)
+ExecStart=/usr/bin/npm run health-check:watch
+
+# Restart policy
+Restart=on-failure
+RestartSec=60
+StartLimitInterval=600
+StartLimitBurst=5
+
+# Resource limits (optional)
+MemoryLimit=256M
+CPUQuota=50%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=taxbridge-health-monitor
+
+[Install]
+WantedBy=default.target
