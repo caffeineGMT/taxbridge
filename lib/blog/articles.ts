@@ -31,6 +31,46 @@ export interface ArticleMetadata {
  */
 export const ARTICLE_TOPICS: ArticleMetadata[] = [
   {
+    slug: 'h1b-rsu-tax-calculator-2026-guide',
+    title: 'H1B RSU Tax Calculator 2026: Free Tool & Complete Tax Guide',
+    description: 'Complete 2026 guide to H1B RSU taxation with free calculator. Learn withholding rates, cross-border implications, and strategies to save $3,000-8,000 on your tech stock compensation.',
+    keywords: ['H1B RSU tax calculator 2026', 'H1B RSU taxation', 'RSU tax calculator', 'tech worker stock compensation tax', 'cross-border RSU tax', 'foreign tax credit calculator', 'H1B taxes 2026', 'Meta Google Amazon RSU tax'],
+    category: 'RSU Taxation',
+    targetKeyword: 'H1B RSU tax calculator 2026'
+  },
+  {
+    slug: 'tn-visa-stock-options-tax-complete-guide',
+    title: 'TN Visa Stock Options Tax: Complete 2026 Guide for Canadian Tech Workers',
+    description: 'Complete tax guide for TN visa holders with stock options (ISOs, NSOs, RSUs). Learn withholding rates, AMT traps, Canada-US tax treatment, and strategies to save $5,000-15,000.',
+    keywords: ['TN visa stock options tax', 'TN visa ISOs', 'TN visa NSOs', 'Canadian working in US stock options', 'TN visa AMT', 'stock options tax Canada US', 'TN visa equity compensation', 'cross-border stock options'],
+    category: 'Stock Options',
+    targetKeyword: 'TN visa stock options tax'
+  },
+  {
+    slug: 'cross-border-tax-guide-canada-us-2026',
+    title: 'Cross-Border Tax Guide: Canada-US Workers Complete 2026 Handbook',
+    description: 'Complete 2026 cross-border tax guide for H1B and TN visa workers moving between Canada and the US. Covers residency rules, treaty benefits, FTC, FBAR, and strategies to avoid double taxation.',
+    keywords: ['cross-border tax guide Canada US', 'Canada US tax treaty', 'H1B Canada tax', 'TN visa tax', 'foreign tax credit', 'FBAR requirements', 'dual residency tax', 'cross-border tax planning'],
+    category: 'Cross-Border Tax',
+    targetKeyword: 'cross-border tax guide Canada US'
+  },
+  {
+    slug: 'h1b-to-canada-rsu-tax-guide-2026',
+    title: 'H1B to Canada RSU Tax Guide: Navigate Stock Vesting After Returning Home',
+    description: 'Complete 2026 guide for H1B workers returning to Canada with unvested RSUs. Learn dual taxation rules, foreign tax credits, and strategies to save $15,000-40,000 on stock compensation.',
+    keywords: ['H1B to Canada RSU tax', 'returning to Canada with unvested RSUs', 'H1B Canada tax guide', 'cross-border RSU taxation', 'California RSU tax non-resident', 'foreign tax credit RSUs', 'H1B return home tax', 'Meta Google Amazon RSU Canada'],
+    category: 'Cross-Border RSU',
+    targetKeyword: 'H1B to Canada RSU tax'
+  },
+  {
+    slug: 'tn-visa-estimated-tax-payments-guide-2026',
+    title: 'TN Visa Estimated Tax Payments: Avoid $5,000+ Penalties on Stock Income',
+    description: 'Complete 2026 guide to quarterly estimated tax payments for TN visa workers with RSUs and stock options. Learn safe harbor rules, Form 1040-ES, and strategies to avoid underpayment penalties.',
+    keywords: ['TN visa estimated tax payments', 'quarterly tax payments TN visa', 'Form 1040-ES', 'safe harbor rule', 'underpayment penalty', 'TN visa RSU quarterly tax', 'estimated tax calculator', 'avoid tax penalties TN visa'],
+    category: 'Tax Payments',
+    targetKeyword: 'TN visa estimated tax payments'
+  },
+  {
     slug: 'h1b-rsu-taxation-complete-guide',
     title: 'H-1B RSU Taxation: Complete Guide for Tech Workers in 2026',
     description: 'Comprehensive guide to H-1B RSU taxation, covering vesting schedules, withholding rates, and cross-border tax obligations when moving to Canada.',
