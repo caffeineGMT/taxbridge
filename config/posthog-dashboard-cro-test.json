@@ -1,0 +1,356 @@
+{
+  "dashboard_name": "CRO Test March 2026 - Landing Page Headlines & CTAs",
+  "description": "2x2 factorial test: 2 headlines × 2 CTAs = 4 variants. Target: 1000 visitors/variant, 15%+ CTR lift.",
+  "insights": [
+    {
+      "name": "Visitor Distribution by Variant",
+      "type": "TRENDS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          }
+        ],
+        "breakdown": "variant",
+        "breakdown_type": "event",
+        "display": "ActionsTable",
+        "insight": "TRENDS",
+        "interval": "day",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "Daily visitors per variant - should be ~25% each"
+    },
+    {
+      "name": "CTA Click-Through Rate by Variant",
+      "type": "FUNNELS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          },
+          {
+            "id": "upgrade_button_clicked",
+            "name": "upgrade_button_clicked",
+            "type": "events",
+            "order": 1,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          }
+        ],
+        "breakdown": "variant",
+        "breakdown_type": "event",
+        "funnel_viz_type": "steps",
+        "insight": "FUNNELS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "PRIMARY METRIC: CTA click rate by variant"
+    },
+    {
+      "name": "Full Conversion Funnel (Landing → Signup → Paid)",
+      "type": "FUNNELS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          },
+          {
+            "id": "upgrade_button_clicked",
+            "name": "upgrade_button_clicked",
+            "type": "events",
+            "order": 1
+          },
+          {
+            "id": "signup_completed",
+            "name": "signup_completed",
+            "type": "events",
+            "order": 2
+          },
+          {
+            "id": "subscription_activated",
+            "name": "subscription_activated",
+            "type": "events",
+            "order": 3
+          }
+        ],
+        "breakdown": "variant",
+        "breakdown_type": "event",
+        "funnel_viz_type": "steps",
+        "insight": "FUNNELS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "SECONDARY METRICS: Full conversion funnel by variant"
+    },
+    {
+      "name": "Headline Performance (A vs B)",
+      "type": "FUNNELS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          },
+          {
+            "id": "upgrade_button_clicked",
+            "name": "upgrade_button_clicked",
+            "type": "events",
+            "order": 1
+          }
+        ],
+        "breakdown": "headlineType",
+        "breakdown_type": "event",
+        "funnel_viz_type": "steps",
+        "insight": "FUNNELS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "Headline impact: savings-amount vs problem-focused"
+    },
+    {
+      "name": "CTA Performance (A vs B)",
+      "type": "FUNNELS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ]
+          },
+          {
+            "id": "upgrade_button_clicked",
+            "name": "upgrade_button_clicked",
+            "type": "events",
+            "order": 1
+          }
+        ],
+        "breakdown": "ctaType",
+        "breakdown_type": "event",
+        "funnel_viz_type": "steps",
+        "insight": "FUNNELS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "CTA impact: action-oriented vs benefit-oriented"
+    },
+    {
+      "name": "Test Progress (Total Visitors)",
+      "type": "TRENDS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ],
+            "math": "total"
+          }
+        ],
+        "display": "ActionsLineGraphCumulative",
+        "insight": "TRENDS",
+        "interval": "day",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "Cumulative visitors - target is 4,000 total (1,000 per variant)"
+    },
+    {
+      "name": "Time on Page by Variant",
+      "type": "TRENDS",
+      "filters": {
+        "events": [
+          {
+            "id": "landing_page_viewed",
+            "name": "landing_page_viewed",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "experiment",
+                "value": "cro-test-march-2026",
+                "operator": "exact",
+                "type": "event"
+              }
+            ],
+            "math": "avg",
+            "math_property": "$session_duration"
+          }
+        ],
+        "breakdown": "variant",
+        "breakdown_type": "event",
+        "display": "ActionsBar",
+        "insight": "TRENDS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "Average session duration - indicates engagement level"
+    },
+    {
+      "name": "Bounce Rate by Variant",
+      "type": "TRENDS",
+      "filters": {
+        "events": [
+          {
+            "id": "$pageview",
+            "name": "$pageview",
+            "type": "events",
+            "order": 0,
+            "properties": [
+              {
+                "key": "$current_url",
+                "value": "/cro-test",
+                "operator": "icontains",
+                "type": "event"
+              }
+            ],
+            "math": "dau"
+          }
+        ],
+        "breakdown": "variant",
+        "breakdown_type": "event",
+        "display": "ActionsBar",
+        "insight": "TRENDS",
+        "date_from": "2026-03-19",
+        "date_to": "2026-04-02"
+      },
+      "description": "Bounce rate indicator - lower is better"
+    }
+  ],
+  "tiles": [
+    {
+      "insight": 0,
+      "color": "blue",
+      "layouts": {
+        "sm": { "x": 0, "y": 0, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 0, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 1,
+      "color": "green",
+      "layouts": {
+        "sm": { "x": 6, "y": 0, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 5, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 2,
+      "color": "purple",
+      "layouts": {
+        "sm": { "x": 0, "y": 5, "w": 12, "h": 5 },
+        "xs": { "x": 0, "y": 10, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 3,
+      "color": "orange",
+      "layouts": {
+        "sm": { "x": 0, "y": 10, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 15, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 4,
+      "color": "cyan",
+      "layouts": {
+        "sm": { "x": 6, "y": 10, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 20, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 5,
+      "color": "black",
+      "layouts": {
+        "sm": { "x": 0, "y": 15, "w": 12, "h": 5 },
+        "xs": { "x": 0, "y": 25, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 6,
+      "color": "yellow",
+      "layouts": {
+        "sm": { "x": 0, "y": 20, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 30, "w": 1, "h": 5 }
+      }
+    },
+    {
+      "insight": 7,
+      "color": "red",
+      "layouts": {
+        "sm": { "x": 6, "y": 20, "w": 6, "h": 5 },
+        "xs": { "x": 0, "y": 35, "w": 1, "h": 5 }
+      }
+    }
+  ],
+  "filters": {
+    "date_from": "2026-03-19",
+    "date_to": "2026-04-02"
+  }
+}

@@ -17,9 +17,21 @@ import { getCreditSummary, getCreditTransactions } from '@/lib/db/queries/credit
 import { generateSocialMessages } from '@/lib/stripe/referral-tracking';
 import { TrendingUp, Users, DollarSign, Gift, Crown, Award, Medal, Twitter, Linkedin } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ReferralLinkCopy, SocialShareButton, EmailShareButton, StatusBadge } from '@/components/referral-components';
+import { StatusBadge } from '@/components/referral-components';
 import { InviteFriendsModal } from '@/components/referral/InviteFriendsModal';
 import { CreditsDashboard } from '@/components/CreditsDashboard';
+import {
+  ReferralLinkCopyTracked,
+  SocialShareButtonTracked,
+  EmailShareButtonTracked,
+  ShareRateProgress,
+} from '@/components/referral/TrackedShareButtons';
+import {
+  getUserViralMetrics,
+  getUserClickStats,
+  getUserShareStats,
+  getGlobalShareRate,
+} from '@/lib/db/queries/referral-tracking';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,6 +57,12 @@ export default async function ReferralsPage() {
   const referrals = getUserReferrals(user.id);
   const leaderboard = getCurrentMonthLeaderboard(10);
   const userPosition = getUserLeaderboardPosition(user.id);
+
+  // Get tracking stats
+  const viralMetrics = getUserViralMetrics(user.id);
+  const clickStats = getUserClickStats(user.id);
+  const shareStats = getUserShareStats(user.id);
+  const globalShareRate = getGlobalShareRate();
 
   // Get credits summary and transactions
   const creditsSummary = getCreditSummary(user.id);

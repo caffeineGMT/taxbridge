@@ -30,7 +30,7 @@ export function getInterviewInvitationEmailData(params: {
   return {
     first_name: params.firstName || 'there',
     email: params.email,
-    subject: "Quick favor? 15 min + $25 Amazon gift card",
+    subject: "Quick favor? 15 min + $20 Amazon gift card",
     headline: "Help shape the future of TaxBridge",
 
     // Context
@@ -47,8 +47,8 @@ I'm talking to a handful of our best customers to understand what's working, wha
 
     // What's in it for them
     incentive: {
-      call_option: "$25 Amazon gift card for a 15-min video call",
-      survey_option: "$15 Amazon gift card for a 5-min survey",
+      call_option: "$20 Amazon gift card for a 15-min video call",
+      survey_option: "$20 Amazon gift card for a 5-min survey",
       value_statement: "Your feedback will directly shape our roadmap - past interviews led to our multi-year planning feature!"
     },
 
@@ -82,7 +82,7 @@ I'm talking to a handful of our best customers to understand what's working, wha
     previous_interviews: {
       count: 12,
       testimonial: {
-        quote: "The interview was fun! I got to share my ideas and they actually built the feature I suggested (multi-year planning). Plus, $25 is $25. 😄",
+        quote: "The interview was fun! I got to share my ideas and they actually built the feature I suggested (multi-year planning). Plus, $20 is $20. 😄",
         author: "Sarah L.",
         role: "Pro user"
       }
@@ -139,7 +139,7 @@ export function getInterviewConfirmationEmailData(params: {
       "📝 Super casual conversation - no right or wrong answers",
       "💬 I'll ask about your experience with TaxBridge (what's working, what's not)",
       "💡 Your honest feedback will shape our roadmap",
-      "🎁 You'll receive a $25 Amazon gift card within 24 hours after the call"
+      "🎁 You'll receive a $20 Amazon gift card within 24 hours after the call"
     ],
 
     // Questions we'll cover

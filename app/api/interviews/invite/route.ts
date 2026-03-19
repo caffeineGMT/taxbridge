@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
             video_call_url, survey_url,
             incentive_offered, subscription_tier,
             days_since_subscription, calculations_completed
-          ) VALUES ($1, $2, 'video_call', 'invited', $3, $4, '$25 Amazon gift card', $5, $6, $7)
+          ) VALUES ($1, $2, 'video_call', 'invited', $3, $4, '$20 Amazon gift card', $5, $6, $7)
         `, [
           user.id,
           user.email,
