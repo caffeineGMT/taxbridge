@@ -9,6 +9,11 @@
       "path": "/api/cron/email-drip-optimized",
       "schedule": "0 17 * * *",
       "description": "OPTIMIZED 7-day email drip with A/B testing - runs daily at 9:00 AM PST (5:00 PM UTC)"
+    },
+    {
+      "path": "/api/cron/reengagement-campaign",
+      "schedule": "0 18 * * *",
+      "description": "Re-engagement win-back campaign for calculator non-converters - runs daily at 10:00 AM PST (6:00 PM UTC)"
     }
   ],
   "redirects": [
