@@ -177,7 +177,8 @@
     "smoke:test": "tsx scripts/production-smoke-test.ts",
     "smoke:test:production": "tsx scripts/production-smoke-test.ts",
     "revenue:test": "tsx scripts/execute-revenue-test.ts",
-    "revenue:test:full": "tsx scripts/execute-revenue-test.ts"
+    "revenue:test:full": "tsx scripts/execute-revenue-test.ts",
+    "verify:stripe:final": "tsx scripts/verify-stripe-final.ts"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",

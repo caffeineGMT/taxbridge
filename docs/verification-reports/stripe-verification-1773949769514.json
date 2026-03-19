@@ -1,0 +1,103 @@
+{
+  "timestamp": "2026-03-19T19:49:29.514Z",
+  "results": [
+    {
+      "category": "Environment",
+      "check": "STRIPE_SECRET_KEY",
+      "status": "FAIL",
+      "details": "STRIPE_SECRET_KEY contains placeholder value: \"sk_live_YOUR_LIVE_SECRET_KEY_HERE...\"",
+      "action": "Replace with real sk_live_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+      "status": "FAIL",
+      "details": "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY contains placeholder value: \"pk_live_YOUR_LIVE_PUBLISHABLE_KEY_HERE...\"",
+      "action": "Replace with real pk_live_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "STRIPE_WEBHOOK_SECRET",
+      "status": "FAIL",
+      "details": "STRIPE_WEBHOOK_SECRET contains placeholder value: \"whsec_YOUR_LIVE_WEBHOOK_SECRET_HERE...\"",
+      "action": "Replace with real whsec_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "STRIPE_BASIC_PRICE_ID",
+      "status": "FAIL",
+      "details": "STRIPE_BASIC_PRICE_ID contains placeholder value: \"price_YOUR_LIVE_BASIC_PRICE_ID...\"",
+      "action": "Replace with real price_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "STRIPE_PRO_PRICE_ID",
+      "status": "FAIL",
+      "details": "STRIPE_PRO_PRICE_ID contains placeholder value: \"price_YOUR_LIVE_PRO_PRICE_ID...\"",
+      "action": "Replace with real price_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID",
+      "status": "FAIL",
+      "details": "NEXT_PUBLIC_STRIPE_BASIC_PRICE_ID contains placeholder value: \"price_YOUR_LIVE_BASIC_PRICE_ID...\"",
+      "action": "Replace with real price_... key from Stripe dashboard"
+    },
+    {
+      "category": "Environment",
+      "check": "NEXT_PUBLIC_STRIPE_PRO_PRICE_ID",
+      "status": "FAIL",
+      "details": "NEXT_PUBLIC_STRIPE_PRO_PRICE_ID contains placeholder value: \"price_YOUR_LIVE_PRO_PRICE_ID...\"",
+      "action": "Replace with real price_... key from Stripe dashboard"
+    },
+    {
+      "category": "Vercel",
+      "check": "Environment variables",
+      "status": "MANUAL",
+      "details": "Cannot automatically verify Vercel environment variables",
+      "action": "Login to Vercel dashboard and verify: https://vercel.com/caffeineGMT/taxbridge/settings/environment-variables"
+    },
+    {
+      "category": "Stripe Dashboard",
+      "check": "Test/Live mode toggle",
+      "status": "MANUAL",
+      "details": "Cannot automatically verify Stripe dashboard mode",
+      "action": "Login to Stripe and verify mode toggle is set to \"Production\""
+    },
+    {
+      "category": "Stripe API Keys",
+      "check": "API keys page",
+      "status": "MANUAL",
+      "details": "Cannot automatically verify API keys in Stripe dashboard",
+      "action": "Verify API keys in Stripe dashboard match .env.production"
+    },
+    {
+      "category": "Stripe Prices",
+      "check": "Price IDs existence",
+      "status": "MANUAL",
+      "details": "Cannot automatically verify price IDs in Stripe dashboard",
+      "action": "Verify Basic and Pro price IDs exist in Stripe dashboard"
+    },
+    {
+      "category": "Stripe Webhook",
+      "check": "Webhook endpoint",
+      "status": "MANUAL",
+      "details": "Cannot automatically verify webhook configuration",
+      "action": "Verify webhook endpoint is configured in Stripe dashboard"
+    },
+    {
+      "category": "Test Payment",
+      "check": "$1 test and refund",
+      "status": "MANUAL",
+      "details": "Test payment must be executed manually",
+      "action": "Complete test payment and refund using test card"
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "passed": 0,
+    "failed": 7,
+    "warnings": 0,
+    "manualChecksRequired": 6
+  }
+}
