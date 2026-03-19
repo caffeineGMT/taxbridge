@@ -92,7 +92,7 @@ export const TESTIMONIAL_REQUEST_HTML = `
 
     {{#if hasSavings}}
     <div style="background: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0; border-radius: 4px;">
-      <p style="margin: 0; font-weight: 600; color: #065f46;">💰 You saved ${{savingsAmount}} on your taxes!</p>
+      <p style="margin: 0; font-weight: 600; color: #065f46;">💰 You saved \${{savingsAmount}} on your taxes!</p>
     </div>
     {{/if}}
 

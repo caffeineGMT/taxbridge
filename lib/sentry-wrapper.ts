@@ -51,44 +51,45 @@ export function withSentry<T = unknown>(
     // Extract user ID from headers if available (set by middleware)
     const userId = req.headers.get('x-user-id') || undefined;
 
-    // Create a Sentry transaction for performance monitoring
-    const transaction = Sentry.startTransaction({
-      name: `${method} ${route}`,
-      op: 'http.server',
-      tags: {
-        route,
-        method,
-        level: config.level,
-        ...config.tags,
-      },
-    });
-
-    // Set transaction on scope
-    Sentry.getCurrentHub().configureScope((scope) => {
-      scope.setSpan(transaction);
-      scope.setTag('route', route);
-      scope.setTag('method', method);
-      if (userId) {
-        scope.setUser({ id: userId });
-      }
-    });
-
     // Log incoming request
     logRequest(method, route, userId);
 
     try {
-      // Execute the handler
-      const response = await handler(req, context);
+      // Execute the handler with Sentry span
+      const response = await Sentry.startSpan(
+        {
+          name: `${method} ${route}`,
+          op: 'http.server',
+          attributes: {
+            route,
+            method,
+            level: config.level,
+            ...config.tags,
+          },
+        },
+        async () => {
+          // Set user context if available
+          if (userId) {
+            Sentry.setUser({ id: userId });
+          }
+
+          // Set tags
+          Sentry.setTag('route', route);
+          Sentry.setTag('method', method);
+          Sentry.setTag('level', config.level);
+          Object.entries(config.tags || {}).forEach(([key, value]) => {
+            Sentry.setTag(key, value);
+          });
+
+          return await handler(req, context);
+        }
+      );
 
       // Calculate duration
       const duration = Date.now() - startTime;
 
       // Log response
       logResponse(route, response.status, duration, userId);
-
-      // Set transaction status
-      transaction.setHttpStatus(response.status);
-      transaction.finish();
 
       // Add performance headers
       response.headers.set('Server-Timing', `total;dur=${duration}`);
@@ -128,10 +129,6 @@ export function withSentry<T = unknown>(
         },
       });
 
-      // Mark transaction as error
-      transaction.setStatus('internal_error');
-      transaction.finish();
-
       // Return error response
       return NextResponse.json(
         {
@@ -153,26 +150,15 @@ export function monitorDatabaseQuery<T>(
   queryName: string,
   query: () => T
 ): T {
-  const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
-
-  if (transaction) {
-    const span = transaction.startChild({
+  return Sentry.startSpan(
+    {
       op: 'db.query',
-      description: queryName,
-    });
-
-    try {
-      const result = query();
-      span.finish();
-      return result;
-    } catch (error) {
-      span.setStatus('internal_error');
-      span.finish();
-      throw error;
+      name: queryName,
+    },
+    () => {
+      return query();
     }
-  }
-
-  return query();
+  );
 }
 
 /**
@@ -182,26 +168,15 @@ export async function monitorExternalAPI<T>(
   apiName: string,
   apiCall: () => Promise<T>
 ): Promise<T> {
-  const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
-
-  if (transaction) {
-    const span = transaction.startChild({
+  return await Sentry.startSpan(
+    {
       op: 'http.client',
-      description: apiName,
-    });
-
-    try {
-      const result = await apiCall();
-      span.finish();
-      return result;
-    } catch (error) {
-      span.setStatus('internal_error');
-      span.finish();
-      throw error;
+      name: apiName,
+    },
+    async () => {
+      return await apiCall();
     }
-  }
-
-  return apiCall();
+  );
 }
 
 /**

@@ -26,14 +26,16 @@ export const GOOGLE_ADS_CONFIG = {
 
 declare global {
   interface Window {
-    gtag?: (
-      command: string,
-      action: string,
-      params: Record<string, any>
-    ) => void;
     dataLayer?: any[];
   }
 }
+
+type GtagFunction = {
+  (command: 'js', date: Date): void;
+  (command: 'config', targetId: string, params?: Record<string, any>): void;
+  (command: 'event', eventName: string, params?: Record<string, any>): void;
+  (command: string, action: string | Date, params?: Record<string, any>): void;
+};
 
 /**
  * Initialize Google Ads gtag (call in _app.tsx or layout.tsx)
@@ -42,18 +44,18 @@ export function initGoogleAds() {
   if (typeof window === 'undefined' || !GOOGLE_ADS_CONFIG.conversionId) return;
 
   // Add gtag script if not already present
-  if (!window.gtag) {
+  if (!(window as any).gtag) {
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_CONFIG.conversionId}`;
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag() {
-      window.dataLayer?.push(arguments);
+    (window as any).gtag = function gtag(...args: any[]) {
+      window.dataLayer?.push(args);
     };
-    window.gtag('js', new Date());
-    window.gtag('config', GOOGLE_ADS_CONFIG.conversionId);
+    (window as any).gtag('js', new Date());
+    (window as any).gtag('config', GOOGLE_ADS_CONFIG.conversionId);
   }
 }
 

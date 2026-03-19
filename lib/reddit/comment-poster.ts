@@ -32,10 +32,10 @@ export class RedditCommentPoster {
         console.log(`\n📝 Posting comment on post ${comment.parent_reddit_id}...`);
 
         // Get the submission to comment on
-        const submission = await this.reddit.getSubmission(comment.parent_reddit_id);
+        const submission: any = await (this.reddit.getSubmission(comment.parent_reddit_id) as any);
 
         // Post the comment
-        const reply = await submission.reply(comment.content);
+        const reply: any = await (submission.reply(comment.content) as any);
 
         // Update database with posted comment ID
         this.db.prepare(`
@@ -88,7 +88,7 @@ export class RedditCommentPoster {
 
     for (const { comment_id } of postedComments) {
       try {
-        const comment = await this.reddit.getComment(comment_id);
+        const comment: any = await (this.reddit.getComment(comment_id) as any);
 
         this.db.prepare(`
           UPDATE reddit_comment_metrics

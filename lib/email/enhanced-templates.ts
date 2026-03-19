@@ -186,6 +186,9 @@ export function getEnhancedDay14EmailData(params: {
   // Add discount code to upgrade URL
   const upgradeUrlWithCode = urls.upgrade_url + `&code=${discountCode}`;
 
+  // Destructure to avoid duplicate upgrade_url
+  const { upgrade_url, ...otherUrls } = urls;
+
   return {
     subject_line: params.subjectLine,
     cta_text: params.ctaText,
@@ -206,7 +209,7 @@ export function getEnhancedDay14EmailData(params: {
       'Priority email support',
       'Tax form pre-fill assistance',
     ],
-    ...urls,
+    ...otherUrls,
     support_email: 'support@taxbridge.app',
   };
 }

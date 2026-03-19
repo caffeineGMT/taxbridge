@@ -17,7 +17,7 @@ export class RedditKarmaTracker {
     console.log(`📊 Tracking karma for u/${username}...`);
 
     try {
-      const user = await this.reddit.getUser(username).fetch();
+      const user: any = await (this.reddit.getUser(username).fetch() as any);
 
       const accountAgeDays = Math.floor((Date.now() / 1000 - user.created_utc) / 86400);
 

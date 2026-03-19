@@ -33,7 +33,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
 
   const { to, templateId, dynamicData, from, replyTo } = params;
 
-  const msg = {
+  const msg: any = {
     to,
     from: from || {
       email: process.env.SENDGRID_FROM_EMAIL || 'noreply@taxbridge.app',
@@ -70,7 +70,7 @@ export async function sendBulkEmails(emails: EmailParams[]): Promise<number> {
   for (let i = 0; i < emails.length; i += batchSize) {
     const batch = emails.slice(i, i + batchSize);
 
-    const messages = batch.map(email => ({
+    const messages: any[] = batch.map(email => ({
       to: email.to,
       from: email.from || {
         email: process.env.SENDGRID_FROM_EMAIL || 'noreply@taxbridge.app',

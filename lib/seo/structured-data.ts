@@ -137,7 +137,6 @@ export function generateSoftwareAppSchema(params: {
     url: params.url,
     applicationCategory: params.applicationCategory,
     operatingSystem: 'Any',
-    browserRequirements: 'Requires JavaScript. Requires HTML5.',
     softwareVersion: '1.0',
     author: {
       '@type': 'Organization',
@@ -146,19 +145,19 @@ export function generateSoftwareAppSchema(params: {
     aggregateRating: params.aggregateRating
       ? {
           '@type': 'AggregateRating',
-          ratingValue: params.aggregateRating.ratingValue,
-          ratingCount: params.aggregateRating.ratingCount,
-          bestRating: '5',
-          worstRating: '1',
+          ratingValue: parseFloat(params.aggregateRating.ratingValue),
+          ratingCount: parseInt(params.aggregateRating.ratingCount, 10),
+          bestRating: 5,
+          worstRating: 1,
         }
       : undefined,
     offers: params.offers
       ? {
           '@type': 'AggregateOffer',
-          lowPrice: '0',
-          highPrice: params.offers[params.offers.length - 1]?.price || '299',
+          lowPrice: 0,
+          highPrice: parseFloat(params.offers[params.offers.length - 1]?.price || '299'),
           priceCurrency: 'USD',
-          offerCount: params.offers.length.toString(),
+          offerCount: params.offers.length,
         }
       : undefined,
   };

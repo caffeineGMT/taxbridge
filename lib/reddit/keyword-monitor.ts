@@ -43,7 +43,7 @@ export class RedditKeywordMonitor {
 
       try {
         // Fetch new posts (last 100)
-        const submissions = await this.reddit.getSubreddit(subreddit).getNew({ limit: 100 });
+        const submissions: any = await (this.reddit.getSubreddit(subreddit).getNew({ limit: 100 }) as any);
 
         for (const post of submissions) {
           const titleLower = post.title.toLowerCase();

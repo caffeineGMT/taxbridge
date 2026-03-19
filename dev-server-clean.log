@@ -214,3 +214,58 @@ Require stack:
 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (194kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/edge-server-development/0.pack.gz'
  ✓ Compiled in 837ms (2162 modules)
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/3.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/4.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/michaelguo/hivemind-projects/cross-border-tax/.next/cache/webpack/client-development/2.pack.gz'

@@ -7,15 +7,7 @@
  * - Call trackEnterpriseDemoRequest() when enterprise demo is requested
  */
 
-declare global {
-  interface Window {
-    gtag?: (
-      command: string,
-      action: string,
-      params: Record<string, any>
-    ) => void;
-  }
-}
+// Note: Window.gtag type is declared in lib/google-ads/conversion-tracking.ts
 
 const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-XXXXXXXXXX';
 

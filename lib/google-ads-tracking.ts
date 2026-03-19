@@ -317,10 +317,12 @@ export function useGoogleAdsTracking() {
 // Type declarations for gtag
 declare global {
   interface Window {
-    gtag?: (
-      command: string,
-      action: string,
-      params: Record<string, any>
-    ) => void;
+    gtag?: {
+      (command: 'js', date: Date): void;
+      (command: 'config', targetId: string, params?: Record<string, any>): void;
+      (command: 'event', eventName: string, params?: Record<string, any>): void;
+      (command: string, action: string | Date, params?: Record<string, any>): void;
+    };
+    dataLayer?: any[];
   }
 }

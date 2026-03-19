@@ -5,7 +5,7 @@
  */
 
 import { query as pgQuery, getPool, getClient } from './postgres';
-import type { Pool, PoolClient, QueryResult } from 'pg';
+import type { Pool, PoolClient, QueryResult, QueryResultRow } from 'pg';
 import Database from 'better-sqlite3';
 import type { Database as SQLiteDatabase } from 'better-sqlite3';
 import path from 'path';
@@ -65,8 +65,8 @@ export async function query<T = any>(
   params?: any[]
 ): Promise<T[]> {
   if (IS_POSTGRES) {
-    const result: QueryResult<T> = await pgQuery<T>(text, params);
-    return result.rows;
+    const result = await pgQuery(text, params);
+    return result.rows as T[];
   } else {
     const db = getSQLiteDatabase();
 
@@ -105,8 +105,8 @@ export async function queryOne<T = any>(
   text: string,
   params?: any[]
 ): Promise<T | null> {
-  const rows = await query<T>(text, params);
-  return rows.length > 0 ? rows[0] : null;
+  const rows = await query<any>(text, params);
+  return rows.length > 0 ? (rows[0] as T) : null;
 }
 
 /**
