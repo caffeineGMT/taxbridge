@@ -22,6 +22,9 @@ import {
 import { trackEvent, identifyUser } from '@/lib/analytics/posthog';
 import { CalculatorTracker, getDeviceInfo } from '@/lib/analytics/tracking-utils';
 
+// Force dynamic rendering to prevent SSR errors with useRef
+export const dynamic = 'force-dynamic';
+
 export default function TaxCalculatorPage() {
   // Form state
   const [rsuIncome, setRsuIncome] = useState('100000');
