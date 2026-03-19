@@ -1,12 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { TrendingUp, Clock, DollarSign, Users } from 'lucide-react';
+import { TrendingUp, Clock, DollarSign, Users, Sparkles, RotateCcw, Save } from 'lucide-react';
 import { sanitizeIntegerInput, parseIntegerInput, sanitizeCurrencyInput, parseCurrencyInput } from '@/lib/input-validation';
 import { InfoTooltip, TooltipProvider } from '@/components/ui/tooltip';
 import { Spinner } from '@/components/ui/spinner';
 import { CalculatorTracker } from '@/lib/analytics/tracking-utils';
 import { trackEvent } from '@/lib/analytics/posthog';
+import { CalculatorProgress } from '@/components/ui/calculator-progress';
+import { useCalculatorState } from '@/hooks/use-calculator-state';
+import { ROI_CALCULATOR_DEMO } from '@/lib/calculator-demo-values';
 
 interface ROIInputs {
   firmName: string;
@@ -25,20 +28,73 @@ interface ROIResults {
 }
 
 export function ROICalculator() {
-  const [inputs, setInputs] = useState<ROIInputs>({
-    firmName: '',
-    attorneyCount: 50,
-    clientsPerYear: 200,
-    hoursPerWeek: 5,
-    billableRate: 250,
-  });
+  // Save/Resume state with localStorage
+  const { state: savedInputs, setState: setSavedInputs, isLoaded, clearSavedState, hasSavedState } = useCalculatorState(
+    'roi-calculator-enterprise',
+    {
+      firmName: '',
+      attorneyCount: 50,
+      clientsPerYear: 200,
+      hoursPerWeek: 5,
+      billableRate: 250,
+    }
+  );
 
+  const [inputs, setInputs] = useState<ROIInputs>(savedInputs);
   const [showResults, setShowResults] = useState(false);
   const [isCalculating, setIsCalculating] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof ROIInputs, string>>>({});
+  const [showSaveNotification, setShowSaveNotification] = useState(false);
+
+  // Progress tracking (1: Input, 2: Results/CTA)
+  const [currentStep, setCurrentStep] = useState(1);
 
   // Analytics tracker
   const calculatorTrackerRef = useRef<CalculatorTracker | null>(null);
+
+  // Load saved state when component mounts
+  useEffect(() => {
+    if (isLoaded && hasSavedState) {
+      setInputs(savedInputs);
+    }
+  }, [isLoaded]);
+
+  // Sync state changes to saved state
+  useEffect(() => {
+    if (isLoaded) {
+      setSavedInputs(inputs);
+
+      // Show save notification briefly
+      setShowSaveNotification(true);
+      const timer = setTimeout(() => setShowSaveNotification(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [inputs, isLoaded]);
+
+  // Update progress step
+  useEffect(() => {
+    setCurrentStep(showResults ? 2 : 1);
+  }, [showResults]);
+
+  // Demo values functionality
+  const loadDemoValues = () => {
+    setInputs(ROI_CALCULATOR_DEMO);
+    calculatorTrackerRef.current?.trackInputChange('demo_values_loaded', 'true');
+  };
+
+  // Clear saved data
+  const handleClearSaved = () => {
+    clearSavedState();
+    setInputs({
+      firmName: '',
+      attorneyCount: 50,
+      clientsPerYear: 200,
+      hoursPerWeek: 5,
+      billableRate: 250,
+    });
+    setShowResults(false);
+    setCurrentStep(1);
+  };
 
   // Initialize tracker on mount
   useEffect(() => {
@@ -145,11 +201,54 @@ export function ROICalculator() {
   return (
     <TooltipProvider>
       <div className="w-full max-w-3xl mx-auto">
+      {/* Progress Indicator */}
+      <CalculatorProgress
+        steps={[
+          { label: 'Firm Details', description: 'Enter your information' },
+          { label: 'ROI Results', description: 'View savings & benefits' },
+        ]}
+        currentStep={currentStep}
+        className="mb-8"
+      />
+
+      {/* Save Notification */}
+      {showSaveNotification && isLoaded && (
+        <div className="fixed top-4 right-4 bg-primary text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in fade-in slide-in-from-top-2 z-50">
+          <Save className="w-4 h-4" />
+          <span className="text-sm font-medium">Progress saved</span>
+        </div>
+      )}
+
       <div className="bg-surface border border-border rounded-xl p-8 shadow-lg">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-            <TrendingUp className="w-8 h-8 text-primary" />
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex-1" /> {/* Spacer */}
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
+              <TrendingUp className="w-8 h-8 text-primary" />
+            </div>
+            <div className="flex-1 flex justify-end gap-2">
+              {/* Demo Values Button */}
+              <button
+                onClick={loadDemoValues}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-purple-500/20 hover:bg-purple-500/30 text-purple-600 dark:text-purple-300 rounded-md transition-all"
+                title="Load example values"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span className="hidden sm:inline">Demo</span>
+              </button>
+              {/* Clear Button */}
+              {hasSavedState && (
+                <button
+                  onClick={handleClearSaved}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-border hover:bg-border/80 text-textMuted rounded-md transition-all"
+                  title="Clear saved data"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span className="hidden sm:inline">Reset</span>
+                </button>
+              )}
+            </div>
           </div>
           <h2 className="text-2xl font-bold text-text mb-2">ROI Calculator</h2>
           <p className="text-textMuted">

@@ -28,6 +28,9 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import { usePricingExperiment, isInProductHuntCohort } from '@/hooks/use-pricing-experiment';
 import { BillingIntervalToggle } from '@/components/BillingIntervalToggle';
 
+export default function PricingPage() {
+  const pricingExperiment = usePricingExperiment();
+
   // Generate tiers dynamically based on pricing experiment
   const getTiers = () => {
     const isAnnual = pricingExperiment.selectedInterval === 'annual';
