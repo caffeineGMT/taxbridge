@@ -1,5 +1,40 @@
 # CLAUDE.md
 
+## TASK COMPLETION POLICY [MANDATORY - NO EXCEPTIONS]
+
+**NO TASK CAN BE MARKED "DONE" WITHOUT EVIDENCE.**
+
+### Evidence Requirements (Choose ONE minimum):
+1. **Screenshots** - Desktop + mobile views in production
+2. **Video Recording** - Max 2min showing feature working
+3. **Logs/Terminal Output** - Build/test/deployment logs
+4. **Deployed Feature URL** - Production URL returning HTTP 200
+5. **Analytics Data** - PostHog events, Stripe transactions, etc.
+
+### Quick Verification (5 minutes):
+```bash
+npm run verify:task -- \
+  --task-id=P0-001 \
+  --feature-url=/calculator \
+  --title="Fix calculator bug"
+```
+
+This auto-captures: screenshots, deployment status, build results, test results, Lighthouse audit.
+
+### Manual Checklist:
+- [ ] Code pushed to GitHub
+- [ ] Production URL returns HTTP 200
+- [ ] Screenshots saved to `docs/screenshots/`
+- [ ] Build passes (0 errors)
+- [ ] Tests pass (100%)
+- [ ] Verification report in `docs/verification-reports/`
+- [ ] Commit includes "+ VERIFICATION"
+
+**Full Policy**: `docs/TASK_COMPLETION_POLICY.md`
+**Quick Reference**: `docs/TASK_COMPLETION_QUICK_REFERENCE.md`
+
+---
+
 ## DEPLOYMENT WORKFLOW [CRITICAL - FOLLOW EXACTLY]
 
 **GitHub is the STAGING environment. Manual deployment to production only.**
