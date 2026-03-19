@@ -90,6 +90,7 @@
     "verify:stripe:live": "tsx scripts/verify-stripe-live.ts",
     "stripe:create-competitive-prices": "tsx scripts/stripe-create-competitive-prices.ts",
     "analyze:sessions": "tsx scripts/analyze-posthog-session-recordings.ts",
+    "analyze:channels": "tsx scripts/analyze-channel-attribution.ts",
     "customer-success": "tsx scripts/customer-success-outreach.ts",
     "customer-success:dry-run": "tsx scripts/customer-success-outreach.ts --dry-run",
     "launch:monitor": "tsx scripts/monitor-product-hunt.ts",
